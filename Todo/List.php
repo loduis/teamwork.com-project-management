@@ -53,13 +53,13 @@ class TeamWorkPm_Todo_List extends TeamWorkPm_Model
     public function getByProjectId($id, $filter = 'all')
     {
         if (is_numeric($id)) {
-            return $this->_get("projects/$id/todo_lists", "filter=$filter");
+            return $this->_get("projects/$id/todo_lists", array('filter'=>$filter));
         }
         return null;
     }
     
     public function reOrder($project_id, array $request)
     {
-        return $this->_post("projects/$project_id/todo_lists/reorder.xml", $request);
+        return $this->_post("projects/$project_id/todo_lists/reorder", $request);
     }
 }

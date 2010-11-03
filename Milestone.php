@@ -42,7 +42,7 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
 
     public function markAsUnComplete($id)
     {
-        return $this->_put("{$this->_action}$id/uncomplete.xml");
+        return $this->_put("{$this->_action}$id/uncomplete");
     }
     /**
      *
@@ -52,5 +52,4 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
     {
         return $this->_get($this->_action, array('find'=>$filter));
     }
-
 }

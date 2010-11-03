@@ -2,9 +2,9 @@
 
 final class TeamWorkPm_Rest
 {
-    const FORMAT = 'xml';
+    const FORMAT = 'json';
     
-    private static 
+    private static
         $_instance
       ;
 
@@ -33,6 +33,10 @@ final class TeamWorkPm_Rest
 
     protected function _execute($method, $action, $request = null)
     {
+        /*
+        echo $request;
+        exit;*/
+
         $url = "http://". $this->_company .".teamworkpm.net/". $action . '.' . self::FORMAT;
         $headers = array( "Authorization: BASIC ". base64_encode($this->_key .":xxx" ));
         switch ($method) {
@@ -44,11 +48,14 @@ final class TeamWorkPm_Rest
                     $url .= '?' . $request;
                 }
                 break;
-            case '_delete':
             case '_put':
-                $headers = array_merge($headers, array('Accept: application/xml', 'Content-Type: application/xml'));
+            case '_post':
+                $headers = array_merge($headers, array(
+                    'Content-Type: application/' . self::FORMAT
+                ));
                 break;
         }
+
         $ch = curl_init();
         curl_setopt( $ch, CURLOPT_URL, $url);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
@@ -95,7 +102,7 @@ final class TeamWorkPm_Rest
 
     private function _get($ch, $request = null)
     {
-        return $this->_response($ch);
+        return $this->_response($ch, true);
     }
 
     private function _put($ch, $request)
@@ -108,7 +115,6 @@ final class TeamWorkPm_Rest
             curl_setopt($ch, CURLOPT_INFILE, $f);
             curl_setopt($ch, CURLOPT_INFILESIZE, $length);
         }
-        echo $request, "\n";
         curl_setopt($ch, CURLOPT_PUT, true);
         $response = $this->_response($ch);
         if (isset ($f)) {
@@ -121,7 +127,6 @@ final class TeamWorkPm_Rest
     {
         curl_setopt( $ch, CURLOPT_POST, true );
         if ($request) {
-            echo $request, "\n";
             curl_setopt( $ch, CURLOPT_POSTFIELDS, $request);
         }
         return $this->_response($ch);
@@ -133,18 +138,33 @@ final class TeamWorkPm_Rest
         return $this->_response($ch);
     }
 
-    private function _response($ch)
+    private function _response($ch, $get = false)
     {
         $data = curl_exec ( $ch );
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_error($ch);
         curl_close($ch);
-        print_r($data);
         if (self::FORMAT == 'xml') {
             libxml_use_internal_errors(true);
-            $xml = simplexml_load_string('<?xml version="1.0" encoding="utf-8"?>' . $data);
+            $xml = simplexml_load_string($data);
             if ($xml instanceof SimpleXMLElement) {
-                return $xml[0] == 'OK' || $xml[0] == 'Created';
+                if ($get) {
+                    return $xml;
+                } elseif ($xml[0] == 'OK' || $xml[0] == 'Created') {
+                    return true;
+                }
             }
-        }        
+        } elseif (self::FORMAT == 'json') {
+            $response = json_decode($data, true);
+            if ($status == 200 || $status == 201 || $response['status'] == 'OK' || $response['status'] == 'Created') {
+                if ($get) {
+                    unset ($response['status']);
+                    return $response;
+                }
+                return true;
+            }
+        }
+        
         return false;
     }
 
@@ -161,5 +181,4 @@ final class TeamWorkPm_Rest
     {
         return urlencode($value);
     }
-
 }

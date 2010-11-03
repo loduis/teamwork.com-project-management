@@ -76,6 +76,6 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
 
     public function reOrder($todo_list_id, array $request)
     {
-        return $this->_post("todo_lists/$todo_list_id/todo_items/reorder.xml", $request);
+        return $this->_post("todo_lists/$todo_list_id/todo_items/reorder", $request);
     }
 }

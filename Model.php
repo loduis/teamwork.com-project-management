@@ -14,7 +14,7 @@ abstract class TeamWorkPm_Model
      * del put y del post
      * @var string
      */
-    private $_parent;
+    protected $_parent;
     /**
      * Es la accion que se debe ejecutar
      * @var string
@@ -99,13 +99,11 @@ abstract class TeamWorkPm_Model
         }
     }
     
-    private function _getXmlParameters($method, array $parameters)
+    private function _getXmlParameters($method, array $parameters, $reorder)
     {
-        $is_numeric = $this->_isNumericArray($parameters);
-        $method = strtoupper($method);
-        $isNewPost = $method == 'POST' && $this->_action == 'posts';
+        $isNewPost = $method == 'post' && $this->_action == 'posts';
         $method = $this->_doc->createElement($method);
-        $parent = $this->_doc->createElement($this->_parent . ($is_numeric ? 's' : ''));
+        $parent = $this->_doc->createElement($this->_parent . ($reorder ? 's' : ''));
         $this->_doc->appendChild($method);
         if ($isNewPost) {
             $root = $this->_doc->createElement('request');
@@ -115,7 +113,7 @@ abstract class TeamWorkPm_Model
             $method->appendChild($parent);
         }        
         
-        $method = '_append' . ($is_numeric ?
+        $method = '_append' . ($reorder ?
                   'ReOrder' :
                   'CreateAndUpdate') . 'XmlParameters';
 
@@ -124,6 +122,81 @@ abstract class TeamWorkPm_Model
         return $this->_doc->saveXML();
     }
 
+    private function _appendCreateAndUpdateJsonParameters (array & $parent, array $parameters)
+    {
+        foreach ($this->_fields as $field=>$options) {
+            $value = isset($parameters[$field]) ? $parameters[$field] : null;
+            $field = str_replace('_', '-', $field);
+            if (!is_array($options)) {
+                $options = array('required'=>$options, 'attributes'=> array());
+            }
+            if ($options['required']) {
+                if (null === $value) {
+                    throw new TeamWorkPm_Exception('The field ' . $field . ' is required ');
+                }
+            }
+            foreach ($options['attributes'] as $name=>$type) {
+                list($type, $default) = explode('=', $type);
+                if (is_null($value) && null !== $default) {
+                    if ($default == 'false') {
+                        $default = false;
+                    } elseif ($default == 'true') {
+                        $default = true;
+                    }
+                    $value = $default;
+                }
+                if (null !== $value) {
+                    if ($name == 'type') {
+                        if ($type == 'array') {
+                            
+                        } else {
+                            settype($value, $type);
+                        }
+                    }
+                }
+            }
+            if (null !== $value) {
+                $parent[$field] = $value;
+            }
+        }
+
+    }
+
+    private function _appendReOrderJsonParameters(array &$parent, array $parameters)
+    {
+
+    }
+
+    private function _getJsonParameters($method, array $parameters, $reorder)
+    {
+        $request = array();
+        //$request[$method] = array();
+        $isNewPost = $method == 'post' && $this->_action == 'posts';
+        $parent = $this->_parent . ($reorder ? 's' : '');
+        if ($isNewPost) {
+            $request['request'][$parent] = array();
+            $parent = & $request['request'][$parent];
+        } else {
+            $request[$parent] = array();
+            $parent = & $request[$parent];
+        }
+
+        $method = '_append' . ($reorder ?
+                  'ReOrder' :
+                  'CreateAndUpdate') . 'JsonParameters';
+
+        $this->$method($parent, $parameters);
+
+        return json_encode($request);
+
+    }
+
+    private function _getParameters($method, array $parameters, $reorder)
+    {
+        $function = '_get' . ucfirst(TeamWorkPm_Rest::FORMAT) . 'Parameters';
+        $method = strtolower($method);
+        return $this->$function($method, $parameters, $reorder);
+    }
 
     protected function _post($action, array $request = array())
     {
@@ -138,23 +211,11 @@ abstract class TeamWorkPm_Model
     private function _execute($method, $action, array $request)
     {
         $request = !empty($request) ?
-            $this->_getXmlParameters($method, $request) :
+            $this->_getParameters($method, $request, basename($action) == 'reorder') :
             null;
-
         return $this->_rest->$method($action, $request);
     }
     
-    /**
-     * Checks  whether passed variable is numeric array
-     *
-     * @param mixed $var
-     * @return TRUE if passed variable is an numeric array
-     */
-    protected function _isNumericArray($var)
-    {
-        return is_array($var) && array_keys($var) === range(0, sizeof($var) - 1);
-    }
-
     protected function _get($action, $request = null)
     {
         return $this->_rest->get($action, $request);
@@ -168,7 +229,7 @@ abstract class TeamWorkPm_Model
     public function get($id)
     {
         if (is_numeric($id)) {
-            return $this->_get("{$this->_action}/$id");
+            return $this->_get("$this->_action/$id");
         }
         return null;
     }
@@ -180,7 +241,7 @@ abstract class TeamWorkPm_Model
             throw new TeamWorkPm_Exception('Require field project id');
         }
         
-        return $this->_post("projects/$project_id/{$this->_action}", $data);
+        return $this->_post("projects/$project_id/$this->_action", $data);
     }
 
     public function update(array $data)
@@ -189,10 +250,10 @@ abstract class TeamWorkPm_Model
         if (empty($id)) {
             throw new TeamWorkPm_Exception('Require field id');
         }
-        return $this->_put("{$this->_action}/$id", $data);
+        return $this->_put("$this->_action/$id", $data);
     }
 
-    public function save(array $data)
+    public final function save(array $data)
     {
         return isset($data['id']) ?
             $this->update($data) :
@@ -204,6 +265,6 @@ abstract class TeamWorkPm_Model
         if (empty($id)) {
             throw new TeamWorkPm_Exception('Require field id');
         }
-        return $this->_delete($this->_action . $id);
+        return $this->_delete("$this->_action/$id");
     }
 }
