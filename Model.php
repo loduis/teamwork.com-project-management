@@ -164,7 +164,9 @@ abstract class TeamWorkPm_Model
 
     private function _appendReOrderJsonParameters(array &$parent, array $parameters)
     {
-
+        foreach ($parameters as $id) {
+            $parent[$this->_parent][]['id'] = $id;
+        }
     }
 
     private function _getJsonParameters($method, array $parameters, $reorder)

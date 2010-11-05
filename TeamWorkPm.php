@@ -64,6 +64,10 @@ class TeamWorkPm
 
     const CATEGORY_RESOURCE =  'Category_Resource';
 
+    const COMMENT_MILESTONE = 'Comment_Milestone';
+    
+    const COMMENT_ITEM       = 'Comment_Item';
+
 
     private static $_COMPANY = 'phpapi';
 

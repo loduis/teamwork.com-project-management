@@ -52,7 +52,7 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
 
     public function getByTodoListId($id)
     {
-        return $this->_get("todo_lists/$id/todo_items");
+        return $this->_get("todo_lists/$id/$this->_action");
     }
 
     public function insert(array $data)
@@ -61,21 +61,21 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
         if (empty($todo_list_id)) {
             throw new TeamWorkPm_Exception('Require field todo list id');
         }
-        return $this->_post("todo_lists/$todo_list_id/todo_items", $data);
+        return $this->_post("todo_lists/$todo_list_id/$this->_action", $data);
     }
 
     public function markAsComplete($id)
     {
-        return $this->_put("todo_items/$id/complete");
+        return $this->_put("$this->_action/$id/complete");
     }
 
     public function markAsUnComplete($id)
     {
-        return $this->_put("todo_items/$id/uncomplete");
+        return $this->_put("$this->_action/$id/uncomplete");
     }
 
-    public function reOrder($todo_list_id, array $request)
+    public function reorder($todo_list_id, array $ids)
     {
-        return $this->_post("todo_lists/$todo_list_id/todo_items/reorder", $request);
+        return $this->_post("todo_lists/$todo_list_id/$this->_action/reorder", $ids);
     }
 }

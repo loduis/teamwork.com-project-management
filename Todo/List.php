@@ -57,9 +57,9 @@ class TeamWorkPm_Todo_List extends TeamWorkPm_Model
         }
         return null;
     }
-    
-    public function reOrder($project_id, array $request)
+   
+    public function reorder($project_id, array $ids)
     {
-        return $this->_post("projects/$project_id/todo_lists/reorder", $request);
+        return $this->_post("projects/$project_id/todo_lists/reorder", $ids);
     }
 }

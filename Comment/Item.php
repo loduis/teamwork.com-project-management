@@ -1,15 +1,9 @@
 <?php
 
-class TeamWorkPm_Comment extends TeamWorkPm_Model
+class TeamWorkPm_Comment_Item extends TeamWorkPm_Comment_Model
 {
     /**
-     *
-     * @var array
-     */
-    protected $_fields = array();
-
-    /**
-     * @var Comment
+     * @var Item
      */
     private static $_instance;
 
@@ -17,7 +11,7 @@ class TeamWorkPm_Comment extends TeamWorkPm_Model
      *
      * @param string $company
      * @param string $key
-     * @return Comment
+     * @return Item
      */
     public function getInstance($company, $key)
     {
@@ -26,5 +20,11 @@ class TeamWorkPm_Comment extends TeamWorkPm_Model
         }
 
         return self::$_instance;
+    }
+
+    protected function  _init()
+    {
+        parent::_init();
+        $this->_resource = 'todo_items';
     }
 }

@@ -3,25 +3,24 @@
 final class TeamWorkPm_Rest
 {
     const FORMAT = 'json';
-    
-    private static
-        $_instance
-      ;
 
-    private 
+    private static
+        $_instance;
+
+    private
         $_key,
         $_company;
-    
+
     private function  __construct($company, $key)
     {
         if (is_null($company) || is_null($key)) {
             throw new TeamWorkPm_Exception('set your company and api key');
         } else {
             $this->_key     = $key;
-            $this->_company = $company;            
+            $this->_company = $company;
         }
     }
-    
+
     public function getInstance($company, $key)
     {
         if (null === self::$_instance) {
@@ -33,10 +32,6 @@ final class TeamWorkPm_Rest
 
     protected function _execute($method, $action, $request = null)
     {
-        /*
-        echo $request;
-        exit;*/
-
         $url = "http://". $this->_company .".teamworkpm.net/". $action . '.' . self::FORMAT;
         $headers = array( "Authorization: BASIC ". base64_encode($this->_key .":xxx" ));
         switch ($method) {
@@ -55,7 +50,6 @@ final class TeamWorkPm_Rest
                 ));
                 break;
         }
-
         $ch = curl_init();
         curl_setopt( $ch, CURLOPT_URL, $url);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
@@ -98,7 +92,6 @@ final class TeamWorkPm_Rest
         }
         return null;
     }
-
 
     private function _get($ch, $request = null)
     {
@@ -164,7 +157,7 @@ final class TeamWorkPm_Rest
                 return true;
             }
         }
-        
+
         return false;
     }
 
