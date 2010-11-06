@@ -2,41 +2,17 @@
 
 class TeamWorkPm_Time extends TeamWorkPm_Model
 {
-    /**
-     *
-     * @var array
-     */
-    protected $_fields = array(
-        'description'=>true,
-        'person_id'=>false,
-        'date'=>true,
-        'hours'=>array('required'=>false, 'default'=>0),
-        'minutes'=>array('required'=>false, 'default'=>0),
-        'time'
-    );
-
-    /**
-     * @var Time
-     */
-    private static $_instance;
-
-    /**
-     *
-     * @param string $company
-     * @param string $key
-     * @return Time
-     */
-    public function getInstance($company, $key)
-    {
-        if (null === self::$_instance) {
-            self::$_instance = new self($company, $key, __CLASS__);
-        }
-
-        return self::$_instance;
-    }
 
     protected function _init()
     {
+        $this->_fields = array(
+            'description'=>true,
+            'person_id'=>false,
+            'date'=>true,
+            'hours'=>array('required'=>false, 'default'=>0),
+            'minutes'=>array('required'=>false, 'default'=>0),
+            'time'
+        );
         $this->_parent = 'time-entry';
         $this->_action = 'time_entries';
     }

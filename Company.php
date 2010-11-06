@@ -1,27 +1,7 @@
 <?php
 
-class TeamWorkPm_Company extends TeamWorkPm_Get
+class TeamWorkPm_Company extends TeamWorkPm_Model
 {
-    /**
-     * @var Company
-     */
-    private static $_instance;
-
-    /**
-     *
-     * @param string $company
-     * @param string $key
-     * @return Company
-     */
-    public function getInstance($company, $key)
-    {
-        if (null === self::$_instance) {
-            self::$_instance = new self($company, $key);
-        }
-
-        return self::$_instance;
-    }
-
     public function get($id = null)
     {
         $action = 'companies';

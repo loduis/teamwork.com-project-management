@@ -5,7 +5,7 @@ final class TeamWorkPm_Rest
     const FORMAT = 'json';
 
     private static
-        $_instance;
+        $_instances;
 
     private
         $_key,
@@ -23,11 +23,12 @@ final class TeamWorkPm_Rest
 
     public function getInstance($company, $key)
     {
-        if (null === self::$_instance) {
-            self::$_instance = new self($company, $key);
+        $hash = md5($company . '-' . $key);
+        if (null === self::$_instances[$hash]) {
+            self::$_instances[$hash] = new self($company, $key);
         }
 
-        return self::$_instance;
+        return self::$_instances[$hash];
     }
 
     protected function _execute($method, $action, $request = null)

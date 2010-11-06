@@ -3,32 +3,6 @@
 class TeamWorkPm_Project extends TeamWorkPm_Model
 {
     /**
-     *
-     * @var array
-     */
-    protected $_fields = array();
-
-    /**
-     * @var Project
-     */
-    private static $_instance;
-
-    /**
-     *
-     * @param string $company
-     * @param string $key
-     * @return Project
-     */
-    public function getInstance($company, $key)
-    {
-        if (null === self::$_instance) {
-            self::$_instance = new self($company, $key, __CLASS__);
-        }
-
-        return self::$_instance;
-    }
-
-    /**
      * Retrieves all accessible projects; including active/inactive and archived projects.
      * You can optionally append a date to the call to return only those projects recently updated.
      * This is very useful if you are implementing local caching as you won't have to recheck
@@ -48,7 +22,6 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
 
         return $this->_get("$this->_action", $params);
     }
-
 
     /**
      * Surprisingly, this will retrieve all of your projects, which have been starred!

@@ -3,9 +3,8 @@
 /**
  *
  * @package    TeamWorkPm
- * Copyright   @ Nomad Web Ventures Inc 2005-2010
- * @license    licence.txt
- * @author     Loduis Madariaga Barrios
+ * Copyright   @ Loduis Madariaga
+ * @license    LICENCE.txt
  * @version    0.0.1-dev
  */
 
@@ -29,9 +28,6 @@ if (!function_exists('forward_static_call_array')) {
         return eval($eval);
     }
 }
-
-
-
 
 class TeamWorkPm
 {
@@ -72,14 +68,7 @@ class TeamWorkPm
     private static $_COMPANY = 'phpapi';
 
     private static $_API_KEY = 'mess146balas';
-
-    /**
-     *
-     * @var array
-     */
-    private static
-        $_instances;
-    
+  
     private function  __construct()
     {
 
@@ -93,13 +82,10 @@ class TeamWorkPm
     {
         $class = __CLASS__ . '_' .  $class;
         
-        if (null === self::$_instances[$class]) {
-            self::$_instances[$class] = forward_static_call_array(
+        return forward_static_call_array(
               array($class, 'getInstance'),
-              array(self::$_COMPANY, self::$_API_KEY)
-            );
-        }
-        return self::$_instances[$class];
+              array(self::$_COMPANY, self::$_API_KEY, $class)
+        );
     }
 
     public static function setAuth($company, $key)

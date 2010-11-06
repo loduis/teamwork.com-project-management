@@ -2,6 +2,8 @@
 
 abstract class TeamWorkPm_Model
 {
+
+    private static $_instances = array();
     /**
      * Es una instancia a la clase que maneja
      * las conexiones del api con curl
@@ -21,15 +23,23 @@ abstract class TeamWorkPm_Model
      */
     protected $_action;
     /**
+     * Almacena los campos del objeto
+     * @var array
+     */
+    protected $_fields = array();
+    /**
      *
      * @var DOMDocument
      */
     private $_doc;
 
-    final protected function  __construct($company, $key, $class)
+    private $_currentClass = null;
+
+    final private function  __construct($company, $key, $class)
     {
+        $this->_currentClass = $class;
         $this->_rest = TeamWorkPm_Rest::getInstance($company, $key);
-        $class = strtolower(str_replace('TeamWorkPm_', '', $class));
+        $class = strtolower(str_replace('TeamWorkPm_', '', $this->_currentClass));
         $this->_parent = str_replace('_', '-', $class);
         $this->_action = $class . 's';
         $this->_doc = new DOMDocument();
@@ -39,7 +49,33 @@ abstract class TeamWorkPm_Model
         }
     }
 
-    private function _appendCreateAndUpdateXmlParameters (DOMElement $parent, array $parameters)
+    final public function  __destruct()
+    {
+        unset (self::$_instances[$this->_currentClass]);
+    }
+
+    final protected function __clone () {}
+
+    /**
+     *
+     * @param string $company
+     * @param string $key
+     * @return TeamWorkPm_Model
+     */
+    final public function getInstance($company, $key, $class)
+    {
+        if (!isset(self::$_instances[$class])) {
+            self::$_instances[$class] = new $class($company, $key, $class);
+        }
+
+        return self::$_instances[$class];
+    }
+
+    /*------------------------------
+            XML METHOD
+     ------------------------------*/
+
+    final private function _appendCreateAndUpdateXmlParameters(DOMElement $parent, array $parameters)
     {
         foreach ($this->_fields as $field=>$options) {
             $value = isset($parameters[$field]) ? $parameters[$field] : null;
@@ -87,7 +123,7 @@ abstract class TeamWorkPm_Model
 
     }
 
-    private function _appendReOrderXmlParameters(DOMElement $parent, array $parameters)
+    final private function _appendReOrderXmlParameters(DOMElement $parent, array $parameters)
     {
         $parent->setAttribute('type', 'array');
         foreach ($parameters as $id) {
@@ -99,7 +135,7 @@ abstract class TeamWorkPm_Model
         }
     }
     
-    private function _getXmlParameters($method, array $parameters, $reorder)
+    final private function _getXmlParameters($method, array $parameters, $reorder)
     {
         $isNewPost = $method == 'post' && $this->_action == 'posts';
         $method = $this->_doc->createElement($method);
@@ -122,7 +158,12 @@ abstract class TeamWorkPm_Model
         return $this->_doc->saveXML();
     }
 
-    private function _appendCreateAndUpdateJsonParameters (array & $parent, array $parameters)
+    /*------------------------------
+            JSON METHOD
+     ------------------------------*/
+
+
+    final private function _appendCreateAndUpdateJsonParameters(array & $parent, array $parameters)
     {
         foreach ($this->_fields as $field=>$options) {
             $value = isset($parameters[$field]) ? $parameters[$field] : null;
@@ -162,17 +203,16 @@ abstract class TeamWorkPm_Model
 
     }
 
-    private function _appendReOrderJsonParameters(array &$parent, array $parameters)
+    final private function _appendReOrderJsonParameters(array &$parent, array $parameters)
     {
         foreach ($parameters as $id) {
             $parent[$this->_parent][]['id'] = $id;
         }
     }
 
-    private function _getJsonParameters($method, array $parameters, $reorder)
+    final private function _getJsonParameters($method, array $parameters, $reorder)
     {
         $request = array();
-        //$request[$method] = array();
         $isNewPost = $method == 'post' && $this->_action == 'posts';
         $parent = $this->_parent . ($reorder ? 's' : '');
         if ($isNewPost) {
@@ -193,24 +233,28 @@ abstract class TeamWorkPm_Model
 
     }
 
-    private function _getParameters($method, array $parameters, $reorder)
+    final private function _getParameters($method, array $parameters, $reorder)
     {
         $function = '_get' . ucfirst(TeamWorkPm_Rest::FORMAT) . 'Parameters';
         $method = strtolower($method);
         return $this->$function($method, $parameters, $reorder);
     }
 
-    protected function _post($action, array $request = array())
+    /*------------------------------
+            API METHOD
+     ------------------------------*/
+    
+    final protected function _post($action, array $request = array())
     {
         return $this->_execute('POST', $action, $request);
     }
 
-    protected function _put($action, array $request = array())
+    final protected function _put($action, array $request = array())
     {
         return $this->_execute('PUT', $action, $request);
     }
 
-    private function _execute($method, $action, array $request)
+    final private function _execute($method, $action, array $request)
     {
         $request = !empty($request) ?
             $this->_getParameters($method, $request, basename($action) == 'reorder') :
@@ -218,15 +262,19 @@ abstract class TeamWorkPm_Model
         return $this->_rest->$method($action, $request);
     }
     
-    protected function _get($action, $request = null)
+    final protected function _get($action, $request = null)
     {
         return $this->_rest->get($action, $request);
     }
 
-    protected function _delete($action)
+    final protected function _delete($action)
     {
         return $this->_rest->delete($action);
     }
+
+    /*------------------------------
+            PUBLIC METHOD
+     ------------------------------*/
 
     public function get($id)
     {

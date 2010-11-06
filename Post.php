@@ -2,29 +2,19 @@
 
 class TeamWorkPm_Post extends TeamWorkPm_Model
 {
-    /**
-     *
-     * @var array
-     */
-    protected $_fields = array(
-        'title'=>true,
-        'category_id'=>array('required'=>true, 'attributes'=>array('type'=>'integer')),
-        'notify'=>array('required'=>false, 'attributes'=>array('type'=>'array'), 'element'=>'person'),
-        'milestone_id'=>array('required'=>false, 'attributes'=>array('type'=>'integer')),
-        'private'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
-        'body'=>true
-    );
 
-    private static $_instance;
-
-    public function getInstance($company, $key)
+    protected function _init()
     {
-        if (null === self::$_instance) {
-            self::$_instance = new self($company, $key, __CLASS__);
-        }
-
-        return self::$_instance;
+        $this->_fields = array(
+            'title'=>true,
+            'category_id'=>array('required'=>true, 'attributes'=>array('type'=>'integer')),
+            'notify'=>array('required'=>false, 'attributes'=>array('type'=>'array'), 'element'=>'person'),
+            'milestone_id'=>array('required'=>false, 'attributes'=>array('type'=>'integer')),
+            'private'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
+            'body'=>true
+        );
     }
+
 
     public function getByProjectId($id, $archive = false)
     {

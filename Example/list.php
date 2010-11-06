@@ -3,6 +3,8 @@
 require_once '../autoload.php';
 
 $list = TeamWorkPm::factory(TeamWorkPm::TODO_LIST);
+$response = $list->getByProjectId(16538);
+print_r($response);
 //$response = $list->getByProjectId(16538);
 //print_r($response);
 

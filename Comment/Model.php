@@ -3,16 +3,12 @@
 abstract class TeamWorkPm_Comment_Model extends TeamWorkPm_Model
 {
     protected $_resource;
-    /**
-     *
-     * @var array
-     */
-    protected $_fields = array('body'=>true);
 
     protected function _init()
     {
         $this->_parent = 'comment';
         $this->_action = $this->_parent . 's';
+        $this->_fields = array('body'=>true);
     }
 
     public function insert(array $data)
