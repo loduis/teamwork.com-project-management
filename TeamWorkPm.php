@@ -29,41 +29,8 @@ if (!function_exists('forward_static_call_array')) {
     }
 }
 
-class TeamWorkPm
+final class TeamWorkPm
 {
-    /**
-     * @var string
-     */
-    const PROJECT = 'Project';
-    /**
-     * @var string
-     */
-    const MILESTONE = 'Milestone';
-
-    const TODO_LIST = 'Todo_List';
-
-    const TODO_ITEM = 'Todo_Item';
-
-    const POST = 'Post';
-
-    const COMPANY = 'Company';
-
-    const REPORT = 'Report';
-
-    const REPLY = 'Reply';
-
-    const CATEGORY_MESSAGE = 'Category_Message';
-
-    const CATEGORY_FILE = 'Category_File';
-
-    const CATEGORY_NOTEBOOK = 'Category_Notebook';
-
-    const CATEGORY_RESOURCE =  'Category_Resource';
-
-    const COMMENT_MILESTONE = 'Comment_Milestone';
-    
-    const COMMENT_ITEM       = 'Comment_Item';
-
 
     private static $_COMPANY = 'phpapi';
 
@@ -80,6 +47,8 @@ class TeamWorkPm
      */
     final public static function factory($class)
     {
+        $class = str_replace(array('/', '_'), ' ', $class);
+        $class = ucwords(str_replace(' ', '_', $class));
         $class = __CLASS__ . '_' .  $class;
         
         return forward_static_call_array(

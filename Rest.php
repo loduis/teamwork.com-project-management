@@ -9,7 +9,8 @@ final class TeamWorkPm_Rest
 
     private
         $_key,
-        $_company;
+        $_company,
+        $_errors;
 
     private function  __construct($company, $key)
     {
@@ -136,30 +137,47 @@ final class TeamWorkPm_Rest
     {
         $data = curl_exec ( $ch );
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_error($ch);
+        $this->_errors = curl_error($ch);
+        $error = curl_errno($ch);
         curl_close($ch);
-        if (self::FORMAT == 'xml') {
-            libxml_use_internal_errors(true);
-            $xml = simplexml_load_string($data);
-            if ($xml instanceof SimpleXMLElement) {
-                if ($get) {
-                    return $xml;
-                } elseif ($xml[0] == 'OK' || $xml[0] == 'Created') {
-                    return true;
+        if (!$error) {
+            if (self::FORMAT == 'xml') {
+                libxml_use_internal_errors(true);
+                $xml = simplexml_load_string($data);
+                if ($xml instanceof SimpleXMLElement) {
+                    if ($get) {
+                        return $xml;
+                    } elseif ($xml[0] == 'OK' || $xml[0] == 'Created') {
+                        return true;
+                    }
+                    $this->_errors .= $xml->asXML();
                 }
-            }
-        } elseif (self::FORMAT == 'json') {
-            $response = json_decode($data, true);
-            if ($status == 200 || $status == 201 || $response['status'] == 'OK' || $response['status'] == 'Created') {
-                if ($get) {
-                    unset ($response['status']);
-                    return $response;
+
+            } elseif (self::FORMAT == 'json') {
+                $response = json_decode($data, true);
+                if (!in_array($status, array(200, 201))) {
+                    $this->_errors .= $data;
+                    if ($get) {
+                        $response = array();
+                    } else {
+                        $response = false;
+                    }
+                } else {
+                    if ($get) {
+                        unset ($response['status']);
+                        $keys = array_keys($response);
+                        if (count($keys) == 1) {
+                            $response = $response[$keys[0]];
+                        }
+                    } else {
+                        $response = true;
+                    }
                 }
-                return true;
             }
         }
 
-        return false;
+        return $response;
+        
     }
 
     private function _getParametersAsString(array $parameters)
@@ -174,5 +192,10 @@ final class TeamWorkPm_Rest
     private function _urlencode($value)
     {
         return urlencode($value);
+    }
+
+    public function getErrors()
+    {
+        return $this->_errors;
     }
 }
