@@ -2,7 +2,7 @@
 
 require_once '../autoload.php';
 
-$reply = TeamWorkPm::factory(__MESSAGE_REPLY__);
+$reply = TeamWorkPm::factory('Reply');
 /*
 $reply->save(array(
     'message_id'=>22220,

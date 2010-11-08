@@ -2,7 +2,7 @@
 
 require_once '../autoload.php';
 
-$post = TeamWorkPm::factory(TeamWorkPm::POST);
+$post = TeamWorkPm::factory('Post');
 $data = array(
   'project_id'=>16538,
    'title'=>'New Message',

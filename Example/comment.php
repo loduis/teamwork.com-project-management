@@ -2,7 +2,7 @@
 
 require_once '../autoload.php';
 
-$comment = TeamWorkPm::factory(TeamWorkPm::COMMENT_ITEM);
+$comment = TeamWorkPm::factory('Comment/Item');
 /*
 $comment->save(array(
    'resource_id'=>25669,

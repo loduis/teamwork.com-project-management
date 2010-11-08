@@ -2,7 +2,7 @@
 
 require_once '../autoload.php';
 
-$category = TeamWorkPm::factory(TeamWorkPm::CATEGORY_MESSAGE);
+$category = TeamWorkPm::factory('Category/Message');
 $response = $category->getByProjectId(16538);
 /*
 $category->save(array(

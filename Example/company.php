@@ -2,5 +2,5 @@
 
 require_once '../autoload.php';
 
-$Company = TeamWorkPm::factory(__COMPANY__);
+$Company = TeamWorkPm::factory('Company');
 $Company->get();

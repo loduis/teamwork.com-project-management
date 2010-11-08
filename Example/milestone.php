@@ -2,7 +2,7 @@
 
 require_once '../autoload.php';
 
-$Milestone = TeamWorkPm::factory(TeamWorkPm::MILESTONE);
+$Milestone = TeamWorkPm::factory('Milestone');
 
 /*
  THIS IS UN INSERT NEW MILESTON
