@@ -3,4 +3,5 @@
 require_once '../autoload.php';
 
 $Company = TeamWorkPm::factory('Company');
-$Company->get();
+$response = $Company->getAll();
+print_r($response);

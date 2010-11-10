@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', true);
+
+error_reporting(E_ALL | E_STRICT | E_RECOVERABLE_ERROR | E_DEPRECATED | E_USER_DEPRECATED);
 
 function __autoload($class)
 {

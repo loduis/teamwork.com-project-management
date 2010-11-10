@@ -52,16 +52,22 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
 
     public function  insert(array $data = array())
     {
-        throw new TeamWorkPm_Exception('Call to undefined method ' . __METHOD__);
+        $this->_error(__METHOD__);
     }
 
     public function  update(array $data = array())
     {
-        throw new TeamWorkPm_Exception('Call to undefined method ' . __METHOD__);
+        $this->_error(__METHOD__);
     }
 
     public function  delete($id = null)
     {
-        throw new TeamWorkPm_Exception('Call to undefined method ' . __METHOD__);
+        $this->_error(__METHOD__);
     }
+
+    private function _error($method)
+    {
+        throw new TeamWorkPm_Exception('Call to undefined method ' . $method);
+    }
+
 }

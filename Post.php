@@ -15,28 +15,55 @@ class TeamWorkPm_Post extends TeamWorkPm_Model
         );
     }
 
-
+    /**
+     * Retrieve Multiple Messages
+     *
+     * GET /projects/#{project_id}/posts.xml
+     * For the project ID supplied, will return the 25 most recent messages
+     *
+     * Get archived messages
+     *
+     * GET /projects/#{project_id}/posts/archive.xml
+     *
+     * Rather than the full message, this returns a summary record for each message in the specified project.
+     *
+     * @param int $id
+     * @param bool $archive
+     * @return array|SimpleXMLElement
+     */
     public function getByProjectId($id, $archive = false)
     {
-        if (is_numeric($id)) {
-            $action = "projects/$id/posts";
-            if ($archive) {
-                $action .= '/archive';
-            }
-            return $this->_get($action);
+        $action = "projects/$id/$this->_action";
+        if ($archive) {
+            $action .= '/archive';
         }
-        return null;
+        return $this->_get($action);
     }
     
-    public function getByCategoryId($project_id, $id, $archive = false)
+    /**
+     * Retrieve Messages by Category
+     *
+     * GET /projects/#{project_id}/cat/#{category_id}/posts.xml
+     *
+     * As before, will return you the most recent 25 messages, this time limited by project and category.
+     * 
+     * Get archived messages by category
+
+     * GET /projects/#{project_id}/cat/#{category_id}/posts/archive.xml
+
+     * As above, but returns only the posts in the given category
+     *
+     * @param int $project_id
+     * @param int $category_id
+     * @param bool $archive
+     * @return array|SimpleXMLElement
+     */
+    public function getByProjectAndCategoryId($project_id, $category_id, $archive = false)
     {
-        if (is_numeric($id)) {
-            $action = "projects/$project_id/cat/$id/posts";
-            if ($archive) {
-                $action .= '/archive';
-            }
-            return $this->_get($action);
+        $action = "projects/$project_id/cat/$category_id/$this->_action";
+        if ($archive) {
+            $action .= '/archive';
         }
-        return null;
+        return $this->_get($action);
     }
 }

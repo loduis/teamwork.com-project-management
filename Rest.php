@@ -22,7 +22,7 @@ final class TeamWorkPm_Rest
         }
     }
 
-    public function getInstance($company, $key)
+    public static function getInstance($company, $key)
     {
         $hash = md5($company . '-' . $key);
         if (null === self::$_instances[$hash]) {
@@ -52,6 +52,8 @@ final class TeamWorkPm_Rest
                 ));
                 break;
         }
+        //echo $url;
+        //exit;
         $ch = curl_init();
         curl_setopt( $ch, CURLOPT_URL, $url);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
@@ -136,7 +138,7 @@ final class TeamWorkPm_Rest
     private function _response($ch, $get = false)
     {
         $data = curl_exec ( $ch );
-        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        echo $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $this->_errors = curl_error($ch);
         $error = curl_errno($ch);
         curl_close($ch);
@@ -165,10 +167,11 @@ final class TeamWorkPm_Rest
                 } else {
                     if ($get) {
                         unset ($response['status']);
+                        /*
                         $keys = array_keys($response);
                         if (count($keys) == 1) {
                             $response = $response[$keys[0]];
-                        }
+                        }*/
                     } else {
                         $response = true;
                     }

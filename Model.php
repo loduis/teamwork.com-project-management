@@ -296,7 +296,11 @@ abstract class TeamWorkPm_Model
     {
         return $this->_get("$this->_action/$id");
     }
-
+    /**
+     * 
+     * @param array $data
+     * @return bool
+     */
     public function insert(array $data)
     {
         $project_id = $data['project_id'];
@@ -306,7 +310,11 @@ abstract class TeamWorkPm_Model
         
         return $this->_post("projects/$project_id/$this->_action", $data);
     }
-
+    /**
+     *
+     * @param array $data
+     * @return bool
+     */
     public function update(array $data)
     {
         $id = $data['id'];
@@ -315,14 +323,22 @@ abstract class TeamWorkPm_Model
         }
         return $this->_put("$this->_action/$id", $data);
     }
-
-    public final function save(array $data)
+    /**
+     *
+     * @param array $data
+     * @return <type> 
+     */
+    final public function save(array $data)
     {
         return isset($data['id']) ?
             $this->update($data) :
             $this->insert($data);
     }
-
+    /**
+     *
+     * @param mixed $id
+     * @return bool
+     */
     public function delete($id)
     {
         if (empty($id)) {
@@ -330,7 +346,10 @@ abstract class TeamWorkPm_Model
         }
         return $this->_delete("$this->_action/$id");
     }
-
+    /**
+     * 
+     * @return string
+     */
     final public function getErrors()
     {
         return $this->_rest->getErrors();

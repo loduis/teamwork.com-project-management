@@ -35,14 +35,37 @@ class TeamWorkPm_Todo_List extends TeamWorkPm_Model
            'filter'=>$filter
         ));
     }
+    /**
+     * Retrieve all lists in a Project
 
-    public function getByProjectId($id, $filter = 'all')
+     * GET /projects/#{project_id}/todo_lists.xml?filter=#{filter}
+     *
+     * Retrieves all todo lists in a project. You can further filter these results with the
+     * 'filter' query. You can set this to 'all', 'pending', 'late' and 'finished'. 'pending'
+     * lists incomplete tasks. The filter is defaulted to 'pending'
+     *
+     * @param <type> $id
+     * @param <type> $filter
+     * @return array|SimpleXMLElement
+     */
+    public function getByProjectId($id, $filter = 'pending')
     {
-        return $this->_get("projects/$id/todo_lists", array('filter'=>$filter));
+        return $this->_get("projects/$id/$this->_action", array('filter'=>$filter));
     }
-   
+    /**
+     * Reorder lists
+     *
+     * POST /projects/#{project_id}/todo_lists/reorder.xml
+     *
+     * Reorders the lists in the project according to the ordering given.
+     * Any lists that are not explicitly specified will be positioned after the lists that are specified.
+     *
+     * @param mixed $project_id
+     * @param array $ids
+     * @return array|SimpleXMLElement
+     */
     public function reorder($project_id, array $ids)
     {
-        return $this->_post("projects/$project_id/todo_lists/reorder", $ids);
+        return $this->_post("projects/$project_id/$this->_action/reorder", $ids);
     }
 }
