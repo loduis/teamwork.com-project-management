@@ -10,7 +10,8 @@ final class TeamWorkPm_Rest
     private
         $_key,
         $_company,
-        $_errors;
+        $_errors,
+        $_method;
 
     private function  __construct($company, $key)
     {
@@ -52,8 +53,7 @@ final class TeamWorkPm_Rest
                 ));
                 break;
         }
-        //echo $url;
-        //exit;
+        $this->_method = strtoupper(str_replace('_', '', $method));
         $ch = curl_init();
         curl_setopt( $ch, CURLOPT_URL, $url);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
@@ -61,29 +61,11 @@ final class TeamWorkPm_Rest
 
         return $this->$method($ch, $request);
     }
-    /*
-    public function get($action, $params = null)
-    {
-        return $this->_execute('GET', $action, $params );
-    }
-
-    public function post($action, $request)
-    {
-        return $this->_execute('POST', $action, $request);
-    }
-
-    public function put($action, $request)
-    {
-        return $this->_execute('PUT', $action, $request);
-    }*/
-    // public function get($action, $request = null);
-    // public function post($action, $request
-    // public function put($action, $request))
 
     /**
      * Ejecuta uno de los metodos descrito arriba
-     * @param string $method
-     * @param array $arguments
+     * @param string $name [get,post,put]
+     * @param array $arguments [action, request]
      * @return mixed
      */
 
@@ -91,7 +73,7 @@ final class TeamWorkPm_Rest
     {
         $name   = '_' . strtolower($name);
         if (method_exists($this, $name)) {
-            list($action, $request) = $arguments;
+            @list($action, $request) = $arguments;
             return $this->_execute($name, $action, $request);
         }
         return null;
@@ -99,7 +81,7 @@ final class TeamWorkPm_Rest
 
     private function _get($ch, $request = null)
     {
-        return $this->_response($ch, true);
+        return $this->_response($ch);
     }
 
     private function _put($ch, $request)
@@ -135,52 +117,63 @@ final class TeamWorkPm_Rest
         return $this->_response($ch);
     }
 
-    private function _response($ch, $get = false)
+    private function _response($ch)
     {
         $data = curl_exec ( $ch );
-        echo $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $this->_errors = curl_error($ch);
         $error = curl_errno($ch);
         curl_close($ch);
+        $response = false;
         if (!$error) {
-            if (self::FORMAT == 'xml') {
-                libxml_use_internal_errors(true);
-                $xml = simplexml_load_string($data);
-                if ($xml instanceof SimpleXMLElement) {
-                    if ($get) {
-                        return $xml;
-                    } elseif ($xml[0] == 'OK' || $xml[0] == 'Created') {
-                        return true;
-                    }
-                    $this->_errors .= $xml->asXML();
+            if (!$this->_isSuccess($status)) {
+                $this->_errors .= "\n"  . $data;
+                if ($this->_isGET()) {
+                    $response = array();
                 }
-
-            } elseif (self::FORMAT == 'json') {
-                $response = json_decode($data, true);
-                if (!in_array($status, array(200, 201))) {
-                    $this->_errors .= $data;
-                    if ($get) {
-                        $response = array();
-                    } else {
-                        $response = false;
-                    }
-                } else {
-                    if ($get) {
-                        unset ($response['status']);
-                        /*
-                        $keys = array_keys($response);
-                        if (count($keys) == 1) {
-                            $response = $response[$keys[0]];
-                        }*/
-                    } else {
-                        $response = true;
-                    }
-                }
+            } else {
+                $method = '_response' . strtoupper(self::FORMAT);
+                $response =  $this->$method($data);
             }
         }
 
         return $response;
-        
+
+    }
+
+    private function _responseXML($data)
+    {
+        libxml_use_internal_errors(true);
+        $response = simplexml_load_string($data);
+        if ($response instanceof SimpleXMLElement) {
+            if (!$this->_isGET() && ($response[0] == 'OK' || $response[0] == 'Created')) {
+                $response = true;
+            }
+        }
+
+        return $response;
+    }
+
+    private function _responseJSON($data)
+    {
+        $response = json_decode($data, true);
+        if ($this->_isGET()) {
+            unset ($response['status']);
+        } else {
+            $response = true;
+        }
+
+        return $response;
+    }
+
+    private function _isSuccess($status)
+    {
+        return in_array($status, array(200, 201));
+    }
+
+    private function _isGET()
+    {
+        return $this->_method == 'GET';
     }
 
     private function _getParametersAsString(array $parameters)

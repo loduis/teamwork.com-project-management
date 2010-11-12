@@ -22,7 +22,9 @@ class TeamWorkPm_People extends TeamWorkPm_Model
             'phone_number_fax'=>false,
             'phone_number_home'=>false,
             'im_handle'=>false,
-            'im_service'=>false,
+            'im_service'=>array('required'=>false, 'validate'=>array(
+                'GTalk', 'AOL', 'ICQ', 'MSN', 'Jabber', 'Yahoo', 'Skype', 'Twitter'
+            )),
             'dateFormat'=>array('required'=>false, 'validate'=>array(
                 'dd.mm.yyyy','dd/mm/yyyy','mm.dd.yyyy','mm/dd/yyyy',
                 'yyyy-mm-dd','yyyy.mm.dd')
@@ -32,8 +34,10 @@ class TeamWorkPm_People extends TeamWorkPm_Model
             'autoGiveProjectAccess'=>false,
             'openID'=>false,
             'notes'=>false,
-            'userLanguage'=>array('required'=>false, 'validate'=>array('EN', 'FR', 'AR', 'BG', 'ZH', 'HR', 'CS', 'DA', 'NL', 'FI', 'DE', 'EL', 'HU', 'ID', 'IT', 'JA', 'KO', 'NO', 'PL
-            ', 'PT', 'RO', 'RU', 'ES', 'SV')),
+            'userLanguage'=>array('required'=>false, 'validate'=>array(
+                'EN', 'FR', 'AR', 'BG', 'ZH', 'HR', 'CS', 'DA', 'NL',
+                'FI', 'DE', 'EL', 'HU', 'ID', 'IT', 'JA', 'KO', 'NO', 'PL',
+                'PT', 'RO', 'RU', 'ES', 'SV')),
             'administrator'=>false,
             'canAddProjects'=>false
 

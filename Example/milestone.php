@@ -3,7 +3,11 @@
 require_once '../autoload.php';
 
 $Milestone = TeamWorkPm::factory('Milestone');
-
+if ($Milestone->delete(26273)) {
+    echo "save";
+} else {
+    echo $Milestone->getErrors();
+}
 /*
  THIS IS UN INSERT NEW MILESTON
 $Milestone->save(array(
@@ -23,4 +27,4 @@ $Milestone->save(array(
 ));*/
 //THIS IS UN MARK AS COMPLETE
 //$Milestone->markAsComplete(25669);
-$Milestone->getAll('completed');
+//$Milestone->getAll('completed');

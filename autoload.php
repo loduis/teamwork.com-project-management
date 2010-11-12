@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', true);
 
-error_reporting(E_ALL | E_STRICT | E_RECOVERABLE_ERROR | E_DEPRECATED | E_USER_DEPRECATED);
+error_reporting(E_ALL);
 
 function __autoload($class)
 {
@@ -10,7 +10,7 @@ function __autoload($class)
         $file = dirname($file);
         $class = str_replace('_', DIRECTORY_SEPARATOR, $class);
     }
-    
+
     $file .= DIRECTORY_SEPARATOR . $class . '.php';
 
     require_once $file;
