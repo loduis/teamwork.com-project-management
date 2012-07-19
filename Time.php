@@ -6,12 +6,13 @@ class TeamWorkPm_Time extends TeamWorkPm_Model
     protected function _init()
     {
         $this->_fields = array(
-            'description'=>true,
-            'person_id'=>false,
+            'description'=>true,# es requerido
+            'person_id'=>false,# no es requerido
             'date'=>true,
             'hours'=>array('required'=>false, 'default'=>0),
             'minutes'=>array('required'=>false, 'default'=>0),
-            'time'
+            'time'=>true,
+            'isbillable'=>false
         );
         $this->_parent = 'time-entry';
         $this->_action = 'time_entries';

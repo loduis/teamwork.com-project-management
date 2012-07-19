@@ -33,34 +33,41 @@ abstract class TeamWorkPm_Model
     protected $_fields = array();
     /**
      *
-     * @var DOMDocument
+     * @var string
      */
-    private $_doc;
-
-    private $_currentClass = null;
-
-    private $_isPost = false;
+    private $_class;
 
     final private function  __construct($company, $key, $class)
     {
-        $this->_currentClass = $class;
-        $this->_rest = TeamWorkPm_Rest::getInstance($company, $key);
-        $class = strtolower(str_replace('TeamWorkPm_', '', $this->_currentClass));
-        $this->_parent = str_replace('_', '-', $class);
-        $this->_action = $class . 's';
-        $this->_doc = new DOMDocument();
-        $this->_doc->formatOutput = true;
+        $this->_rest   = TeamWorkPm_Rest::getInstance($company, $key);
+        $this->_class  = $class;
+        $this->_parent = strtolower(str_replace(
+          array('TeamWorkPm_', '_'),
+          array('', '-'),
+          $this->_class
+        ));
+
+        $this->_action = $this->_parent . 's';
+
         if (method_exists($this, '_init')) {
             $this->_init();
         }
+        //configure request para put y post fields
+        $this->_rest->request->setAction($this->_action)
+                            ->setParent($this->_parent)
+                            ->setFields($this->_fields);
+
     }
 
     final public function  __destruct()
     {
-        unset (self::$_instances[$this->_currentClass]);
+        unset (self::$_instances[$this->_class]);
     }
 
-    final protected function __clone () {}
+    final protected function __clone ()
+    {
+
+    }
 
     /**
      *
@@ -76,229 +83,19 @@ abstract class TeamWorkPm_Model
 
         return self::$_instances[$class];
     }
-    /**
-     * Return true si the parent element is request
-     * @param string $method
-     * @return bool
-     */
-    private function _isRequestTheParent($method)
-    {
-        return (
-            ($method == 'post' && $this->_action == 'posts') ||
-            ($method == 'post' && $this->_action ==  'milestones' && TeamWorkPm_Rest::FORMAT == 'xml')
-        );
-    }
-
-    private function _getParent($reorder)
-    {
-        return $this->_parent . ($reorder ? 's' : '');
-    }
-
-    private function _appendParameters(& $parent, &$parameters, $reorder)
-    {
-        $method =  '_append' . ($reorder ?
-                  'ReOrder' :
-                  'CreateAndUpdate') . (ucfirst(TeamWorkPm_Rest::FORMAT)) .  'Parameters';
-
-        $this->$method($parent, $parameters);
-
-    }
 
     /*------------------------------
-            XML METHOD
-     ------------------------------*/
-
-    final private function _appendCreateAndUpdateXmlParameters(DOMElement $parent, array $parameters)
-    {
-        foreach ($this->_fields as $field=>$options) {
-            $value = isset($parameters[$field]) ? $parameters[$field] : null;
-            $field = str_replace('_', '-', $field);
-            $element = $this->_doc->createElement($field);
-            if (!is_array($options)) {
-                $options = array('required'=>$options, 'attributes'=> array());
-            }
-            if ($options['required']) {
-                if (null === $value) {
-                    throw new TeamWorkPm_Exception('The field ' . $field . ' is required ');
-                }
-            }
-            foreach ($options['attributes'] as $name=>$type) {
-                @list($type, $default) = explode('=', $type);
-                if (is_null($value) && null !== $default) {
-                    if ($default == 'false') {
-                        $default = false;
-                    } elseif ($default == 'true') {
-                        $default = true;
-                    }
-                    $value = $default;
-                }
-                if (null !== $value) {
-                    $element->setAttribute($name, $type);
-                    if ($name == 'type') {
-                        if ($type == 'array') {
-                            $internal = $this->_doc->createElement($options['element']);
-                            foreach ($value as $v) {
-                                $internal->appendChild($this->_doc->createTextNode($v));
-                                $element->appendChild($internal);
-                            }
-                        } else {
-                            settype($value, $type);
-                            $value = var_export($value, true);
-                        }
-                    }
-                }
-            }
-            if (null !== $value) {
-                $element->appendChild($this->_doc->createTextNode($value));
-                $parent->appendChild($element);
-            }
-        }
-
-    }
-
-    final private function _appendReOrderXmlParameters(DOMElement $parent, array $parameters)
-    {
-        $parent->setAttribute('type', 'array');
-        foreach ($parameters as $id) {
-            $element = $this->_doc->createElement($this->_parent);
-            $item = $this->_doc->createElement('id');
-            $item->appendChild($this->_doc->createTextNode($id));
-            $element->appendChild($item);
-            $parent->appendChild($element);
-        }
-    }
-    /**
-     * Return the params as xml format
-     *
-     * @param string $method
-     * @param array $parameters
-     * @param bool $reorder
-     * @return string
-     */
-    final private function _getXmlParameters($method, array $parameters, $reorder)
-    {
-        $parent = $this->_doc->createElement($this->_getParent($reorder));
-        if ($this->_isRequestTheParent($method)) {
-            $wrapper = $this->_doc->createElement('request');
-            $this->_doc->appendChild($wrapper);
-            $wrapper->appendChild($parent);
-        } else {
-            $wrapper = $this->_doc->createElement($method);
-            $wrapper->appendChild($parent);
-        }
-        $this->_isPost = $method == 'post';
-        $this->_appendParameters($parent, $parameters, $reorder);
-
-
-        return $this->_doc->saveXML();
-    }
-
-    /*------------------------------
-            JSON METHOD
-     ------------------------------*/
-
-    final private function _appendReOrderJsonParameters(stdClass $parent, array $parameters)
-    {
-        $children = $this->_parent;
-        foreach ($parameters as $id) {
-            $item = new stdClass();
-            $item->id = $id;
-            $parent->{$children}[] = $item;
-        }
-    }
-
-    final private function _appendCreateAndUpdateJsonParameters(stdClass $parent, array $parameters)
-    {
-        foreach ($this->_fields as $field=>$options) {
-            $value = isset($parameters[$field]) ? $parameters[$field] : null;
-            $field = str_replace('_', '-', $field);
-            if (!is_array($options)) {
-                $options = array('required'=>$options, 'attributes'=> array());
-            }
-            if ($this->_isPost && $options['required']) {
-                if (null === $value) {
-                    throw new TeamWorkPm_Exception('The field ' . $field . ' is required ');
-                }
-            }
-            foreach ($options['attributes'] as $name=>$type) {
-                @list($type, $default) = explode('=', $type);
-                if (is_null($value) && null !== $default) {
-                    if ($default == 'false') {
-                        $default = false;
-                    } elseif ($default == 'true') {
-                        $default = true;
-                    }
-                    $value = $default;
-                }
-                if (null !== $value) {
-                    if ($name == 'type') {
-                        if ($type == 'array') {
-
-                        } else {
-                            settype($value, $type);
-                        }
-                    }
-                }
-            }
-            if (null !== $value) {
-                $parent->$field = $value;
-            }
-        }
-
-    }
-
-    /**
-     * Return the parameters in json format
-     *
-     * @param string $method
-     * @param array $parameters
-     * @param bool $reorder
-     * @return string
-     */
-    final private function _getJsonParameters($method, array $parameters, $reorder)
-    {
-        $object = new stdClass();
-        $parent = $this->_getParent($reorder);
-        if ($this->_isRequestTheParent($method)) {
-            $object->request = new stdClass();
-            $object->request->$parent = new stdClass();
-            $parent = $object->request->$parent;
-        } else {
-            $object->$parent = new stdClass();
-            $parent = $object->$parent;
-        }
-        $this->_isPost = $method == 'post';
-        $this->_appendParameters($parent, $parameters, $reorder);
-
-
-        return json_encode($object);
-    }
-
-    /*------------------------------
-            API METHOD
+            API REST METHOD
      ------------------------------*/
 
     final protected function _post($action, array $request = array())
     {
-        return $this->_execute('POST', $action, $request);
+        return $this->_rest->post($action, $request);
     }
 
     final protected function _put($action, array $request = array())
     {
-        return $this->_execute('PUT', $action, $request);
-    }
-
-    final private function _execute($method, $action, array $request)
-    {
-        $method = strtolower($method);
-        if (!empty ($request)) {
-            $function = '_get' . ucfirst(TeamWorkPm_Rest::FORMAT) . 'Parameters';
-            $request = $this->$function($method, $request, basename($action) == 'reorder');
-        } else {
-            $request = null;
-        }
-
-        return $this->_rest->$method($action, $request);
+        return $this->_rest->put($action, $request);
     }
 
     final protected function _get($action, $request = null)
@@ -349,7 +146,7 @@ abstract class TeamWorkPm_Model
     /**
      *
      * @param array $data
-     * @return <type>
+     * @return bool
      */
     final public function save(array $data)
     {
@@ -368,13 +165,5 @@ abstract class TeamWorkPm_Model
             throw new TeamWorkPm_Exception('Require field id');
         }
         return $this->_delete("$this->_action/$id");
-    }
-    /**
-     *
-     * @return string
-     */
-    final public function getErrors()
-    {
-        return $this->_rest->getErrors();
     }
 }

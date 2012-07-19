@@ -2,7 +2,7 @@
 
 final class TeamWorkPm_Rest
 {
-    const FORMAT = 'json';
+    const FORMAT = 'xml';
 
     private static
         $_instances;
@@ -11,7 +11,10 @@ final class TeamWorkPm_Rest
         $_key,
         $_company,
         $_errors,
-        $_method;
+        $_method,
+        $_request,
+        $response,
+        $_isGET;
 
     private function  __construct($company, $key)
     {
@@ -21,6 +24,11 @@ final class TeamWorkPm_Rest
             $this->_key     = $key;
             $this->_company = $company;
         }
+
+        $request  = 'TeamWorkPm_Request_' . strtoupper(self::FORMAT);
+        $response = 'TeamWorkPm_Response_' . strtoupper(self::FORMAT);
+        $this->_request  = new $request;
+        $this->_reponse  = new $response;
     }
 
     public static function getInstance($company, $key)
@@ -33,33 +41,33 @@ final class TeamWorkPm_Rest
         return self::$_instances[$hash];
     }
 
-    protected function _execute($method, $action, $request = null)
+    protected function _execute($_method, $action, $request = null)
     {
         $url = "http://". $this->_company .".teamworkpm.net/". $action . '.' . self::FORMAT;
         $headers = array( "Authorization: BASIC ". base64_encode($this->_key .":xxx" ));
+        $method = str_replace('_', '', $_method);
+        $request = $this->_request->$method($request);
+        $this->_isGET = false;
         switch ($method) {
-            case '_get':
+            case 'get':
                 if (null !== $request) {
-                    if (is_array($request)) {
-                        $request = $this->_getParametersAsString($request);
-                    }
                     $url .= '?' . $request;
                 }
+                $this->_isGET = true;
                 break;
-            case '_put':
-            case '_post':
+            case 'put':
+            case 'post':
                 $headers = array_merge($headers, array(
                     'Content-Type: application/' . self::FORMAT
                 ));
                 break;
         }
-        $this->_method = strtoupper(str_replace('_', '', $method));
         $ch = curl_init();
         curl_setopt( $ch, CURLOPT_URL, $url);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers);
 
-        return $this->$method($ch, $request);
+        return $this->$_method($ch, $request);
     }
 
     /**
@@ -121,49 +129,21 @@ final class TeamWorkPm_Rest
     {
         $data = curl_exec ( $ch );
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $this->_errors = curl_error($ch);
+        $errorInfo = curl_error($ch);
         $error = curl_errno($ch);
         curl_close($ch);
-        $response = false;
-        if (!$error) {
-            if (!$this->_isSuccess($status)) {
-                $this->_errors .= "\n"  . $data;
-                if ($this->_isGET()) {
-                    $response = array();
-                }
-            } else {
-                $method = '_response' . strtoupper(self::FORMAT);
-                $response =  $this->$method($data);
+        $response = FALSE;
+        if ($this->_isGET) {
+            $headers = array('status'=>$status);
+            if (!$error) {
+                $headers['errors'] = $errorInfo;
             }
+            $response = $this->_reponse->parse($data, array('status'=>$status));
+        } elseif ($this->_isSuccess($status)) {
+            $response = TRUE;
         }
-
         return $response;
 
-    }
-
-    private function _responseXML($data)
-    {
-        libxml_use_internal_errors(true);
-        $response = simplexml_load_string($data);
-        if ($response instanceof SimpleXMLElement) {
-            if (!$this->_isGET() && ($response[0] == 'OK' || $response[0] == 'Created')) {
-                $response = true;
-            }
-        }
-
-        return $response;
-    }
-
-    private function _responseJSON($data)
-    {
-        $response = json_decode($data, true);
-        if ($this->_isGET()) {
-            unset ($response['status']);
-        } else {
-            $response = true;
-        }
-
-        return $response;
     }
 
     private function _isSuccess($status)
@@ -171,27 +151,10 @@ final class TeamWorkPm_Rest
         return in_array($status, array(200, 201));
     }
 
-    private function _isGET()
+    public function  __get($name)
     {
-        return $this->_method == 'GET';
-    }
-
-    private function _getParametersAsString(array $parameters)
-    {
-        $queryParameters = array();
-        foreach ($parameters as $key => $value) {
-            $queryParameters[] = $key . '=' . $this->_urlencode($value);
+        if ('request' == $name) {
+            return $this->_request;
         }
-        return implode('&', $queryParameters);
-    }
-
-    private function _urlencode($value)
-    {
-        return urlencode($value);
-    }
-
-    public function getErrors()
-    {
-        return $this->_errors;
     }
 }

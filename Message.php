@@ -1,6 +1,6 @@
 <?php
 
-class TeamWorkPm_Post extends TeamWorkPm_Model
+class TeamWorkPm_Message extends TeamWorkPm_Model
 {
 
     protected function _init()
@@ -13,6 +13,8 @@ class TeamWorkPm_Post extends TeamWorkPm_Model
             'private'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
             'body'=>true
         );
+        $this->_parent = 'post';
+        $this->_action = $this->_parent . 's';
     }
 
     /**
