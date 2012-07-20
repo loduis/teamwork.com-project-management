@@ -2,7 +2,8 @@
 
 final class TeamWorkPm_Rest
 {
-    const FORMAT = 'xml';
+    private static $_REQUEST_FORMAT = 'json';
+    private static  $_RESPONSE_FORMAT = 'json';
 
     private static
         $_instances;
@@ -25,8 +26,8 @@ final class TeamWorkPm_Rest
             $this->_company = $company;
         }
 
-        $request  = 'TeamWorkPm_Request_' . strtoupper(self::FORMAT);
-        $response = 'TeamWorkPm_Response_' . strtoupper(self::FORMAT);
+        $request  = 'TeamWorkPm_Request_' . strtoupper(self::$_RESPONSE_FORMAT);
+        $response = 'TeamWorkPm_Response_' . strtoupper(self::$_RESPONSE_FORMAT);
         $this->_request  = new $request;
         $this->_reponse  = new $response;
     }
@@ -43,8 +44,8 @@ final class TeamWorkPm_Rest
 
     protected function _execute($_method, $action, $request = null)
     {
-        $url = "http://". $this->_company .".teamworkpm.net/". $action . '.' . self::FORMAT;
-        $headers = array( "Authorization: BASIC ". base64_encode($this->_key .":xxx" ));
+        $url = 'http://'. $this->_company . '.teamworkpm.net/'. $action . '.' . self::$_REQUEST_FORMAT;
+        $headers = array('Authorization: BASIC '. base64_encode($this->_key . ':xxx'));
         $method = str_replace('_', '', $_method);
         $request = $this->_request->$method($request);
         $this->_isGET = false;
@@ -58,7 +59,7 @@ final class TeamWorkPm_Rest
             case 'put':
             case 'post':
                 $headers = array_merge($headers, array(
-                    'Content-Type: application/' . self::FORMAT
+                    'Content-Type: application/' . self::$_REQUEST_FORMAT
                 ));
                 break;
         }
@@ -156,5 +157,15 @@ final class TeamWorkPm_Rest
         if ('request' == $name) {
             return $this->_request;
         }
+    }
+
+    public static function setRequestFormat($value)
+    {
+        self::$_REQUEST_FORMAT = $value;
+    }
+
+    public static function setResponseFormat($value)
+    {
+        self::$_RESPONSE_FORMAT = $value;
     }
 }

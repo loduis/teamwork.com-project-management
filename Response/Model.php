@@ -1,19 +1,15 @@
 <?php
 
-abstract class TeamWorkPm_Response_Model  implements IteratorAggregate
+abstract class TeamWorkPm_Response_Model
 {
-    protected $_object;
-
-    protected $_array;
-
     protected $_string;
 
-    private $_position = 0;
+    protected $_array = array();
 
-
-    public function __construct()
+    final public function __construct()
     {
-        $this->_position = 0;
+
+
     }
 
     abstract public function parse($data, $headers);
@@ -30,21 +26,8 @@ abstract class TeamWorkPm_Response_Model  implements IteratorAggregate
         return $this->_string;
     }
 
-    public function __get($name)
+    public function toArray()
     {
-        return $this->_object->$name;
+        return $this->_array;
     }
-
-    //ITERATOR METHOD
-
-    protected function _setArray($object)
-    {
-        $this->_array = get_object_vars($object);
-    }
-
-    public function getIterator()
-    {
-        return new ArrayIterator($this->_array);
-    }
-
 }

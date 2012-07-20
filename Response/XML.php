@@ -16,10 +16,10 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
         }
         if (!($this->_object = simplexml_load_string($data))) {
             $errors = '<errors>';
-            $errors .= $this->_data;
+            $errors .= $data;
             $errors .= '</errors>';
-            $this->_data = $errors;
-            $this->_object = simplexml_load_string($this->_data);
+            $this->_string = $errors;
+            $this->_object = simplexml_load_string($this->_string);
         }
 
         $this->_setArray($this->_object);
@@ -29,7 +29,7 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
 
     protected function _getContent()
     {
-        $object = simplexml_load_string($this->_data);
+        $object = simplexml_load_string($this->_string);
 
         return $object->asXML();
     }
