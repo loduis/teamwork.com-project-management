@@ -14,6 +14,7 @@ class TeamWorkPm_Todo_List extends TeamWorkPm_Model
             'private'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
             'todo_list_template_task_assignto'=>false
         );
+        $this->_action = 'tasks';
     }
     /**
      * GET /todo_lists.xml?responsible_party_id=#{id}
@@ -24,7 +25,7 @@ class TeamWorkPm_Todo_List extends TeamWorkPm_Model
      * to a persons-ID, or a company id [prefixed with c]. You can further filter these
      * results with the 'filter' query. You can set this to
      * 'all', 'pending', 'late' and 'finished'. 'pending' lists incomplete tasks.
-     * 
+     *
      * @param mixed $id
      * @param string $filer
      */
@@ -48,9 +49,9 @@ class TeamWorkPm_Todo_List extends TeamWorkPm_Model
      * @param <type> $filter
      * @return array|SimpleXMLElement
      */
-    public function getByProjectId($id, $filter = 'pending')
+    public function getByProjectId($id, $params = array())
     {
-        return $this->_get("projects/$id/$this->_action", array('filter'=>$filter));
+        return $this->_get("projects/$id/$this->_action", $params);
     }
     /**
      * Reorder lists
@@ -67,5 +68,10 @@ class TeamWorkPm_Todo_List extends TeamWorkPm_Model
     public function reorder($project_id, array $ids)
     {
         return $this->_post("projects/$project_id/$this->_action/reorder", $ids);
+    }
+
+    public function get($id)
+    {
+        return $this->_get("tasklists/$id");
     }
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<projects type="array">
+  <project>
+    <company>
+      <name>php-api</name>
+      <id type="integer">9463</id>
+    </company>
+    <starred type="boolean">false</starred>
+    <name>Php Api of TeamWorkPhp</name>
+    <show-announcement type="boolean">false</show-announcement>
+    <announcement/>
+    <status>active</status>
+    <created-on type="date">2010-11-01T18:18:06Z</created-on>
+    <category/>
+    <start-page>projectoverview</start-page>
+    <logo/>
+    <startdate/>
+    <notifyeveryone type="boolean">false</notifyeveryone>
+    <id type="integer">16532</id>
+    <last-changed-on type="date">2012-07-21T20:47:43Z</last-changed-on>
+    <enddate/>
+  </project>
+  <project>
+    <company>
+      <name>php-api</name>
+      <id type="integer">9463</id>
+    </company>
+    <starred type="boolean">false</starred>
+    <name>Test</name>
+    <show-announcement type="boolean">false</show-announcement>
+    <announcement/>
+    <status>active</status>
+    <created-on type="date">2010-11-01T21:35:03Z</created-on>
+    <category/>
+    <start-page>projectoverview</start-page>
+    <logo/>
+    <startdate/>
+    <notifyeveryone type="boolean">false</notifyeveryone>
+    <id type="integer">16538</id>
+    <last-changed-on type="date">2011-02-22T23:50:58Z</last-changed-on>
+    <enddate/>
+  </project>
+</projects>

@@ -13,6 +13,7 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
             'priority'=>array('required'=>false, 'attributes'=>array('type'=>'integer')),
             'responsible_party_id'=>false
         );
+        $this->_action = '';
     }
     /**
      * Retrieve All Items on a Todo List
@@ -26,7 +27,7 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      */
     public function getByTodoListId($id)
     {
-        return $this->_get("todo_lists/$id/$this->_action");
+        return $this->_get("tasklists/$id/$this->_action");
     }
     /**
      * Create Item on a List
@@ -48,7 +49,7 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
         if (empty($todo_list_id)) {
             throw new TeamWorkPm_Exception('Require field todo list id');
         }
-        return $this->_post("todo_lists/$todo_list_id/$this->_action", $data);
+        return $this->_post("tasklists/$todo_list_id/$this->_action", $data);
     }
     /**
      * Mark an Item Complete
@@ -70,7 +71,7 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      * PUT /todo_items/#{id}/uncomplete.xml
      *
      * Changes the item to uncomplete. (if called on an uncomplete item, has no effect)
-     * 
+     *
      * @param int $id
      * @return bool
      */
@@ -93,6 +94,6 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      */
     public function reorder($todo_list_id, array $ids)
     {
-        return $this->_post("todo_lists/$todo_list_id/$this->_action/reorder", $ids);
+        return $this->_post("tasklists/$todo_list_id/$this->_action/reorder", $ids);
     }
 }
