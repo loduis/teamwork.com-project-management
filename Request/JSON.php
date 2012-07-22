@@ -4,10 +4,11 @@ class TeamWorkPm_Request_JSON extends TeamWorkPm_Request_Model
 {
     protected function _getParameters($parameters)
     {
-        if (is_array($parameters)) {
+        if (!empty($parameters) && is_array($parameters)) {
             $object = new stdClass();
             $parent = $this->_getParent();
             if ($wrapper = $this->_getWrapper()) {
+                echo $wrapper, "\n";
                 $object->$wrapper = new stdClass();
                 $object->$wrapper->$parent = new stdClass();
                 $parent = $object->request->$parent;
@@ -44,8 +45,9 @@ class TeamWorkPm_Request_JSON extends TeamWorkPm_Request_Model
                     }
                 }
             }
-
             $parameters =  json_encode($object);
+        } else {
+            $parameters = NULL;
         }
 
         return $parameters;

@@ -2,6 +2,18 @@
 
 class TeamWorkPm_Project extends TeamWorkPm_Model
 {
+    protected function _init()
+    {
+        $this->_fields = array(
+            'name'=>TRUE,
+            'description'=>FALSE,
+            'start-date'=>FALSE,
+            'end-date'=>FALSE,
+            'companyId'=>FALSE,
+            'newCompany'=>FALSE,
+            'status'=>FALSE
+        );
+    }
     /**
      * Retrieves all accessible projects; including active/inactive and archived projects.
      * You can optionally append a date to the call to return only those projects recently updated.
@@ -12,14 +24,49 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
      */
     public function getAll($date = null, $time = null)
     {
+        return $this->_getByStatus('ALL', $date, $time);
+
+    }
+
+    /**
+     *
+     * @param type $date
+     * @param type $time
+     * @return type
+     */
+    public function getActive($date = null, $time = null)
+    {
+        return $this->_getByStatus('ACTIVE', $date, $time);
+    }
+
+    /**
+     *
+     * @param type $date
+     * @param type $time
+     * @return type
+     */
+    public function getArchived($date = null, $time = null)
+    {
+        return $this->_getByStatus('ARCHIVED', $date, $time);
+    }
+
+    /**
+     *
+     * @param type $status
+     * @param type $date
+     * @param type $time
+     * @return type
+     */
+    private function _getByStatus($status, $date, $time)
+    {
         $params = array();
-        if (!is_null($date)) {
+        if ($date !== NULL) {
             $params['updatedAfterDate'] = $date;
-            if (!is_null($time)) {
+            if ($time !== NULL) {
                 $params['updatedAfterTime'] = $time;
             }
         }
-
+        $params['status'] = $status;
         return $this->_get("$this->_action", $params);
     }
 
@@ -38,6 +85,10 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
      */
     public function star($id)
     {
+        $id = (int) $id;
+        if (empty($id)) {
+            throw new TeamWorkPm_Exception('Required field id');
+        }
         return $this->_put("$this->_action/$id/star");
     }
     /**
@@ -47,27 +98,36 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
      */
     public function unStar($id)
     {
+        $id = (int) $id;
+        if (empty($id)) {
+            throw new TeamWorkPm_Exception('Required field id');
+        }
         return $this->_put("$this->_action/$id/unstar");
     }
-
-    public function  insert(array $data = array())
+    /**
+     * Insert a project
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function  insert(array $data)
     {
-        $this->_error(__METHOD__);
+        return $this->_post($this->_action, $data);
     }
 
-    public function  update(array $data = array())
+    public function active($id)
     {
-        $this->_error(__METHOD__);
+        $data = array();
+        $data['id'] = $id;
+        $data['status'] = 'ACTIVE';
+        return $this->update($data);
     }
 
-    public function  delete($id = null)
+    public function archive($id)
     {
-        $this->_error(__METHOD__);
+        $data = array();
+        $data['id'] = $id;
+        $data['status'] = 'ARCHIVED';
+        return $this->update($data);
     }
-
-    private function _error($method)
-    {
-        throw new TeamWorkPm_Exception('Call to undefined method ' . $method);
-    }
-
 }

@@ -5,39 +5,19 @@
       <name>php-api</name>
       <id type="integer">9463</id>
     </company>
-    <starred type="boolean">false</starred>
-    <name>Php Api of TeamWorkPhp</name>
+    <starred type="boolean">true</starred>
+    <name>Test project 3</name>
     <show-announcement type="boolean">false</show-announcement>
     <announcement/>
     <status>active</status>
-    <created-on type="date">2010-11-01T18:18:06Z</created-on>
+    <created-on type="date">2012-07-21T23:18:56Z</created-on>
     <category/>
     <start-page>projectoverview</start-page>
     <logo/>
     <startdate/>
     <notifyeveryone type="boolean">false</notifyeveryone>
-    <id type="integer">16532</id>
-    <last-changed-on type="date">2012-07-21T20:47:43Z</last-changed-on>
-    <enddate/>
-  </project>
-  <project>
-    <company>
-      <name>php-api</name>
-      <id type="integer">9463</id>
-    </company>
-    <starred type="boolean">false</starred>
-    <name>Test</name>
-    <show-announcement type="boolean">false</show-announcement>
-    <announcement/>
-    <status>active</status>
-    <created-on type="date">2010-11-01T21:35:03Z</created-on>
-    <category/>
-    <start-page>projectoverview</start-page>
-    <logo/>
-    <startdate/>
-    <notifyeveryone type="boolean">false</notifyeveryone>
-    <id type="integer">16538</id>
-    <last-changed-on type="date">2011-02-22T23:50:58Z</last-changed-on>
+    <id type="integer">35597</id>
+    <last-changed-on type="date">2012-07-21T23:18:56Z</last-changed-on>
     <enddate/>
   </project>
 </projects>

@@ -12,7 +12,7 @@ class TeamWorkPm_Request_XML extends TeamWorkPm_Request_Model
 
     protected function _getParameters($parameters)
     {
-        if (is_array($parameters)) {
+        if (!empty($parameters) && is_array($parameters)) {
             $parent = $this->_doc->createElement($this->_getParent());
             if ($this->_isActionReorder()) {
                 $parent->setAttribute('type', 'array');
@@ -62,6 +62,8 @@ class TeamWorkPm_Request_XML extends TeamWorkPm_Request_Model
             $this->_doc->appendChild($wrapper);
 
             $parameters = $this->_doc->saveXML();
+        } else {
+            $parameters = NULL;
         }
 
         return $parameters;

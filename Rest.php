@@ -59,7 +59,7 @@ final class TeamWorkPm_Rest
                 ));
                 break;
         }
-        //echo $url, "\n";
+        echo $url, "\n";
         $ch = curl_init();
         curl_setopt( $ch, CURLOPT_URL, $url);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
@@ -79,7 +79,10 @@ final class TeamWorkPm_Rest
     {
         $name   = '_' . strtolower($name);
         if (method_exists($this, $name)) {
-            @list($action, $request) = $arguments;
+            if (count($arguments) < 2) {
+                $arguments[] = NULL;
+            }
+            list($action, $request) = $arguments;
             return $this->_execute($name, $action, $request);
         }
         return null;
@@ -92,25 +95,34 @@ final class TeamWorkPm_Rest
 
     private function _put($ch, $request)
     {
+        //$request = '<name>Esto es una preuba</name>';
+        /*
+        echo $request, "\n";
         $length = strlen($request);
         if ($length) {
             $f = fopen('php://temp', 'rw');
             fwrite($f, $request);
             rewind($f);
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER, TRUE);
             curl_setopt($ch, CURLOPT_INFILE, $f);
             curl_setopt($ch, CURLOPT_INFILESIZE, $length);
         }
-        curl_setopt($ch, CURLOPT_PUT, true);
+        curl_setopt($ch, CURLOPT_PUT, TRUE);
         $response = $this->_response($ch);
-        if (isset ($f)) {
+        if (isset($f)) {
             fclose($f);
+        }*/
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        if ($request) {
+            curl_setopt( $ch, CURLOPT_POSTFIELDS, $request);
         }
+        $response = $this->_response($ch);
         return $response;
     }
 
     private function _post($ch, $request)
     {
-        curl_setopt( $ch, CURLOPT_POST, true );
+        curl_setopt( $ch, CURLOPT_POST, TRUE);
         if ($request) {
             curl_setopt( $ch, CURLOPT_POSTFIELDS, $request);
         }
@@ -125,25 +137,38 @@ final class TeamWorkPm_Rest
 
     private function _response($ch)
     {
-        $data = curl_exec ( $ch );
-        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $data = curl_exec ($ch);
+        $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $errorInfo = curl_error($ch);
         $error = curl_errno($ch);
         curl_close($ch);
+        if ($error) {
+            throw new TeamWorkPm_Exception($errorInfo);
+        }
         $response = FALSE;
-        if ($this->_isGET) {
-            $headers = array('status'=>$status);
-            if (!$error) {
-                $headers['errors'] = $errorInfo;
-            }
+        if ($this->_isGET && $status === 200) {
             $class = 'TeamWorkPm_Response_' . strtoupper(self::$_FORMAT);
             $parser  = new $class;
-            $response = $parser->parse($data, array('status'=>$status));
+            $response = $parser->parse($data);
         } elseif ($this->_isSuccess($status)) {
             $response = TRUE;
+        } else {
+            $errors = $data;
+            if ($status === 422) {
+                if (self::$_FORMAT === 'xml') {
+                    libxml_use_internal_errors(TRUE);
+                    $xml = simplexml_load_string($data);
+                    $property = 0;
+                    $errors = $xml->$property;
+                } else {
+                    $json = json_decode($data);
+                    $errors = $json->MESSAGE;
+                }
+            }
+            throw new TeamWorkPm_Exception($errors);
         }
+        //echo $data;
         return $response;
-
     }
 
     private function _isSuccess($status)

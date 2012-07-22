@@ -10,9 +10,9 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
      * @return \TeamWorkPm_Response_XML
      * @throws TeamWorkPm_Exception
      */
-    public function parse($data, $headers = array())
+    public function parse($data)
     {
-        libxml_use_internal_errors(true);
+        libxml_use_internal_errors(TRUE);
         $this->_string = $data;
         if (!($source = simplexml_load_string($data))) {
             throw  new TeamWorkPm_Exception($this->_string);

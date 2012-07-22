@@ -123,11 +123,10 @@ abstract class TeamWorkPm_Model
      */
     public function insert(array $data)
     {
-        $project_id = $data['project_id'];
-        if (empty($project_id)) {
+        if (empty($data['project_id'])) {
             throw new TeamWorkPm_Exception('Require field project id');
         }
-
+        $project_id = $data['project_id'];
         return $this->_post("projects/$project_id/$this->_action", $data);
     }
     /**
@@ -137,10 +136,10 @@ abstract class TeamWorkPm_Model
      */
     public function update(array $data)
     {
-        $id = $data['id'];
-        if (empty($id)) {
+        if (empty($data['id'])) {
             throw new TeamWorkPm_Exception('Require field id');
         }
+        $id = (int) $data['id'];
         return $this->_put("$this->_action/$id", $data);
     }
     /**
@@ -150,7 +149,7 @@ abstract class TeamWorkPm_Model
      */
     final public function save(array $data)
     {
-        return isset($data['id']) ?
+        return !empty($data['id']) ?
             $this->update($data) :
             $this->insert($data);
     }

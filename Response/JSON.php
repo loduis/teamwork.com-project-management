@@ -2,7 +2,7 @@
 
 class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
 {
-    public function parse($data, $headers)
+    public function parse($data)
     {
         $source = json_decode($data);
         if (!empty($source->STATUS)) {
