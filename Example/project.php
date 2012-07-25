@@ -1,28 +1,15 @@
 <?php
 
-require_once '../autoload.php';
-// ahora puede cambiar el formato con que se traen los datos del api
-// los posibles valores son xml y json, por defecto se traen en formato json
+require './bootstrap.php';
 
-TeamWorkPm::setFormat('xml');
-
-if ($argc >= 2) {
-    $command = $argv[1];
-    $function = 'test_' . $command;
-    if (function_exists($function)) {
-        $id = empty($argv[2]) ? NULL : $argv[2];
-        if (!$id) {
-            if (in_array($command, array('get', 'star', 'unstar', 'update', 'delete', 'archive', 'active'))) {
-                $project = TeamWorkPm::factory('Project');
-                $projects = $project->getAll();
-                foreach ($projects as $p) {
-                    $id = $p->id;
-                }
-            }
-        }
-        $function($id);
+// prepare test
+test_boostrap(function ($command) {
+    if (in_array($command,
+      array('get', 'star', 'unstar', 'update', 'delete', 'archive', 'active'))) {
+        return get_first_project();
     }
-}
+});
+
 
 /**
  * Insert one project.
@@ -32,7 +19,7 @@ function test_insert() {
     try {
         echo '------------------TEST INSERT---------------------', "\n";
         $data = array(
-          'name'=>'Test project 4',
+          'name'=>'Test project ' . rand(1, 10),
           'description'=>'This a test project.'
         );
         // SERIA BUENO SI EL API DEVOLVIERA EL ID DEL PROJECTO
@@ -145,7 +132,7 @@ function test_update($id) {
         echo '------------------TEST UPDATE---------------------', "\n";
         $data = array(
           'id'=>$id,
-          'name'=>'Change name this project.'
+          'name'=>'Test project edit ' . rand(1, 10),
         );
         if ($project->update($data)) {
             echo 'UPDATE PROJECT', "\n";
@@ -179,12 +166,12 @@ function test_unstar($id) {
     }
 }
 
-function test_archive($id) {
+function test_archived($id) {
     $project = TeamWorkPm::factory('Project');
     try {
         echo '------------------TEST ARCHIVE---------------------', "\n";
-        if ($project->archive($id)) {
-            echo 'ARCHIVE PROJECT ', $id, "\n";
+        if ($project->archived($id)) {
+            echo 'ARCHIVED PROJECT ', $id, "\n";
         }
     } catch (Exception $e) {
         echo 'Errors: ' , $e->getMessage(), "\n", "\n";

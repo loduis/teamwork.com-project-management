@@ -13,8 +13,9 @@ class TeamWorkPm_Request_XML extends TeamWorkPm_Request_Model
     protected function _getParameters($parameters)
     {
         if (!empty($parameters) && is_array($parameters)) {
+            $wrapper = $this->_doc->createElement($this->_getWrapper());
             $parent = $this->_doc->createElement($this->_getParent());
-            if ($this->_isActionReorder()) {
+            if ($this->_actionInclude('/reorder')) {
                 $parent->setAttribute('type', 'array');
                 foreach ($parameters as $id) {
                     $element = $this->_doc->createElement($this->_parent);
@@ -52,12 +53,12 @@ class TeamWorkPm_Request_XML extends TeamWorkPm_Request_Model
                             $value = var_export($value, true);
                         }
                         $element->appendChild($this->_doc->createTextNode($value));
-                        $parent->appendChild($element);
+                        !empty($options['sibling']) ?
+                            $wrapper->appendChild($element) :
+                            $parent->appendChild($element);
                     }
                 }
             }
-
-            $wrapper = $this->_doc->createElement($this->_getWrapper());
             $wrapper->appendChild($parent);
             $this->_doc->appendChild($wrapper);
 
@@ -71,14 +72,6 @@ class TeamWorkPm_Request_XML extends TeamWorkPm_Request_Model
 
     protected function _getWrapper()
     {
-        $wrapper = $this->_method;
-        if (
-            ($this->_method == 'post' && $this->_action == 'posts') ||
-            ($this->_method == 'post' && $this->_action ==  'milestones')
-          ) {
-            $wrapper = 'request';
-        }
-
-        return $wrapper;
+        return 'request';
     }
 }

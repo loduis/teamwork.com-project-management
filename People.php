@@ -15,7 +15,6 @@ class TeamWorkPm_People extends TeamWorkPm_Model
             'password' => true,
             'email_address'=>false,
             'administrator'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
-
             'company_id' => false,
             'title' => false,
             'phone_number_mobile'=>false,

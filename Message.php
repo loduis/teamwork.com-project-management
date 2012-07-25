@@ -6,12 +6,12 @@ class TeamWorkPm_Message extends TeamWorkPm_Model
     protected function _init()
     {
         $this->_fields = array(
-            'title'=>true,
+            'title'=>TRUE,
             'category_id'=>array('required'=>true, 'attributes'=>array('type'=>'integer')),
             'notify'=>array('required'=>false, 'attributes'=>array('type'=>'array'), 'element'=>'person'),
             'milestone_id'=>array('required'=>false, 'attributes'=>array('type'=>'integer')),
             'private'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
-            'body'=>true
+            'body'=>TRUE
         );
         $this->_parent = 'post';
         $this->_action = $this->_parent . 's';
@@ -41,14 +41,14 @@ class TeamWorkPm_Message extends TeamWorkPm_Model
         }
         return $this->_get($action);
     }
-    
+
     /**
      * Retrieve Messages by Category
      *
      * GET /projects/#{project_id}/cat/#{category_id}/posts.xml
      *
      * As before, will return you the most recent 25 messages, this time limited by project and category.
-     * 
+     *
      * Get archived messages by category
 
      * GET /projects/#{project_id}/cat/#{category_id}/posts/archive.xml

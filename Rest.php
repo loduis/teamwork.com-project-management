@@ -43,6 +43,7 @@ final class TeamWorkPm_Rest
         $url = 'http://'. $this->_company . '.teamworkpm.net/'. $action . '.' . self::$_FORMAT;
         $headers = array('Authorization: BASIC '. base64_encode($this->_key . ':xxx'));
         $method = str_replace('_', '', $_method);
+        $this->_request->setAction($action);
         $request = $this->_request->$method($request);
         $this->_isGET = false;
         switch ($method) {
@@ -55,11 +56,13 @@ final class TeamWorkPm_Rest
             case 'put':
             case 'post':
                 $headers = array_merge($headers, array(
-                    'Content-Type: application/' . self::$_FORMAT
+                    'Content-Type: application/' . self::$_FORMAT,
+                    'Content-Length:' . strlen($request)
                 ));
                 break;
         }
-        echo $url, "\n";
+        echo "\nUrl: ", $url, "\n";
+        echo 'Request: ', $request, "\n";
         $ch = curl_init();
         curl_setopt( $ch, CURLOPT_URL, $url);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
@@ -165,8 +168,10 @@ final class TeamWorkPm_Rest
                     $errors = $json->MESSAGE;
                 }
             }
+            echo $errors, "\n";
             throw new TeamWorkPm_Exception($errors);
         }
+        //echo '-------------------------------------', "\n\n";
         //echo $data;
         return $response;
     }
@@ -176,16 +181,16 @@ final class TeamWorkPm_Rest
         return in_array($status, array(200, 201));
     }
 
-    public function  __get($name)
+    public function getRequest()
     {
-        if ('request' == $name) {
-            return $this->_request;
-        }
+        return $this->_request;
     }
 
     public static function setFormat($value)
     {
+
         static $format = array('json', 'xml');
+        $value = strtolower($value);
         if (in_array($value, $format)) {
             self::$_FORMAT = $value;
         }

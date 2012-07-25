@@ -7,10 +7,10 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
         $this->_fields = array(
             'name'=>TRUE,
             'description'=>FALSE,
-            'start-date'=>FALSE,
-            'end-date'=>FALSE,
-            'companyId'=>FALSE,
-            'newCompany'=>FALSE,
+            'start_date'=>FALSE,
+            'end_date'=>FALSE,
+            'company_id'=>FALSE,
+            'new_company'=>FALSE,
             'status'=>FALSE
         );
     }
@@ -20,11 +20,11 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
      * This is very useful if you are implementing local caching as you won't have to recheck
      * everything therefore making your applicaton much faster. You can pass in a date and/or a date
      * with a time using the variables updatedAfterDate and updatedAfterTime.
-     * @return array|SimpleXMLElement
+     * @return TeamWorkPm_Response_Model
      */
-    public function getAll($date = null, $time = null)
+    public function getAll($updatedAfterDate = NULL, $updatedAfterTime = NULL)
     {
-        return $this->_getByStatus('ALL', $date, $time);
+        return $this->_getByStatus('all', $updatedAfterDate, $updatedAfterTime);
 
     }
 
@@ -32,22 +32,22 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
      *
      * @param type $date
      * @param type $time
-     * @return type
+     * @return TeamWorkPm_Response_Model
      */
-    public function getActive($date = null, $time = null)
+    public function getActive($updatedAfterDate = NULL, $updatedAfterTime = NULL)
     {
-        return $this->_getByStatus('ACTIVE', $date, $time);
+        return $this->_getByStatus('active', $updatedAfterDate, $updatedAfterTime);
     }
 
     /**
      *
      * @param type $date
      * @param type $time
-     * @return type
+     * @return TeamWorkPm_Response_Model
      */
-    public function getArchived($date = null, $time = null)
+    public function getArchived($updatedAfterDate = NULL, $updatedAfterTime = NULL)
     {
-        return $this->_getByStatus('ARCHIVED', $date, $time);
+        return $this->_getByStatus('archived', $updatedAfterDate, $updatedAfterTime);
     }
 
     /**
@@ -78,6 +78,7 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
     {
         return $this->_get("$this->_action/starred");
     }
+
     /**
      * Adds a project to your list of favourite projects.
      * @param int $id
@@ -91,6 +92,7 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
         }
         return $this->_put("$this->_action/$id/star");
     }
+
     /**
      * Removes a project from your list of favourite projects.
      * @param int $id
@@ -104,6 +106,7 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
         }
         return $this->_put("$this->_action/$id/unstar");
     }
+
     /**
      * Insert a project
      *
@@ -115,19 +118,31 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
         return $this->_post($this->_action, $data);
     }
 
+    /**
+     * Shortcut for active project
+     *
+     * @param type $id
+     * @return bool
+     */
     public function active($id)
     {
         $data = array();
         $data['id'] = $id;
-        $data['status'] = 'ACTIVE';
+        $data['status'] = 'active';
         return $this->update($data);
     }
 
-    public function archive($id)
+    /**
+     * Shortcut for archive project
+     *
+     * @param type $id
+     * @return bool
+     */
+    public function archived($id)
     {
         $data = array();
         $data['id'] = $id;
-        $data['status'] = 'ARCHIVED';
+        $data['status'] = 'archived';
         return $this->update($data);
     }
 }

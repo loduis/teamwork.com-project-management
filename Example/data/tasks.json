@@ -1,0 +1,26 @@
+{
+  "todo-items":[
+    {
+      "estimated-minutes":"0",
+      "description":"Describe...",
+      "priority":"",
+      "progress":"100",
+      "completer_lastname":"Madariaga",
+      "completer_id":"19496",
+      "comments-count":"0",
+      "private":"0",
+      "completer_firstname":"Loduis",
+      "todo-list-id":"112972",
+      "created-on":"2012-07-22T17:51:29Z",
+      "creator-id":"19496",
+      "canEdit":true,
+      "content":"This is a new task 4",
+      "id":"643974",
+      "last-changed-on":"2012-07-22T18:21:50Z",
+      "completed_on":"2012-07-22T18:21:50Z",
+      "due-date":"",
+      "completed":true,
+      "position":"2001"
+    }
+  ]
+}

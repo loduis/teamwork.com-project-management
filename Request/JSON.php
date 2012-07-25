@@ -7,8 +7,7 @@ class TeamWorkPm_Request_JSON extends TeamWorkPm_Request_Model
         if (!empty($parameters) && is_array($parameters)) {
             $object = new stdClass();
             $parent = $this->_getParent();
-            if ($wrapper = $this->_getWrapper()) {
-                echo $wrapper, "\n";
+            if (($wrapper = $this->_getWrapper())) {
                 $object->$wrapper = new stdClass();
                 $object->$wrapper->$parent = new stdClass();
                 $parent = $object->request->$parent;
@@ -17,7 +16,7 @@ class TeamWorkPm_Request_JSON extends TeamWorkPm_Request_Model
                 $parent = $object->$parent;
             }
 
-            if ($this->_isActionReorder()) {
+            if ($this->_actionInclude('/reorder')) {
                 foreach ($parameters as $id) {
                     $item = new stdClass();
                     $item->id = $id;
@@ -29,9 +28,9 @@ class TeamWorkPm_Request_JSON extends TeamWorkPm_Request_Model
                     if (isset ($options['attributes'])) {
                         foreach ($options['attributes'] as $name=>$type) {
                             $this->_setDefaultValueIfIsNull($type, $value);
-                            if (null !== $value) {
-                                if ($name == 'type') {
-                                    if ($type == 'array') {
+                            if (NULL !== $value) {
+                                if ($name === 'type') {
+                                    if ($type === 'array') {
 
                                     } else {
                                         settype($value, $type);
@@ -40,8 +39,10 @@ class TeamWorkPm_Request_JSON extends TeamWorkPm_Request_Model
                             }
                         }
                     }
-                    if (null !== $value) {
-                        $parent->$field = $value;
+                    if (NULL !== $value) {
+                        !empty($options['sibling']) ?
+                            $object->$field = $value :
+                            $parent->$field = $value;
                     }
                 }
             }
@@ -56,6 +57,6 @@ class TeamWorkPm_Request_JSON extends TeamWorkPm_Request_Model
 
     protected function _getWrapper()
     {
-      return ($this->_method == 'post' && $this->_action == 'posts') ? 'request' : '';
+        return ($this->_method == 'post' && $this->_actionInclude('/posts')) ? 'request' : NULL;
     }
 }

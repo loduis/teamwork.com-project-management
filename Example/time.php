@@ -17,17 +17,27 @@ require_once '../autoload.php';
 */
 
 
-$time = TeamWorkPm::factory('Time');
+
 # insertando en un todo list
-$response = $time->insert(array(
-  'todo_item_id'=> 224725, # id de un todo item
-  'description'=> 'Esto es una prueba se factura.',
-  'person_id'=> 19496, # es el id de la persona no el api key
-  'date'=> date('Ymd'), # fecha en la que se registra
-  'hours'=> 5, # horas
-  'minutes'=>0,
-  'time'=> '08:00',
-  'isbillable'=>TRUE
-));
+$response = $time->insert();
 #print_r($response);
 echo $response;
+
+function test_insert($id = NULL) {
+    $time = TeamWorkPm::factory('Time');
+    try {
+        $data = array(
+          'description'=> 'Esto es una prueba se factura.',
+          'person_id'=> 19496, # es el id de la persona no el api key
+          'date'=> date('Ymd'), # fecha en la que se registra
+          'hours'=> 5, # horas
+          'minutes'=>0,
+          'time'=> '08:00',
+          'isbillable'=>TRUE
+        );
+        $time->insert($data);
+
+    } catch (Exception $e) {
+        print_r($e);
+    }
+}

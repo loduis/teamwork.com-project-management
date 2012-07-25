@@ -5,30 +5,115 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
     protected function _init()
     {
         $this->_fields = array(
-            'content'=>true,
-            'notify'=>array('required'=>false, 'attributes'=>array('type'=>'boolean=false')),
-            'description'=>false,
-            'due_date'=>array('required'=>false, 'attributes'=>array('type'=>'integer')),
-            'private'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
-            'priority'=>array('required'=>false, 'attributes'=>array('type'=>'integer')),
-            'responsible_party_id'=>false
+            'content'=>TRUE,
+            'notify'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
+            'description'=>FALSE,
+            'due_date'=>array('required'=>FAlSE, 'attributes'=>array('type'=>'integer')),
+            'private'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
+            'priority'=>array('required'=>FALSE, 'validate'=>array('low', 'medium', 'high')),
+            'responsible_party_id'=>FALSE,
+            'attachments'=>FALSE,
+            'pending_file_attachments'=>FALSE
         );
-        $this->_action = '';
-    }
+   }
+
     /**
      * Retrieve All Items on a Todo List
      *
-     * GET /todo_lists/#{todo_list_id}/todo_items.xml
+     * GET /todo_lists/#{todo_list_id}/todo_items.xml?filter=all
      *
      *  This is almost the same as the “Get list” action, except it does only returns the items.
      *
      * @param int $id
-     * @return array|SimpleXMLElement
+     * @param array $params Filter parameters
+     *
+     * @return TeamWorkPm_Response_Model
      */
-    public function getByTodoListId($id)
+    public function getAllByTodoList($id, $params = array())
     {
-        return $this->_get("tasklists/$id/$this->_action");
+        return $this->_getByFilter($id, 'all', $params);
     }
+
+    /**
+     * Retrieve All pending Items on a Task List
+     *
+     * GET /todo_lists/#{todo_list_id}/todo_items.xml?filter=penging
+     *
+     * This is almost the same as the “Get list” action, except it does only returns the items.
+     *
+     * @param int $id
+     * @param array $params Filter parameters
+     *
+     * @return TeamWorkPm_Response_Model
+     */
+    public function getPendingByTodoList($id, $params = array())
+    {
+        return $this->_getByFilter($id, 'pending', $params);
+    }
+
+    /**
+     * Retrieve All upcoming Items on a Task List
+     *
+     * GET /todo_lists/#{todo_list_id}/todo_items.xml?filter=upcoming
+     *
+     * This is almost the same as the “Get list” action, except it does only returns the items.
+     *
+     * @param int $id
+     * @param array $params Filter parameters
+     *
+     * @return TeamWorkPm_Response_Model
+     */
+    public function getUpcomingByTodoList($id, $params = array())
+    {
+        return $this->_getByFilter($id, 'upcoming', $params);
+    }
+
+    /**
+     * Retrieve All finished tasks on a Task List
+     *
+     * GET /todo_lists/#{todo_list_id}/todo_items.xml?filter=finished
+     *
+     * This is almost the same as the “Get list” action, except it does only returns the items.
+     *
+     * @param int $id
+     * @param array $params Filter parameters
+     *
+     * @return TeamWorkPm_Response_Model
+     */
+    public function getFinishedByTodoList($id, $params = array())
+    {
+        return $this->_getByFilter($id, 'finished', $params);
+    }
+
+    /**
+     * Retrieve All late tasks on a Task List
+     *
+     * GET /todo_lists/#{todo_list_id}/todo_items.xml?filter=late
+     *
+     * This is almost the same as the “Get list” action, except it does only returns the items.
+     *
+     * @param int $id
+     * @param array $params Filter parameters
+     *
+     * @return TeamWorkPm_Response_Model
+     */
+    public function getLateByTodoList($id, $params = array())
+    {
+        return $this->_getByFilter($id, 'late', $params);
+    }
+
+    public function getTodayByTodoList($id, $params = array())
+    {
+        return $this->_getByFilter($id, 'today', $params);
+    }
+
+    private function _getByFilter($id, $filter, $params)
+    {
+        $params['filter'] = $filter;
+        $id = (int) $id;
+        return $this->_get("todo_lists/$id/$this->_action", $params);
+    }
+
     /**
      * Create Item on a List
      *
@@ -45,12 +130,13 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      */
     public function insert(array $data)
     {
-        $todo_list_id = $data['todo_list_id'];
-        if (empty($todo_list_id)) {
+        $todo_list_id = (int) empty($data['todo_list_id']) ? 0 : $data['todo_list_id'];
+        if ($todo_list_id <= 0) {
             throw new TeamWorkPm_Exception('Require field todo list id');
         }
-        return $this->_post("tasklists/$todo_list_id/$this->_action", $data);
+        return $this->_post("todo_lists/$todo_list_id/$this->_action", $data);
     }
+
     /**
      * Mark an Item Complete
      *
@@ -61,10 +147,12 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      * @param int $id
      * @return bool
      */
-    public function markAsComplete($id)
+    public function complete($id)
     {
+        $id = (int) $id;
         return $this->_put("$this->_action/$id/complete");
     }
+
     /**
      * Mark an Item Uncomplete
      *
@@ -75,10 +163,12 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      * @param int $id
      * @return bool
      */
-    public function markAsUnComplete($id)
+    public function unComplete($id)
     {
-        return $this->_put("$this->_action/$id/uncomplete");
+      $id = (int) $id;
+      return $this->_put("$this->_action/$id/uncomplete");
     }
+
     /**
      * Reorder the todo items
      *
@@ -88,12 +178,13 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      * and any items not specified will be sorted after the items explicitly given
      * Items can be re-parented by putting them from one list into the ordering of items for a different list/
      *
-     * @param int $todo_list_id
+     * @param int $task_list_id
      * @param array $ids
      * @return bool
      */
     public function reorder($todo_list_id, array $ids)
     {
-        return $this->_post("tasklists/$todo_list_id/$this->_action/reorder", $ids);
+        $todo_list_id = (int) $todo_list_id;
+        return $this->_post("todo_lists/$todo_list_id/$this->_action/reorder", $ids);
     }
 }

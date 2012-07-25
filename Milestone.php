@@ -5,13 +5,26 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
 
     protected function _init()
     {
+        // this is the list of fields that can send the api
         $this->_fields = array(
-            'title'=>true,
-            'deadline'=>true,//format YYYYMMDD
-            'notify'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
-            'reminder'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
-            'isprivate'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
-            'responsible_party_id'=>true
+            'title'=>TRUE,
+            'description'=>FALSE,
+            'deadline'=>TRUE,//format YYYYMMDD
+            'notify'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
+            'reminder'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
+            'private'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
+            'responsible_party_ids'=>TRUE,
+            # USE ONLY FOR UPDATE OR PUT METHOD
+            'move_upcoming_milestones'=>array(
+              'sibling'=>TRUE,
+              'required'=>FALSE,
+              'attributes'=>array('type'=>'boolean')
+            ),
+            'move_upcoming_milestones_off_weekends'=>array(
+              'sibling'=>TRUE,
+              'required'=>FALSE,
+              'attributes'=>array('type'=>'boolean')
+            )
         );
     }
 
@@ -24,9 +37,9 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
      * @param int $id
      * @return bool
      */
-    public function markAsComplete($id)
+    public function complete($id)
     {
-        return $this->_put("{$this->_action}/$id/complete");
+        return $this->_put("$this->_action/$id/complete");
     }
 
     /**
@@ -39,28 +52,72 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
      * @param int $id
      * @return bool
      */
-    public function markAsUnComplete($id)
+    public function unComplete($id)
     {
-        return $this->_put("{$this->_action}$id/uncomplete");
+        return $this->_put("$this->_action/$id/uncomplete");
     }
 
     /**
-     * List All Milestones
+     * Get all milestone
      *
-     * GET /milestones.xml?find=[all|completed|incomplete|late|upcoming]
+     * @return TeamWorkPm_Response_Model
+     */
+    public function getAll($project_id = NULL)
+    {
+        return $this->_getByFilter('all', $project_id);
+    }
+
+    /**
+     * Get all complete milestone
      *
-     * Lists all milestones on projects that the authenticated user is associated with.
-     * You can set the "find" option to return only those milestones that are incomplete, completed, upcoming or late.
-     * By default all milestones will be returned.
+     * @return TeamWorkPm_Response_Model
+     */
+    public function getCompleted($project_id = NULL)
+    {
+        return $this->_getByFilter('completed', $project_id);
+    }
+
+    /**
+     * Get all incomplete milestone
+     *
+     * @return TeamWorkPm_Response_Model
+     */
+    public function getIncomplete($project_id = NULL)
+    {
+        return $this->_getByFilter('incomplete', $project_id);
+    }
+
+    /**
+     * Get all late milestone
+     *
+     * @return TeamWorkPm_Response_Model
+     */
+    public function getLate($project_id = NULL)
+    {
+        return $this->_getByFilter('late', $project_id);
+    }
+
+    /**
+     * Get all upcoming milestone
+     *
+     * @return TeamWorkPm_Response_Model
+     */
+    public function getUpcoming($project_id = NULL)
+    {
+        return $this->_getByFilter('upcoming', $project_id);
+    }
+
+    /**
+     * Get all milestone by filter
      *
      * @param string $filter
-     * @return array|SimpleXMLElement
+     * @return TeamWorkPm_Response_Model
      */
-    public function getAll($filter = 'all')
+    private function _getByFilter($filter, $project_id)
     {
-        if (!in_array($filter, array('all', 'completed', 'incomplete', 'late', 'upcoming'))) {
-            throw new TeamWorkPm_Exception('Invalid filter');
-        }
-        return $this->_get($this->_action, array('find'=>$filter));
+        $project_id = (int) $project_id;
+        $action = $project_id ? "projects/$project_id/$this->_action" : $this->_action;
+
+        return $this->_get($action, array('find'=>$filter));
     }
 }

@@ -4,7 +4,18 @@ class TeamWorkPm_Company extends TeamWorkPm_Model
 {
     protected function _init()
     {
-        $this->_action = 'companies';
+        $this->_fields = array(
+            'name'=>TRUE,
+            'address_one'=>FALSE,
+            'address_two'=>FALSE,
+            'zip'=>FALSE,
+            'city'=>FALSE,
+            'state'=>FALSE,
+            'countrycode'=>FALSE,
+            'phone'=>FALSE,
+            'fax'=>FALSE,
+            'web_address'=>FALSE
+        );
     }
 
 
@@ -14,7 +25,7 @@ class TeamWorkPm_Company extends TeamWorkPm_Model
      * GET /companies.xml
      *
      * The requesting user is returned a list of companies available to them.
-     * 
+     *
      * @return array|SimpleXMLElement
      */
     public function getAll()
@@ -29,31 +40,20 @@ class TeamWorkPm_Company extends TeamWorkPm_Model
      * All of the companies within the specified project are returned
      *
      * @param int $id
-     * @return array|SimpleXMLElement
+     * @return TeamWorkPm_Response_Model
      */
-    public function getByProjectId($id)
+    public function getAllByProject($id)
     {
-        return $this->get("projects/$id/$this->_action");
+        return $this->_get("projects/$id/$this->_action");
     }
 
-    public function  insert(array $data = array())
+    /**
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function  insert(array $data)
     {
-        $this->_error(__METHOD__);
+        return $this->_post("$this->_action", $data);
     }
-
-    public function  update(array $data = array())
-    {
-        $this->_error(__METHOD__);
-    }
-
-    public function  delete($id = null)
-    {
-        $this->_error(__METHOD__);
-    }
-
-    private function _error($method)
-    {
-        throw new TeamWorkPm_Exception('Call to undefined method ' . $method);
-    }
-
 }

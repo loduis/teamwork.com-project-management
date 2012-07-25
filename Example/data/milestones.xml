@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<milestones type="array">
+  <milestone>
+    <reminder type="boolean">no</reminder>
+    <project-id type="integer">4247</project-id>
+    <responsible-party-id type="integer">5625</responsible-party-id>
+    <description/>
+    <responsible-party-firstname>phpapi</responsible-party-firstname>
+    <private type="boolean">no</private>
+    <comments-count type="integer">0</comments-count>
+    <status>upcoming</status>
+    <responsible-party-ids type="integer">5625</responsible-party-ids>
+    <responsible-party-names>phpapi p.</responsible-party-names>
+    <responsible-party-lastname>phpapi</responsible-party-lastname>
+    <created-on type="date">2012-07-23T23:28:00Z</created-on>
+    <creator-id type="integer">5625</creator-id>
+    <project-name>Test project 10</project-name>
+    <deadline type="integer">20120807</deadline>
+    <responsible-party-type>Person</responsible-party-type>
+    <isprivate deprecated="true" type="boolean">no</isprivate>
+    <id type="integer">5800</id>
+    <last-changed-on type="date">2012-07-24T00:29:19Z</last-changed-on>
+    <completed type="boolean">false</completed>
+    <title>This is a edit milestone 8</title>
+  </milestone>
+  <milestone>
+    <reminder type="boolean">no</reminder>
+    <project-id type="integer">4247</project-id>
+    <responsible-party-id type="integer">5625</responsible-party-id>
+    <description/>
+    <responsible-party-firstname>phpapi</responsible-party-firstname>
+    <private type="boolean">no</private>
+    <comments-count type="integer">0</comments-count>
+    <status>upcoming</status>
+    <responsible-party-ids type="integer">5625</responsible-party-ids>
+    <responsible-party-names>phpapi p.</responsible-party-names>
+    <responsible-party-lastname>phpapi</responsible-party-lastname>
+    <created-on type="date">2012-07-24T00:35:29Z</created-on>
+    <creator-id type="integer">5625</creator-id>
+    <project-name>Test project 10</project-name>
+    <deadline type="integer">20120822</deadline>
+    <responsible-party-type>Person</responsible-party-type>
+    <isprivate deprecated="true" type="boolean">no</isprivate>
+    <id type="integer">5807</id>
+    <last-changed-on type="date">2012-07-24T00:35:29Z</last-changed-on>
+    <completed type="boolean">false</completed>
+    <title>This is a new milestone 3</title>
+  </milestone>
+</milestones>

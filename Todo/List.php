@@ -5,36 +5,13 @@ class TeamWorkPm_Todo_List extends TeamWorkPm_Model
     protected function _init()
     {
         $this->_fields = array(
-            'name'=>true,
-            'todo_list_template_id'=>false,
-            'milestone_id'=>false,
-            'description'=>false,
-            'todo_list_template_task_date'=>false,
-            'tracked'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
-            'private'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
-            'todo_list_template_task_assignto'=>false
+            'name'=>TRUE,
+            'private'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
+            'tracked'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
+            'description'=>FALSE,
+            'milestone_id'=>FALSE,
+            'todo_list_template_id'=>FALSE
         );
-        $this->_action = 'tasks';
-    }
-    /**
-     * GET /todo_lists.xml?responsible_party_id=#{id}
-
-     * Retrieves all todo-lists, with records assigned to the appropriate person.
-     * If no-one is assigned, the current user will be assumed.
-     * The 'resposible-party-id' parameter can be changed to be blank (unassigned),
-     * to a persons-ID, or a company id [prefixed with c]. You can further filter these
-     * results with the 'filter' query. You can set this to
-     * 'all', 'pending', 'late' and 'finished'. 'pending' lists incomplete tasks.
-     *
-     * @param mixed $id
-     * @param string $filer
-     */
-    public function getByPersonId($id = null, $filter = 'all')
-    {
-        return $this->_get("$this->_action", array(
-           'responsible_party_id'=>$id,
-           'filter'=>$filter
-        ));
     }
     /**
      * Retrieve all lists in a Project
@@ -47,31 +24,47 @@ class TeamWorkPm_Todo_List extends TeamWorkPm_Model
      *
      * @param <type> $id
      * @param <type> $filter
-     * @return array|SimpleXMLElement
+     * @return object
      */
-    public function getByProjectId($id, $params = array())
+    public function getAllByProject($project_id, $params = array())
     {
+
+        return $this->_getByStatus($project_id, 'all', $params);
+    }
+
+    public function getActiveByProject($project_id, $params = array())
+    {
+
+        return $this->_getByStatus($project_id, 'active', $params);
+    }
+
+    public function getCompletedByProject($project_id, $params = array())
+    {
+
+        return $this->_getByStatus($project_id, 'completed', $params);
+    }
+
+
+    private function _getByStatus($id, $status, $params)
+    {
+        $params['status'] = $status;
         return $this->_get("projects/$id/$this->_action", $params);
     }
+
     /**
      * Reorder lists
      *
-     * POST /projects/#{project_id}/todo_lists/reorder.xml
-     *
+     * POST /projects/#{project_id}/todo_lists/reorders
      * Reorders the lists in the project according to the ordering given.
      * Any lists that are not explicitly specified will be positioned after the lists that are specified.
      *
-     * @param mixed $project_id
+     * @param int $project_id
      * @param array $ids
-     * @return array|SimpleXMLElement
+     * @return bool
      */
     public function reorder($project_id, array $ids)
     {
+        $project_id = (int) $project_id;
         return $this->_post("projects/$project_id/$this->_action/reorder", $ids);
-    }
-
-    public function get($id)
-    {
-        return $this->_get("tasklists/$id");
     }
 }

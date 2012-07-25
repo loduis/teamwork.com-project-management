@@ -1,0 +1,18 @@
+
+Url: http://phpapi2.teamworkpm.net/projects.xml?status=active
+Request: status=active
+
+Url: http://phpapi2.teamworkpm.net/projects/4247/todo_lists.xml?status=active
+Request: status=active
+------------------TEST INSERT---------------------
+
+Url: http://phpapi2.teamworkpm.net/todo_lists/11838/todo_items.xml
+Request: <?xml version="1.0"?>
+<request>
+  <todo-item>
+    <content>This is a new task 10</content>
+    <description>Describe...</description>
+  </todo-item>
+</request>
+
+INSERT TODO ITEM

@@ -1,6 +1,6 @@
 <?php
 
-class TeamWorkPm_Account extends TeamWorkPm_Model
+class TeamWorkPm_Account extends TeamWorkPm_Rest_Model
 {
     /**
      * Get Account Details
@@ -9,12 +9,12 @@ class TeamWorkPm_Account extends TeamWorkPm_Model
      * Retrieves details about the Teamwork account. A nice about this is call is that it returns "cacheuuid"
      * which is a string that you can use to quickly determine if the application has been updated since you
      * last accessed it.
-     * 
-     * @return array|SimpleXMLElement
+     *
+     * @return TeamWorkPm_Response_JSON
      */
-    public function get($id = null)
+    public function get()
     {
-        return $this->_get("$this->_parent");
+        return $this->_get("$this->_action");
     }
 
     /**
@@ -29,30 +29,10 @@ class TeamWorkPm_Account extends TeamWorkPm_Model
      *
      * If it fails, you get a standard failure response.
      *
-     * @return array|SimpleXMLElement
+     * @return TeamWorkPm_Response_JSON
      */
-    public function getAuthenticate()
+    public function authenticate()
     {
         return $this->_get('authenticate');
-    }
-   
-    public function  insert(array $data = array())
-    {
-        $this->_error(__METHOD__);
-    }
-
-    public function  update(array $data = array())
-    {
-        $this->_error(__METHOD__);
-    }
-
-    public function  delete($id = null)
-    {
-        $this->_error(__METHOD__);
-    }
-
-    private function _error($method)
-    {
-        throw new TeamWorkPm_Exception('Call to undefined method ' . $method);
     }
 }
