@@ -1,18 +1,39 @@
-
-Url: http://phpapi2.teamworkpm.net/projects.xml?status=active
-Request: status=active
-
-Url: http://phpapi2.teamworkpm.net/projects/4247/todo_lists.xml?status=active
-Request: status=active
 ------------------TEST INSERT---------------------
 
-Url: http://phpapi2.teamworkpm.net/todo_lists/11838/todo_items.xml
-Request: <?xml version="1.0"?>
-<request>
-  <todo-item>
-    <content>This is a new task 10</content>
-    <description>Describe...</description>
-  </todo-item>
-</request>
+Url: http://phpapi2.teamworkpm.net/projects.json
+Request: {"project":{"name":"Test project 8","description":"This a test project."}}
+HTTP/1.1 200 OK
+Cache-Control: private, must-revalidate, max-stale=0, post-check=0, pre-check=0
+Transfer-Encoding: chunked
+Content-Type: application/json; charset=utf-8
+ETag: ""
+Location: https://phpapi2.teamworkpm.net/projects/4465
+Server: Microsoft-IIS/7.0
+id: 4465
+Set-Cookie: CFID=35390360;expires=Fri, 18-Jul-2042 18:55:44 GMT;path=/
+Set-Cookie: CFTOKEN=23939727;expires=Fri, 18-Jul-2042 18:55:44 GMT;path=/
+Set-Cookie: JSESSIONID=8430994910adb9a09fd1247d5a7497b27442;path=/
+X-RateLimit-Limit: 120
+X-RateLimit-Remaining: 110
+X-UA-Compatible: chrome=1
+Date: Wed, 25 Jul 2012 18:55:44 GMT
 
-INSERT TODO ITEM
+Array
+(
+    [Cache-Control] => private, must-revalidate, max-stale=0, post-check=0, pre-check=0
+    [Transfer-Encoding] => chunked
+    [Content-Type] => application/json; charset=utf-8
+    [ETag] => ""
+    [Location] => https://phpapi2.teamworkpm.net/projects/4465
+    [Server] => Microsoft-IIS/7.0
+    [id] => 4465
+    [Set-Cookie] => JSESSIONID=8430994910adb9a09fd1247d5a7497b27442;path=/
+    [X-RateLimit-Limit] => 120
+    [X-RateLimit-Remaining] => 110
+    [X-UA-Compatible] => chrome=1
+    [Date] => Wed, 25 Jul 2012 18:55:44 GMT
+    [Status] => 200
+    [Method] => POST
+)
+INSERT PROJECT: 4465
+

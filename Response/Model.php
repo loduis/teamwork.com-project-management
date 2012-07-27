@@ -10,7 +10,7 @@ abstract class TeamWorkPm_Response_Model implements IteratorAggregate
         $this->_object = new stdClass();
     }
 
-    abstract public function parse($data);
+    abstract public function parse($data, array $headers);
 
     public function save($filename)
     {

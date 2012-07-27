@@ -22,12 +22,11 @@ function test_insert() {
           'name'=>'Test project ' . rand(1, 10),
           'description'=>'This a test project.'
         );
-        // SERIA BUENO SI EL API DEVOLVIERA EL ID DEL PROJECTO
-        if ($project->insert($data)) {
-            echo 'INSERT PROJECT', "\n", "\n";
+        if ($id = $project->insert($data)) {
+            echo 'INSERT PROJECT: ', $id, "\n", "\n";
         }
     } catch (Exception $e) {
-        echo 'Errors: ' , $e->getMessage(), "\n";
+        print_r($e);
     }
 }
 
@@ -127,6 +126,7 @@ function test_get($id) {
  * @param int $id
  */
 function test_update($id) {
+    echo $id, "------------\n";
     $project = TeamWorkPm::factory('Project');
     try {
         echo '------------------TEST UPDATE---------------------', "\n";

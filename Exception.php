@@ -2,9 +2,32 @@
 
 class TeamWorkPm_Exception extends ErrorException
 {
+    private $_response = NULL;
+    private $_headers = array();
 
-    public function  __construct($message)
+    public function  __construct($errorInfo)
     {
-        $this->message = $message;
+        if (!is_array($errorInfo)) {
+            $message              = $errorInfo;
+            $errorInfo['Message'] = $message;
+        }
+        $this->message = $errorInfo['Message'];
+        if (isset($errorInfo['Response'])) {
+            $this->_response    = $errorInfo['Response'];
+        }
+        if (isset($errorInfo['Headers'])) {
+            $this->_headers = $errorInfo['Headers'];
+        }
+
+    }
+
+    public function getResponse()
+    {
+        return $this->_response;
+    }
+
+    public function getHeaders()
+    {
+        return $this->_headers;
     }
 }

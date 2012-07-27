@@ -10,10 +10,8 @@ final class TeamWorkPm_Rest
     private
         $_key,
         $_company,
-        $_errors,
         $_method,
-        $_request,
-        $_isGET;
+        $_request;
 
     private function  __construct($company, $key)
     {
@@ -45,13 +43,12 @@ final class TeamWorkPm_Rest
         $method = str_replace('_', '', $_method);
         $this->_request->setAction($action);
         $request = $this->_request->$method($request);
-        $this->_isGET = false;
+        $this->_method = strtoupper(substr($_method, 1));
         switch ($method) {
             case 'get':
                 if (!empty($request)) {
                     $url .= '?' . $request;
                 }
-                $this->_isGET = true;
                 break;
             case 'put':
             case 'post':
@@ -64,9 +61,14 @@ final class TeamWorkPm_Rest
         echo "\nUrl: ", $url, "\n";
         echo 'Request: ', $request, "\n";
         $ch = curl_init();
-        curl_setopt( $ch, CURLOPT_URL, $url);
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt_array($ch, array(
+            CURLOPT_URL            => $url,
+            CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_HEADER         => TRUE,
+            CURLOPT_SSL_VERIFYHOST => FALSE,
+            CURLOPT_SSL_VERIFYPEER => FALSE,
+            CURLOPT_HTTPHEADER     => $headers
+        ));
 
         return $this->$_method($ch, $request);
     }
@@ -91,30 +93,13 @@ final class TeamWorkPm_Rest
         return null;
     }
 
-    private function _get($ch, $request = null)
+    private function _get($ch)
     {
         return $this->_response($ch);
     }
 
     private function _put($ch, $request)
     {
-        //$request = '<name>Esto es una preuba</name>';
-        /*
-        echo $request, "\n";
-        $length = strlen($request);
-        if ($length) {
-            $f = fopen('php://temp', 'rw');
-            fwrite($f, $request);
-            rewind($f);
-            curl_setopt($ch, CURLOPT_BINARYTRANSFER, TRUE);
-            curl_setopt($ch, CURLOPT_INFILE, $f);
-            curl_setopt($ch, CURLOPT_INFILESIZE, $length);
-        }
-        curl_setopt($ch, CURLOPT_PUT, TRUE);
-        $response = $this->_response($ch);
-        if (isset($f)) {
-            fclose($f);
-        }*/
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
         if ($request) {
             curl_setopt( $ch, CURLOPT_POSTFIELDS, $request);
@@ -132,7 +117,7 @@ final class TeamWorkPm_Rest
         return $this->_response($ch);
     }
 
-    private function _delete($ch, $request = null)
+    private function _delete($ch)
     {
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         return $this->_response($ch);
@@ -140,19 +125,29 @@ final class TeamWorkPm_Rest
 
     private function _response($ch)
     {
-        $data = curl_exec ($ch);
-        $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $errorInfo = curl_error($ch);
-        $error = curl_errno($ch);
+        $data        = curl_exec ($ch);
+        $status      = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headers     = substr($data, 0, $header_size);
+        $body        = substr($data, $header_size);
+        $errorInfo   = curl_error($ch);
+        $error       = curl_errno($ch);
         curl_close($ch);
         if ($error) {
             throw new TeamWorkPm_Exception($errorInfo);
         }
+        $headers           = $this->_parseHeaders($headers);
+        $headers['Status'] = $status;
+        $headers['Method'] = strtoupper($this->_method);
+        $class = 'TeamWorkPm_Response_' . strtoupper(self::$_FORMAT);
+        $parser  = new $class;
+
+        return $parser->parse($body, $headers);
+
+
+        /*
         $response = FALSE;
         if ($this->_isGET && $status === 200) {
-            $class = 'TeamWorkPm_Response_' . strtoupper(self::$_FORMAT);
-            $parser  = new $class;
-            $response = $parser->parse($data);
         } elseif ($this->_isSuccess($status)) {
             $response = TRUE;
         } else {
@@ -172,8 +167,8 @@ final class TeamWorkPm_Rest
             throw new TeamWorkPm_Exception($errors);
         }
         //echo '-------------------------------------', "\n\n";
-        //echo $data;
-        return $response;
+        echo $data;
+        return $response;*/
     }
 
     private function _isSuccess($status)
@@ -194,5 +189,23 @@ final class TeamWorkPm_Rest
         if (in_array($value, $format)) {
             self::$_FORMAT = $value;
         }
+    }
+
+    private function _parseHeaders($stringHeaders)
+    {
+        $headers = array();
+        $stringHeaders = trim($stringHeaders);
+        if ($stringHeaders) {
+            $parts = explode("\n", $stringHeaders);
+            foreach ($parts as $header) {
+                $header = trim($header);
+                if ($header && FALSE !== strpos($header, ':')) {
+                    list($name, $value) = explode(':', $header, 2);
+                    $headers[$name] = trim($value);
+                }
+            }
+        }
+
+        return $headers;
     }
 }

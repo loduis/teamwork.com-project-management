@@ -10,18 +10,36 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
      * @return \TeamWorkPm_Response_XML
      * @throws TeamWorkPm_Exception
      */
-    public function parse($data)
+    public function parse($data, array $headers)
     {
         libxml_use_internal_errors(TRUE);
         $this->_string = $data;
-        if (!($source = simplexml_load_string($data))) {
-            throw  new TeamWorkPm_Exception($this->_string);
+        $source = simplexml_load_string($data);
+        $errors = $this->_getXmlErrors();
+        if ($source) {
+            if ($headers['Status'] === 201) {
+                if (!empty($headers['id'])) {
+                    return $headers['id'];
+                }
+            } elseif ($headers['Status'] === 200) {
+                if ($headers['Method'] === 'PUT') {
+                    return TRUE;
+                } else {
+                    $attrs = $source->attributes();
+                    $isArray = !empty($attrs->type) && (string) $attrs->type === 'array';
+                    $this->_object = self::_toStdClass($source, $isArray);
+                    return $this;
+                }
+            } else {
+                $property = 0;
+                $errors .= $source->$property;
+            }
         }
-        $attrs = $source->attributes();
-        $isArray = !empty($attrs->type) && (string) $attrs->type === 'array';
-        $this->_object = self::_toStdClass($source, $isArray);
-
-        return $this;
+        throw new TeamWorkPm_Exception(array(
+            'Message'=> $errors,
+            'Response'=> $data,
+            'Headers'=> $headers
+        ));
     }
 
     /**
@@ -85,5 +103,15 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
         }
 
         return $destination;
+    }
+
+    private function _getXmlErrors()
+    {
+        $errors = '';
+        foreach (libxml_get_errors() as $error) {
+            $errors .= $error . "\n";
+        }
+        libxml_clear_errors();
+        return $errors;
     }
 }

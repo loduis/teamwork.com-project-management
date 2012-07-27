@@ -71,6 +71,14 @@ function get_first_company() {
     }
 }
 
+function get_first_people() {
+    $people = TeamWorkPm::factory('People');
+    foreach($people->getAll() as $p) {
+        return (int) $p->id;
+    }
+}
+
+
 function get_first_incomplete_milestone() {
     $milestone = TeamWorkPm::factory('Milestone');
     $milestones = $milestone->getIncomplete();

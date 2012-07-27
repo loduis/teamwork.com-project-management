@@ -111,7 +111,7 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
      * Insert a project
      *
      * @param array $data
-     * @return bool
+     * @return int
      */
     public function  insert(array $data)
     {

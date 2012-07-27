@@ -1,3 +1,9 @@
+** 2012-07-26
+* People class finished
+* add Me class
+* add People_Status class
+* add Me_Status class
+
 ** 2012-07-24
 * change class Report to Activity
 * finished class Report

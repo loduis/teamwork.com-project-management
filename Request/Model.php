@@ -60,22 +60,35 @@ abstract class TeamWorkPm_Request_Model
     {
         static
             $camelize = array(
-                'pending_file_attachments'
+                'pending_file_attachments'=>TRUE,
+                'date_format'=>TRUE,
+                'send_welcome_email'=>TRUE,
+                'receive_daily_reports'=>TRUE,
+                'welcome_email_message'=>TRUE,
+                'auto_give_project_access'=>TRUE,
+                'open_id'=>TRUE,
+                'user_language'=>TRUE
             ),
             $preserve = array(
-                'address_one',
-                'address_two'
+                'address_one'=>TRUE,
+                'address_two'=>TRUE
             )
           ;
 
         $value = isset($parameters[$field]) ? $parameters[$field] : NULL;
         // @todo Ojo la gente de team work no mainten constante el formato name-other
-        if (!in_array($field, $preserve)) {
-            if (in_array($field, $camelize)) {
-                $field = preg_replace('/_(.)/e','strtoupper(\'$1\');', $field);
+        if (isset($camelize[$field])) {
+            if ($field === 'open_id') {
+                $field = 'openID';
+            } elseif ($field === 'company_id') {
+                $field = $this->_actionInclude('/people') ?
+                    self::_dasherize($field) :
+                    self::_camelize($field);
             } else {
-                $field = str_replace('_', '-', $field);
+                $field = self::_camelize($field);
             }
+        } elseif (!isset($preserve[$field])) {
+            $field = self::_dasherize($field);
         }
         if (!is_array($options)) {
             $options = array('required'=>$options, 'attributes'=> array());
@@ -118,6 +131,16 @@ abstract class TeamWorkPm_Request_Model
     protected function _getParent()
     {
         return $this->_parent . ($this->_actionInclude('/reorder') ? 's' : '');
+    }
+
+    protected static function _camelize($string)
+    {
+        return preg_replace('/_(.)/e','strtoupper(\'$1\');', $string);
+    }
+
+    protected static function _dasherize($string)
+    {
+        return str_replace('_', '-', $string);
     }
 
     /**

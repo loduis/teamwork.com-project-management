@@ -2,16 +2,36 @@
 
 class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
 {
-    public function parse($data)
+
+    public function parse($data, array $headers)
     {
         $source = json_decode($data);
-        if (!empty($source->STATUS)) {
-            unset($source->STATUS);
+        $errors = $this->_getJsonErrors();
+        if (!$errors) {
+            $status = empty($source->STATUS) ? NULL : $source->STATUS;
+            if ($status) {
+                unset($source->STATUS);
+            }
+            $this->_string = json_encode($source);
+            $errors = NULL;
+            if ($status === 'OK') {
+                if ($headers['Method'] === 'POST') {
+                    return !empty($headers['id']) ? $headers['id'] : TRUE;
+                }  elseif ($headers['Method'] === 'PUT' || $headers['Method'] === 'DELETE') {
+                    return TRUE;
+                } else {
+                    $this->_object = self::_camelizeObject(current($source));
+                    return $this;
+                }
+            } else {
+                $errors = $source->MESSAGE;
+            }
         }
-        $this->_string = json_encode($source);
-        // elminamos el contenedor
-        $this->_object = self::_camelizeObject(current($source));
-        return $this;
+        throw new TeamWorkPm_Exception(array(
+            'Message'=>$errors,
+            'Response'=> $data,
+            'Headers'=> $headers
+        ));
     }
 
     protected function _getContent()
@@ -64,5 +84,21 @@ class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
             $destination->$key = is_scalar($value) ? $value : self::_camelizeObject($value);
         }
         return $destination;
+    }
+
+    private function _getJsonErrors()
+    {
+            switch(json_last_error())
+            {
+                case JSON_ERROR_DEPTH:
+                    return 'Maximum stack depth exceeded';
+                case JSON_ERROR_CTRL_CHAR:
+                    return 'Unexpected control character found';
+                case JSON_ERROR_SYNTAX:
+                    echo 'Syntax error, malformed JSON';
+                case JSON_ERROR_NONE:
+                    return NULL;
+            }
+
     }
 }
