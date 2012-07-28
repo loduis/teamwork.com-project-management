@@ -80,8 +80,10 @@ class TeamWorkPm_People_Status extends TeamWorkPm_Rest_Model
 
     /**
      * Delete Status
+     *
      * DELETE /people/status/#{status_id}
      * DELETE /people/#{person_id}/status/#{status_id}
+     *
      * This call will delete a particular status message.
      * Returns HTTP status code 200 on success.
      *

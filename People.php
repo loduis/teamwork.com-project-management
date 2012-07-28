@@ -44,20 +44,6 @@ class TeamWorkPm_People extends TeamWorkPm_Model
     }
 
     /**
-     * Retrieve a Specific Person
-     * GET /people/#{person_id}
-     * Retrieves the user details for the ID submitted
-     *
-     * @param type $id
-     * @return TeamWorkPm_Response_Model
-     */
-    public function get($id, $params = array())
-    {
-        $id = (int) $id;
-        return $this->_get("$this->_action/$id");
-    }
-
-    /**
      * Get people
      * GET /people.xml
      * All people visible to the user will be returned, including the user themselves
@@ -95,15 +81,5 @@ class TeamWorkPm_People extends TeamWorkPm_Model
     {
         $id = (int) $id;
         return $this->_get("companies/$id/$this->_action");
-    }
-
-    /**
-     *
-     * @param array $data
-     * @return type
-     */
-    public function insert(array $data)
-    {
-        return $this->_post("$this->_action", $data);
     }
 }

@@ -11,10 +11,11 @@ class TeamWorkPm_Message extends TeamWorkPm_Model
             'notify'=>array('required'=>false, 'attributes'=>array('type'=>'array'), 'element'=>'person'),
             'milestone_id'=>array('required'=>false, 'attributes'=>array('type'=>'integer')),
             'private'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
-            'body'=>TRUE
+            'body'=>TRUE,
+            'attachments'=>FALSE
         );
         $this->_parent = 'post';
-        $this->_action = $this->_parent . 's';
+        $this->_action = 'posts';
     }
 
     /**
@@ -33,7 +34,7 @@ class TeamWorkPm_Message extends TeamWorkPm_Model
      * @param bool $archive
      * @return array|SimpleXMLElement
      */
-    public function getByProjectId($id, $archive = false)
+    public function getByProject($id, $archive = FALSE)
     {
         $action = "projects/$id/$this->_action";
         if ($archive) {
@@ -58,14 +59,34 @@ class TeamWorkPm_Message extends TeamWorkPm_Model
      * @param int $project_id
      * @param int $category_id
      * @param bool $archive
-     * @return array|SimpleXMLElement
+     * @return TeamWorkPm_Response_Model
      */
-    public function getByProjectAndCategoryId($project_id, $category_id, $archive = false)
+    public function getByProjectAndCategory($project_id, $category_id, $archive = FALSE)
     {
         $action = "projects/$project_id/cat/$category_id/$this->_action";
         if ($archive) {
             $action .= '/archive';
         }
         return $this->_get($action);
+    }
+
+    /**
+     * Create a message
+     *
+     * POST /projects/#{project_id}/posts.xml
+     *
+     * This will create a new message.
+     * Also, you have the option of sending a notification to a list of people you specify.
+     *
+     * @param array $data
+     * @return int
+     */
+    public function insert(array $data)
+    {
+        $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
+        if ($project_id <= 0) {
+            throw new TeamWorkPm_Exception('Require field project id');
+        }
+        return $this->_post("projects/$project_id/$this->_action", $data);
     }
 }

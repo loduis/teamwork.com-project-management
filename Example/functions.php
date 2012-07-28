@@ -25,10 +25,10 @@ function test_boostrap($callback = 'null_return') {
     }
 }
 
-function get_first_todo_list()
+function get_first_task_list()
 {
     $project_id = get_first_project();
-    $list = TeamWorkPm::factory('Todo/List');
+    $list = TeamWorkPm::factory('Task/List');
     $lists = $list->getActiveByProject($project_id);
     foreach ($lists as $l) {
         return $l->id;
@@ -36,27 +36,27 @@ function get_first_todo_list()
 }
 
 function get_first_todo_item() {
-    $todo_list_id =  get_first_todo_list();
-    $item = TeamWorkPm::factory('Todo/Item');
-    $items = $item->getPendingByTodoList($todo_list_id);
+    $task_list_id =  get_first_task_list();
+    $item = TeamWorkPm::factory('Task');
+    $items = $item->getPendingByTaskList($task_list_id);
     foreach ($items as $i) {
         return $i->id;
     }
 }
 
 function get_first_todo_item_finished() {
-    $todo_list_id =  get_first_todo_list();
-    $item = TeamWorkPm::factory('Todo/Item');
-    $items = $item->getFinishedByTodoList($todo_list_id);
+    $task_list_id =  get_first_task_list();
+    $item = TeamWorkPm::factory('Task');
+    $items = $item->getFinishedByTaskList($task_list_id);
     foreach ($items as $i) {
         return (int) $i->id;
     }
 }
 
-function get_first_completed_todo_list()
+function get_first_completed_task_list()
 {
     $project_id = get_first_project();
-    $list = TeamWorkPm::factory('Todo/List');
+    $list = TeamWorkPm::factory('Task/List');
     $lists = $list->getCompletedByProject($project_id);
     foreach ($lists as $l) {
         return $l->id;
@@ -93,6 +93,20 @@ function get_first_completed_milestone() {
     foreach($milestones as $m) {
         return (int) $m->id;
     }
+}
+
+function get_first_file() {
+    $project_id = get_first_project();
+    $file = TeamWorkPm::factory('File');
+    try {
+        $files = $file->getByProject($project_id);
+        foreach ($files as $f) {
+            return (int) $f->id;
+        }
+    } catch (TeamWorkPm_Exception $e) {
+        print_r($e);
+    }
+
 }
 
 function get_first_user() {

@@ -117,6 +117,11 @@ final class TeamWorkPm_Rest
         return $this->_response($ch);
     }
 
+    private function _upload($ch, $request)
+    {
+        return $this->_post($ch, $request);
+    }
+
     private function _delete($ch)
     {
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
@@ -126,6 +131,7 @@ final class TeamWorkPm_Rest
     private function _response($ch)
     {
         $data        = curl_exec ($ch);
+        //echo $data;
         $status      = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $headers     = substr($data, 0, $header_size);

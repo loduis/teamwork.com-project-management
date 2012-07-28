@@ -65,4 +65,9 @@ abstract class TeamWorkPm_Response_Model implements IteratorAggregate
         }
         return $destination;
     }
+
+    public function getHeaders()
+    {
+        return $this->_headers;
+    }
 }

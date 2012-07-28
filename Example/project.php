@@ -19,7 +19,7 @@ function test_insert() {
     try {
         echo '------------------TEST INSERT---------------------', "\n";
         $data = array(
-          'name'=>'Test project ' . rand(1, 10),
+          'name'=>'Test project ' . rand(1, 100),
           'description'=>'This a test project.'
         );
         if ($id = $project->insert($data)) {

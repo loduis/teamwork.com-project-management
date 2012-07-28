@@ -1,6 +1,6 @@
 <?php
 
-class TeamWorkPm_Time extends TeamWorkPm_Model
+class TeamWorkPm_Time_Tracking extends TeamWorkPm_Model
 {
 
     protected function _init()
@@ -22,7 +22,7 @@ class TeamWorkPm_Time extends TeamWorkPm_Model
      * Inserta un time entry ya sea para
      * un projecto o para un todo item
      * @param array $data
-     * @return bool
+     * @return int
      */
     public function insert(array $data)
     {

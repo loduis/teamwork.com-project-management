@@ -108,17 +108,6 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
     }
 
     /**
-     * Insert a project
-     *
-     * @param array $data
-     * @return int
-     */
-    public function  insert(array $data)
-    {
-        return $this->_post($this->_action, $data);
-    }
-
-    /**
      * Shortcut for active project
      *
      * @param type $id

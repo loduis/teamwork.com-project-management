@@ -35,18 +35,17 @@ abstract class TeamWorkPm_Rest_Model
      *
      * @var string
      */
-    private $_class;
+    private $_hash;
 
-    final private function  __construct($company, $key, $class)
+    final private function  __construct($company, $key, $class, $hash)
     {
         $this->_rest   = TeamWorkPm_Rest::getInstance($company, $key);
-        $this->_class  = $class;
+        $this->_hash = $hash;
         $this->_parent = strtolower(str_replace(
           array('TeamWorkPm_', '_'),
           array('', '-'),
-          $this->_class
+          $class
         ));
-
         $this->_action = str_replace('-', '_', $this->_parent);
         // pluralize
         if (substr($this->_action, -1) === 'y') {
@@ -66,7 +65,7 @@ abstract class TeamWorkPm_Rest_Model
 
     final public function  __destruct()
     {
-        unset (self::$_instances[$this->_class]);
+        unset (self::$_instances[$this->_hash]);
     }
 
     final protected function __clone ()
@@ -80,13 +79,15 @@ abstract class TeamWorkPm_Rest_Model
      * @param string $key
      * @return TeamWorkPm_Model
      */
-    final public static function getInstance($company, $key, $class)
+    final public static function getInstance($company, $key)
     {
-        if (!isset(self::$_instances[$class])) {
-            self::$_instances[$class] = new $class($company, $key, $class);
+        $class = get_called_class();
+        $hash = md5($class . '-' . $company . '-' . $key);
+        if (!isset(self::$_instances[$hash])) {
+            self::$_instances[$hash] = new $class($company, $key, $class, $hash);
         }
 
-        return self::$_instances[$class];
+        return self::$_instances[$hash];
     }
 
     /*------------------------------
@@ -112,4 +113,10 @@ abstract class TeamWorkPm_Rest_Model
     {
         return $this->_rest->delete($action);
     }
+
+    final protected function _upload($action, $request)
+    {
+        return $this->_rest->upload($action, $request);
+    }
+
 }

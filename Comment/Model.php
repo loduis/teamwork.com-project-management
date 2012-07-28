@@ -2,14 +2,18 @@
 
 abstract class TeamWorkPm_Comment_Model extends TeamWorkPm_Model
 {
-    protected $_resource;
-
     protected function _init()
     {
         $this->_parent = 'comment';
         $this->_action = $this->_parent . 's';
-        $this->_fields = array('body'=>true);
+        $this->_fields = array(
+                'body'=>TRUE,
+                'notify'=>FALSE,
+                'isprivate'=>FALSE,
+                'pending_file_attachments'=>FALSE
+        );
     }
+
     /**
      * Creating a Comment
      *
@@ -19,7 +23,7 @@ abstract class TeamWorkPm_Comment_Model extends TeamWorkPm_Model
      * When named in the URL, it can be either posts, todo_items or milestones.
      *
      * @param array $data
-     * @return array|SimpleXMLElement
+     * @return int
      */
     public function insert(array $data)
     {
@@ -29,11 +33,12 @@ abstract class TeamWorkPm_Comment_Model extends TeamWorkPm_Model
         }
         return $this->_post("$this->_resource/$resource_id/$this->_action", $data);
     }
+
     /**
      *
      * @param int $resource_id
      * @param array $params [page, pageSize] this is only posible values
-     * @return array|SimpleXmlElement
+     * @return TeamWorkPm_Response_Model
      */
     public function getRecent($resource_id, array $params = array())
     {

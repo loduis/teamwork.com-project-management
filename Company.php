@@ -46,14 +46,4 @@ class TeamWorkPm_Company extends TeamWorkPm_Model
     {
         return $this->_get("projects/$id/$this->_action");
     }
-
-    /**
-     *
-     * @param array $data
-     * @return bool
-     */
-    public function  insert(array $data)
-    {
-        return $this->_post("$this->_action", $data);
-    }
 }

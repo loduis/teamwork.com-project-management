@@ -1,11 +1,10 @@
 <?php
 
-class TeamWorkPm_Reply extends TeamWorkPm_Model
+class TeamWorkPm_Message_Reply extends TeamWorkPm_Model
 {
     public function _init()
     {
         $this->_fields = array(
-            'private'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
             'body'=>true,
             'notify'=>array('required'=>false, 'attributes'=>array('type'=>'array'), 'element'=>'person'),
         );
@@ -29,9 +28,9 @@ class TeamWorkPm_Reply extends TeamWorkPm_Model
      *
      * @param <type> $id
      * @param <type> $params
-     * @return array|SimpleXMLElement
+     * @return TeamWorkPm_Response_Model
      */
-    public function getByMessageId($id, array $params = array())
+    public function getByMessage($id, array $params = array())
     {
         foreach ($params as $name=>$value) {
             if (!in_array(strtolower($name), array('page', 'pagesize'))) {
@@ -40,7 +39,7 @@ class TeamWorkPm_Reply extends TeamWorkPm_Model
         }
         return $this->_get("messages/$id/replies", $params);
     }
-    
+
     /**
      * Create a Message Reply
      *
@@ -50,13 +49,13 @@ class TeamWorkPm_Reply extends TeamWorkPm_Model
      * Also, you have the option of sending a notification to a list of people you select.people.
      *
      * @param array $data
-     * @return bool
+     * @return int
      */
     public function insert(array $data)
     {
         $message_id = $data['message_id'];
         if (empty($message_id)) {
-            throw new TeamWorkPm_Exception('Require field message id');
+            throw new TeamWorkPm_Exception('Require field message_id');
         }
         return $this->_post("messages/$message_id/messageReplies", $data);
     }

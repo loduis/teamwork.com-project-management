@@ -56,6 +56,12 @@ abstract class TeamWorkPm_Request_Model
         return NULL;
     }
 
+    public function upload($parameters)
+    {
+        $this->_method = 'upload';
+        return $parameters;
+    }
+
     protected function _getValue(& $field, & $options, array $parameters)
     {
         static
@@ -67,7 +73,8 @@ abstract class TeamWorkPm_Request_Model
                 'welcome_email_message'=>TRUE,
                 'auto_give_project_access'=>TRUE,
                 'open_id'=>TRUE,
-                'user_language'=>TRUE
+                'user_language'=>TRUE,
+                'pending_file_ref'=>TRUE
             ),
             $preserve = array(
                 'address_one'=>TRUE,

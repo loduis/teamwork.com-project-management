@@ -7,14 +7,14 @@ test_boostrap(function ($command) {
       array('get', 'update', 'delete', 'complete'))) {
         return get_first_todo_list();
     } elseif ($command === 'un_complete') {
-        return get_first_completed_todo_list();
+        return get_first_completed_task_list();
     } else {
         return get_first_project();
     }
 });
 
 function test_insert($project_id) {
-    $list = TeamWorkPm::factory('Todo/List');
+    $list = TeamWorkPm::factory('Task/List');
 
     try {
         echo '------------------TEST INSERT---------------------', "\n";
@@ -24,7 +24,7 @@ function test_insert($project_id) {
             'description'=> 'Describe...'
         );
         if ($list->insert($data)) {
-            echo 'INSERT TODO LIST', "\n";
+            echo 'INSERT TASK LIST', "\n";
         }
     } catch (Exception $e) {
         print_r($e);
@@ -32,7 +32,7 @@ function test_insert($project_id) {
 }
 
 function test_update($id) {
-    $list = TeamWorkPm::factory('Todo/List');
+    $list = TeamWorkPm::factory('Task/List');
 
     try {
         echo '------------------TEST UPDATE---------------------', "\n";
@@ -42,7 +42,7 @@ function test_update($id) {
             'description'=> 'Describe...'
         );
         if ($list->update($data)) {
-            echo 'UPDATE TODO LIST', "\n";
+            echo 'UPDATE TASK LIST', "\n";
         }
     } catch (Exception $e) {
         print_r($e);
@@ -50,7 +50,7 @@ function test_update($id) {
 }
 
 function test_get_all_by_project($project_id) {
-    $list = TeamWorkPm::factory('Todo/List');
+    $list = TeamWorkPm::factory('Task/List');
 
     try {
         echo '------------------TEST GET ALL BY PROJECT---------------------', "\n";
@@ -65,7 +65,7 @@ function test_get_all_by_project($project_id) {
 }
 
 function test_get_active_by_project($project_id) {
-    $list = TeamWorkPm::factory('Todo/List');
+    $list = TeamWorkPm::factory('Task/List');
 
     try {
         echo '------------------TEST GET ACTIVE BY PROJECT---------------------', "\n";
@@ -79,7 +79,7 @@ function test_get_active_by_project($project_id) {
 }
 
 function test_get_completed_by_project($project_id) {
-    $list = TeamWorkPm::factory('Todo/List');
+    $list = TeamWorkPm::factory('Task/List');
 
     try {
         echo '------------------TEST GET COMPLETED BY PROJECT---------------------', "\n";
@@ -94,7 +94,7 @@ function test_get_completed_by_project($project_id) {
 
 
 function test_get($id) {
-    $list = TeamWorkPm::factory('Todo/List');
+    $list = TeamWorkPm::factory('Task/List');
 
     try {
         echo '------------------TEST GET---------------------', "\n";
@@ -110,7 +110,7 @@ function test_get($id) {
  */
 
 function test_reorder($project_id) {
-    $list = TeamWorkPm::factory('Todo/List');
+    $list = TeamWorkPm::factory('Task/List');
     try {
         echo '------------------TEST GET---------------------', "\n";
         $ids = array();
@@ -130,11 +130,11 @@ function test_reorder($project_id) {
 }
 
 function test_delete($id) {
-    $list = TeamWorkPm::factory('Todo/List');
+    $list = TeamWorkPm::factory('Task/List');
     try {
         echo '------------------TEST DELETE---------------------', "\n";
         if ($list->delete($id)) {
-            echo 'DELETE TODO LIST ', $id, "\n";
+            echo 'DELETE TASK LIST ', $id, "\n";
         }
     } catch (Exception $e) {
         echo 'Errors: ' , $e->getMessage(), "\n", "\n";

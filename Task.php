@@ -1,6 +1,6 @@
 <?php
 
-class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
+class TeamWorkPm_Task extends TeamWorkPm_Model
 {
     protected function _init()
     {
@@ -15,6 +15,8 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
             'attachments'=>FALSE,
             'pending_file_attachments'=>FALSE
         );
+        $this->_parent = 'todo-item';
+        $this->_action = 'todo_items';
    }
 
     /**
@@ -29,7 +31,7 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      *
      * @return TeamWorkPm_Response_Model
      */
-    public function getAllByTodoList($id, $params = array())
+    public function getAllByTaskList($id, $params = array())
     {
         return $this->_getByFilter($id, 'all', $params);
     }
@@ -46,7 +48,7 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      *
      * @return TeamWorkPm_Response_Model
      */
-    public function getPendingByTodoList($id, $params = array())
+    public function getPendingByTaskList($id, $params = array())
     {
         return $this->_getByFilter($id, 'pending', $params);
     }
@@ -63,7 +65,7 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      *
      * @return TeamWorkPm_Response_Model
      */
-    public function getUpcomingByTodoList($id, $params = array())
+    public function getUpcomingByTaskList($id, $params = array())
     {
         return $this->_getByFilter($id, 'upcoming', $params);
     }
@@ -80,7 +82,7 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      *
      * @return TeamWorkPm_Response_Model
      */
-    public function getFinishedByTodoList($id, $params = array())
+    public function getFinishedByTaskList($id, $params = array())
     {
         return $this->_getByFilter($id, 'finished', $params);
     }
@@ -97,12 +99,12 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      *
      * @return TeamWorkPm_Response_Model
      */
-    public function getLateByTodoList($id, $params = array())
+    public function getLateByTaskList($id, $params = array())
     {
         return $this->_getByFilter($id, 'late', $params);
     }
 
-    public function getTodayByTodoList($id, $params = array())
+    public function getTodayByTaskList($id, $params = array())
     {
         return $this->_getByFilter($id, 'today', $params);
     }
@@ -126,15 +128,15 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      * Multiple people can be assigned by passing a comma delimited list for responsible-party-id.
      *
      * @param array $data
-     * @return bool
+     * @return int
      */
     public function insert(array $data)
     {
-        $todo_list_id = (int) empty($data['todo_list_id']) ? 0 : $data['todo_list_id'];
-        if ($todo_list_id <= 0) {
+        $task_list_id = (int) empty($data['task_list_id']) ? 0 : $data['task_list_id'];
+        if ($task_list_id <= 0) {
             throw new TeamWorkPm_Exception('Require field todo list id');
         }
-        return $this->_post("todo_lists/$todo_list_id/$this->_action", $data);
+        return $this->_post("todo_lists/$task_list_id/$this->_action", $data);
     }
 
     /**
@@ -182,9 +184,9 @@ class TeamWorkPm_Todo_Item extends TeamWorkPm_Model
      * @param array $ids
      * @return bool
      */
-    public function reorder($todo_list_id, array $ids)
+    public function reorder($task_list_id, array $ids)
     {
-        $todo_list_id = (int) $todo_list_id;
-        return $this->_post("todo_lists/$todo_list_id/$this->_action/reorder", $ids);
+        $task_list_id = (int) $task_list_id;
+        return $this->_post("todo_lists/$task_list_id/$this->_action/reorder", $ids);
     }
 }

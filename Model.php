@@ -9,21 +9,20 @@ abstract class TeamWorkPm_Model extends TeamWorkPm_Rest_Model
 
     public function get($id, $params = array())
     {
+        $id = (int) $id;
         return $this->_get("$this->_action/$id", $params);
     }
+
     /**
      *
      * @param array $data
-     * @return bool
+     * @return int
      */
     public function insert(array $data)
     {
-        $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
-        if ($project_id <= 0) {
-            throw new TeamWorkPm_Exception('Require field project id');
-        }
-        return $this->_post("projects/$project_id/$this->_action", $data);
+        return $this->_post($this->_action, $data);
     }
+
     /**
      *
      * @param array $data

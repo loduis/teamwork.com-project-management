@@ -1,6 +1,6 @@
 <?php
 
-class TeamWorkPm_Todo_List extends TeamWorkPm_Model
+class TeamWorkPm_Task_List extends TeamWorkPm_Model
 {
     protected function _init()
     {
@@ -66,5 +66,19 @@ class TeamWorkPm_Todo_List extends TeamWorkPm_Model
     {
         $project_id = (int) $project_id;
         return $this->_post("projects/$project_id/$this->_action/reorder", $ids);
+    }
+
+    /**
+     *
+     * @param array $data
+     * @return int
+     */
+    public function insert(array $data)
+    {
+        $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
+        if ($project_id <= 0) {
+            throw new TeamWorkPm_Exception('Require field project id');
+        }
+        return $this->_post("projects/$project_id/$this->_action", $data);
     }
 }

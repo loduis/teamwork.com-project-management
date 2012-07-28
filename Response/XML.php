@@ -17,18 +17,44 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
         $source = simplexml_load_string($data);
         $errors = $this->_getXmlErrors();
         if ($source) {
-            if ($headers['Status'] === 201) {
-                if (!empty($headers['id'])) {
-                    return $headers['id'];
-                }
-            } elseif ($headers['Status'] === 200) {
-                if ($headers['Method'] === 'PUT') {
-                    return TRUE;
-                } else {
-                    $attrs = $source->attributes();
-                    $isArray = !empty($attrs->type) && (string) $attrs->type === 'array';
-                    $this->_object = self::_toStdClass($source, $isArray);
-                    return $this;
+            if ($headers['Status'] === 201 || $headers['Status'] === 200) {
+                switch($headers['Method']) {
+                    case 'UPLOAD':
+                        if (!empty($source->ref)) {
+                            return (string) $source->ref;
+                        }
+                        break;
+                    case 'POST':
+                        if (!empty($headers['id'])) {
+                            return $headers['id'];
+                        } else {
+                            $property = 0;
+                            $value = (int) $source->$property;
+                            // this case the fileid
+                            if ($value > 0) {
+                                return $value;
+                            }
+                        }
+                        break;
+                     case 'PUT':
+                     case 'DELETE':
+                        return TRUE;
+                     default:
+                        //print_r($source);
+                        if (!empty($source->files->file)) {
+                            $source = $source->files->file;
+                            $isArray = TRUE;
+                        } elseif (!empty($source->notebooks->notebook)) {
+                            $source = $source->notebooks->notebook;
+                            $isArray = TRUE;
+
+                        }
+                        else {
+                            $attrs = $source->attributes();
+                            $isArray = !empty($attrs->type) && (string) $attrs->type === 'array';
+                        }
+                        $this->_object = self::_toStdClass($source, $isArray);
+                        return $this;
                 }
             } else {
                 $property = 0;
@@ -81,7 +107,11 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
                         $destination->$key = (bool) $value === 'true';
                         break;
                     case 'array':
-                        $destination->$key = self::_toStdClass($value, TRUE);
+                        if (is_array($destination)) {
+                            $destination[$key] = self::_toStdClass($value, TRUE);
+                        } else {
+                            $destination->$key = self::_toStdClass($value, TRUE);
+                        }
                         break;
                     default:
                         $destination->$key = (string) $value;

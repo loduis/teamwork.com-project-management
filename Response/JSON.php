@@ -7,21 +7,40 @@ class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
     {
         $source = json_decode($data);
         $errors = $this->_getJsonErrors();
+        $this->_string = $data;
         if (!$errors) {
-            $status = empty($source->STATUS) ? NULL : $source->STATUS;
-            if ($status) {
-                unset($source->STATUS);
-            }
-            $this->_string = json_encode($source);
-            $errors = NULL;
-            if ($status === 'OK') {
-                if ($headers['Method'] === 'POST') {
-                    return !empty($headers['id']) ? $headers['id'] : TRUE;
-                }  elseif ($headers['Method'] === 'PUT' || $headers['Method'] === 'DELETE') {
-                    return TRUE;
-                } else {
-                    $this->_object = self::_camelizeObject(current($source));
-                    return $this;
+            if ($headers['Status'] === 201 || $headers['Status'] === 200) {
+                switch($headers['Method']) {
+                    case 'UPLOAD':
+                        if (!empty($source->pendingFile->ref)) {
+                            return (string) $source->pendingFile->ref;
+                        }
+                        break;
+                    case 'POST':
+                        if (!empty($headers['id'])) {
+                            return $headers['id'];
+                        } elseif (!empty($source->fileId)) {
+                            return (int) $source->fileId;
+                        }
+                        break;
+                     case 'PUT':
+                     case 'DELETE':
+                         return TRUE;
+                     default:
+                        if (!empty($source->STATUS)) {
+                            unset($source->STATUS);
+                        }
+                        if (!empty($source->project->files)) {
+                            $source = $source->project->files;
+                        } elseif(!empty($source->project->notebooks)) {
+                            $source = $source->project->notebooks;
+                        }
+                        else {
+                            $source = current($source);
+                        }
+                        $this->_string = json_encode($source);
+                        $this->_object = self::_camelizeObject($source);
+                        return $this;
                 }
             } else {
                 $errors = $source->MESSAGE;

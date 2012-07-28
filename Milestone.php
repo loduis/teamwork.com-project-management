@@ -120,4 +120,18 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
 
         return $this->_get($action, array('find'=>$filter));
     }
+
+    /**
+     *
+     * @param array $data
+     * @return int
+     */
+    public function insert(array $data)
+    {
+        $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
+        if ($project_id <= 0) {
+            throw new TeamWorkPm_Exception('Require field project id');
+        }
+        return $this->_post("projects/$project_id/$this->_action", $data);
+    }
 }
