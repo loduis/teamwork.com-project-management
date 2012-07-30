@@ -38,6 +38,7 @@ class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
                         else {
                             $source = current($source);
                         }
+                        $this->_headers = $headers;
                         $this->_string = json_encode($source);
                         $this->_object = self::_camelizeObject($source);
                         return $this;
@@ -114,7 +115,7 @@ class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
                 case JSON_ERROR_CTRL_CHAR:
                     return 'Unexpected control character found';
                 case JSON_ERROR_SYNTAX:
-                    echo 'Syntax error, malformed JSON';
+                    return 'Syntax error, malformed JSON';
                 case JSON_ERROR_NONE:
                     return NULL;
             }

@@ -7,7 +7,7 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
      *
      * @param string $data
      * @param type $headers
-     * @return \TeamWorkPm_Response_XML
+     * @return mixed [bool, int, TeamWorkPm_Response_XML]
      * @throws TeamWorkPm_Exception
      */
     public function parse($data, array $headers)
@@ -16,6 +16,7 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
         $this->_string = $data;
         $source = simplexml_load_string($data);
         $errors = $this->_getXmlErrors();
+        //echo "\n", $data, "\n";
         if ($source) {
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
                 switch($headers['Method']) {
@@ -53,12 +54,20 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
                             $attrs = $source->attributes();
                             $isArray = !empty($attrs->type) && (string) $attrs->type === 'array';
                         }
+                        $this->_headers = $headers;
                         $this->_object = self::_toStdClass($source, $isArray);
                         return $this;
                 }
             } else {
-                $property = 0;
-                $errors .= $source->$property;
+                echo 'ERIRIRR';
+                if (!empty($source->error)) {
+                    foreach($source as $error) {
+                        $errors .= $error ."\n";
+                    }
+                } else {
+                    $property = 0;
+                    $errors .= $source->$property;
+                }
             }
         }
         throw new TeamWorkPm_Exception(array(

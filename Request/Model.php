@@ -2,10 +2,10 @@
 
 abstract class TeamWorkPm_Request_Model
 {
-    protected $_method;
-    protected $_action;
-    protected $_parent;
-    protected $_fields;
+    protected $_method = NULL;
+    protected $_action = NULL;
+    protected $_parent = NULL;
+    protected $_fields = NULL;
 
     public function setParent($parent)
     {
@@ -23,43 +23,6 @@ abstract class TeamWorkPm_Request_Model
     {
         $this->_fields = $fields;
         return $this;
-    }
-
-    /**
-     * Return parameters for rest request
-     * @param mixed $parameters
-     * @return string
-     */
-    public function get($parameters = null)
-    {
-        if (is_array($parameters)) {
-            $parameters = http_build_query($parameters);
-        }
-
-        return $parameters;
-    }
-
-    public function post($parameters)
-    {
-        $this->_method = 'post';
-        return $this->_getParameters($parameters);
-    }
-
-    public function put($parameters)
-    {
-        $this->_method = 'put';
-        return $this->_getParameters($parameters);
-    }
-
-    public function delete()
-    {
-        return NULL;
-    }
-
-    public function upload($parameters)
-    {
-        $this->_method = 'upload';
-        return $parameters;
     }
 
     protected function _getValue(& $field, & $options, array $parameters)
@@ -102,7 +65,7 @@ abstract class TeamWorkPm_Request_Model
         }
         $isNull =  NULL === $value;
         //verficando campos requeridos
-        if ($this->_method == 'post' && $options['required'] && $isNull) {
+        if ($this->_method == 'POST' && $options['required'] && $isNull) {
             throw new TeamWorkPm_Exception('The field ' . $field . ' is required ');
         }
         //verficando campos que debe cumplir ciertos valores
@@ -148,6 +111,25 @@ abstract class TeamWorkPm_Request_Model
     protected static function _dasherize($string)
     {
         return str_replace('_', '-', $string);
+    }
+
+    public function getParameters($method, $parameters)
+    {
+        if ($parameters) {
+            if ($method === 'GET') {
+                if (is_array($parameters)) {
+                    $parameters = http_build_query($parameters);
+                }
+            } elseif ($method === 'UPLOAD') {
+                if (empty($parameters['file'])) {
+                    throw new TeamWorkPm_Exception('Require field file');
+                }
+            } elseif ($method === 'POST' || $method === 'PUT') {
+                $parameters = $this->_getParameters($parameters);
+            }
+        }
+        $this->_method = $method;
+        return $parameters;
     }
 
     /**

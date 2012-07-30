@@ -25,9 +25,9 @@ function test_boostrap($callback = 'null_return') {
     }
 }
 
-function get_first_task_list()
+function get_first_task_list($project_id = NULL)
 {
-    $project_id = get_first_project();
+    $project_id = get_project_id_is_null($project_id);
     $list = TeamWorkPm::factory('Task/List');
     $lists = $list->getActiveByProject($project_id);
     foreach ($lists as $l) {
@@ -35,16 +35,33 @@ function get_first_task_list()
     }
 }
 
-function get_first_todo_item() {
-    $task_list_id =  get_first_task_list();
+function get_first_task($project_id = NULL) {
+    $project_id = get_project_id_is_null($project_id);
+    $task_list_id =  get_first_task_list($project_id);
     $item = TeamWorkPm::factory('Task');
     $items = $item->getPendingByTaskList($task_list_id);
     foreach ($items as $i) {
-        return $i->id;
+        return (int) $i->id;
     }
 }
 
-function get_first_todo_item_finished() {
+function get_first_time() {
+    $time = TeamWorkPm::factory('Time');
+    $times = $time->getAll();
+    foreach ($times as $t) {
+        return $t;
+    }
+}
+
+function get_project_id_is_null($project_id) {
+    if ($project_id === NULL) {
+        $project_id = get_first_project();
+    }
+
+    return $project_id;
+}
+
+function get_first_task_finished() {
     $task_list_id =  get_first_task_list();
     $item = TeamWorkPm::factory('Task');
     $items = $item->getFinishedByTaskList($task_list_id);
@@ -71,9 +88,10 @@ function get_first_company() {
     }
 }
 
-function get_first_people() {
+function get_first_people($project_id = NULL) {
     $people = TeamWorkPm::factory('People');
-    foreach($people->getAll() as $p) {
+    $peoples = $project_id ? $people->getByProject($project_id) : $people->getAll();
+    foreach($peoples as $p) {
         return (int) $p->id;
     }
 }
@@ -106,9 +124,4 @@ function get_first_file() {
     } catch (TeamWorkPm_Exception $e) {
         print_r($e);
     }
-
-}
-
-function get_first_user() {
-    return '5625';
 }

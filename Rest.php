@@ -2,139 +2,113 @@
 
 final class TeamWorkPm_Rest
 {
+    /**
+     *
+     * @var string api format request an response
+     */
     private static $_FORMAT = 'json';
 
-    private static
-        $_instances;
+    /**
+     * @var string this is the api key
+     */
+    private $_key = NULL;
 
-    private
-        $_key,
-        $_company,
-        $_method,
-        $_request;
+    /**
+     * @var string this your company name path
+     */
+    private $_company = NULL;
 
-    private function  __construct($company, $key)
+    /**
+     * @var TeamWorkPm_Request_Model
+     */
+    private $_request = NULL;
+
+    /**
+     * @var TeamWorkPm_Response_Model
+     */
+    private $_response = NULL;
+
+    /**
+     *
+     * @param string $company
+     * @param string $key
+     * @throws TeamWorkPm_Exception
+     */
+    public function  __construct($company, $key)
     {
-        if (is_null($company) || is_null($key)) {
-            throw new TeamWorkPm_Exception('set your company and api key');
+        if (empty($company) || empty($key)) {
+            throw new TeamWorkPm_Exception('Set your company and api key.');
         } else {
             $this->_key     = $key;
             $this->_company = $company;
         }
-
-        $request  = 'TeamWorkPm_Request_' . strtoupper(self::$_FORMAT);
+        $format          = strtoupper(self::$_FORMAT);
+        $request         = 'TeamWorkPm_Request_' . $format;
         $this->_request  = new $request;
+        $response        = 'TeamWorkPm_Response_' . $format;
+        $this->_response = new $response;
     }
 
-    public static function getInstance($company, $key)
-    {
-        $hash = md5($company . '-' . $key);
-        if (null === self::$_instances[$hash]) {
-            self::$_instances[$hash] = new self($company, $key);
-        }
-
-        return self::$_instances[$hash];
-    }
-
-    protected function _execute($_method, $action, $request = null)
+    /**
+     * Call to api
+     *
+     * @param string $method
+     * @param string $action
+     * @param mixed $request
+     * @return mixed
+     * @throws TeamWorkPm_Exception
+     */
+    protected function _execute($method, $action, $request = null)
     {
         $url = 'http://'. $this->_company . '.teamworkpm.net/'. $action . '.' . self::$_FORMAT;
         $headers = array('Authorization: BASIC '. base64_encode($this->_key . ':xxx'));
-        $method = str_replace('_', '', $_method);
-        $this->_request->setAction($action);
-        $request = $this->_request->$method($request);
-        $this->_method = strtoupper(substr($_method, 1));
+        $request = $this->_request
+                        ->setAction($action)
+                        ->getParameters($method, $request);
+        $ch = curl_init();
         switch ($method) {
-            case 'get':
+            case 'GET':
                 if (!empty($request)) {
                     $url .= '?' . $request;
                 }
                 break;
-            case 'put':
-            case 'post':
+            case 'UPLOAD':
+                curl_setopt_array( $ch, array(
+                    CURLOPT_POST       => TRUE,
+                    CURLOPT_POSTFIELDS => $request
+                ));
+                break;
+            case 'DELETE':
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+                break;
+            case 'PUT':
+            case 'POST':
+                if ($method === 'POST') {
+                    curl_setopt( $ch, CURLOPT_POST, TRUE);
+                } else {
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+                }
+                if ($request) {
+                    curl_setopt( $ch, CURLOPT_POSTFIELDS, $request);
+                }
                 $headers = array_merge($headers, array(
                     'Content-Type: application/' . self::$_FORMAT,
                     'Content-Length:' . strlen($request)
                 ));
                 break;
         }
-        echo "\nUrl: ", $url, "\n";
-        echo 'Request: ', $request, "\n";
-        $ch = curl_init();
         curl_setopt_array($ch, array(
+            CURLOPT_HTTPHEADER     => $headers,
             CURLOPT_URL            => $url,
             CURLOPT_RETURNTRANSFER => TRUE,
             CURLOPT_HEADER         => TRUE,
             CURLOPT_SSL_VERIFYHOST => FALSE,
-            CURLOPT_SSL_VERIFYPEER => FALSE,
-            CURLOPT_HTTPHEADER     => $headers
+            CURLOPT_SSL_VERIFYPEER => FALSE
         ));
-
-        return $this->$_method($ch, $request);
-    }
-
-    /**
-     * Ejecuta uno de los metodos descrito arriba
-     * @param string $name [get,post,put]
-     * @param array $arguments [action, request]
-     * @return mixed
-     */
-
-    public function  __call($name, $arguments)
-    {
-        $name   = '_' . strtolower($name);
-        if (method_exists($this, $name)) {
-            if (count($arguments) < 2) {
-                $arguments[] = NULL;
-            }
-            list($action, $request) = $arguments;
-            return $this->_execute($name, $action, $request);
-        }
-        return null;
-    }
-
-    private function _get($ch)
-    {
-        return $this->_response($ch);
-    }
-
-    private function _put($ch, $request)
-    {
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        if ($request) {
-            curl_setopt( $ch, CURLOPT_POSTFIELDS, $request);
-        }
-        $response = $this->_response($ch);
-        return $response;
-    }
-
-    private function _post($ch, $request)
-    {
-        curl_setopt( $ch, CURLOPT_POST, TRUE);
-        if ($request) {
-            curl_setopt( $ch, CURLOPT_POSTFIELDS, $request);
-        }
-        return $this->_response($ch);
-    }
-
-    private function _upload($ch, $request)
-    {
-        return $this->_post($ch, $request);
-    }
-
-    private function _delete($ch)
-    {
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-        return $this->_response($ch);
-    }
-
-    private function _response($ch)
-    {
         $data        = curl_exec ($ch);
-        //echo $data;
         $status      = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $headers     = substr($data, 0, $header_size);
+        $headers     = $this->_parseHeaders(substr($data, 0, $header_size));
         $body        = substr($data, $header_size);
         $errorInfo   = curl_error($ch);
         $error       = curl_errno($ch);
@@ -142,44 +116,44 @@ final class TeamWorkPm_Rest
         if ($error) {
             throw new TeamWorkPm_Exception($errorInfo);
         }
-        $headers           = $this->_parseHeaders($headers);
         $headers['Status'] = $status;
-        $headers['Method'] = strtoupper($this->_method);
-        $class = 'TeamWorkPm_Response_' . strtoupper(self::$_FORMAT);
-        $parser  = new $class;
+        $headers['Method'] = $method;
+        $headers['X-Url']  = $url;
+        $headers['X-Request'] = $request;
 
-        return $parser->parse($body, $headers);
-
-
-        /*
-        $response = FALSE;
-        if ($this->_isGET && $status === 200) {
-        } elseif ($this->_isSuccess($status)) {
-            $response = TRUE;
-        } else {
-            $errors = $data;
-            if ($status === 422) {
-                if (self::$_FORMAT === 'xml') {
-                    libxml_use_internal_errors(TRUE);
-                    $xml = simplexml_load_string($data);
-                    $property = 0;
-                    $errors = $xml->$property;
-                } else {
-                    $json = json_decode($data);
-                    $errors = $json->MESSAGE;
-                }
-            }
-            echo $errors, "\n";
-            throw new TeamWorkPm_Exception($errors);
-        }
-        //echo '-------------------------------------', "\n\n";
-        echo $data;
-        return $response;*/
+        return $this->_response->parse($body, $headers);
     }
 
-    private function _isSuccess($status)
+    /**
+     * Shortcut call get method to api
+     *
+     * @param string $action
+     * @param mixed $request
+     * @return TeamWorkPm_Response_Model
+     */
+    public function get($action, $request = NULL)
     {
-        return in_array($status, array(200, 201));
+        return $this->_execute('GET', $action, $request);
+    }
+
+    public function put($action, $request = NULL)
+    {
+        return $this->_execute('PUT', $action, $request);
+    }
+
+    public function post($action, $request = NULL)
+    {
+        return $this->_execute('POST', $action, $request);
+    }
+
+    public function delete($action)
+    {
+        return $this->_execute('DELETE', $action, NULL);
+    }
+
+    public function upload($action, $request = NULL)
+    {
+        return $this->_execute('UPLOAD', $action, $request);
     }
 
     public function getRequest()
@@ -207,11 +181,21 @@ final class TeamWorkPm_Rest
                 $header = trim($header);
                 if ($header && FALSE !== strpos($header, ':')) {
                     list($name, $value) = explode(':', $header, 2);
-                    $headers[$name] = trim($value);
+                    $value = trim($value);
+                    $name  = trim($name);
+                    if (isset($headers[$name])) {
+                        if (is_array($headers[$name])) {
+                            $headers[$name][] = $value;
+                        } else {
+                            $_val = $headers[$name];
+                            $headers[$name] = array($_val, $value);
+                        }
+                    } else {
+                        $headers[$name] = $value;
+                    }
                 }
             }
         }
-
         return $headers;
     }
 }

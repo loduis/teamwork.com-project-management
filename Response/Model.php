@@ -4,6 +4,7 @@ abstract class TeamWorkPm_Response_Model implements IteratorAggregate
 {
     protected $_string;
     protected $_object;
+    protected $_headers = array();
 
     final public function __construct()
     {

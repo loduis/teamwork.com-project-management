@@ -22,9 +22,8 @@ function test_insert() {
           'name'=>'Test project ' . rand(1, 100),
           'description'=>'This a test project.'
         );
-        if ($id = $project->insert($data)) {
-            echo 'INSERT PROJECT: ', $id, "\n", "\n";
-        }
+        $id = $project->insert($data);
+        echo 'INSERT PROJECT: ', $id, "\n", "\n";
     } catch (Exception $e) {
         print_r($e);
     }

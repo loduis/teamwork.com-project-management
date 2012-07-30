@@ -1,6 +1,6 @@
 <?php
 
-class TeamWorkPm_Time_Tracking extends TeamWorkPm_Model
+class TeamWorkPm_Time extends TeamWorkPm_Model
 {
 
     protected function _init()
@@ -26,21 +26,18 @@ class TeamWorkPm_Time_Tracking extends TeamWorkPm_Model
      */
     public function insert(array $data)
     {
-        $id = NULL;
-        if (!empty($data['todo_item_id'])) {
-            $id = (int) $data['todo_item_id'];
-            $is_item = true;
+        $id      = NULL;
+        if (!empty($data['task_id'])) {
+            $id = (int) $data['task_id'];
+            $resource = 'todo_items';
         } elseif (!empty($data['project_id'])) {
             $id = (int) $data['project_id'];
+            $resource = 'projects';
         }
-        if ($id) {
-            throw new TeamWorkPm_Exception('Require field project id or todo item id');
+        if (!$id) {
+            throw new TeamWorkPm_Exception('Require field project_id or task_id');
         }
-        $action = "projects/$id/$this->_action";
-        if ($is_item) {
-            $action = "todo_items/$id/$this->_action";
-        }
-        return $this->_post($action, $data);
+        return $this->_post("$resource/$id/$this->_action", $data);
     }
 
     /**
@@ -54,11 +51,11 @@ class TeamWorkPm_Time_Tracking extends TeamWorkPm_Model
      * TOTIME : string (HH:MM) - The end time only if TODATE is passed
      *
      * @param string $id
-     * @param string $params
-     * @return object
+     * @param array $params
+     * @return TeamWorkPm_Response_Model
      */
 
-    public function getAll($params = array())
+    public function getAll(array $params = array())
     {
         return $this->_get("$this->_action", $params);
     }
@@ -73,23 +70,36 @@ class TeamWorkPm_Time_Tracking extends TeamWorkPm_Model
      * TODATE : string (YYYYMMDD) - The end date to retrieve to
      * TOTIME : string (HH:MM) - The end time only if TODATE is passed
      *
-     * @param string $id
-     * @param string $params
-     * @return array | SimpleXMLElement
+     * @param int $id
+     * @param array $params
+     * @return TeamWorkPm_Response_Model
      */
-    public function getByProjectId($id, $params = array())
+    public function getByProject($id, array $params = array())
     {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new TeamWorkPm_Exception('Require parameter id.');
+        }
         return $this->_get("projects/$id/$this->_action", $params);
     }
 
     /**
+     * Retrieve all To-do Item Times
      *
-     * @param string $id
-     * @param string $params
-     * @return array | SimpleXMLElement
+     * GET /todo_items/#{todo_item_id}/time_entries
+     *
+     * Retrieves all of the time entries from a submitted todo item.
+     *
+     * @param int $id
+     * @param array $params
+     * @return TeamWorkPm_Response_Model
      */
-    public function getByTodoItemId($id, $params = array())
+    public function getByTask($id, array $params = array())
     {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new TeamWorkPm_Exception('Require parameter id.');
+        }
         return $this->_get("todo_items/$id/$this->_action", $params);
     }
 }

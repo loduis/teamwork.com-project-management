@@ -9,6 +9,7 @@ class TeamWorkPm_Exception extends ErrorException
     {
         if (!is_array($errorInfo)) {
             $message              = $errorInfo;
+            $errorInfo = array();
             $errorInfo['Message'] = $message;
         }
         $this->message = $errorInfo['Message'];

@@ -12,6 +12,8 @@ class TeamWorkPm_Task_List extends TeamWorkPm_Model
             'milestone_id'=>FALSE,
             'todo_list_template_id'=>FALSE
         );
+        $this->_parent = 'todo-list';
+        $this->_action = 'todo_lists';
     }
     /**
      * Retrieve all lists in a Project

@@ -13,19 +13,19 @@ abstract class TeamWorkPm_Rest_Model
      * las conexiones del api con curl
      * @var TeamWorkPm_Rest
      */
-    private $_rest;
+    private $_rest = NULL;
     /**
      * Es el elemento padre que contiene
      * los demas elementos xml o json de los paramentros
      * del put y del post
      * @var string
      */
-    protected $_parent;
+    protected $_parent = NULL;
     /**
      * Es el comnun recurso que se debe ejecutar
      * @var string
      */
-    protected $_action;
+    protected $_action = NULL;
     /**
      * Almacena los campos del objeto
      * @var array
@@ -35,11 +35,11 @@ abstract class TeamWorkPm_Rest_Model
      *
      * @var string
      */
-    private $_hash;
+    private $_hash = NULL;
 
     final private function  __construct($company, $key, $class, $hash)
     {
-        $this->_rest   = TeamWorkPm_Rest::getInstance($company, $key);
+        $this->_rest   = new TeamWorkPm_Rest($company, $key);
         $this->_hash = $hash;
         $this->_parent = strtolower(str_replace(
           array('TeamWorkPm_', '_'),
@@ -118,5 +118,4 @@ abstract class TeamWorkPm_Rest_Model
     {
         return $this->_rest->upload($action, $request);
     }
-
 }

@@ -52,7 +52,7 @@ class TeamWorkPm_People extends TeamWorkPm_Model
      */
     public function getAll()
     {
-        return $this->_get("$this->_action");
+        return $this->_get($this->_action);
     }
     /**
      * Get all People (within a Project)
