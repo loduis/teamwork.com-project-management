@@ -29,15 +29,15 @@ abstract class TeamWorkPm_Request_Model
     {
         static
             $camelize = array(
-                'pending_file_attachments'=>TRUE,
-                'date_format'=>TRUE,
-                'send_welcome_email'=>TRUE,
-                'receive_daily_reports'=>TRUE,
-                'welcome_email_message'=>TRUE,
-                'auto_give_project_access'=>TRUE,
-                'open_id'=>TRUE,
-                'user_language'=>TRUE,
-                'pending_file_ref'=>TRUE
+                'pending_file_attachments' => TRUE,
+                'date_format'              => TRUE,
+                'send_welcome_email'       => TRUE,
+                'receive_daily_reports'    => TRUE,
+                'welcome_email_message'    => TRUE,
+                'auto_give_project_access' => TRUE,
+                'open_id'                  => TRUE,
+                'user_language'            => TRUE,
+                'pending_file_ref'         => TRUE
             ),
             $preserve = array(
                 'address_one'=>TRUE,
@@ -46,6 +46,18 @@ abstract class TeamWorkPm_Request_Model
           ;
 
         $value = isset($parameters[$field]) ? $parameters[$field] : NULL;
+        if (!is_array($options)) {
+            $options = array('required'=>$options, 'attributes'=> array());
+        }
+        $isNull =  NULL === $value;
+        //verficando campos requeridos
+        if ($this->_method == 'POST' && $options['required'] && $isNull) {
+            throw new TeamWorkPm_Exception('The field ' . $field . ' is required ');
+        }
+        //verficando campos que debe cumplir ciertos valores
+        if (isset($options['validate']) && !$isNull && !in_array($value, $options['validate'])) {
+                throw new TeamWorkPm_Exception('Invalid value for the field ' . $field);
+        }
         // @todo Ojo la gente de team work no mainten constante el formato name-other
         if (isset($camelize[$field])) {
             if ($field === 'open_id') {
@@ -60,19 +72,6 @@ abstract class TeamWorkPm_Request_Model
         } elseif (!isset($preserve[$field])) {
             $field = self::_dasherize($field);
         }
-        if (!is_array($options)) {
-            $options = array('required'=>$options, 'attributes'=> array());
-        }
-        $isNull =  NULL === $value;
-        //verficando campos requeridos
-        if ($this->_method == 'POST' && $options['required'] && $isNull) {
-            throw new TeamWorkPm_Exception('The field ' . $field . ' is required ');
-        }
-        //verficando campos que debe cumplir ciertos valores
-        if (isset($options['validate']) && !$isNull && !in_array($value, $options['validate'])) {
-                throw new TeamWorkPm_Exception('Invalid value for the field ' . $field);
-        }
-
         return $value;
     }
 
@@ -116,6 +115,7 @@ abstract class TeamWorkPm_Request_Model
     public function getParameters($method, $parameters)
     {
         if ($parameters) {
+            $this->_method = $method;
             if ($method === 'GET') {
                 if (is_array($parameters)) {
                     $parameters = http_build_query($parameters);
@@ -128,7 +128,6 @@ abstract class TeamWorkPm_Request_Model
                 $parameters = $this->_getParameters($parameters);
             }
         }
-        $this->_method = $method;
         return $parameters;
     }
 

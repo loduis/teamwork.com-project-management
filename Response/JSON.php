@@ -40,7 +40,13 @@ class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
                         }
                         $this->_headers = $headers;
                         $this->_string = json_encode($source);
-                        $this->_object = self::_camelizeObject($source);
+                        $_this = self::_camelizeObject($source);
+                        foreach ($this as $key=>$value) {
+                            unset($this->$key);
+                        }
+                        foreach ($_this as $key=>$value) {
+                            $this->$key = $value;
+                        }
                         return $this;
                 }
             } else {

@@ -125,3 +125,25 @@ function get_first_file() {
         print_r($e);
     }
 }
+
+function get_first_message_category($project_id = NULL) {
+    $project_id = get_project_id_is_null($project_id);
+    $category = TeamWorkPm::factory('Category/Message');
+    $categories = $category->getByProject($project_id);
+    foreach ($categories as $c) {
+        return (int) $c->id;
+    }
+}
+
+function get_first_message($project_id = NULL) {
+    $project_id = get_project_id_is_null($project_id);
+    $message = TeamWorkPm::factory('Message');
+    try {
+        $messages = $message->getByProject($project_id);
+        foreach ($messages as $m) {
+            return (int) $m->id;
+        }
+    } catch (TeamWorkPm_Exception $e) {
+        print_r($e);
+    }
+}

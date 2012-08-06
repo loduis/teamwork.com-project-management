@@ -55,7 +55,14 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
                             $isArray = !empty($attrs->type) && (string) $attrs->type === 'array';
                         }
                         $this->_headers = $headers;
-                        $this->_object = self::_toStdClass($source, $isArray);
+                        foreach ($this as $key=>$value) {
+                            unset($this->$key);
+                        }
+                        $_this = self::_toStdClass($source, $isArray);
+
+                        foreach ($_this as $key=>$value) {
+                            $this->$key = $value;
+                        }
                         return $this;
                 }
             } else {

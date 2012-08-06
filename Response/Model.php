@@ -1,14 +1,13 @@
 <?php
 
-abstract class TeamWorkPm_Response_Model implements IteratorAggregate
+abstract class TeamWorkPm_Response_Model
 {
     protected $_string;
-    protected $_object;
     protected $_headers = array();
 
     final public function __construct()
     {
-        $this->_object = new stdClass();
+
     }
 
     abstract public function parse($data, array $headers);
@@ -30,11 +29,6 @@ abstract class TeamWorkPm_Response_Model implements IteratorAggregate
 
     abstract protected function _getContent();
 
-    public function __get($name)
-    {
-        return $this->_object->$name;
-    }
-
     public function __toString()
     {
         return $this->_getContent();
@@ -42,7 +36,7 @@ abstract class TeamWorkPm_Response_Model implements IteratorAggregate
 
     public function toArray()
     {
-        return self::_toArray($this->_object);
+        return self::_toArray($this);
     }
 
     protected static function _camelize($lowerCaseAndUnderscoredWord)
@@ -51,11 +45,6 @@ abstract class TeamWorkPm_Response_Model implements IteratorAggregate
         $replace = preg_replace('/_(.)/e','strtoupper(\'$1\');', $lowerCaseAndUnderscoredWord);
         $replace = preg_replace('/-(.)/e','strtoupper(\'$1\');', $replace);
         return $replace;
-    }
-
-    public function getIterator()
-    {
-        return new ArrayIterator($this->_object);
     }
 
     private static function _toArray($source)

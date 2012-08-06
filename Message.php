@@ -6,13 +6,18 @@ class TeamWorkPm_Message extends TeamWorkPm_Model
     protected function _init()
     {
         $this->_fields = array(
-            'title'=>TRUE,
-            'category_id'=>array('required'=>true, 'attributes'=>array('type'=>'integer')),
-            'notify'=>array('required'=>false, 'attributes'=>array('type'=>'array'), 'element'=>'person'),
-            'milestone_id'=>array('required'=>false, 'attributes'=>array('type'=>'integer')),
-            'private'=>array('required'=>false, 'attributes'=>array('type'=>'boolean')),
-            'body'=>TRUE,
-            'attachments'=>FALSE
+            'title'                    => TRUE,
+            'category_id'              => array('required'=>TRUE, 'attributes'=>array('type'=>'integer')),
+            'notify'                   => array(
+                'required'=>FALSE,
+                'attributes'=>array('type'=>'array'),
+                'element'=>'person'
+            ),
+            'milestone_id'             => array('required'=>FALSE, 'attributes'=>array('type'=>'integer')),
+            'private'                  => array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
+            'body'                     => TRUE,
+            'attachments'              => FALSE,
+            'pending_file_attachments' => FALSE
         );
         $this->_parent = 'post';
         $this->_action = 'posts';
@@ -36,6 +41,10 @@ class TeamWorkPm_Message extends TeamWorkPm_Model
      */
     public function getByProject($id, $archive = FALSE)
     {
+        $id  = (int) $id;
+        if ($id <= 0) {
+            throw new TeamWorkPm_Exception('Require parameter id');
+        }
         $action = "projects/$id/$this->_action";
         if ($archive) {
             $action .= '/archive';
@@ -63,6 +72,14 @@ class TeamWorkPm_Message extends TeamWorkPm_Model
      */
     public function getByProjectAndCategory($project_id, $category_id, $archive = FALSE)
     {
+        $project_id  = (int) $project_id;
+        if ($project_id <= 0) {
+            throw new TeamWorkPm_Exception('Require parameter project_id');
+        }
+        $category_id  = (int) $category_id;
+        if ($category_id <= 0) {
+            throw new TeamWorkPm_Exception('Require parameter category_id');
+        }
         $action = "projects/$project_id/cat/$category_id/$this->_action";
         if ($archive) {
             $action .= '/archive';

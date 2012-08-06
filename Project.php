@@ -14,6 +14,7 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
             'status'=>FALSE
         );
     }
+
     /**
      * Retrieves all accessible projects; including active/inactive and archived projects.
      * You can optionally append a date to the call to return only those projects recently updated.
