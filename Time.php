@@ -42,7 +42,7 @@ class TeamWorkPm_Time extends TeamWorkPm_Model
 
     /**
      * Optional Parameters
-
+     *
      * PAGE : numeric - The page to start retrieving entries from
      * ( e.g: page=1 gives records 1 - 50, page=2 gives records 51-99 etc)
      * FROMDATE : string (YYYYMMDD) - The start date to retrieve from
@@ -62,7 +62,7 @@ class TeamWorkPm_Time extends TeamWorkPm_Model
 
     /**
      * Optional Parameters
-
+     *
      * PAGE : numeric - The page to start retrieving entries from
      * ( e.g: page=1 gives records 1 - 50, page=2 gives records 51-99 etc)
      * FROMDATE : string (YYYYMMDD) - The start date to retrieve from

@@ -126,6 +126,20 @@ function get_first_file() {
     }
 }
 
+function get_first_link() {
+    $project_id = get_first_project();
+    $link = TeamWorkPm::factory('link');
+    try {
+        $links = $link->getByProject($project_id);
+        foreach ($links as $l) {
+            return (int) $l->id;
+        }
+    } catch (TeamWorkPm_Exception $e) {
+        print_r($e);
+    }
+}
+
+
 function get_first_message_category($project_id = NULL) {
     $project_id = get_project_id_is_null($project_id);
     $category = TeamWorkPm::factory('Category/Message');

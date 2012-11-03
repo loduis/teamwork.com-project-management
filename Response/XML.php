@@ -48,9 +48,10 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
                         } elseif (!empty($source->notebooks->notebook)) {
                             $source = $source->notebooks->notebook;
                             $isArray = TRUE;
-
-                        }
-                        else {
+                        }  elseif(!empty($source->project->links)) {
+                            $source = $source->project->links;
+                              $isArray = TRUE;
+                        } else {
                             $attrs = $source->attributes();
                             $isArray = !empty($attrs->type) && (string) $attrs->type === 'array';
                         }

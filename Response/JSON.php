@@ -34,8 +34,9 @@ class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
                             $source = $source->project->files;
                         } elseif(!empty($source->project->notebooks)) {
                             $source = $source->project->notebooks;
-                        }
-                        else {
+                        } elseif(!empty($source->project->links)) {
+                            $source = $source->project->links;
+                        } else {
                             $source = current($source);
                         }
                         $this->_headers = $headers;

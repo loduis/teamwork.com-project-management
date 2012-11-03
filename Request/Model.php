@@ -2,10 +2,10 @@
 
 abstract class TeamWorkPm_Request_Model
 {
-    protected $_method = NULL;
-    protected $_action = NULL;
-    protected $_parent = NULL;
-    protected $_fields = NULL;
+    protected $_method = null;
+    protected $_action = null;
+    protected $_parent = null;
+    protected $_fields = null;
 
     public function setParent($parent)
     {
@@ -29,27 +29,27 @@ abstract class TeamWorkPm_Request_Model
     {
         static
             $camelize = array(
-                'pending_file_attachments' => TRUE,
-                'date_format'              => TRUE,
-                'send_welcome_email'       => TRUE,
-                'receive_daily_reports'    => TRUE,
-                'welcome_email_message'    => TRUE,
-                'auto_give_project_access' => TRUE,
-                'open_id'                  => TRUE,
-                'user_language'            => TRUE,
-                'pending_file_ref'         => TRUE
+                'pending_file_attachments' => true,
+                'date_format'              => true,
+                'send_welcome_email'       => true,
+                'receive_daily_reports'    => true,
+                'welcome_email_message'    => true,
+                'auto_give_project_access' => true,
+                'open_id'                  => true,
+                'user_language'            => true,
+                'pending_file_ref'         => true
             ),
             $preserve = array(
-                'address_one'=>TRUE,
-                'address_two'=>TRUE
+                'address_one'=>true,
+                'address_two'=>true
             )
           ;
 
-        $value = isset($parameters[$field]) ? $parameters[$field] : NULL;
+        $value = isset($parameters[$field]) ? $parameters[$field] : null;
         if (!is_array($options)) {
             $options = array('required'=>$options, 'attributes'=> array());
         }
-        $isNull =  NULL === $value;
+        $isNull =  null === $value;
         //verficando campos requeridos
         if ($this->_method == 'POST' && $options['required'] && $isNull) {
             throw new TeamWorkPm_Exception('The field ' . $field . ' is required ');
@@ -80,7 +80,7 @@ abstract class TeamWorkPm_Request_Model
         if (strpos($type, '=') !== FALSE) {
             list($type, $default) = explode('=', $type);
         } else {
-            $default = NULL;
+            $default = null;
         }
         if (is_null($value) && null !== $default) {
             if ($default == 'false') {
