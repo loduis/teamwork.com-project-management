@@ -8,7 +8,10 @@ abstract class TeamWorkPm_Category_Model extends TeamWorkPm_Model
         list ($parent, $type) = explode('-', $this->_parent);
         $this->_parent = $parent;
         $this->_action = $type . 'Categories';
-        $this->_fields = array('name'=>TRUE);
+        $this->_fields = array(
+            'name'=>true,
+            'parent'=> false
+        );
     }
 
     /**

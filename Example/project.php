@@ -20,7 +20,8 @@ function test_insert() {
         echo '------------------TEST INSERT---------------------', "\n";
         $data = array(
           'name'=>'Test project ' . rand(1, 100),
-          'description'=>'This a test project.'
+          'description'=>'This a test project.',
+          'new_company'=> 'Esto es una prueba.'
         );
         $id = $project->insert($data);
         echo 'INSERT PROJECT: ', $id, "\n", "\n";

@@ -64,7 +64,7 @@ function test_get_all() {
         echo '------------------TEST GET ALL---------------------', "\n";
         $companies = $company->getAll();
         foreach($companies as $c) {
-            print_r($c);
+            echo $c->id, "=", $c->name, "\n";
         }
     } catch (Exception $e) {
         echo 'Errors: ' , $e->getMessage(), "\n";

@@ -37,14 +37,13 @@ abstract class TeamWorkPm_Request_Model
                 'auto_give_project_access' => true,
                 'open_id'                  => true,
                 'user_language'            => true,
-                'pending_file_ref'         => true
+                'pending_file_ref'         => true,
+                'new_company'              => true
             ),
             $preserve = array(
-                'address_one'=>true,
-                'address_two'=>true
-            )
-          ;
-
+                'address_one' => true,
+                'address_two' => true
+            );
         $value = isset($parameters[$field]) ? $parameters[$field] : null;
         if (!is_array($options)) {
             $options = array('required'=>$options, 'attributes'=> array());
@@ -62,15 +61,13 @@ abstract class TeamWorkPm_Request_Model
         if (isset($camelize[$field])) {
             if ($field === 'open_id') {
                 $field = 'openID';
-            } elseif ($field === 'company_id') {
-                $field = $this->_actionInclude('/people') ?
-                    self::_dasherize($field) :
-                    self::_camelize($field);
             } else {
                 $field = self::_camelize($field);
             }
         } elseif (!isset($preserve[$field])) {
-            $field = self::_dasherize($field);
+            if ($field !== 'company_id' || $this->_action !== 'projects') {
+                $field = self::_dasherize($field);
+            }
         }
         return $value;
     }
@@ -94,7 +91,7 @@ abstract class TeamWorkPm_Request_Model
 
     protected function _actionInclude($value)
     {
-        return FALSE !== strrpos($this->_action, $value);
+        return false !== strrpos($this->_action, $value);
     }
 
     protected function _getParent()
