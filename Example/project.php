@@ -17,11 +17,17 @@ test_boostrap(function ($command) {
 function test_insert() {
     $project = TeamWorkPm::factory('Project');
     try {
+        /*
+        $company = TeamWorkPm::factory('company');
+
+        foreach ($company->getAll() as $c) {
+            echo $c->id, "=", $c->name, "\n";
+        }*/
         echo '------------------TEST INSERT---------------------', "\n";
         $data = array(
           'name'=>'Test project ' . rand(1, 100),
           'description'=>'This a test project.',
-          'new_company'=> 'Esto es una prueba.'
+          'company_id'=> 9683
         );
         $id = $project->insert($data);
         echo 'INSERT PROJECT: ', $id, "\n", "\n";

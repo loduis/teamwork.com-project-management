@@ -65,7 +65,11 @@ abstract class TeamWorkPm_Request_Model
                 $field = self::_camelize($field);
             }
         } elseif (!isset($preserve[$field])) {
-            if ($field !== 'company_id' || $this->_action !== 'projects') {
+            if ($field === 'company_id') {
+                if ($this->_action === 'projects') {
+                    $field = self::_camelize($field);
+                }
+            } else {
                 $field = self::_dasherize($field);
             }
         }

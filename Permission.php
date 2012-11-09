@@ -20,6 +20,9 @@ class TeamWorkPm_Permission extends TeamWorkPm_Rest_Model
         if ($people_id <= 0) {
             throw new TeamWorkPm_Exception('Required parameter people_id');
         }
+        if ($project_id <= 0) {
+            throw new TeamWorkPm_Exception('Required parameter project_id');
+        }
         return $this->_post("projects/$project_id/people/$people_id");
     }
 }

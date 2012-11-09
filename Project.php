@@ -5,13 +5,13 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
     protected function _init()
     {
         $this->_fields = array(
-            'name'=>TRUE,
-            'description'=>FALSE,
-            'start_date'=>FALSE,
-            'end_date'=>FALSE,
-            'company_id'=>FALSE,
-            'new_company'=>FALSE,
-            'status'=>FALSE
+            'name'=>true,
+            'description'=>false,
+            'start_date'=>false,
+            'end_date'=>false,
+            'company_id'=>false,
+            'new_company'=>false,
+            'status'=>false
         );
     }
 
