@@ -3,9 +3,9 @@
 require './bootstrap.php';
 
 // prepare test
-test_boostrap(function ($command) {
+test_bootstrap(function ($command) {
     if (in_array($command,
-      array('get', 'star', 'unstar', 'update', 'delete', 'archive', 'active'))) {
+      array('get', 'star', 'unstar', 'update', 'delete', 'archive', 'activate'))) {
         return get_first_project();
     }
 });
@@ -17,17 +17,17 @@ test_boostrap(function ($command) {
 function test_insert() {
     $project = TeamWorkPm::factory('Project');
     try {
-        /*
-        $company = TeamWorkPm::factory('company');
-
-        foreach ($company->getAll() as $c) {
-            echo $c->id, "=", $c->name, "\n";
-        }*/
         echo '------------------TEST INSERT---------------------', "\n";
         $data = array(
           'name'=>'Test project ' . rand(1, 100),
           'description'=>'This a test project.',
-          'company_id'=> 9683
+          'company_id'=> 9683,
+          'start_date'=> date('Ymd', strtotime('+1 day')),
+          'end_date'=> date('Ymd', strtotime('+4 day')),
+          'announcement'=> 'This is field announcement',
+          'show_announcement'=> true,
+          'notifyeveryone'=> true
+
         );
         $id = $project->insert($data);
         echo 'INSERT PROJECT: ', $id, "\n", "\n";
@@ -48,16 +48,12 @@ function test_get_all() {
         $projects = $project->getAll();
         $id = NULL;
         foreach ($projects as $p) {
-            print_r($p);
-            $id = $p->id;
+            echo $p->id, "=", $p->name, "\n";
         }
         // save output
         $projects->save('data/projects');
-        return $id;
     } catch(Exception $e) {
-        //echo 'Errors: ' , $e->getMessage(), "\n", "\n";
         print_r($e);
-        return NULL;
     }
 }
 
@@ -66,10 +62,8 @@ function test_get_active() {
     try {
         echo '------------------TEST GET ACTIVE---------------------', "\n";
         $projects = $project->getActive();
-        $id = NULL;
         foreach ($projects as $p) {
-            print_r($p);
-            $id = $p->id;
+            echo $p->id, "=", $p->name, "\n";
         }
     } catch(Exception $e) {
         print_r($e);
@@ -172,7 +166,7 @@ function test_unstar($id) {
     }
 }
 
-function test_archived($id) {
+function test_archive($id) {
     $project = TeamWorkPm::factory('Project');
     try {
         echo '------------------TEST ARCHIVE---------------------', "\n";
@@ -184,10 +178,10 @@ function test_archived($id) {
     }
 }
 
-function test_active($id) {
+function test_activate($id) {
     $project = TeamWorkPm::factory('Project');
     try {
-        echo '------------------TEST ARCHIVE---------------------', "\n";
+        echo '------------------TEST ACTIVATE---------------------', "\n";
         if ($project->active($id)) {
             echo 'ACTIVE PROJECT ', $id, "\n";
         }

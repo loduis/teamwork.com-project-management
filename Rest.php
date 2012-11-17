@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm;
 
-final class TeamWorkPm_Rest
+final class Rest
 {
     /**
      *
@@ -11,42 +12,35 @@ final class TeamWorkPm_Rest
     /**
      * @var string this is the api key
      */
-    private $_key = NULL;
+    private $_key = null;
 
     /**
      * @var string this your company name path
      */
-    private $_company = NULL;
+    private $_company = null;
 
     /**
-     * @var TeamWorkPm_Request_Model
+     * @var TeamWorkPm\Request\Model
      */
-    private $_request = NULL;
-
-    /**
-     * @var TeamWorkPm_Response_Model
-     */
-    private $_response = NULL;
+    private $_request = null;
 
     /**
      *
      * @param string $company
      * @param string $key
-     * @throws TeamWorkPm_Exception
+     * @throws \TeamWorkPm\Exception
      */
     public function  __construct($company, $key)
     {
         if (empty($company) || empty($key)) {
-            throw new TeamWorkPm_Exception('Set your company and api key.');
+            throw new Exception('Set your company and api key.');
         } else {
             $this->_key     = $key;
             $this->_company = $company;
         }
         $format          = strtoupper(self::$_FORMAT);
-        $request         = 'TeamWorkPm_Request_' . $format;
+        $request         = '\TeamWorkPm\Request\\' . $format;
         $this->_request  = new $request;
-        $response        = 'TeamWorkPm_Response_' . $format;
-        $this->_response = new $response;
     }
 
     /**
@@ -56,9 +50,9 @@ final class TeamWorkPm_Rest
      * @param string $action
      * @param mixed $request
      * @return mixed
-     * @throws TeamWorkPm_Exception
+     * @throws \TeamWorkPm\Exception
      */
-    protected function _execute($method, $action, $request = null)
+    private function _execute($method, $action, $request = null)
     {
         $url = 'http://'. $this->_company . '.teamworkpm.net/'. $action . '.' . self::$_FORMAT;
         $headers = array('Authorization: BASIC '. base64_encode($this->_key . ':xxx'));
@@ -106,22 +100,28 @@ final class TeamWorkPm_Rest
             CURLOPT_SSL_VERIFYPEER => FALSE
         ));
         $data        = curl_exec ($ch);
+        // echo $data, "\n";
+        // echo "-------------------------------", "\n";
         $status      = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $headers     = $this->_parseHeaders(substr($data, 0, $header_size));
         $body        = substr($data, $header_size);
+
         $errorInfo   = curl_error($ch);
         $error       = curl_errno($ch);
         curl_close($ch);
         if ($error) {
-            throw new TeamWorkPm_Exception($errorInfo);
+            throw new Exception($errorInfo);
         }
         $headers['Status'] = $status;
         $headers['Method'] = $method;
         $headers['X-Url']  = $url;
         $headers['X-Request'] = $request;
-
-        return $this->_response->parse($body, $headers);
+        $headers['X-Action']  = $action;
+        //print_r($headers);
+        $response = '\TeamWorkPm\Response\\' . strtoupper(self::$_FORMAT);
+        $response = new $response;
+        return $response->parse($body, $headers);
     }
 
     /**
@@ -129,29 +129,29 @@ final class TeamWorkPm_Rest
      *
      * @param string $action
      * @param mixed $request
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
-    public function get($action, $request = NULL)
+    public function get($action, $request = null)
     {
         return $this->_execute('GET', $action, $request);
     }
 
-    public function put($action, $request = NULL)
+    public function put($action, $request = null)
     {
         return $this->_execute('PUT', $action, $request);
     }
 
-    public function post($action, $request = NULL)
+    public function post($action, $request = null)
     {
         return $this->_execute('POST', $action, $request);
     }
 
     public function delete($action)
     {
-        return $this->_execute('DELETE', $action, NULL);
+        return $this->_execute('DELETE', $action, null);
     }
 
-    public function upload($action, $request = NULL)
+    public function upload($action, $request = null)
     {
         return $this->_execute('UPLOAD', $action, $request);
     }

@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm\People;
 
-class TeamWorkPm_People_Status extends TeamWorkPm_Rest_Model
+class Status extends \TeamWorkPm\Rest\Model
 {
     protected function _init()
     {
@@ -19,7 +20,7 @@ class TeamWorkPm_People_Status extends TeamWorkPm_Rest_Model
      * Returns the latest status post for a user
      *
      * @param type $id
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function get($id)
     {
@@ -32,7 +33,7 @@ class TeamWorkPm_People_Status extends TeamWorkPm_Rest_Model
      * GET /people/status.xml
      * All of the latest status posts are returned for all users in the parent company.
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getAll()
     {
@@ -51,7 +52,7 @@ class TeamWorkPm_People_Status extends TeamWorkPm_Rest_Model
     {
         $person_id = empty($data['person_id']) ? 0 : (int) $data['person_id'];
         if ($person_id <= 0) {
-            throw new TeamWorkPm_Exception('Required field person_id');
+            throw new \TeamWorkPm\Exception('Required field person_id');
         }
         unset($data['person_id']);
 
@@ -71,7 +72,7 @@ class TeamWorkPm_People_Status extends TeamWorkPm_Rest_Model
     {
         $id = (int) empty($data['id']) ? 0 : $data['id'];
         if ($id <= 0) {
-            throw new TeamWorkPm_Exception('Require field id');
+            throw new \TeamWorkPm\Exception('Require field id');
         }
         $person_id = empty($data['person_id']) ? 0 : (int) $data['person_id'];
         unset($data['id'], $data['person_id']);

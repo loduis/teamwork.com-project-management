@@ -2,7 +2,7 @@
 
 require './bootstrap.php';
 
-test_boostrap(function ($command) {
+test_bootstrap(function ($command) {
     if (in_array($command,
       array('get', 'update', 'delete', 'complete'))) {
         return get_first_incomplete_milestone();
@@ -21,12 +21,11 @@ function test_insert($project_id) {
         $data = array(
             'project_id'=> $project_id,
             'title'=>'This is a new milestone ' . rand(1, 10),
-            'deadline'=>date('Ymd', strtotime('+30 day')),
-            'responsible_party_ids'=> get_first_user()
+            'deadline'=>date('Ymd', strtotime('+2 day')),
+            'responsible_party_ids'=> get_first_people($project_id)
         );
-        if ($milestone->insert($data)) {
-            echo 'INSERT MILESTONE', "\n";
-        }
+        $id = $milestone->insert($data);
+        echo 'INSERT MILESTONE: ', $id, "\n";
     } catch (Exception $e) {
         print_r($e);
     }
@@ -121,8 +120,6 @@ function test_get_late($project_id = NULL) {
         print_r($e);
     }
 }
-
-
 
 function test_get($id) {
     $milestone = TeamWorkPm::factory('Milestone');

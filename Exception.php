@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_Exception extends ErrorException
+class Exception extends \ErrorException
 {
     private $_response = NULL;
     private $_headers = array();

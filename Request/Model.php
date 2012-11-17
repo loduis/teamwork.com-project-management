@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm\Request;
 
-abstract class TeamWorkPm_Request_Model
+abstract class Model
 {
     protected $_method = null;
     protected $_action = null;
@@ -51,11 +52,11 @@ abstract class TeamWorkPm_Request_Model
         $isNull =  null === $value;
         //verficando campos requeridos
         if ($this->_method == 'POST' && $options['required'] && $isNull) {
-            throw new TeamWorkPm_Exception('The field ' . $field . ' is required ');
+            throw new \TeamWorkPm\Exception('The field ' . $field . ' is required ');
         }
         //verficando campos que debe cumplir ciertos valores
         if (isset($options['validate']) && !$isNull && !in_array($value, $options['validate'])) {
-                throw new TeamWorkPm_Exception('Invalid value for the field ' . $field);
+                throw new \TeamWorkPm\Exception('Invalid value for the field ' . $field);
         }
         // @todo Ojo la gente de team work no mainten constante el formato name-other
         if (isset($camelize[$field])) {
@@ -78,7 +79,7 @@ abstract class TeamWorkPm_Request_Model
 
     protected function _setDefaultValueIfIsNull($type, &$value)
     {
-        if (strpos($type, '=') !== FALSE) {
+        if (is_string($type) && strpos($type, '=') !== false) {
             list($type, $default) = explode('=', $type);
         } else {
             $default = null;
@@ -123,11 +124,13 @@ abstract class TeamWorkPm_Request_Model
                 }
             } elseif ($method === 'UPLOAD') {
                 if (empty($parameters['file'])) {
-                    throw new TeamWorkPm_Exception('Require field file');
+                    throw new \TeamWorkPm\Exception('Require field file');
                 }
             } elseif ($method === 'POST' || $method === 'PUT') {
                 $parameters = $this->_getParameters($parameters);
             }
+        } else {
+            $parameters = null;
         }
         return $parameters;
     }

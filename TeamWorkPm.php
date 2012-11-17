@@ -22,16 +22,24 @@ final class TeamWorkPm
     /**
      *
      * @param string $class
-     * @return TeamWorkPm_Model
+     * @return TeamWorkPm\Model
      */
-    public static function factory($class)
+    public static function factory($class_name)
     {
-        $class = str_replace(array('/', '_'), ' ', $class);
-        $class = ucwords(str_replace(' ', '_', $class));
-        $class = __CLASS__ . '_' .  $class;
-
+        $class_name = str_replace('/', '\\', $class_name);
+        $class_name = ucfirst(
+                        preg_replace(
+                            '/(\\\.)/e',
+                            'strtoupper(\'$1\');',
+                            $class_name
+                        )
+                      );
+        if (strcasecmp($class_name, 'task\\list') === 0) {
+            $class_name = 'task_list';
+        }
+        $class_name = '\\' . __CLASS__ . '\\' .  $class_name;
         return forward_static_call_array(
-              array($class, 'getInstance'),
+              array($class_name, 'getInstance'),
               array(self::$_COMPANY, self::$_API_KEY)
         );
     }
@@ -44,7 +52,7 @@ final class TeamWorkPm
 
     public static function setFormat($value)
     {
-        TeamWorkPm_Rest::setFormat($value);
+        \TeamWorkPm\Rest::setFormat($value);
     }
 
     private function __clone()
@@ -69,7 +77,7 @@ final class TeamWorkPm
             $className = substr($className, $length + 1);
         }
 
-        $fileName  = $baseDir . DIRECTORY_SEPARATOR;
+        $fileName  = $baseDir;
         $namespace = '';
         if ($lastNsPos = strripos($className, '\\')) {
             $namespace = substr($className, 0, $lastNsPos);
@@ -77,7 +85,6 @@ final class TeamWorkPm
             $fileName  .= str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
         }
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
         if (file_exists($fileName)) {
             require $fileName;
         }

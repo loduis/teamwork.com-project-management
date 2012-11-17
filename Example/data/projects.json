@@ -1,44 +1,42 @@
-{
-  "projects":[
-    {
-      "company":{
-        "name":"php-api",
-        "id":"9463"
-      },
-      "starred":false,
-      "name":"Test project 3",
-      "show-announcement":false,
-      "announcement":"",
-      "status":"active",
-      "created-on":"2012-07-21T23:50:52Z",
-      "category":"",
-      "start-page":"projectoverview",
-      "logo":"",
-      "startDate":"",
-      "notifyeveryone":false,
-      "id":"35599",
-      "last-changed-on":"2012-07-21T23:50:52Z",
-      "endDate":""
+[
+  {
+    "company":{
+      "name":"Test",
+      "id":"9683"
     },
-    {
-      "company":{
-        "name":"php-api",
-        "id":"9463"
-      },
-      "starred":false,
-      "name":"Test project 4",
-      "show-announcement":false,
-      "announcement":"",
-      "status":"active",
-      "created-on":"2012-07-21T23:52:40Z",
-      "category":"",
-      "start-page":"projectoverview",
-      "logo":"",
-      "startDate":"",
-      "notifyeveryone":false,
-      "id":"35602",
-      "last-changed-on":"2012-07-21T23:52:40Z",
-      "endDate":""
-    }
-  ]
-}
+    "starred":false,
+    "name":"Test project 82",
+    "show-announcement":false,
+    "announcement":"",
+    "status":"active",
+    "created-on":"2012-11-10T23:34:04Z",
+    "category":"",
+    "start-page":"projectoverview",
+    "logo":"",
+    "startDate":"2012-11-11T00:00:00Z",
+    "notifyeveryone":true,
+    "id":"18162",
+    "last-changed-on":"2012-11-10T23:34:04Z",
+    "endDate":"2012-11-14T00:00:00Z"
+  },
+  {
+    "company":{
+      "name":"Test",
+      "id":"9683"
+    },
+    "starred":false,
+    "name":"Test project edit 3",
+    "show-announcement":false,
+    "announcement":"",
+    "status":"active",
+    "created-on":"2012-11-10T23:26:18Z",
+    "category":"",
+    "start-page":"projectoverview",
+    "logo":"",
+    "startDate":"2012-11-11T00:00:00Z",
+    "notifyeveryone":false,
+    "id":"18158",
+    "last-changed-on":"2012-11-10T23:27:18Z",
+    "endDate":"2012-11-14T00:00:00Z"
+  }
+]

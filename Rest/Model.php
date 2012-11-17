@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm\Rest;
 
-abstract class TeamWorkPm_Rest_Model
+abstract class Model
 {
     /**
      * Maneja las instancias de clases
@@ -11,21 +12,21 @@ abstract class TeamWorkPm_Rest_Model
     /**
      * Es una instancia a la clase que maneja
      * las conexiones del api con curl
-     * @var TeamWorkPm_Rest
+     * @var TeamWorkPm\Rest
      */
-    private $_rest = NULL;
+    private $_rest = null;
     /**
      * Es el elemento padre que contiene
      * los demas elementos xml o json de los paramentros
      * del put y del post
      * @var string
      */
-    protected $_parent = NULL;
+    protected $_parent = null;
     /**
      * Es el comnun recurso que se debe ejecutar
      * @var string
      */
-    protected $_action = NULL;
+    protected $_action = null;
     /**
      * Almacena los campos del objeto
      * @var array
@@ -35,14 +36,14 @@ abstract class TeamWorkPm_Rest_Model
      *
      * @var string
      */
-    private $_hash = NULL;
+    private $_hash = null;
 
     final private function  __construct($company, $key, $class, $hash)
     {
-        $this->_rest   = new TeamWorkPm_Rest($company, $key);
+        $this->_rest   = new \TeamWorkPm\Rest($company, $key);
         $this->_hash = $hash;
         $this->_parent = strtolower(str_replace(
-          array('TeamWorkPm_', '_'),
+          array('TeamWorkPm\\', '\\'),
           array('', '-'),
           $class
         ));
@@ -77,7 +78,7 @@ abstract class TeamWorkPm_Rest_Model
      *
      * @param string $company
      * @param string $key
-     * @return TeamWorkPm_Model
+     * @return TeamWorkPm\Model
      */
     final public static function getInstance($company, $key)
     {

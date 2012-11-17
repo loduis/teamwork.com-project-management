@@ -2,7 +2,7 @@
 
 require './bootstrap.php';
 
-test_boostrap(function ($command) {
+test_bootstrap(function ($command) {
     if (in_array($command, array('get_by_project', 'insert'))) {
         return get_first_project();
     } elseif (in_array($command, array('get', 'update', 'delete'))) {

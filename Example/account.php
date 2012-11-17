@@ -3,7 +3,7 @@
 require './bootstrap.php';
 
 // prepare test
-test_boostrap();
+test_bootstrap();
 
 function test_get() {
     $account = TeamWorkPm::factory('Account');

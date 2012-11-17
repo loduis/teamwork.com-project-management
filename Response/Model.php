@@ -1,20 +1,21 @@
 <?php
+namespace TeamWorkPm\Response;
 
-abstract class TeamWorkPm_Response_Model
+abstract class Model
 {
-    protected $_string;
+    protected $_string = null;
+
     protected $_headers = array();
 
     final public function __construct()
     {
-
     }
 
     abstract public function parse($data, array $headers);
 
     public function save($filename)
     {
-        if (strpos($filename, '.') === FALSE) {
+        if (strpos($filename, '.') === false) {
             $class = get_called_class();
             $ext   = strtolower(substr($class, strrpos($class, '_') + 1));
             $filename .= '.' . $ext;
@@ -22,8 +23,9 @@ abstract class TeamWorkPm_Response_Model
         $dirname = dirname($filename);
         // creamos el directorio en caso de que no exista
         if ($dirname && !is_dir($dirname)) {
-            mkdir($dirname, 0777, TRUE);
+            mkdir($dirname, 0777, true);
         }
+
         file_put_contents($filename, $this->_getContent());
     }
 

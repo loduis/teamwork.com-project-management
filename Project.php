@@ -1,17 +1,53 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_Project extends TeamWorkPm_Model
+class Project extends Model
 {
     protected function _init()
     {
         $this->_fields = array(
-            'name'=>true,
-            'description'=>false,
-            'start_date'=>false,
-            'end_date'=>false,
-            'company_id'=>false,
-            'new_company'=>false,
-            'status'=>false
+            // New Project Name
+            'name'        => true,
+            // [Optional. Project Description]
+            'description' =>  false,
+            // [Optional. Start date in yyyymmdd format]
+            'start_date'  => array(
+                'required'=> false,
+                'attributes' => array(
+                    'type'=>'integer'
+                )
+            ),
+            // [Optional. End date in yyyymmdd format]
+            'end_date'    => array(
+                'required' => false,
+                'attributes' => array(
+                    'type'=>'integer'
+                )
+            ),
+            // [Optional. Id of company to assign the project to]
+            'company_id'  => array(
+                'required' => false,
+                'attributes' => array(
+                    'type' => 'integer'
+                )
+            ),
+            // [Optional. Name of a new company to assign the project to]
+            'new_company'    => false,
+            /*
+            'announcement'   => false,
+            'show_announcement' => array(
+                'required' => false,
+                'attributes' => array(
+                    'type'=>'boolean'
+                )
+            ),*/
+            'notifyeveryone' => array(
+                'required' => false,
+                'attributes' => array(
+                    'type'=>'boolean'
+                )
+            ),
+            'status'         => false
         );
     }
 
@@ -21,9 +57,9 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
      * This is very useful if you are implementing local caching as you won't have to recheck
      * everything therefore making your applicaton much faster. You can pass in a date and/or a date
      * with a time using the variables updatedAfterDate and updatedAfterTime.
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
-    public function getAll($updatedAfterDate = NULL, $updatedAfterTime = NULL)
+    public function getAll($updatedAfterDate = null, $updatedAfterTime = null)
     {
         return $this->_getByStatus('all', $updatedAfterDate, $updatedAfterTime);
 
@@ -33,9 +69,9 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
      *
      * @param type $date
      * @param type $time
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
-    public function getActive($updatedAfterDate = NULL, $updatedAfterTime = NULL)
+    public function getActive($updatedAfterDate = null, $updatedAfterTime = null)
     {
         return $this->_getByStatus('active', $updatedAfterDate, $updatedAfterTime);
     }
@@ -44,9 +80,9 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
      *
      * @param type $date
      * @param type $time
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
-    public function getArchived($updatedAfterDate = NULL, $updatedAfterTime = NULL)
+    public function getArchived($updatedAfterDate = null, $updatedAfterTime = null)
     {
         return $this->_getByStatus('archived', $updatedAfterDate, $updatedAfterTime);
     }
@@ -61,9 +97,9 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
     private function _getByStatus($status, $date, $time)
     {
         $params = array();
-        if ($date !== NULL) {
+        if ($date !== null) {
             $params['updatedAfterDate'] = $date;
-            if ($time !== NULL) {
+            if ($time !== null) {
                 $params['updatedAfterTime'] = $time;
             }
         }
@@ -89,7 +125,7 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
     {
         $id = (int) $id;
         if (empty($id)) {
-            throw new TeamWorkPm_Exception('Required field id');
+            throw new \TeamWorkPm\Exception('Required field id');
         }
         return $this->_put("$this->_action/$id/star");
     }
@@ -103,7 +139,7 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
     {
         $id = (int) $id;
         if (empty($id)) {
-            throw new TeamWorkPm_Exception('Required field id');
+            throw new \TeamWorkPm\Exception('Required field id');
         }
         return $this->_put("$this->_action/$id/unstar");
     }
@@ -114,7 +150,7 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
      * @param type $id
      * @return bool
      */
-    public function active($id)
+    public function activate($id)
     {
         $data = array();
         $data['id'] = $id;
@@ -128,7 +164,7 @@ class TeamWorkPm_Project extends TeamWorkPm_Model
      * @param type $id
      * @return bool
      */
-    public function archived($id)
+    public function archive($id)
     {
         $data = array();
         $data['id'] = $id;

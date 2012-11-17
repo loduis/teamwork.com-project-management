@@ -1,23 +1,46 @@
 <?php
 
-class TeamWorkPm_Task_List extends TeamWorkPm_Model
+namespace TeamWorkPm;
+
+class Task_List extends Model
 {
     protected function _init()
     {
         $this->_fields = array(
-            'name'=>TRUE,
-            'private'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
-            'tracked'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
-            'description'=>FALSE,
-            'milestone_id'=>FALSE,
-            'todo_list_template_id'=>FALSE
+            'name'   => true,
+            'private' => array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'boolean'
+                )
+            ),
+            'pinned'   =>array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'boolean'
+                )
+            ),
+            'tracked' => array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'boolean'
+                )
+            ),
+            'description'           => false,
+            'milestone_id'          => array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'integer'
+                )
+            ),
+            'todo_list_template_id' => false
         );
         $this->_parent = 'todo-list';
         $this->_action = 'todo_lists';
     }
     /**
      * Retrieve all lists in a Project
-
+     *
      * GET /projects/#{project_id}/todo_lists.xml?filter=#{filter}
      *
      * Retrieves all todo lists in a project. You can further filter these results with the
@@ -79,7 +102,7 @@ class TeamWorkPm_Task_List extends TeamWorkPm_Model
     {
         $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
         if ($project_id <= 0) {
-            throw new TeamWorkPm_Exception('Require field project id');
+            throw new Exception('Require field project id');
         }
         return $this->_post("projects/$project_id/$this->_action", $data);
     }

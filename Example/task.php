@@ -2,7 +2,7 @@
 
 require './bootstrap.php';
 
-test_boostrap(function ($command) {
+test_bootstrap(function ($command) {
     if (in_array($command,
       array('get', 'update', 'delete', 'complete'))) {
         return get_first_task();
@@ -14,35 +14,41 @@ test_boostrap(function ($command) {
 });
 
 function test_insert($task_list_id) {
-    $item = TeamWorkPm::factory('Task');
-
+    $item = TeamWorkPm::factory('task');
+    $list = TeamWorkPm::factory('task/list');
     try {
-        echo '------------------TEST INSERT---------------------', "\n";
+        $list       = $list->get($task_list_id);
+        $project_id = $list->projectId;
+        $people_id  = get_first_people($project_id);
         $data = array(
-            'task_list_id'=> $task_list_id,
-            'content'=>'This is a new task ' . rand(1, 10),
-            'description'=> 'Describe...'
+            'task_list_id'         => $task_list_id,
+            'content'              =>'This is a new task ' . rand(1, 10),
+            'description'          => 'Describe...',
+            'due_date'             => date('Ymd', strtotime('+5 days')),
+            'start_date'           => date('Ymd'),
+            'private'              => false,
+            'priority'             => 'high',
+            'estimated_minutes'    => 300,
+            'responsible_party_id' => $people_id
         );
-        if ($item->insert($data)) {
-            echo 'INSERT TASK', "\n";
-        }
+        $id = $item->insert($data);
+        echo 'INSERT TASK: ', $id, "\n";
     } catch (Exception $e) {
-        print_r($e);
+        echo $e->getMessage();
     }
 }
 
 function test_update($id) {
-    $item = TeamWorkPm::factory('Task');
-
+    $item = TeamWorkPm::factory('task');
     try {
         echo '------------------TEST UPDATE---------------------', "\n";
         $data = array(
             'id'=> $id,
-            'content'=>'This is a task ' . rand(1, 10),
+            'content'=>'This is a task - update - ' . rand(1, 10),
             'description'=> 'Describe...'
         );
         if ($item->update($data)) {
-            echo 'UPDATE TASK', "\n";
+            echo 'UPDATE TASK ', $id, "\n";
         }
     } catch (Exception $e) {
         print_r($e);
@@ -136,7 +142,8 @@ function test_get($id) {
     try {
         echo '------------------TEST GET---------------------', "\n";
         $t = $item->get($id);
-        print_r($t);
+        //print_r($t);
+        echo $t;
     } catch (Exception $e) {
         print_r($e);
     }

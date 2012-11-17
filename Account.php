@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_Account extends TeamWorkPm_Rest_Model
+class Account extends Rest\Model
 {
     /**
      * Get Account Details
@@ -10,7 +11,7 @@ class TeamWorkPm_Account extends TeamWorkPm_Rest_Model
      * which is a string that you can use to quickly determine if the application has been updated since you
      * last accessed it.
      *
-     * @return TeamWorkPm_Response_JSON
+     * @return TeamWorkPm\Response\JSON
      */
     public function get()
     {
@@ -29,7 +30,7 @@ class TeamWorkPm_Account extends TeamWorkPm_Rest_Model
      *
      * If it fails, you get a standard failure response.
      *
-     * @return TeamWorkPm_Response_JSON
+     * @return TeamWorkPm\Response\JSON
      */
     public function authenticate()
     {

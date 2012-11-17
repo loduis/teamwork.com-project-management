@@ -1,17 +1,23 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_File extends TeamWorkPm_Rest_Model
+class File extends Rest\Model
 {
-    private $_id = NULL;
+    private $_id = null;
 
     protected function _init()
     {
         $this->_fields = array(
-            'pending_file_ref' => TRUE,
-            'description'=>TRUE,
-            'category_id'=>array('required'=>FALSE, 'attributes'=>array('type'=>'integer')),
-            'category_name'=> FALSE,
-            'private'=>FALSE
+            'pending_file_ref' => true,
+            'description'=>true,
+            'category_id'=>array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'integer'
+                )
+            ),
+            'category_name'=> false,
+            'private'=>false
         );
     }
     /**
@@ -39,7 +45,7 @@ class TeamWorkPm_File extends TeamWorkPm_Rest_Model
      * This lets you query the list of files for a project.
      *
      * @param type $id
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getByProject($id)
     {
@@ -61,7 +67,7 @@ class TeamWorkPm_File extends TeamWorkPm_Rest_Model
     {
         $id = (int) $id;
         if (empty($id)) {
-            throw new TeamWorkPm_Exception('Require field id');
+            throw new Exception('Require field id');
         }
         return $this->_delete("$this->_action/$id");
     }
@@ -75,7 +81,7 @@ class TeamWorkPm_File extends TeamWorkPm_Rest_Model
      *
      * @param string $filename
      * @return string
-     * @throws TeamWorkPm_Exception
+     * @throws \TeamWorkPm\Exception
      */
     public function upload($filename)
     {
@@ -84,7 +90,7 @@ class TeamWorkPm_File extends TeamWorkPm_Rest_Model
               'file'=>'@' . $filename
             ));
         } else {
-            throw new TeamWorkPm_Exception("Not file exist $filename");
+            throw new Exception("Not file exist $filename");
         }
     }
 
@@ -96,23 +102,23 @@ class TeamWorkPm_File extends TeamWorkPm_Rest_Model
      * @param int $id
      * @param array $params [filename, category_id, category_name, description, private, pending_file_ref, project_id]
      * @return int File id
-     * @throws TeamWorkPm_Exception
+     * @throws \TeamWorkPm\Exception
      */
     public function addToProject($data = array())
     {
         $project_id = empty($data['project_id']) ? 0 : (int) $data['project_id'];
         if ($project_id <= 0) {
-            throw new TeamWorkPm_Exception('Require field project_id');
+            throw new Exception('Require field project_id');
         }
         if (empty($data['pending_file_ref']) && empty($data['filename'])) {
-            throw new TeamWorkPm_Exception('Require field pending_file_ref or filename');
+            throw new Exception('Require field pending_file_ref or filename');
         }
         if (empty($data['category_id']) && empty($data['category_name'])) {
-            throw new TeamWorkPm_Exception('Require field category_id or category_name');
+            throw new Exception('Require field category_id or category_name');
         }
         if (empty($data['pending_file_ref'])) {
             if (empty($data['filename'])) {
-                throw new TeamWorkPm_Exception('Require field filename.');
+                throw new Exception('Require field filename.');
             }
             $pending_file_ref = $this->upload($data['filename']);
             $data['pending_file_ref'] = $pending_file_ref;

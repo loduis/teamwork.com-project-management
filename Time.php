@@ -1,18 +1,19 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_Time extends TeamWorkPm_Model
+class Time extends Model
 {
 
     protected function _init()
     {
         $this->_fields = array(
-            'description'=>TRUE,
-            'person_id'=>FALSE,
-            'date'=>TRUE,
-            'hours'=>TRUE,
-            'minutes'=>array('required'=>FALSE, 'default'=>0),
-            'time'=>TRUE,
-            'isbillable'=>FALSE
+            'description'=>true,
+            'person_id'=>false,
+            'date'=>true,
+            'hours'=>true,
+            'minutes'=>array('required'=>false, 'default'=>0),
+            'time'=>true,
+            'isbillable'=>false
         );
         $this->_parent = 'time-entry';
         $this->_action = 'time_entries';
@@ -26,7 +27,7 @@ class TeamWorkPm_Time extends TeamWorkPm_Model
      */
     public function insert(array $data)
     {
-        $id      = NULL;
+        $id      = null;
         if (!empty($data['task_id'])) {
             $id = (int) $data['task_id'];
             $resource = 'todo_items';
@@ -35,7 +36,7 @@ class TeamWorkPm_Time extends TeamWorkPm_Model
             $resource = 'projects';
         }
         if (!$id) {
-            throw new TeamWorkPm_Exception('Require field project_id or task_id');
+            throw new Exception('Require field project_id or task_id');
         }
         return $this->_post("$resource/$id/$this->_action", $data);
     }
@@ -52,7 +53,7 @@ class TeamWorkPm_Time extends TeamWorkPm_Model
      *
      * @param string $id
      * @param array $params
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
 
     public function getAll(array $params = array())
@@ -72,13 +73,13 @@ class TeamWorkPm_Time extends TeamWorkPm_Model
      *
      * @param int $id
      * @param array $params
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getByProject($id, array $params = array())
     {
         $id = (int) $id;
         if ($id <= 0) {
-            throw new TeamWorkPm_Exception('Require parameter id.');
+            throw new Exception('Require parameter id.');
         }
         return $this->_get("projects/$id/$this->_action", $params);
     }
@@ -92,13 +93,13 @@ class TeamWorkPm_Time extends TeamWorkPm_Model
      *
      * @param int $id
      * @param array $params
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getByTask($id, array $params = array())
     {
         $id = (int) $id;
         if ($id <= 0) {
-            throw new TeamWorkPm_Exception('Require parameter id.');
+            throw new Exception('Require parameter id.');
         }
         return $this->_get("todo_items/$id/$this->_action", $params);
     }

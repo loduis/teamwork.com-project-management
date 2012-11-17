@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_Me extends TeamWorkPm_Rest_Model
+class Me extends Rest\Model
 {
 
     public function get()

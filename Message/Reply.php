@@ -1,12 +1,17 @@
 <?php
+namespace TeamWorkPm\Message;
 
-class TeamWorkPm_Message_Reply extends TeamWorkPm_Model
+class Reply extends \TeamWorkPm\Model
 {
     public function _init()
     {
         $this->_fields = array(
             'body'=>true,
-            'notify'=>array('required'=>false, 'attributes'=>array('type'=>'array'), 'element'=>'person'),
+            'notify'=>array(
+                'required'=>false,
+                'attributes'=>array('type'=>'array'),
+                'element'=>'person'
+            ),
         );
         $this->_parent = 'messagereply';
         $this->_action = 'messageReplies';
@@ -28,7 +33,7 @@ class TeamWorkPm_Message_Reply extends TeamWorkPm_Model
      *
      * @param <type> $id
      * @param <type> $params
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getByMessage($id, array $params = array())
     {
@@ -55,7 +60,7 @@ class TeamWorkPm_Message_Reply extends TeamWorkPm_Model
     {
         $message_id = $data['message_id'];
         if (empty($message_id)) {
-            throw new TeamWorkPm_Exception('Require field message_id');
+            throw new \TeamWorkPm\Exception('Require field message_id');
         }
         return $this->_post("messages/$message_id/messageReplies", $data);
     }

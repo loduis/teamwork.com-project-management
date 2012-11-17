@@ -1,28 +1,48 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_Milestone extends TeamWorkPm_Model
+class Milestone extends Model
 {
-
     protected function _init()
     {
         // this is the list of fields that can send the api
         $this->_fields = array(
-            'title'=>TRUE,
-            'description'=>FALSE,
-            'deadline'=>TRUE,//format YYYYMMDD
-            'notify'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
-            'reminder'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
-            'private'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
-            'responsible_party_ids'=>TRUE,
+            'title'       => true,
+            'description' => false,
+            'deadline'    => array(
+                'required'=>true,
+                'attributes'=>array(
+                    'type'=>'integer'
+                )
+            ),//format YYYYMMDD
+            'notify'      => array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'boolean'
+                )
+            ),
+            'reminder'=>array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'boolean'
+                )
+            ),
+            'private'=>array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'boolean'
+                )
+            ),
+            'responsible_party_ids' => true,
             # USE ONLY FOR UPDATE OR PUT METHOD
             'move_upcoming_milestones'=>array(
-              'sibling'=>TRUE,
-              'required'=>FALSE,
+              'sibling'=>true,
+              'required'=>false,
               'attributes'=>array('type'=>'boolean')
             ),
             'move_upcoming_milestones_off_weekends'=>array(
               'sibling'=>TRUE,
-              'required'=>FALSE,
+              'required'=>false,
               'attributes'=>array('type'=>'boolean')
             )
         );
@@ -60,7 +80,7 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
     /**
      * Get all milestone
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getAll($project_id = NULL)
     {
@@ -70,7 +90,7 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
     /**
      * Get all complete milestone
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getCompleted($project_id = NULL)
     {
@@ -80,7 +100,7 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
     /**
      * Get all incomplete milestone
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getIncomplete($project_id = NULL)
     {
@@ -90,7 +110,7 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
     /**
      * Get all late milestone
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getLate($project_id = NULL)
     {
@@ -100,7 +120,7 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
     /**
      * Get all upcoming milestone
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getUpcoming($project_id = NULL)
     {
@@ -111,7 +131,7 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
      * Get all milestone by filter
      *
      * @param string $filter
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     private function _getByFilter($filter, $project_id)
     {
@@ -130,7 +150,7 @@ class TeamWorkPm_Milestone extends TeamWorkPm_Model
     {
         $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
         if ($project_id <= 0) {
-            throw new TeamWorkPm_Exception('Require field project id');
+            throw new Exception('Require field project_id');
         }
         return $this->_post("projects/$project_id/$this->_action", $data);
     }

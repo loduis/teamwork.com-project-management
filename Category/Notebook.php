@@ -1,5 +1,6 @@
 <?php
+namespace TeamWorkPm\Category;
 
-class TeamWorkPm_Category_Notebook extends TeamWorkPm_Category_Model
+class Notebook extends Model
 {
 }

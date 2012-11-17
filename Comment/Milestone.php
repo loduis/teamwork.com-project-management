@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm\Comment;
 
-class TeamWorkPm_Comment_Milestone extends TeamWorkPm_Comment_Model
+class Milestone extends Model
 {
     protected  $_resource = 'milestones';
 }

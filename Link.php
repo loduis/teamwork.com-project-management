@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_Link extends TeamWorkPm_Model
+class Link extends Model
 {
 
     protected function _init()
@@ -39,13 +40,13 @@ class TeamWorkPm_Link extends TeamWorkPm_Model
      *
      * @param int $id This is a project id
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getByProject($id)
     {
         $id = (int) $id;
         if ($id <= 0) {
-            throw new TeamWorkPm_Exception('Require param id');
+            throw new \TeamWorkPm\Exception('Require param id');
         }
 
         $response = $this->_get("/projects/$id/$this->_action");
@@ -67,7 +68,7 @@ class TeamWorkPm_Link extends TeamWorkPm_Model
     {
         $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
         if ($project_id <= 0) {
-            throw new TeamWorkPm_Exception('Require field project id');
+            throw new Exception('Require field project id');
         }
         return $this->_post("projects/$project_id/$this->_action", $data);
     }

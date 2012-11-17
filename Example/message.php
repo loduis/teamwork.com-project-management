@@ -2,7 +2,7 @@
 
 require './bootstrap.php';
 
-test_boostrap(function ($command) {
+test_bootstrap(function ($command) {
     if (in_array($command, array('update', 'get', 'delete'))) {
         return get_first_message();
     } elseif (in_array($command, array('insert', 'get_by_project', 'get_by_project_and_category'))) {
@@ -26,7 +26,7 @@ function test_insert($project_id) {
         );
         $id = $message->insert($data);
         echo 'INSERT MESSAGE: ', $id, "\n";
-    } catch (TeamWorkPm_Exception $e) {
+    } catch (\TeamWorkPm\Exception $e) {
         print_r($e);
     }
 }
@@ -37,11 +37,11 @@ function test_update($id) {
         echo '------------------TEST UPDATE---------------------', "\n";
         $data = array(
           'id'=>$id,
-          'body'=>'Bla , bla, ' . rand(1, 10)
+          'body'=>'Bla , bla, update ' . rand(1, 10)
         );
         // SERIA BUENO SI EL API DEVOLVIERA EL ID DEL PROJECTO
         if ($message->update($data)) {
-            echo 'UPDATE MESSAGE', "\n", "\n";
+            echo 'UPDATE MESSAGE: ', $id, "\n";
         }
     } catch (Exception $e) {
         print_r($e);

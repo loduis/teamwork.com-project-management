@@ -1,19 +1,54 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_Task extends TeamWorkPm_Model
+class Task extends Model
 {
     protected function _init()
     {
         $this->_fields = array(
-            'content'=>TRUE,
-            'notify'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
-            'description'=>FALSE,
-            'due_date'=>array('required'=>FAlSE, 'attributes'=>array('type'=>'integer')),
-            'private'=>array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
-            'priority'=>array('required'=>FALSE, 'validate'=>array('low', 'medium', 'high')),
-            'responsible_party_id'=>FALSE,
-            'attachments'=>FALSE,
-            'pending_file_attachments'=>FALSE
+            'content'=>true,
+            'notify'=>array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'boolean'
+                )
+            ),
+            'description'=>false,
+            'due_date'=>array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'integer'
+                )
+            ),
+            'start_date'=>array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'integer'
+                )
+            ),
+            'private'=>array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'boolean'
+                )
+            ),
+            'priority'=>array(
+                'required'=>false,
+                'validate'=>array(
+                    'low',
+                    'medium',
+                    'high'
+                )
+            ),
+            'estimated_minutes'=>array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'integer'
+                )
+            ),
+            'responsible_party_id'     => false,
+            'attachments'              => false,
+            'pending_file_attachments' => false
         );
         $this->_parent = 'todo-item';
         $this->_action = 'todo_items';
@@ -24,12 +59,17 @@ class TeamWorkPm_Task extends TeamWorkPm_Model
      *
      * GET /todo_lists/#{todo_list_id}/todo_items.xml?filter=all
      *
-     *  This is almost the same as the “Get list” action, except it does only returns the items.
+     * This is almost the same as the “Get list” action, except it does only returns the items.
+     *
+     * If you want to return details about who created each todo item, you must
+     * pass the flag "getCreator=yes". This will then return "creator-id",
+     * "creator-firstname", "creator-lastname" and "creator-avatar-url" for each task.
+     * A flag "canEdit" is returned with each task.
      *
      * @param int $id
      * @param array $params Filter parameters
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getAllByTaskList($id, $params = array())
     {
@@ -46,7 +86,7 @@ class TeamWorkPm_Task extends TeamWorkPm_Model
      * @param int $id
      * @param array $params Filter parameters
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getPendingByTaskList($id, $params = array())
     {
@@ -63,7 +103,7 @@ class TeamWorkPm_Task extends TeamWorkPm_Model
      * @param int $id
      * @param array $params Filter parameters
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getUpcomingByTaskList($id, $params = array())
     {
@@ -80,7 +120,7 @@ class TeamWorkPm_Task extends TeamWorkPm_Model
      * @param int $id
      * @param array $params Filter parameters
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getFinishedByTaskList($id, $params = array())
     {
@@ -97,7 +137,7 @@ class TeamWorkPm_Task extends TeamWorkPm_Model
      * @param int $id
      * @param array $params Filter parameters
      *
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getLateByTaskList($id, $params = array())
     {
@@ -134,7 +174,7 @@ class TeamWorkPm_Task extends TeamWorkPm_Model
     {
         $task_list_id = (int) empty($data['task_list_id']) ? 0 : $data['task_list_id'];
         if ($task_list_id <= 0) {
-            throw new TeamWorkPm_Exception('Require field todo list id');
+            throw new Exception('Require field todo list id');
         }
         return $this->_post("todo_lists/$task_list_id/$this->_action", $data);
     }

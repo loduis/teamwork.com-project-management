@@ -1,28 +1,156 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_Permission extends TeamWorkPm_Rest_Model
+class Permission extends Rest\Model
 {
-    /**
-     * Add a new user to a project
-     * POST /projects/{id}/people/{id}
-     * Add a user to a project. Default permissions setup in Teamwork will be used.
-     * Response
-     * Returns HTTP status code 201 (Created) on success.
-     * @param int $people_id id de la persona creada
-     * @param int $project_id id del projecto creado
-     *
-     * @return bool
-     */
-    public function addUserToProject($people_id, $project_id)
+    protected function _init()
     {
-        $people_id  = (int) $people_id;
-        $project_id = (int) $project_id;
-        if ($people_id <= 0) {
-            throw new TeamWorkPm_Exception('Required parameter people_id');
-        }
+        $this->_fields = array(
+            'view_messages_and_files'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'view_tasks_and_milestones'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'view_time'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'view_notebooks'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'view_risk_register'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'view_invoices'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'view_links'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'add_tasks'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'add_milestones'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'add_taskLists'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'add_messages'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'add_files'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'add_time'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'add_links'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'set_privacy'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'can_be_assigned_to_tasks_and_milestones'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'project_administrator'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            ),
+            'add_people_to_project'=>array(
+                'require'=>false,
+                'attributes'=>array(
+                    'type'=>'integer',
+                    'validate'=>array(1, 0)
+                )
+            )
+        );
+        $this->_parent = 'permissions';
+    }
+
+    /**
+     * Update a users permissions on a project
+     * PUT /projects/{id}/people/{id}.xml
+     * Sets the permissions of a given user on a given project.
+     */
+    public function update(array $data)
+    {
+        $project_id = (int) (empty($data['project_id']) ? 0: $data['project_id']);
+        $id = (int) (empty($data['id']) ? 0: $data['id']);
         if ($project_id <= 0) {
-            throw new TeamWorkPm_Exception('Required parameter project_id');
+            throw new Exception("Require field project_id");
         }
-        return $this->_post("projects/$project_id/people/$people_id");
+        if ($id <= 0) {
+            throw new Exception("Require field id");
+        }
+        return $this->_put("projects/$project_id/people/$id", $data);
     }
 }

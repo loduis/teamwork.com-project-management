@@ -2,10 +2,10 @@
 
 require './bootstrap.php';
 
-test_boostrap(function($command){
+test_bootstrap(function($command){
     if (in_array($command, array('update', 'get', 'delete'))) {
         return get_first_company();
-    } elseif ($command === 'get_all_by_project') {
+    } elseif ($command === 'get_by_project') {
         return get_first_project();
     }
 });
@@ -15,7 +15,7 @@ function test_insert() {
     try {
         echo '------------------TEST INSERT---------------------', "\n";
         $data = array(
-          'name'=>'phpapi',
+          'name'=>'phpapi - ' . rand(1, 10),
           'address_one'=> 'Address one'
         );
         // SERIA BUENO SI EL API DEVOLVIERA EL ID DEL PROJECTO
@@ -71,11 +71,11 @@ function test_get_all() {
     }
 }
 
-function test_get_all_by_project($project_id) {
+function test_get_by_project($project_id) {
     $company = TeamWorkPm::factory('Company');
     try {
         echo '------------------TEST GET ALL BY PROJECT---------------------', "\n";
-        $companies = $company->getAllByProject($project_id);
+        $companies = $company->getByProject($project_id);
         foreach($companies as $c) {
             print_r($c);
         }

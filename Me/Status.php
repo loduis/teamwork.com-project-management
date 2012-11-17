@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm\Me;
 
-class TeamWorkPm_Me_Status extends TeamWorkPm_Rest_Model
+class Status extends \TeamWorkPm\Rest\Model
 {
     protected function _init()
     {
@@ -21,7 +22,7 @@ class TeamWorkPm_Me_Status extends TeamWorkPm_Rest_Model
      * Returns the latest status post for a user
      *
      * @param type $id
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function get()
     {
@@ -57,7 +58,7 @@ class TeamWorkPm_Me_Status extends TeamWorkPm_Rest_Model
     {
         $id = (int) empty($data['id']) ? 0 : $data['id'];
         if ($id <= 0) {
-            throw new TeamWorkPm_Exception('Require field id');
+            throw new \TeamWorkPm\Exception('Require field id');
         }
         unset($data['id']);
         return $this->_put("me/$this->_action/$id", $data);

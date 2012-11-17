@@ -2,10 +2,10 @@
 
 require './bootstrap.php';
 
-test_boostrap(function ($command) {
+test_bootstrap(function ($command) {
     if (in_array($command,
       array('get', 'update', 'delete', 'complete'))) {
-        return get_first_todo_list();
+        return get_first_task_list();
     } elseif ($command === 'un_complete') {
         return get_first_completed_task_list();
     } else {
@@ -17,15 +17,14 @@ function test_insert($project_id) {
     $list = TeamWorkPm::factory('Task/List');
 
     try {
-        echo '------------------TEST INSERT---------------------', "\n";
         $data = array(
             'project_id'=> $project_id,
             'name'=>'This is a new task list ' . rand(1, 10),
-            'description'=> 'Describe...'
+            'description'=> 'Describe...',
+            'pinned'=> true
         );
-        if ($list->insert($data)) {
-            echo 'INSERT TASK LIST', "\n";
-        }
+        $id = $list->insert($data);
+        echo 'INSERT TASK LIST ', $id,  "\n";
     } catch (Exception $e) {
         print_r($e);
     }
@@ -42,7 +41,9 @@ function test_update($id) {
             'description'=> 'Describe...'
         );
         if ($list->update($data)) {
-            echo 'UPDATE TASK LIST', "\n";
+            echo 'UPDATE TASK LIST', $id, "\n";
+        } else {
+            echo 'CAN NOT UPDATE TASK LIST', $id, "\n";
         }
     } catch (Exception $e) {
         print_r($e);
@@ -112,7 +113,7 @@ function test_get($id) {
 function test_reorder($project_id) {
     $list = TeamWorkPm::factory('Task/List');
     try {
-        echo '------------------TEST GET---------------------', "\n";
+        echo '------------------TEST REORDER---------------------', "\n";
         $ids = array();
         $lists = $list->getActiveByProject($project_id);
         foreach ($lists as $l) {
@@ -132,9 +133,10 @@ function test_reorder($project_id) {
 function test_delete($id) {
     $list = TeamWorkPm::factory('Task/List');
     try {
-        echo '------------------TEST DELETE---------------------', "\n";
         if ($list->delete($id)) {
-            echo 'DELETE TASK LIST ', $id, "\n";
+            echo 'DELETE TASK LIST: ', $id, "\n";
+        } else {
+            echo 'CAN NOT DELETE TASK LIST: ', $id, "\n";
         }
     } catch (Exception $e) {
         echo 'Errors: ' , $e->getMessage(), "\n", "\n";

@@ -1,21 +1,22 @@
 <?php
+namespace TeamWorkPm\Response;
 
-class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
+class XML extends Model
 {
     /**
      * Parsea un string type xml
      *
      * @param string $data
      * @param type $headers
-     * @return mixed [bool, int, TeamWorkPm_Response_XML]
-     * @throws TeamWorkPm_Exception
+     * @return mixed [bool, int, TeamWorkPm\Response\XML]
+     * @throws \TeamWorkPm\Exception
      */
     public function parse($data, array $headers)
     {
-        libxml_use_internal_errors(TRUE);
+        libxml_use_internal_errors(true);
         $this->_string = $data;
         $source = simplexml_load_string($data);
-        $errors = $this->_getXmlErrors();
+        $errors = $this->_getXmlErrors($source);
         //echo "\n", $data, "\n";
         if ($source) {
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
@@ -41,7 +42,6 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
                      case 'DELETE':
                         return TRUE;
                      default:
-                        //print_r($source);
                         if (!empty($source->files->file)) {
                             $source = $source->files->file;
                             $isArray = TRUE;
@@ -56,9 +56,7 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
                             $isArray = !empty($attrs->type) && (string) $attrs->type === 'array';
                         }
                         $this->_headers = $headers;
-                        foreach ($this as $key=>$value) {
-                            unset($this->$key);
-                        }
+
                         $_this = self::_toStdClass($source, $isArray);
 
                         foreach ($_this as $key=>$value) {
@@ -67,7 +65,6 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
                         return $this;
                 }
             } else {
-                echo 'ERIRIRR';
                 if (!empty($source->error)) {
                     foreach($source as $error) {
                         $errors .= $error ."\n";
@@ -78,7 +75,7 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
                 }
             }
         }
-        throw new TeamWorkPm_Exception(array(
+        throw new \TeamWorkPm\Exception(array(
             'Message'=> $errors,
             'Response'=> $data,
             'Headers'=> $headers
@@ -107,9 +104,9 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
      * @param bool $isArray
      * @return stdClass
      */
-    private static function _toStdClass(SimpleXMLElement $source, $isArray = FALSE)
+    private static function _toStdClass(\SimpleXMLElement $source, $isArray = FALSE)
     {
-        $destination = $isArray ? array() : new stdClass();
+        $destination = $isArray ? array() : new \stdClass();
         foreach($source as $key=>$value) {
             $key = self::_camelize($key);
             $attrs = $value->attributes();
@@ -152,13 +149,42 @@ class TeamWorkPm_Response_XML extends TeamWorkPm_Response_Model
         return $destination;
     }
 
-    private function _getXmlErrors()
+    private function _getXmlErrors($xml)
     {
         $errors = '';
         foreach (libxml_get_errors() as $error) {
-            $errors .= $error . "\n";
+            $errors .= $this->getXmlError($error, $xml) . "\n";
         }
         libxml_clear_errors();
         return $errors;
     }
+
+    private function getXmlError($error, $xml)
+    {
+        $return  = $xml[$error->line - 1] . "\n";
+        $return .= str_repeat('-', $error->column) . "^\n";
+
+        switch ($error->level) {
+            case LIBXML_ERR_WARNING:
+                $return .= "Warning $error->code: ";
+                break;
+             case LIBXML_ERR_ERROR:
+                $return .= "Error $error->code: ";
+                break;
+            case LIBXML_ERR_FATAL:
+                $return .= "Fatal Error $error->code: ";
+                break;
+        }
+
+        $return .= trim($error->message) .
+                   "\n  Line: $error->line" .
+                   "\n  Column: $error->column";
+
+        if ($error->file) {
+            $return .= "\n  File: $error->file";
+        }
+
+        return "$return\n\n--------------------------------------------\n\n";
+    }
+
 }

@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm\Response;
 
-class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
+class JSON extends Model
 {
 
     public function parse($data, array $headers)
@@ -21,12 +22,17 @@ class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
                             return $headers['id'];
                         } elseif (!empty($source->fileId)) {
                             return (int) $source->fileId;
+                        } elseif ($headers['Location']) {
+                            $location = $headers['Location'];
+                            $id = substr($location, strrpos($location, '/') + 1);
+                            $id = (int) substr($id, 0, strpos($id, '.'));
+                            return $id;
                         }
-                        break;
                      case 'PUT':
                      case 'DELETE':
-                         return TRUE;
+                         return true;
                      default:
+                        //print_r($source);
                         if (!empty($source->STATUS)) {
                             unset($source->STATUS);
                         }
@@ -36,15 +42,23 @@ class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
                             $source = $source->project->notebooks;
                         } elseif(!empty($source->project->links)) {
                             $source = $source->project->links;
+                        } elseif (!empty($source->messageReplies)) {
+                            $match = preg_match(
+                                '!messageReplies/(\d+)!',
+                                $headers['X-Action']
+                            );
+                            if ($match) {
+                                $source = current($source->messageReplies);
+                            } else {
+                                $source = current($source);
+                            }
                         } else {
                             $source = current($source);
                         }
+
                         $this->_headers = $headers;
                         $this->_string = json_encode($source);
                         $_this = self::_camelizeObject($source);
-                        foreach ($this as $key=>$value) {
-                            unset($this->$key);
-                        }
                         foreach ($_this as $key=>$value) {
                             $this->$key = $value;
                         }
@@ -54,7 +68,7 @@ class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
                 $errors = $source->MESSAGE;
             }
         }
-        throw new TeamWorkPm_Exception(array(
+        throw new \TeamWorkPm\Exception(array(
             'Message'=>$errors,
             'Response'=> $data,
             'Headers'=> $headers
@@ -105,7 +119,7 @@ class TeamWorkPm_Response_JSON extends TeamWorkPm_Response_Model
 
     protected static function _camelizeObject($source)
     {
-        $destination = new stdClass();
+        $destination = new \stdClass();
         foreach ($source as $key=>$value) {
             $key = self::_camelize($key);
             $destination->$key = is_scalar($value) ? $value : self::_camelizeObject($value);

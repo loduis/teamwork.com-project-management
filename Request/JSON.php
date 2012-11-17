@@ -1,24 +1,25 @@
 <?php
+namespace TeamWorkPm\Request;
 
-class TeamWorkPm_Request_JSON extends TeamWorkPm_Request_Model
+class JSON extends Model
 {
     protected function _getParameters($parameters)
     {
         if (!empty($parameters) && is_array($parameters)) {
-            $object = new stdClass();
+            $object = new \stdClass();
             $parent = $this->_getParent();
             if (($wrapper = $this->_getWrapper())) {
-                $object->$wrapper = new stdClass();
-                $object->$wrapper->$parent = new stdClass();
+                $object->$wrapper = new \stdClass();
+                $object->$wrapper->$parent = new \stdClass();
                 $parent = $object->request->$parent;
             } else {
-                $object->$parent = new stdClass();
+                $object->$parent = new \stdClass();
                 $parent = $object->$parent;
             }
 
             if ($this->_actionInclude('/reorder')) {
                 foreach ($parameters as $id) {
-                    $item = new stdClass();
+                    $item = new \stdClass();
                     $item->id = $id;
                     $parent->{$this->_parent}[] = $item;
                 }

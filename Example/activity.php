@@ -3,7 +3,7 @@
 require './bootstrap.php';
 
 // prepare test
-test_boostrap(function ($command) {
+test_bootstrap(function ($command) {
     if ( $command === 'get_by_project') {
         return get_first_project();
     }

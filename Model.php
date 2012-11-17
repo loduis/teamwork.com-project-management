@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm;
 
-abstract class TeamWorkPm_Model extends TeamWorkPm_Rest_Model
+abstract class Model extends Rest\Model
 {
 
     /*------------------------------
@@ -32,7 +33,7 @@ abstract class TeamWorkPm_Model extends TeamWorkPm_Rest_Model
     {
         $id = (int) empty($data['id']) ? 0 : $data['id'];
         if ($id <= 0) {
-            throw new TeamWorkPm_Exception('Require field id');
+            throw new Exception('Require field id');
         }
         return $this->_put("$this->_action/$id", $data);
     }
@@ -43,9 +44,9 @@ abstract class TeamWorkPm_Model extends TeamWorkPm_Rest_Model
      */
     final public function save(array $data)
     {
-        return !empty($data['id']) ?
-            $this->update($data) :
-            $this->insert($data);
+        return empty($data['id']) ?
+            $this->insert($data) :
+            $this->update($data);
     }
     /**
      *
@@ -55,8 +56,8 @@ abstract class TeamWorkPm_Model extends TeamWorkPm_Rest_Model
     public function delete($id)
     {
         $id = (int) $id;
-        if (empty($id)) {
-            throw new TeamWorkPm_Exception('Require field id');
+        if ($id <= 0) {
+            throw new Exception('Require param id');
         }
         return $this->_delete("$this->_action/$id");
     }

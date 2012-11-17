@@ -1,23 +1,33 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_Message extends TeamWorkPm_Model
+class Message extends Model
 {
 
     protected function _init()
     {
         $this->_fields = array(
-            'title'                    => TRUE,
-            'category_id'              => array('required'=>TRUE, 'attributes'=>array('type'=>'integer')),
+            'title'                    => true,
+            'category_id'              => array(
+                'required'=>true,
+                'attributes'=>array(
+                    'type'=>'integer'
+                )
+            ),
             'notify'                   => array(
-                'required'=>FALSE,
+                'required'=>false,
                 'attributes'=>array('type'=>'array'),
                 'element'=>'person'
             ),
-            'milestone_id'             => array('required'=>FALSE, 'attributes'=>array('type'=>'integer')),
-            'private'                  => array('required'=>FALSE, 'attributes'=>array('type'=>'boolean')),
-            'body'                     => TRUE,
-            'attachments'              => FALSE,
-            'pending_file_attachments' => FALSE
+            'private'                  => array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'boolean'
+                )
+            ),
+            'body'                     => true,
+            'attachments'              => false,
+            'pending_file_attachments' => false
         );
         $this->_parent = 'post';
         $this->_action = 'posts';
@@ -43,7 +53,7 @@ class TeamWorkPm_Message extends TeamWorkPm_Model
     {
         $id  = (int) $id;
         if ($id <= 0) {
-            throw new TeamWorkPm_Exception('Require parameter id');
+            throw new \TeamWorkPm\Exception('Require parameter id');
         }
         $action = "projects/$id/$this->_action";
         if ($archive) {
@@ -60,25 +70,25 @@ class TeamWorkPm_Message extends TeamWorkPm_Model
      * As before, will return you the most recent 25 messages, this time limited by project and category.
      *
      * Get archived messages by category
-
+     *
      * GET /projects/#{project_id}/cat/#{category_id}/posts/archive.xml
-
+     *
      * As above, but returns only the posts in the given category
      *
      * @param int $project_id
      * @param int $category_id
      * @param bool $archive
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getByProjectAndCategory($project_id, $category_id, $archive = FALSE)
     {
         $project_id  = (int) $project_id;
         if ($project_id <= 0) {
-            throw new TeamWorkPm_Exception('Require parameter project_id');
+            throw new \TeamWorkPm\Exception('Require parameter project_id');
         }
         $category_id  = (int) $category_id;
         if ($category_id <= 0) {
-            throw new TeamWorkPm_Exception('Require parameter category_id');
+            throw new \TeamWorkPm\Exception('Require parameter category_id');
         }
         $action = "projects/$project_id/cat/$category_id/$this->_action";
         if ($archive) {
@@ -102,7 +112,7 @@ class TeamWorkPm_Message extends TeamWorkPm_Model
     {
         $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
         if ($project_id <= 0) {
-            throw new TeamWorkPm_Exception('Require field project id');
+            throw new Exception('Require field project_id');
         }
         return $this->_post("projects/$project_id/$this->_action", $data);
     }

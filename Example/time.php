@@ -3,7 +3,7 @@
 require './bootstrap.php';
 
 // prepare test
-test_boostrap(function ($command) {
+test_bootstrap(function ($command) {
     if (in_array($command,
       array('insert_in_project', 'insert_in_task', 'get_by_project'))) {
         return get_first_project();
@@ -64,7 +64,7 @@ function test_get($id) {
         echo '------------------TEST GET---------------------', "\n";
         $entry = $time->get($id);
         print_r($entry);
-    } catch(TeamWorkPm_Exception $e) {
+    } catch(\TeamWorkPm\Exception $e) {
         print_r($e);
     }
 }
@@ -77,7 +77,7 @@ function test_get_all() {
         foreach($times as $t) {
             print_r($t);
         }
-    } catch(TeamWorkPm_Exception $e) {
+    } catch(\TeamWorkPm\Exception $e) {
         print_r($e);
     }
 }
@@ -91,7 +91,7 @@ function test_get_by_project($project_id) {
         foreach($times as $t) {
             print_r($t);
         }
-    } catch(TeamWorkPm_Exception $e) {
+    } catch(\TeamWorkPm\Exception $e) {
         print_r($e);
     }
 }
@@ -104,7 +104,7 @@ function test_get_by_task($task_id) {
         foreach($times as $t) {
             print_r($t);
         }
-    } catch(TeamWorkPm_Exception $e) {
+    } catch(\TeamWorkPm\Exception $e) {
         print_r($e);
     }
 }

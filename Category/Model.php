@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm\Category;
 
-abstract class TeamWorkPm_Category_Model extends TeamWorkPm_Model
+abstract class Model extends \TeamWorkPm\Model
 {
 
     protected  function _init()
@@ -22,7 +23,7 @@ abstract class TeamWorkPm_Category_Model extends TeamWorkPm_Model
      * All the message categories for your project will be returned.
      *
      * @param int $id
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getByProject($id)
     {
@@ -44,7 +45,7 @@ abstract class TeamWorkPm_Category_Model extends TeamWorkPm_Model
     {
         $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
         if ($project_id <= 0) {
-            throw new TeamWorkPm_Exception('Require field project_id');
+            throw new \TeamWorkPm\Exception('Require field project_id');
         }
         return $this->_post("projects/$project_id/$this->_action", $data);
     }

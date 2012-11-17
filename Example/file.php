@@ -2,7 +2,7 @@
 
 require './bootstrap.php';
 
-test_boostrap(function ($command) {
+test_bootstrap(function ($command) {
     if ($command === 'add_to_project' || $command === 'get_by_project') {
         return get_first_project();
     } elseif ($command === 'get' || $command === 'delete') {
@@ -36,7 +36,7 @@ function test_get_by_project($project_id) {
         foreach ($files as $f) {
             print_r($f);
         }
-    } catch (TeamWorkPm_Exception $e) {
+    } catch (\TeamWorkPm\Exception $e) {
         print_r($e);
     }
 }

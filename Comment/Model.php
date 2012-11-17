@@ -1,16 +1,18 @@
 <?php
+namespace TeamWorkPm\Comment;
 
-abstract class TeamWorkPm_Comment_Model extends TeamWorkPm_Model
+abstract class Model extends \TeamWorkPm\Model
 {
     protected function _init()
     {
         $this->_parent = 'comment';
         $this->_action = $this->_parent . 's';
         $this->_fields = array(
-                'body'=>TRUE,
-                'notify'=>FALSE,
-                'isprivate'=>FALSE,
-                'pending_file_attachments'=>FALSE
+            'body'                     => true,
+            'notify'                   => false,
+            'isprivate'                => false,
+            'author_id'                => false,
+            'pending_file_attachments' => false
         );
     }
 
@@ -27,9 +29,9 @@ abstract class TeamWorkPm_Comment_Model extends TeamWorkPm_Model
      */
     public function insert(array $data)
     {
-        $resource_id = $data['resource_id'];
-        if (empty($resource_id)) {
-            throw new TeamWorkPm_Exception('Require field resource id');
+        $resource_id = (int) $data['resource_id'];
+        if ($resource_id <= 0) {
+            throw new Exception('Require field resource_id');
         }
         return $this->_post("$this->_resource/$resource_id/$this->_action", $data);
     }
@@ -38,7 +40,7 @@ abstract class TeamWorkPm_Comment_Model extends TeamWorkPm_Model
      *
      * @param int $resource_id
      * @param array $params [page, pageSize] this is only posible values
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
     public function getRecent($resource_id, array $params = array())
     {

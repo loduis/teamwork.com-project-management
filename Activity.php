@@ -1,6 +1,7 @@
 <?php
+namespace TeamWorkPm;
 
-class TeamWorkPm_Activity extends TeamWorkPm_Rest_Model
+class Activity extends Rest\Model
 {
 
     /**
@@ -12,7 +13,7 @@ class TeamWorkPm_Activity extends TeamWorkPm_Rest_Model
      * @param int $maxItems
      * @return type
      */
-    public function get($maxProjects = NULL, $maxItems = NULL)
+    public function get($maxProjects = null, $maxItems = null)
     {
         $params      = array();
         $maxProjects = (int) $maxProjects;
@@ -33,9 +34,9 @@ class TeamWorkPm_Activity extends TeamWorkPm_Rest_Model
      *
      * @param int $project_id
      * @param int $maxItems
-     * @return TeamWorkPm_Response_Model
+     * @return TeamWorkPm\Response\Model
      */
-    public function getByProject($project_id, $maxItems = NULL)
+    public function getByProject($project_id, $maxItems = null)
     {
         $project_id = (int) $project_id;
         $params      = array();

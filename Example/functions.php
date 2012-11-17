@@ -12,7 +12,7 @@ function null_return($command) {
       return NULL;
 }
 
-function test_boostrap($callback = 'null_return') {
+function test_bootstrap($callback = 'null_return') {
     $argc = $_SERVER['argc'];
     $argv = $_SERVER['argv'];
     if ($argc >= 2) {
@@ -96,7 +96,6 @@ function get_first_people($project_id = NULL) {
     }
 }
 
-
 function get_first_incomplete_milestone() {
     $milestone = TeamWorkPm::factory('Milestone');
     $milestones = $milestone->getIncomplete();
@@ -121,7 +120,7 @@ function get_first_file() {
         foreach ($files as $f) {
             return (int) $f->id;
         }
-    } catch (TeamWorkPm_Exception $e) {
+    } catch (\TeamWorkPm\Exception $e) {
         print_r($e);
     }
 }
@@ -134,7 +133,7 @@ function get_first_link() {
         foreach ($links as $l) {
             return (int) $l->id;
         }
-    } catch (TeamWorkPm_Exception $e) {
+    } catch (\TeamWorkPm\Exception $e) {
         print_r($e);
     }
 }
@@ -149,6 +148,34 @@ function get_first_message_category($project_id = NULL) {
     }
 }
 
+function get_first_notebook_category($project_id = NULL) {
+    $project_id = get_project_id_is_null($project_id);
+    $category = TeamWorkPm::factory('category/notebook');
+    $categories = $category->getByProject($project_id);
+    foreach ($categories as $c) {
+        return (int) $c->id;
+    }
+}
+
+function get_first_link_category($project_id = NULL) {
+    $project_id = get_project_id_is_null($project_id);
+    $category = TeamWorkPm::factory('category/link');
+    $categories = $category->getByProject($project_id);
+    foreach ($categories as $c) {
+        return (int) $c->id;
+    }
+}
+
+function get_first_file_category($project_id = NULL) {
+    $project_id = get_project_id_is_null($project_id);
+    $category = TeamWorkPm::factory('category/file');
+    $categories = $category->getByProject($project_id);
+    foreach ($categories as $c) {
+        return (int) $c->id;
+    }
+}
+
+
 function get_first_message($project_id = NULL) {
     $project_id = get_project_id_is_null($project_id);
     $message = TeamWorkPm::factory('Message');
@@ -157,7 +184,20 @@ function get_first_message($project_id = NULL) {
         foreach ($messages as $m) {
             return (int) $m->id;
         }
-    } catch (TeamWorkPm_Exception $e) {
+    } catch (\TeamWorkPm\Exception $e) {
+        print_r($e);
+    }
+}
+
+function get_first_notebook() {
+    $project_id = get_first_project();
+    $notebook = TeamWorkPm::factory('notebook');
+    try {
+        $notebooks = $notebook->getByProject($project_id);
+        foreach ($notebooks as $n) {
+            return (int) $n->id;
+        }
+    } catch (\TeamWorkPm\Exception $e) {
         print_r($e);
     }
 }

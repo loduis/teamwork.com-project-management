@@ -1,12 +1,13 @@
 <?php
+namespace TeamWorkPm\Request;
 
-class TeamWorkPm_Request_XML extends TeamWorkPm_Request_Model
+class XML extends Model
 {
     private $_doc;
 
     public function  __construct()
     {
-        $this->_doc               = new DOMDocument();
+        $this->_doc               = new \DOMDocument();
         $this->_doc->formatOutput = true;
     }
 

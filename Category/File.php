@@ -1,5 +1,6 @@
 <?php
+namespace TeamWorkPm\Category;
 
-class TeamWorkPm_Category_File extends TeamWorkPm_Category_Model
+class File extends Model
 {
 }
