@@ -65,7 +65,7 @@ final class TeamWorkPm
      */
     public static function autoload($className)
     {
-        $thisClass = str_replace(__NAMESPACE__.'\\', '', __CLASS__);
+        $thisClass = str_replace(__NAMESPACE__ . '\\', '', __CLASS__);
         $baseDir = __DIR__;
         $length = strlen($thisClass);
 
@@ -73,16 +73,21 @@ final class TeamWorkPm
 
         if (substr($baseDir, - $length) === $thisClass) {
             $baseDir = substr($baseDir, 0, - $length);
-        } elseif (substr($className, 0, $length + 1) === $thisClass . '_') {
+        } elseif (substr($className, 0, $length + 1) === $thisClass . '\\') {
             $className = substr($className, $length + 1);
         }
-
         $fileName  = $baseDir;
-        $namespace = '';
+
         if ($lastNsPos = strripos($className, '\\')) {
             $namespace = substr($className, 0, $lastNsPos);
             $className = substr($className, $lastNsPos + 1);
-            $fileName  .= str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+            if ($namespace && substr($namespace, 0, 1) !== '\\') {
+                $namespace = '\\' . $namespace;
+            }
+            $fileName  .= str_replace('\\', DIRECTORY_SEPARATOR, $namespace) .
+                                                            DIRECTORY_SEPARATOR;
+        } else {
+            $className = DIRECTORY_SEPARATOR . $className;
         }
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
         if (file_exists($fileName)) {
