@@ -41,7 +41,7 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function insert(array $data)
     {
-        $this->_post("me/$this->_action", $data);
+        return $this->_post("me/$this->_action", $data);
     }
 
     /**
