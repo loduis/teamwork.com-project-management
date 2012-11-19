@@ -118,7 +118,7 @@ final class Rest
         $headers['X-Url']  = $url;
         $headers['X-Request'] = $request;
         $headers['X-Action']  = $action;
-        print_r($headers);
+        // print_r($headers);
         $response = '\TeamWorkPm\Response\\' . strtoupper(self::$_FORMAT);
         $response = new $response;
         return $response->parse($body, $headers);

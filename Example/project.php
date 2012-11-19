@@ -29,6 +29,9 @@ function test_insert() {
           'notifyeveryone'=> true
 
         );
+
+        // set project to category
+        $data['category_id'] = get_first_project_category();
         $id = $project->insert($data);
         echo 'INSERT PROJECT: ', $id, "\n", "\n";
     } catch (Exception $e) {

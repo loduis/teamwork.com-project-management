@@ -33,6 +33,8 @@ class Project extends Model
             ),
             // [Optional. Name of a new company to assign the project to]
             'new_company'    => false,
+            //[Optional. Numeric ID of project category, 0 = no category]
+            'category_id'     => false,
             /*
             'announcement'   => false,
             'show_announcement' => array(

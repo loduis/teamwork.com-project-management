@@ -21,7 +21,7 @@ function test_get() {
     }
 }
 
-function test_get_activity_by_project($project_id) {
+function test_get_by_project($project_id) {
     $activity = TeamWorkPm::factory('Activity');
     try {
         $reports = $activity->getByProject($project_id);

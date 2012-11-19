@@ -30,7 +30,7 @@ class Status extends \TeamWorkPm\Rest\Model
 
     /**
      * Retrieve Everybodys Status
-     * GET /people/status.xml
+     * GET /people/status
      * All of the latest status posts are returned for all users in the parent company.
      *
      * @return TeamWorkPm\Response\Model
@@ -56,7 +56,7 @@ class Status extends \TeamWorkPm\Rest\Model
         }
         unset($data['person_id']);
 
-        $this->_post("people/$person_id/$this->_action", $data);
+        return $this->_post("people/$person_id/$this->_action", $data);
     }
 
     /**
@@ -92,7 +92,7 @@ class Status extends \TeamWorkPm\Rest\Model
      * @param int $person_id optional
      * @return bool
      */
-    public function delete($id, $person_id = NULL)
+    public function delete($id, $person_id = null)
     {
         return $this->_delete('people/' . ($person_id ? $person_id . '/' : '') .  "$this->_action/$id");
     }

@@ -201,3 +201,12 @@ function get_first_notebook() {
         print_r($e);
     }
 }
+
+function get_first_project_category()
+{
+    $category = TeamWorkPm::factory('Category/Project');
+    $categories = $category->getAll();
+    foreach($categories as $c) {
+        return $c->id;
+    }
+}
