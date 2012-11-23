@@ -141,6 +141,4 @@ abstract class Model
      * @return string
      */
     abstract protected function _getParameters($parameters);
-
-    abstract protected function _getWrapper();
 }

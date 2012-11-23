@@ -6,6 +6,7 @@ class Exception extends \ErrorException
     private $_response = NULL;
     private $_headers = array();
 
+
     public function  __construct($errorInfo)
     {
         if (!is_array($errorInfo)) {
@@ -21,6 +22,13 @@ class Exception extends \ErrorException
             $this->_headers = $errorInfo['Headers'];
         }
 
+        $code = strtoupper($this->message);
+        $code = trim($code);
+        $code = str_replace(' ', '_', $code);
+        $constant = __NAMESPACE__ . "\\Error::" . $code;
+        if (defined($constant) && ($code = constant($constant))) {
+            $this->code = $code;
+        }
     }
 
     public function getResponse()

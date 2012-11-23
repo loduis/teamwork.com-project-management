@@ -19,7 +19,7 @@ class JSON extends Model
                         break;
                     case 'POST':
                         if (!empty($headers['id'])) {
-                            return $headers['id'];
+                            return (int) $headers['id'];
                         } elseif (!empty($source->fileId)) {
                             return (int) $source->fileId;
                         } elseif ($headers['Location']) {
@@ -61,6 +61,9 @@ class JSON extends Model
                         $_this = self::_camelizeObject($source);
                         foreach ($_this as $key=>$value) {
                             $this->$key = $value;
+                        }
+                        if (!empty($this->id)) {
+                            $this->id = (int) $this->id;
                         }
                         return $this;
                 }

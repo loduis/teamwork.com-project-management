@@ -2,3 +2,8 @@
 /nbproject
 *.project
 *.buildpath
+/Tests/data
+/Tests/build
+/Tests/output
+/.settings
+

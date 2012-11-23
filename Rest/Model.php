@@ -8,13 +8,14 @@ abstract class Model
      * creanda en el projecto
      * @var array
      */
-    private static $_instances = array();
+    private static $instances = array();
+
     /**
      * Es una instancia a la clase que maneja
      * las conexiones del api con curl
-     * @var TeamWorkPm\Rest
+     * @var \TeamWorkPm\Rest
      */
-    private $_rest = null;
+    protected $rest = null;
     /**
      * Es el elemento padre que contiene
      * los demas elementos xml o json de los paramentros
@@ -36,12 +37,12 @@ abstract class Model
      *
      * @var string
      */
-    private $_hash = null;
+    private $hash = null;
 
     final private function  __construct($company, $key, $class, $hash)
     {
-        $this->_rest   = new \TeamWorkPm\Rest($company, $key);
-        $this->_hash = $hash;
+        $this->rest   = new \TeamWorkPm\Rest($company, $key);
+        $this->hash   = $hash;
         $this->_parent = strtolower(str_replace(
           array('TeamWorkPm\\', '\\'),
           array('', '-'),
@@ -58,7 +59,7 @@ abstract class Model
             $this->_init();
         }
         //configure request para put y post fields
-        $this->_rest->getRequest()
+        $this->rest->getRequest()
                     ->setParent($this->_parent)
                     ->setFields($this->_fields);
 
@@ -66,7 +67,7 @@ abstract class Model
 
     final public function  __destruct()
     {
-        unset (self::$_instances[$this->_hash]);
+        unset (self::$instances[$this->hash]);
     }
 
     final protected function __clone ()
@@ -84,11 +85,11 @@ abstract class Model
     {
         $class = get_called_class();
         $hash = md5($class . '-' . $company . '-' . $key);
-        if (!isset(self::$_instances[$hash])) {
-            self::$_instances[$hash] = new $class($company, $key, $class, $hash);
+        if (!isset(self::$instances[$hash])) {
+            self::$instances[$hash] = new $class($company, $key, $class, $hash);
         }
 
-        return self::$_instances[$hash];
+        return self::$instances[$hash];
     }
 
     /*------------------------------
@@ -97,26 +98,26 @@ abstract class Model
 
     final protected function _post($action, array $request = array())
     {
-        return $this->_rest->post($action, $request);
+        return $this->rest->post($action, $request);
     }
 
     final protected function _put($action, array $request = array())
     {
-        return $this->_rest->put($action, $request);
+        return $this->rest->put($action, $request);
     }
 
     final protected function _get($action, $request = null)
     {
-        return $this->_rest->get($action, $request);
+        return $this->rest->get($action, $request);
     }
 
     final protected function _delete($action)
     {
-        return $this->_rest->delete($action);
+        return $this->rest->delete($action);
     }
 
     final protected function _upload($action, $request)
     {
-        return $this->_rest->upload($action, $request);
+        return $this->rest->upload($action, $request);
     }
 }

@@ -8,14 +8,8 @@ class JSON extends Model
         if (!empty($parameters) && is_array($parameters)) {
             $object = new \stdClass();
             $parent = $this->_getParent();
-            if (($wrapper = $this->_getWrapper())) {
-                $object->$wrapper = new \stdClass();
-                $object->$wrapper->$parent = new \stdClass();
-                $parent = $object->request->$parent;
-            } else {
-                $object->$parent = new \stdClass();
-                $parent = $object->$parent;
-            }
+            $object->$parent = new \stdClass();
+            $parent = $object->$parent;
 
             if ($this->_actionInclude('/reorder')) {
                 foreach ($parameters as $id) {
@@ -54,10 +48,5 @@ class JSON extends Model
 
         return $parameters;
 
-    }
-
-    protected function _getWrapper()
-    {
-        return ($this->_method == 'post' && $this->_actionInclude('/posts')) ? 'request' : NULL;
     }
 }

@@ -15,6 +15,9 @@ final class TeamWorkPm
 
     private static $_API_KEY = NULL;
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function  __construct()
     {
 
@@ -55,6 +58,9 @@ final class TeamWorkPm
         \TeamWorkPm\Rest::setFormat($value);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function __clone()
     {
 
@@ -96,6 +102,7 @@ final class TeamWorkPm
     }
 
     /**
+     * @codeCoverageIgnore
      * Register TeamWorkPm's PSR-0 autoloader
      */
     public static function registerAutoloader()

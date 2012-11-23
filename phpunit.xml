@@ -1,0 +1,31 @@
+<phpunit bootstrap="Tests/bootstrap.php" colors="true">
+    <testsuite name="TeamWorkPm">
+        <file>Tests/Category/ProjectTest.php</file>
+        <file>Tests/ProjectTest.php</file>
+        <file>Tests/MilestoneTest.php</file>
+        <file>Tests/FinishTest.php</file>
+        <!--
+        <exclude>
+            <file>TeamWorkPm.php</file>
+        </exclude>-->
+    </testsuite>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">.</directory>
+            <exclude>
+                <directory suffix=".php">Example</directory>
+                <directory suffix=".php">Tests</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="Tests/build/coverage" charset="UTF-8"
+            yui="true" highlight="true" lowUpperBound="50" highLowerBound="80" />
+        <log type="testdox" target="Tests/build/testdox.html" />
+    </logging>
+    <php>
+        <const name="API_COMPANY" value="phpapi2"/>
+        <const name="API_KEY" value="horse48street"/>
+        <const name="API_FORMAT" value="json"/>
+    </php>
+</phpunit>

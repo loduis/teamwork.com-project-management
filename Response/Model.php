@@ -17,7 +17,7 @@ abstract class Model
     {
         if (strpos($filename, '.') === false) {
             $class = get_called_class();
-            $ext   = strtolower(substr($class, strrpos($class, '_') + 1));
+            $ext   = strtolower(substr($class, strrpos($class, '\\') + 1));
             $filename .= '.' . $ext;
         }
         $dirname = dirname($filename);
@@ -26,7 +26,7 @@ abstract class Model
             mkdir($dirname, 0777, true);
         }
 
-        file_put_contents($filename, $this->_getContent());
+        return file_put_contents($filename, $this->_getContent());
     }
 
     abstract protected function _getContent();

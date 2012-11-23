@@ -82,7 +82,7 @@ class Milestone extends Model
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getAll($project_id = NULL)
+    public function getAll($project_id = null)
     {
         return $this->_getByFilter('all', $project_id);
     }
@@ -92,7 +92,7 @@ class Milestone extends Model
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getCompleted($project_id = NULL)
+    public function getCompleted($project_id = null)
     {
         return $this->_getByFilter('completed', $project_id);
     }
@@ -102,7 +102,7 @@ class Milestone extends Model
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getIncomplete($project_id = NULL)
+    public function getIncomplete($project_id = null)
     {
         return $this->_getByFilter('incomplete', $project_id);
     }
@@ -112,7 +112,7 @@ class Milestone extends Model
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getLate($project_id = NULL)
+    public function getLate($project_id = null)
     {
         return $this->_getByFilter('late', $project_id);
     }
@@ -122,7 +122,7 @@ class Milestone extends Model
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getUpcoming($project_id = NULL)
+    public function getUpcoming($project_id = null)
     {
         return $this->_getByFilter('upcoming', $project_id);
     }
@@ -148,9 +148,9 @@ class Milestone extends Model
      */
     public function insert(array $data)
     {
-        $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
+        $project_id = (int) (empty($data['project_id']) ? 0 : $data['project_id']);
         if ($project_id <= 0) {
-            throw new Exception('Require field project_id');
+            throw new Exception('Required field project_id');
         }
         return $this->_post("projects/$project_id/$this->_action", $data);
     }

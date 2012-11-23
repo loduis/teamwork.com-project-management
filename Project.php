@@ -35,14 +35,7 @@ class Project extends Model
             'new_company'    => false,
             //[Optional. Numeric ID of project category, 0 = no category]
             'category_id'     => false,
-            /*
-            'announcement'   => false,
-            'show_announcement' => array(
-                'required' => false,
-                'attributes' => array(
-                    'type'=>'boolean'
-                )
-            ),*/
+
             'notifyeveryone' => array(
                 'required' => false,
                 'attributes' => array(
@@ -126,8 +119,8 @@ class Project extends Model
     public function star($id)
     {
         $id = (int) $id;
-        if (empty($id)) {
-            throw new \TeamWorkPm\Exception('Required field id');
+        if ($id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param id');
         }
         return $this->_put("$this->_action/$id/star");
     }
@@ -140,8 +133,8 @@ class Project extends Model
     public function unStar($id)
     {
         $id = (int) $id;
-        if (empty($id)) {
-            throw new \TeamWorkPm\Exception('Required field id');
+        if ($id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param id');
         }
         return $this->_put("$this->_action/$id/unstar");
     }
@@ -154,6 +147,10 @@ class Project extends Model
      */
     public function activate($id)
     {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param id');
+        }
         $data = array();
         $data['id'] = $id;
         $data['status'] = 'active';
@@ -168,6 +165,10 @@ class Project extends Model
      */
     public function archive($id)
     {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param id');
+        }        
         $data = array();
         $data['id'] = $id;
         $data['status'] = 'archived';
