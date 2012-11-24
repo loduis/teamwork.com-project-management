@@ -8,9 +8,12 @@ abstract class Model extends Rest\Model
             PUBLIC METHOD
      ------------------------------*/
 
-    public function get($id, $params = array())
+    public function get($id, $params = null)
     {
         $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
         return $this->rest->get("$this->_action/$id", $params);
     }
 
@@ -31,9 +34,9 @@ abstract class Model extends Rest\Model
      */
     public function update(array $data)
     {
-        $id = empty($data['id']) ? 0 : (int) $data['id'];
+        $id = isset($data['id']) ? (int) $data['id'] : 0;
         if ($id <= 0) {
-            throw new Exception('Require field id');
+            throw new Exception('Required field id');
         }
         return $this->rest->put("$this->_action/$id", $data);
     }
@@ -57,7 +60,7 @@ abstract class Model extends Rest\Model
     {
         $id = (int) $id;
         if ($id <= 0) {
-            throw new Exception('Require param id');
+            throw new Exception('Invalid param id');
         }
         return $this->rest->delete("$this->_action/$id");
     }

@@ -54,9 +54,9 @@ class Project extends Model
      * with a time using the variables updatedAfterDate and updatedAfterTime.
      * @return TeamWorkPm\Response\Model
      */
-    public function getAll($updatedAfterDate = null, $updatedAfterTime = null)
+    public function getAll($params = array())
     {
-        return $this->_getByStatus('all', $updatedAfterDate, $updatedAfterTime);
+        return $this->_getByStatus('all', $params);
 
     }
 
@@ -66,9 +66,9 @@ class Project extends Model
      * @param type $time
      * @return TeamWorkPm\Response\Model
      */
-    public function getActive($updatedAfterDate = null, $updatedAfterTime = null)
+    public function getActive($params = array())
     {
-        return $this->_getByStatus('active', $updatedAfterDate, $updatedAfterTime);
+        return $this->_getByStatus('active', $params);
     }
 
     /**
@@ -77,9 +77,9 @@ class Project extends Model
      * @param type $time
      * @return TeamWorkPm\Response\Model
      */
-    public function getArchived($updatedAfterDate = null, $updatedAfterTime = null)
+    public function getArchived($params = array())
     {
-        return $this->_getByStatus('archived', $updatedAfterDate, $updatedAfterTime);
+        return $this->_getByStatus('archived', $params);
     }
 
     /**
@@ -89,15 +89,9 @@ class Project extends Model
      * @param type $time
      * @return type
      */
-    private function _getByStatus($status, $date, $time)
+    private function _getByStatus($status, $params)
     {
-        $params = array();
-        if ($date !== null) {
-            $params['updatedAfterDate'] = $date;
-            if ($time !== null) {
-                $params['updatedAfterTime'] = $time;
-            }
-        }
+        $params = (array) $params;
         $params['status'] = $status;
         return $this->rest->get("$this->_action", $params);
     }
@@ -120,7 +114,7 @@ class Project extends Model
     {
         $id = (int) $id;
         if ($id <= 0) {
-            throw new \TeamWorkPm\Exception('Invalid param id');
+            throw new Exception('Invalid param id');
         }
         return $this->rest->put("$this->_action/$id/star");
     }
@@ -149,7 +143,7 @@ class Project extends Model
     {
         $id = (int) $id;
         if ($id <= 0) {
-            throw new \TeamWorkPm\Exception('Invalid param id');
+            throw new Exception('Invalid param id');
         }
         $data = array();
         $data['id'] = $id;
@@ -167,7 +161,7 @@ class Project extends Model
     {
         $id = (int) $id;
         if ($id <= 0) {
-            throw new \TeamWorkPm\Exception('Invalid param id');
+            throw new Exception('Invalid param id');
         }
         $data = array();
         $data['id'] = $id;

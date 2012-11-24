@@ -82,14 +82,9 @@ class Milestone extends Model
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getAll($params = array())
+    public function getAll($filter = 'all')
     {
-        if (is_string($params)) {
-            $params = array(
-                'find'=> $params
-            );
-        }
-        return $this->rest->get("$this->_action", $params);
+        return $this->rest->get("$this->_action", $this->getParams($filter));
     }
 
     /**
@@ -97,14 +92,31 @@ class Milestone extends Model
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getByProject($project_id, $params = null)
+    public function getByProject($project_id, $filter = 'all')
     {
-        if ($params && is_string($params)) {
-            $params = array(
-                'find'=> $params
-            );
+        return $this->rest->get(
+            "projects/$project_id/$this->_action",
+            $this->getParams($filter)
+        );
+    }
+
+    private function getParams($filter)
+    {
+        $params = array();
+        if ($filter) {
+            if (!is_string($filter)) {
+                throw new Exception('Invalid type for param filter');
+            }
+            $filter = strtolower($filter);
+            if ($filter !== 'all') {
+                $validate = array('completed', 'incomplete', 'late', 'upcoming');
+                if (!in_array($filter, $validate)) {
+                    throw new Exception('Invalid value for param filter');
+                }
+                $params['find'] = $filter;
+            }
         }
-        return $this->rest->get("projects/$project_id/$this->_action", $params);
+        return $params;
     }
 
     /**

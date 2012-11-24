@@ -53,6 +53,30 @@ class Task_ListTest extends TestCase
     }
 
     /**
+     * @expectedException        \TeamWorkPm\Exception
+     * @expectedExceptionMessage Invalid param id
+     * @test
+     */
+    public function getWithInvalidId()
+    {
+        $this->model->get(0);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function get()
+    {
+        try {
+            $list = $this->model->get($this->id);
+            $this->assertEquals($this->id, $list->id);
+        } catch (\TeamWorkPm\Exception $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
+    }
+
+    /**
      *
      * @test
      */
@@ -119,11 +143,6 @@ class Task_ListTest extends TestCase
             $this->assertTrue(false, $e->getMessage());
         }
     }
-
-
-
-
-
 
     public function provider()
     {

@@ -15,6 +15,7 @@ class ProjectTest extends TestCase
 
     /**
      * @dataProvider provider
+     * @testdox
      * @test
      */
     public function insert($data)
@@ -103,6 +104,16 @@ class ProjectTest extends TestCase
     }
 
     /**
+     * @expectedException        \TeamWorkPm\Exception
+     * @expectedExceptionMessage Invalid param id
+     * @test
+     */
+    public function unStarInvalidProjectId()
+    {
+        $this->model->unStar(0);
+    }
+
+    /**
      * @test
      */
     public function unStar()
@@ -119,9 +130,9 @@ class ProjectTest extends TestCase
      * @expectedExceptionMessage Invalid param id
      * @test
      */
-    public function unStarInvalidProjectId()
+    public function archiveInvalidProjectId()
     {
-        $this->model->unStar(0);
+        $this->model->archive(0);
     }
 
     /**
@@ -148,6 +159,16 @@ class ProjectTest extends TestCase
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertTrue(false, $e->getMessage());
         }
+    }
+
+    /**
+     * @expectedException        \TeamWorkPm\Exception
+     * @expectedExceptionMessage Invalid param id
+     * @test
+     */
+    public function activateInvalidProjectId()
+    {
+        $this->model->activate(0);
     }
 
     /**

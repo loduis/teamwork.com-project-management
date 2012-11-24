@@ -86,3 +86,16 @@ function get_first_task_list_id($project_id)
     }
     return (int) $id;
 }
+
+function get_first_task_id($task_list_id)
+{
+    static $id = null;
+    if ($id === null) {
+        $task = TeamWorkPm::factory('task');
+        foreach($task->getByTaskList($task_list_id) as $t) {
+            $id = $t->id;
+            break;
+        }
+    }
+    return (int) $id;
+}

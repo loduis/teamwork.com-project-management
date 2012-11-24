@@ -40,6 +40,27 @@ class Task_List extends Model
     }
 
     /**
+     * Retrieve Single todo list
+     * GET /todo_lists/#{id}.xml
+     * GET /todo_lists/#{id}.xml?showTasks=no
+     *
+     * Retrieves the todo list corresponding to the submitted integer ID.
+     * if you pass showTasks=no, no tasks will be returned (showTasks defaults to "yes").
+     */
+    public function get($id, $show_tasks = true)
+    {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
+        $params = array();
+        if (!$show_tasks) {
+            $params['showTasks'] = 'no';
+        }
+        return $this->rest->get("$this->_action/$id", $params);
+    }
+
+    /**
      * Retrieve all lists in a Project
      *
      * GET /projects/#{project_id}/todo_lists.xml?filter=#{filter}
@@ -52,9 +73,9 @@ class Task_List extends Model
      * @param <type> $filter
      * @return object
      */
-    public function getByProject($project_id, $params = null)
+    public function getByProject($id, $params = null)
     {
-        $project_id = (int) $project_id;
+        $project_id = (int) $id;
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }

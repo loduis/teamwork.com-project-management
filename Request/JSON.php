@@ -23,7 +23,7 @@ class JSON extends Model
                     if (isset ($options['attributes'])) {
                         foreach ($options['attributes'] as $name=>$type) {
                             $this->_setDefaultValueIfIsNull($type, $value);
-                            if (NULL !== $value) {
+                            if (null !== $value) {
                                 if ($name === 'type') {
                                     if ($type === 'array') {
 
@@ -34,7 +34,7 @@ class JSON extends Model
                             }
                         }
                     }
-                    if (NULL !== $value) {
+                    if (null !== $value) {
                         !empty($options['sibling']) ?
                             $object->$field = $value :
                             $parent->$field = $value;
@@ -43,7 +43,7 @@ class JSON extends Model
             }
             $parameters =  json_encode($object);
         } else {
-            $parameters = NULL;
+            $parameters = null;
         }
 
         return $parameters;

@@ -54,10 +54,25 @@ class Task extends Model
         $this->_action = 'todo_items';
    }
 
+    public function get($id, $get_time = false)
+    {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
+        $params = array();
+        if ($get_time) {
+            $params['getTime'] = (int) $get_time;
+        }
+        return $this->rest->get("$this->_action/$id", $params);
+    }
+
+
     /**
-     * Retrieve All Items on a Todo List
+     * Retrieve all tasks on a task list
      *
-     * GET /todo_lists/#{todo_list_id}/todo_items.xml?filter=all
+     * GET /todo_lists/#{todo_list_id}/tasks.json
+     * This is almost the same as the “Get list” action, except it does only returns the items.
      *
      * This is almost the same as the “Get list” action, except it does only returns the items.
      *
@@ -66,94 +81,26 @@ class Task extends Model
      * "creator-firstname", "creator-lastname" and "creator-avatar-url" for each task.
      * A flag "canEdit" is returned with each task.
      *
-     * @param int $id
-     * @param array $params Filter parameters
+     * @param int $task_list_id
+     * @param mixed $params
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getAllByTaskList($id, $params = array())
+    public function getByTaskList($task_list_id, $filter = 'all')
     {
-        return $this->_getByFilter($id, 'all', $params);
-    }
-
-    /**
-     * Retrieve All pending Items on a Task List
-     *
-     * GET /todo_lists/#{todo_list_id}/todo_items.xml?filter=penging
-     *
-     * This is almost the same as the “Get list” action, except it does only returns the items.
-     *
-     * @param int $id
-     * @param array $params Filter parameters
-     *
-     * @return TeamWorkPm\Response\Model
-     */
-    public function getPendingByTaskList($id, $params = array())
-    {
-        return $this->_getByFilter($id, 'pending', $params);
-    }
-
-    /**
-     * Retrieve All upcoming Items on a Task List
-     *
-     * GET /todo_lists/#{todo_list_id}/todo_items.xml?filter=upcoming
-     *
-     * This is almost the same as the “Get list” action, except it does only returns the items.
-     *
-     * @param int $id
-     * @param array $params Filter parameters
-     *
-     * @return TeamWorkPm\Response\Model
-     */
-    public function getUpcomingByTaskList($id, $params = array())
-    {
-        return $this->_getByFilter($id, 'upcoming', $params);
-    }
-
-    /**
-     * Retrieve All finished tasks on a Task List
-     *
-     * GET /todo_lists/#{todo_list_id}/todo_items.xml?filter=finished
-     *
-     * This is almost the same as the “Get list” action, except it does only returns the items.
-     *
-     * @param int $id
-     * @param array $params Filter parameters
-     *
-     * @return TeamWorkPm\Response\Model
-     */
-    public function getFinishedByTaskList($id, $params = array())
-    {
-        return $this->_getByFilter($id, 'finished', $params);
-    }
-
-    /**
-     * Retrieve All late tasks on a Task List
-     *
-     * GET /todo_lists/#{todo_list_id}/todo_items.xml?filter=late
-     *
-     * This is almost the same as the “Get list” action, except it does only returns the items.
-     *
-     * @param int $id
-     * @param array $params Filter parameters
-     *
-     * @return TeamWorkPm\Response\Model
-     */
-    public function getLateByTaskList($id, $params = array())
-    {
-        return $this->_getByFilter($id, 'late', $params);
-    }
-
-    public function getTodayByTaskList($id, $params = array())
-    {
-        return $this->_getByFilter($id, 'today', $params);
-    }
-
-    private function _getByFilter($id, $filter, $params)
-    {
-        $params['filter'] = $filter;
-        $id = (int) $id;
-        return $this->rest->get("todo_lists/$id/$this->_action", $params);
+        $task_list_id = (int) $task_list_id;
+        if ($task_list_id <= 0) {
+            throw new Exception('Invalid param task_list_id');
+        }
+        $params = array(
+            'filter'=> $filter
+        );
+        $filter = strtolower($filter);
+        $validate = array('all', 'pending', 'upcoming','late','today','finished');
+        if (in_array($filter, $validate)) {
+            $params['filter'] = 'all';
+        }
+        return $this->rest->get("todo_lists/$task_list_id/$this->_action", $params);
     }
 
     /**
@@ -172,9 +119,9 @@ class Task extends Model
      */
     public function insert(array $data)
     {
-        $task_list_id = (int) empty($data['task_list_id']) ? 0 : $data['task_list_id'];
+        $task_list_id = isset($data['task_list_id']) ? (int) $data['task_list_id'] : 0;
         if ($task_list_id <= 0) {
-            throw new Exception('Require field todo list id');
+            throw new Exception('Required field task_list_id');
         }
         return $this->rest->post("todo_lists/$task_list_id/$this->_action", $data);
     }
@@ -192,6 +139,9 @@ class Task extends Model
     public function complete($id)
     {
         $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
         return $this->rest->put("$this->_action/$id/complete");
     }
 
@@ -207,8 +157,12 @@ class Task extends Model
      */
     public function unComplete($id)
     {
-      $id = (int) $id;
-      return $this->rest->put("$this->_action/$id/uncomplete");
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
+
+        return $this->rest->put("$this->_action/$id/uncomplete");
     }
 
     /**
@@ -227,6 +181,10 @@ class Task extends Model
     public function reorder($task_list_id, array $ids)
     {
         $task_list_id = (int) $task_list_id;
-        return $this->rest->post("todo_lists/$task_list_id/$this->_action/reorder", $ids);
+        if ($task_list_id <= 0) {
+            throw new Exception('Invalid param task_list_id');
+        }
+        return $this->rest->post("todo_lists/$task_list_id/" .
+                                                "$this->_action/reorder", $ids);
     }
 }

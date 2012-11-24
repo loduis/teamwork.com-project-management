@@ -4,6 +4,7 @@
         <file>Tests/ProjectTest.php</file>
         <file>Tests/MilestoneTest.php</file>
         <file>Tests/Task/ListTest.php</file>
+        <file>Tests/TaskTest.php</file>
         <file>Tests/FinishTest.php</file>
         <!--
         <exclude>
@@ -22,7 +23,7 @@
     <logging>
         <log type="coverage-html" target="Tests/build/coverage" charset="UTF-8"
             yui="true" highlight="true" lowUpperBound="50" highLowerBound="80" />
-        <log type="testdox" target="Tests/build/testdox.html" />
+        <log type="testdox-html" target="Tests/build/testdox.html" />
     </logging>
     <php>
         <const name="API_COMPANY" value="phpapi2"/>

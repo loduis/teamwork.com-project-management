@@ -11,6 +11,25 @@ class FinishedTest extends TestCase
         $this->projectId = get_first_project_id();
     }
 
+
+    /**
+     *
+     * @test
+     */
+
+    public function getTaskListWithoutTasks()
+    {
+        try {
+            $model = TeamWorkPm::factory('task/list');
+            $project_id = get_first_project_id();
+            $id        = get_first_task_list_id($project_id);
+            $list = $model->get($id, false);
+            $this->assertCount(0, get_object_vars($list->todoItems));
+        } catch (\TeamWorkPm\Exception $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
+    }
+
     /**
      *
      * @test

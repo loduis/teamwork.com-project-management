@@ -57,6 +57,16 @@ class MilestoneTest extends TestCase
     }
 
     /**
+     * @expectedException        \TeamWorkPm\Exception
+     * @expectedExceptionMessage Invalid param id
+     * @test
+     */
+    public function getWithInvalidId()
+    {
+        $this->model->get(0);
+    }
+
+    /**
      *
      * @test
      */
@@ -69,6 +79,27 @@ class MilestoneTest extends TestCase
             $this->assertTrue(false, $e->getMessage());
         }
     }
+
+    /**
+     * @expectedException        \TeamWorkPm\Exception
+     * @expectedExceptionMessage Invalid type for param filter
+     * @test
+     */
+    public function getAllWithInvalidFilterParamType()
+    {
+        $this->model->getAll(array('filter'=>'bladd'));
+    }
+
+    /**
+     * @expectedException        \TeamWorkPm\Exception
+     * @expectedExceptionMessage Invalid value for param filter
+     * @test
+     */
+    public function getAllWithInvalidFilterParamValue()
+    {
+        $this->model->getAll('bla');
+    }
+
 
     /**
      *
