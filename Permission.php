@@ -151,6 +151,6 @@ class Permission extends Rest\Model
         if ($id <= 0) {
             throw new Exception("Require field id");
         }
-        return $this->_put("projects/$project_id/people/$id", $data);
+        return $this->rest->put("projects/$project_id/people/$id", $data);
     }
 }

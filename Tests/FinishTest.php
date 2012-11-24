@@ -2,6 +2,14 @@
 
 class FinishedTest extends TestCase
 {
+    private $projectId;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->projectId = get_first_project_id();
+    }
 
     /**
      *
@@ -19,17 +27,45 @@ class FinishedTest extends TestCase
     }
 
     /**
+     *
      * @test
      */
-    public function deleteProject()
+    public function deleteMilestone()
     {
         try {
-            $id = get_first_project_id();
-            $project = TeamWorkPm::factory('project');
-            $this->assertTrue($project->delete($id));
+            $id = get_first_milestone_id($this->projectId);
+            $milestone = TeamWorkPm::factory('milestone');
+            $this->assertTrue($milestone->delete($id));
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertTrue(false, $e->getMessage());
         }
     }
 
+    /**
+     *
+     * @test
+     */
+    public function deleteTaskList()
+    {
+        try {
+            $id = get_first_task_list_id($this->projectId);
+            $list = TeamWorkPm::factory('task/list');
+            $this->assertTrue($list->delete($id));
+        } catch (\TeamWorkPm\Exception $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function deleteProject()
+    {
+        try {
+            $project = TeamWorkPm::factory('project');
+            $this->assertTrue($project->delete($this->projectId));
+        } catch (\TeamWorkPm\Exception $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
+    }
 }

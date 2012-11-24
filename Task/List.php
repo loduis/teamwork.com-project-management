@@ -38,6 +38,7 @@ class Task_List extends Model
         $this->_parent = 'todo-list';
         $this->_action = 'todo_lists';
     }
+
     /**
      * Retrieve all lists in a Project
      *
@@ -51,29 +52,22 @@ class Task_List extends Model
      * @param <type> $filter
      * @return object
      */
-    public function getAllByProject($project_id, $params = array())
+    public function getByProject($project_id, $params = null)
     {
-
-        return $this->_getByStatus($project_id, 'all', $params);
-    }
-
-    public function getActiveByProject($project_id, $params = array())
-    {
-
-        return $this->_getByStatus($project_id, 'active', $params);
-    }
-
-    public function getCompletedByProject($project_id, $params = array())
-    {
-
-        return $this->_getByStatus($project_id, 'completed', $params);
-    }
-
-
-    private function _getByStatus($id, $status, $params)
-    {
-        $params['status'] = $status;
-        return $this->_get("projects/$id/$this->_action", $params);
+        $project_id = (int) $project_id;
+        if ($project_id <= 0) {
+            throw new Exception('Invalid param project_id');
+        }
+        if ($params && is_string($params)) {
+            $status = array('active','completed');
+            $filter = array('upcoming','late','today','tomorrow');
+            if (in_array($params, $status)) {
+                $params = array('status'=> $params);
+            } elseif (in_array($params, $filter)) {
+                $params = array('filter'=> $params);
+            }
+        }
+        return $this->rest->get("projects/$project_id/$this->_action", $params);
     }
 
     /**
@@ -90,7 +84,7 @@ class Task_List extends Model
     public function reorder($project_id, array $ids)
     {
         $project_id = (int) $project_id;
-        return $this->_post("projects/$project_id/$this->_action/reorder", $ids);
+        return $this->rest->post("projects/$project_id/$this->_action/reorder", $ids);
     }
 
     /**
@@ -100,10 +94,10 @@ class Task_List extends Model
      */
     public function insert(array $data)
     {
-        $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
+        $project_id = empty($data['project_id']) ? 0 : (int) $data['project_id'];
         if ($project_id <= 0) {
-            throw new Exception('Require field project id');
+            throw new Exception('Required field project_id');
         }
-        return $this->_post("projects/$project_id/$this->_action", $data);
+        return $this->rest->post("projects/$project_id/$this->_action", $data);
     }
 }

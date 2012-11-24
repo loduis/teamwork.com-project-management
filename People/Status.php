@@ -25,7 +25,7 @@ class Status extends \TeamWorkPm\Rest\Model
     public function get($id)
     {
         $id = (int) $id;
-        return $this->_get("people/statuses/$id");
+        return $this->rest->get("people/statuses/$id");
     }
 
     /**
@@ -37,7 +37,7 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function getAll()
     {
-        return $this->_get("people/$this->_action");
+        return $this->rest->get("people/$this->_action");
     }
 
     /**
@@ -56,7 +56,7 @@ class Status extends \TeamWorkPm\Rest\Model
         }
         unset($data['person_id']);
 
-        return $this->_post("people/$person_id/$this->_action", $data);
+        return $this->rest->post("people/$person_id/$this->_action", $data);
     }
 
     /**
@@ -76,7 +76,7 @@ class Status extends \TeamWorkPm\Rest\Model
         }
         $person_id = empty($data['person_id']) ? 0 : (int) $data['person_id'];
         unset($data['id'], $data['person_id']);
-        return $this->_put('people/' . ($person_id ? $person_id . '/' : '') .  "$this->_action/$id", $data);
+        return $this->rest->put('people/' . ($person_id ? $person_id . '/' : '') .  "$this->_action/$id", $data);
     }
 
     /**
@@ -94,7 +94,7 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function delete($id, $person_id = null)
     {
-        return $this->_delete('people/' . ($person_id ? $person_id . '/' : '') .  "$this->_action/$id");
+        return $this->rest->delete('people/' . ($person_id ? $person_id . '/' : '') .  "$this->_action/$id");
     }
 
     /**

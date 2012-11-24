@@ -33,7 +33,7 @@ abstract class Model extends \TeamWorkPm\Model
         if ($resource_id <= 0) {
             throw new Exception('Require field resource_id');
         }
-        return $this->_post("$this->_resource/$resource_id/$this->_action", $data);
+        return $this->rest->post("$this->_resource/$resource_id/$this->_action", $data);
     }
 
     /**
@@ -52,6 +52,6 @@ abstract class Model extends \TeamWorkPm\Model
                 unset ($params[$name]);
             }
         }
-        return $this->_get("$this->_resource/$resource_id/$this->_action", $params);
+        return $this->rest->get("$this->_resource/$resource_id/$this->_action", $params);
     }
 }

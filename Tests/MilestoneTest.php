@@ -21,20 +21,12 @@ class MilestoneTest extends TestCase
     public function insert($data)
     {
         try {
-          $data['project_id'] = $this->projectId;
-          $data['responsible_party_ids'] = get_first_people_id($this->projectId);
-          $id = $this->model->save($data);
-          $this->assertGreaterThan(0, $id);
+            $data['project_id'] = $this->projectId;
+            $data['responsible_party_ids'] = get_first_people_id($this->projectId);
+            $id = $this->model->save($data);
+            $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
-            $code = $e->getCode();
-            switch ($code) {
-              case \TeamWorkPm\Error::ALREADY_EXISTS:
-                $this->markTestSkipped($e->getMessage());
-                break;
-              default:
-                $this->assertTrue(false, $e->getMessage());
-                break;
-            }
+            $this->assertTrue(false, $e->getMessage());
         }
     }
 
@@ -111,7 +103,10 @@ class MilestoneTest extends TestCase
     public function getCompleted()
     {
         try {
-            $milestones = $this->model->getCompleted($this->projectId);
+            $milestones = $this->model->getByProject(
+                $this->projectId,
+                'completed'
+            );
             $this->assertGreaterThan(0, count($milestones));
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertTrue(false, $e->getMessage());
@@ -137,7 +132,10 @@ class MilestoneTest extends TestCase
     public function getIncomplete()
     {
         try {
-            $milestones = $this->model->getIncomplete($this->projectId);
+            $milestones = $this->model->getByProject(
+                $this->projectId,
+                'incomplete'
+            );
             $this->assertGreaterThan(0, count($milestones));
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertTrue(false, $e->getMessage());
@@ -166,7 +164,10 @@ class MilestoneTest extends TestCase
     public function getLate()
     {
         try {
-            $milestones = $this->model->getLate($this->projectId);
+            $milestones = $this->model->getByProject(
+                $this->projectId,
+                'late'
+            );
             $this->assertGreaterThan(0, count($milestones));
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertTrue(false, $e->getMessage());
@@ -195,7 +196,10 @@ class MilestoneTest extends TestCase
     public function getUpcoming()
     {
         try {
-            $milestones = $this->model->getUpcoming($this->projectId);
+            $milestones = $this->model->getByProject(
+                $this->projectId,
+                'upcoming'
+            );
             $this->assertGreaterThan(0, count($milestones));
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertTrue(false, $e->getMessage());
@@ -210,7 +214,10 @@ class MilestoneTest extends TestCase
               array(
                 'title'       => 'Test milestone',
                 'description' => 'Bla, Bla, Bla',
-                'deadline'    => date('Ymd', strtotime('+10 day'))
+                'deadline'    => date('Ymd', strtotime('+10 day')),
+                'notify'      => false,
+                'reminder'    => false,
+                'private'     => false
               )
             )
         );

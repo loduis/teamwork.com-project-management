@@ -110,7 +110,7 @@ class People extends Model
      */
     public function getAll()
     {
-        return $this->_get($this->_action);
+        return $this->rest->get($this->_action);
     }
 
     /**
@@ -124,7 +124,7 @@ class People extends Model
     public function getByProject($id)
     {
         $id = (int) $id;
-        return $this->_get("projects/$id/$this->_action");
+        return $this->rest->get("projects/$id/$this->_action");
     }
 
     /**
@@ -139,7 +139,7 @@ class People extends Model
     public function getByCompany($id)
     {
         $id = (int) $id;
-        return $this->_get("companies/$id/$this->_action");
+        return $this->rest->get("companies/$id/$this->_action");
     }
 
     /**
@@ -150,7 +150,7 @@ class People extends Model
      */
     public function getInProject($people_id, $project_id)
     {
-        return $this->_get("projects/$project_id/people/$people_id");
+        return $this->rest->get("projects/$project_id/people/$people_id");
     }
 
     /**
@@ -174,7 +174,7 @@ class People extends Model
         if ($people_id <= 0) {
             throw new Exception('Require parameter people_id');
         }
-        return $this->_post("projects/$project_id/people/$people_id");
+        return $this->rest->post("projects/$project_id/people/$people_id");
     }
 
     /**
@@ -247,7 +247,7 @@ class People extends Model
             }
         }
 
-        return $this->_put("$this->_action/$id", $data);
+        return $this->rest->put("$this->_action/$id", $data);
     }
 
     /**
@@ -264,6 +264,6 @@ class People extends Model
      */
     public function removeFromProject($people_id, $project_id)
     {
-        return $this->_delete("projects/$project_id/people/$people_id");
+        return $this->rest->delete("projects/$project_id/people/$people_id");
     }
 }

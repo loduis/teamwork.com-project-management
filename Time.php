@@ -38,7 +38,7 @@ class Time extends Model
         if (!$id) {
             throw new Exception('Require field project_id or task_id');
         }
-        return $this->_post("$resource/$id/$this->_action", $data);
+        return $this->rest->post("$resource/$id/$this->_action", $data);
     }
 
     /**
@@ -58,7 +58,7 @@ class Time extends Model
 
     public function getAll(array $params = array())
     {
-        return $this->_get("$this->_action", $params);
+        return $this->rest->get("$this->_action", $params);
     }
 
     /**
@@ -81,7 +81,7 @@ class Time extends Model
         if ($id <= 0) {
             throw new Exception('Require parameter id.');
         }
-        return $this->_get("projects/$id/$this->_action", $params);
+        return $this->rest->get("projects/$id/$this->_action", $params);
     }
 
     /**
@@ -101,6 +101,6 @@ class Time extends Model
         if ($id <= 0) {
             throw new Exception('Require parameter id.');
         }
-        return $this->_get("todo_items/$id/$this->_action", $params);
+        return $this->rest->get("todo_items/$id/$this->_action", $params);
     }
 }

@@ -28,7 +28,7 @@ class Link extends Model
      */
     public function getAll()
     {
-        return $this->_get($this->_action);
+        return $this->rest->get($this->_action);
     }
 
     /**
@@ -49,7 +49,7 @@ class Link extends Model
             throw new \TeamWorkPm\Exception('Require param id');
         }
 
-        $response = $this->_get("/projects/$id/$this->_action");
+        $response = $this->rest->get("/projects/$id/$this->_action");
 
         return $response;
     }
@@ -70,6 +70,6 @@ class Link extends Model
         if ($project_id <= 0) {
             throw new Exception('Require field project id');
         }
-        return $this->_post("projects/$project_id/$this->_action", $data);
+        return $this->rest->post("projects/$project_id/$this->_action", $data);
     }
 }

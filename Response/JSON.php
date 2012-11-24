@@ -22,7 +22,7 @@ class JSON extends Model
                             return (int) $headers['id'];
                         } elseif (!empty($source->fileId)) {
                             return (int) $source->fileId;
-                        } elseif ($headers['Location']) {
+                        } elseif (!empty($headers['Location'])) {
                             $location = $headers['Location'];
                             $id = substr($location, strrpos($location, '/') + 1);
                             $id = (int) substr($id, 0, strpos($id, '.'));

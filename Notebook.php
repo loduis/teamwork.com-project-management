@@ -40,7 +40,7 @@ class Notebook extends Model
      */
     public function getAll($include_content = false)
     {
-        return $this->_get("$this->_action", array(
+        return $this->rest->get("$this->_action", array(
           'includeContent'=>$include_content
         ));
     }
@@ -60,7 +60,7 @@ class Notebook extends Model
     public function getByProject($id, $include_content = false)
     {
         $id = (int) $id;
-        return $this->_get("projects/$id/$this->_action", array(
+        return $this->rest->get("projects/$id/$this->_action", array(
           'includeContent'=>$include_content
         ));
     }
@@ -77,7 +77,7 @@ class Notebook extends Model
     public function lock($id)
     {
         $id = (int) $id;
-        return $this->_put("$this->_action/$id/lock");
+        return $this->rest->put("$this->_action/$id/lock");
     }
 
     /**
@@ -93,7 +93,7 @@ class Notebook extends Model
     public function unlock($id)
     {
         $id = (int) $id;
-        return $this->_put("$this->_action/$id/unlock");
+        return $this->rest->put("$this->_action/$id/unlock");
     }
 
     /**
@@ -110,7 +110,7 @@ class Notebook extends Model
         if ($project_id <= 0) {
             throw new \TeamWorkPm\Exception('Require field project_id');
         }
-        return $this->_post("projects/$project_id/$this->_action", $data);
+        return $this->rest->post("projects/$project_id/$this->_action", $data);
     }
 
     public function update(array $data)

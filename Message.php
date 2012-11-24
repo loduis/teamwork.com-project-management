@@ -59,7 +59,7 @@ class Message extends Model
         if ($archive) {
             $action .= '/archive';
         }
-        return $this->_get($action);
+        return $this->rest->get($action);
     }
 
     /**
@@ -94,7 +94,7 @@ class Message extends Model
         if ($archive) {
             $action .= '/archive';
         }
-        return $this->_get($action);
+        return $this->rest->get($action);
     }
 
     /**
@@ -114,6 +114,6 @@ class Message extends Model
         if ($project_id <= 0) {
             throw new Exception('Require field project_id');
         }
-        return $this->_post("projects/$project_id/$this->_action", $data);
+        return $this->rest->post("projects/$project_id/$this->_action", $data);
     }
 }

@@ -153,7 +153,7 @@ class Task extends Model
     {
         $params['filter'] = $filter;
         $id = (int) $id;
-        return $this->_get("todo_lists/$id/$this->_action", $params);
+        return $this->rest->get("todo_lists/$id/$this->_action", $params);
     }
 
     /**
@@ -176,7 +176,7 @@ class Task extends Model
         if ($task_list_id <= 0) {
             throw new Exception('Require field todo list id');
         }
-        return $this->_post("todo_lists/$task_list_id/$this->_action", $data);
+        return $this->rest->post("todo_lists/$task_list_id/$this->_action", $data);
     }
 
     /**
@@ -192,7 +192,7 @@ class Task extends Model
     public function complete($id)
     {
         $id = (int) $id;
-        return $this->_put("$this->_action/$id/complete");
+        return $this->rest->put("$this->_action/$id/complete");
     }
 
     /**
@@ -208,7 +208,7 @@ class Task extends Model
     public function unComplete($id)
     {
       $id = (int) $id;
-      return $this->_put("$this->_action/$id/uncomplete");
+      return $this->rest->put("$this->_action/$id/uncomplete");
     }
 
     /**
@@ -227,6 +227,6 @@ class Task extends Model
     public function reorder($task_list_id, array $ids)
     {
         $task_list_id = (int) $task_list_id;
-        return $this->_post("todo_lists/$task_list_id/$this->_action/reorder", $ids);
+        return $this->rest->post("todo_lists/$task_list_id/$this->_action/reorder", $ids);
     }
 }

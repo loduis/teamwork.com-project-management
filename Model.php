@@ -11,7 +11,7 @@ abstract class Model extends Rest\Model
     public function get($id, $params = array())
     {
         $id = (int) $id;
-        return $this->_get("$this->_action/$id", $params);
+        return $this->rest->get("$this->_action/$id", $params);
     }
 
     /**
@@ -21,7 +21,7 @@ abstract class Model extends Rest\Model
      */
     public function insert(array $data)
     {
-        return $this->_post($this->_action, $data);
+        return $this->rest->post($this->_action, $data);
     }
 
     /**
@@ -31,11 +31,11 @@ abstract class Model extends Rest\Model
      */
     public function update(array $data)
     {
-        $id = (int) empty($data['id']) ? 0 : $data['id'];
+        $id = empty($data['id']) ? 0 : (int) $data['id'];
         if ($id <= 0) {
             throw new Exception('Require field id');
         }
-        return $this->_put("$this->_action/$id", $data);
+        return $this->rest->put("$this->_action/$id", $data);
     }
     /**
      *
@@ -44,9 +44,9 @@ abstract class Model extends Rest\Model
      */
     final public function save(array $data)
     {
-        return empty($data['id']) ?
-            $this->insert($data) :
-            $this->update($data);
+        return isset($data['id']) ?
+            $this->update($data):
+            $this->insert($data);
     }
     /**
      *
@@ -59,6 +59,6 @@ abstract class Model extends Rest\Model
         if ($id <= 0) {
             throw new Exception('Require param id');
         }
-        return $this->_delete("$this->_action/$id");
+        return $this->rest->delete("$this->_action/$id");
     }
 }

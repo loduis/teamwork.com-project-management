@@ -15,7 +15,7 @@ class Account extends Rest\Model
      */
     public function get()
     {
-        return $this->_get("$this->_action");
+        return $this->rest->get("$this->_action");
     }
 
     /**
@@ -34,6 +34,6 @@ class Account extends Rest\Model
      */
     public function authenticate()
     {
-        return $this->_get('authenticate');
+        return $this->rest->get('authenticate');
     }
 }

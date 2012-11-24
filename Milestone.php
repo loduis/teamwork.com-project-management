@@ -59,7 +59,7 @@ class Milestone extends Model
      */
     public function complete($id)
     {
-        return $this->_put("$this->_action/$id/complete");
+        return $this->rest->put("$this->_action/$id/complete");
     }
 
     /**
@@ -74,7 +74,7 @@ class Milestone extends Model
      */
     public function unComplete($id)
     {
-        return $this->_put("$this->_action/$id/uncomplete");
+        return $this->rest->put("$this->_action/$id/uncomplete");
     }
 
     /**
@@ -82,63 +82,29 @@ class Milestone extends Model
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getAll($project_id = null)
+    public function getAll($params = array())
     {
-        return $this->_getByFilter('all', $project_id);
+        if (is_string($params)) {
+            $params = array(
+                'find'=> $params
+            );
+        }
+        return $this->rest->get("$this->_action", $params);
     }
 
     /**
-     * Get all complete milestone
+     * Get all milestone
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getCompleted($project_id = null)
+    public function getByProject($project_id, $params = null)
     {
-        return $this->_getByFilter('completed', $project_id);
-    }
-
-    /**
-     * Get all incomplete milestone
-     *
-     * @return TeamWorkPm\Response\Model
-     */
-    public function getIncomplete($project_id = null)
-    {
-        return $this->_getByFilter('incomplete', $project_id);
-    }
-
-    /**
-     * Get all late milestone
-     *
-     * @return TeamWorkPm\Response\Model
-     */
-    public function getLate($project_id = null)
-    {
-        return $this->_getByFilter('late', $project_id);
-    }
-
-    /**
-     * Get all upcoming milestone
-     *
-     * @return TeamWorkPm\Response\Model
-     */
-    public function getUpcoming($project_id = null)
-    {
-        return $this->_getByFilter('upcoming', $project_id);
-    }
-
-    /**
-     * Get all milestone by filter
-     *
-     * @param string $filter
-     * @return TeamWorkPm\Response\Model
-     */
-    private function _getByFilter($filter, $project_id)
-    {
-        $project_id = (int) $project_id;
-        $action = $project_id ? "projects/$project_id/$this->_action" : $this->_action;
-
-        return $this->_get($action, array('find'=>$filter));
+        if ($params && is_string($params)) {
+            $params = array(
+                'find'=> $params
+            );
+        }
+        return $this->rest->get("projects/$project_id/$this->_action", $params);
     }
 
     /**
@@ -148,10 +114,10 @@ class Milestone extends Model
      */
     public function insert(array $data)
     {
-        $project_id = (int) (empty($data['project_id']) ? 0 : $data['project_id']);
+        $project_id = (int) (isset($data['project_id']) ? $data['project_id'] : 0);
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }
-        return $this->_post("projects/$project_id/$this->_action", $data);
+        return $this->rest->post("projects/$project_id/$this->_action", $data);
     }
 }

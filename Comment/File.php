@@ -22,6 +22,6 @@ class File extends Model
         if ($resource_id <= 0) {
             throw new Exception('Require field resource_id');
         }
-        return $this->_post("fileversions/$resource_id/$this->_action", $data);
+        return $this->rest->post("fileversions/$resource_id/$this->_action", $data);
     }
 }

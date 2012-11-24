@@ -66,8 +66,21 @@ function get_first_milestone_id($project_id)
     static $id = null;
     if ($id === null) {
         $milestone = TeamWorkPm::factory('milestone');
-        foreach($milestone->getAll($project_id) as $m) {
+        foreach($milestone->getByProject($project_id) as $m) {
             $id = $m->id;
+            break;
+        }
+    }
+    return (int) $id;
+}
+
+function get_first_task_list_id($project_id)
+{
+    static $id = null;
+    if ($id === null) {
+        $list = TeamWorkPm::factory('task/list');
+        foreach($list->getByProject($project_id) as $t) {
+            $id = $t->id;
             break;
         }
     }

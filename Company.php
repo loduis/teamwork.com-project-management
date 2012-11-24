@@ -265,7 +265,7 @@ class Company extends Model
      */
     public function getAll()
     {
-        return $this->_get("$this->_action");
+        return $this->rest->get("$this->_action");
     }
     /**
      * Retrieving Companies within a Project
@@ -279,6 +279,6 @@ class Company extends Model
      */
     public function getByProject($id)
     {
-        return $this->_get("projects/$id/$this->_action");
+        return $this->rest->get("projects/$id/$this->_action");
     }
 }

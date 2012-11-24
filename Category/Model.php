@@ -28,7 +28,7 @@ abstract class Model extends \TeamWorkPm\Model
     public function getByProject($id)
     {
         $id = (int) $id;
-        return $this->_get("projects/$id/$this->_action");
+        return $this->rest->get("projects/$id/$this->_action");
     }
 
     /**
@@ -47,6 +47,6 @@ abstract class Model extends \TeamWorkPm\Model
         if ($project_id <= 0) {
             throw new \TeamWorkPm\Exception('Require field project_id');
         }
-        return $this->_post("projects/$project_id/$this->_action", $data);
+        return $this->rest->post("projects/$project_id/$this->_action", $data);
     }
 }

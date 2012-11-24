@@ -65,11 +65,17 @@ abstract class Model
 
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function  __destruct()
     {
         unset (self::$instances[$this->hash]);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final protected function __clone ()
     {
 
@@ -90,34 +96,5 @@ abstract class Model
         }
 
         return self::$instances[$hash];
-    }
-
-    /*------------------------------
-            API REST METHOD
-     ------------------------------*/
-
-    final protected function _post($action, array $request = array())
-    {
-        return $this->rest->post($action, $request);
-    }
-
-    final protected function _put($action, array $request = array())
-    {
-        return $this->rest->put($action, $request);
-    }
-
-    final protected function _get($action, $request = null)
-    {
-        return $this->rest->get($action, $request);
-    }
-
-    final protected function _delete($action)
-    {
-        return $this->rest->delete($action);
-    }
-
-    final protected function _upload($action, $request)
-    {
-        return $this->rest->upload($action, $request);
     }
 }

@@ -22,6 +22,6 @@ class Project extends \TeamWorkPm\Model
      */
     public function getAll()
     {
-        return $this->_get($this->_action);
+        return $this->rest->get($this->_action);
     }
 }

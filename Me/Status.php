@@ -26,7 +26,7 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function get()
     {
-        return $this->_get("me/$this->_action");
+        return $this->rest->get("me/$this->_action");
     }
 
     /**
@@ -41,7 +41,7 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function insert(array $data)
     {
-        return $this->_post("me/$this->_action", $data);
+        return $this->rest->post("me/$this->_action", $data);
     }
 
     /**
@@ -61,7 +61,7 @@ class Status extends \TeamWorkPm\Rest\Model
             throw new \TeamWorkPm\Exception('Require field id');
         }
         unset($data['id']);
-        return $this->_put("me/$this->_action/$id", $data);
+        return $this->rest->put("me/$this->_action/$id", $data);
     }
 
     /**
@@ -78,7 +78,7 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function delete($id)
     {
-        return $this->_delete("me/$this->_action/$id");
+        return $this->rest->delete("me/$this->_action/$id");
     }
 
     /**

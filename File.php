@@ -34,7 +34,7 @@ class File extends Rest\Model
     public function get($id)
     {
         $id = (int) $id;
-        return $this->_get("$this->_action/$id");
+        return $this->rest->get("$this->_action/$id");
     }
 
     /**
@@ -50,7 +50,7 @@ class File extends Rest\Model
     public function getByProject($id)
     {
         $id = (int) $id;
-        return $this->_get("projects/$id/$this->_action");
+        return $this->rest->get("projects/$id/$this->_action");
     }
 
     /**
@@ -69,7 +69,7 @@ class File extends Rest\Model
         if (empty($id)) {
             throw new Exception('Require field id');
         }
-        return $this->_delete("$this->_action/$id");
+        return $this->rest->delete("$this->_action/$id");
     }
     /**
      * Step 1. Upload the file
@@ -86,7 +86,7 @@ class File extends Rest\Model
     public function upload($filename)
     {
         if (file_exists($filename)) {
-            return $this->_id = $this->_upload("pendingfiles", array(
+            return $this->_id = $this->rest->upload('pendingfiles', array(
               'file'=>'@' . $filename
             ));
         } else {
@@ -124,6 +124,6 @@ class File extends Rest\Model
             $data['pending_file_ref'] = $pending_file_ref;
         }
         unset($data['filename']);
-        return $this->_post("projects/$project_id/files", $data);
+        return $this->rest->post("projects/$project_id/files", $data);
     }
 }

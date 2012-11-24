@@ -24,7 +24,7 @@ class Activity extends Rest\Model
         if ($maxItems) {
             $params['maxItems'] = $maxItems;
         }
-        return $this->_get("$this->_action", $params);
+        return $this->rest->get("$this->_action", $params);
     }
 
     /**
@@ -45,6 +45,6 @@ class Activity extends Rest\Model
             $params['maxItems'] = $maxItems;
         }
 
-        return $this->_get("projects/$project_id/$this->_action", $params);
+        return $this->rest->get("projects/$project_id/$this->_action", $params);
     }
 }

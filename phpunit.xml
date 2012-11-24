@@ -3,6 +3,7 @@
         <file>Tests/Category/ProjectTest.php</file>
         <file>Tests/ProjectTest.php</file>
         <file>Tests/MilestoneTest.php</file>
+        <file>Tests/Task/ListTest.php</file>
         <file>Tests/FinishTest.php</file>
         <!--
         <exclude>

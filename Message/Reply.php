@@ -42,7 +42,7 @@ class Reply extends \TeamWorkPm\Model
                 unset ($params[$name]);
             }
         }
-        return $this->_get("messages/$id/replies", $params);
+        return $this->rest->get("messages/$id/replies", $params);
     }
 
     /**
@@ -62,6 +62,6 @@ class Reply extends \TeamWorkPm\Model
         if (empty($message_id)) {
             throw new \TeamWorkPm\Exception('Require field message_id');
         }
-        return $this->_post("messages/$message_id/messageReplies", $data);
+        return $this->rest->post("messages/$message_id/messageReplies", $data);
     }
 }

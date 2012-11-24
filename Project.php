@@ -99,7 +99,7 @@ class Project extends Model
             }
         }
         $params['status'] = $status;
-        return $this->_get("$this->_action", $params);
+        return $this->rest->get("$this->_action", $params);
     }
 
     /**
@@ -108,7 +108,7 @@ class Project extends Model
      */
     public function getStarred()
     {
-        return $this->_get("$this->_action/starred");
+        return $this->rest->get("$this->_action/starred");
     }
 
     /**
@@ -122,7 +122,7 @@ class Project extends Model
         if ($id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param id');
         }
-        return $this->_put("$this->_action/$id/star");
+        return $this->rest->put("$this->_action/$id/star");
     }
 
     /**
@@ -136,7 +136,7 @@ class Project extends Model
         if ($id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param id');
         }
-        return $this->_put("$this->_action/$id/unstar");
+        return $this->rest->put("$this->_action/$id/unstar");
     }
 
     /**
@@ -168,7 +168,7 @@ class Project extends Model
         $id = (int) $id;
         if ($id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param id');
-        }        
+        }
         $data = array();
         $data['id'] = $id;
         $data['status'] = 'archived';
