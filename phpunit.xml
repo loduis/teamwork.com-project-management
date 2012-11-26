@@ -5,6 +5,7 @@
         <file>Tests/MilestoneTest.php</file>
         <file>Tests/Task/ListTest.php</file>
         <file>Tests/TaskTest.php</file>
+        <file>Tests/TimeTest.php</file>
         <file>Tests/FinishTest.php</file>
         <!--
         <exclude>

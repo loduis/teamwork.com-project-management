@@ -48,15 +48,17 @@ abstract class Model
           array('', '-'),
           $class
         ));
-        $this->_action = str_replace('-', '_', $this->_parent);
-        // pluralize
-        if (substr($this->_action, -1) === 'y') {
-            $this->_action = substr($this->_action, 0, -1) . 'ies';
-        } else {
-            $this->_action .= 's';
-        }
         if (method_exists($this, '_init')) {
             $this->_init();
+        }
+        if (null === $this->_action) {
+            $this->_action = str_replace('-', '_', $this->_parent);
+            // pluralize
+            if (substr($this->_action, -1) === 'y') {
+                $this->_action = substr($this->_action, 0, -1) . 'ies';
+            } else {
+                $this->_action .= 's';
+            }
         }
         //configure request para put y post fields
         $this->rest->getRequest()

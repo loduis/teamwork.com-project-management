@@ -46,6 +46,39 @@ class FinishedTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function deleteTime()
+    {
+        try {
+            $time = TeamWorkPm::factory('time');
+            $times = $time->getAll();
+            foreach($times as $t) {
+                $this->assertTrue($time->delete($t->id));
+            }
+        } catch (Exception $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function deleteTask()
+    {
+        try {
+            $project_id   = get_first_project_id();
+            $task_list_id = get_first_task_list_id($project_id);
+            $id           = get_first_task_id($task_list_id);
+            $task         = TeamWorkPm::factory('task');
+            $this->assertTrue($task->delete($id));
+        } catch (\TeamWorkPm\Exception $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
+    }
+
+    /**
      *
      * @test
      */

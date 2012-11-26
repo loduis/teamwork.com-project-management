@@ -64,7 +64,11 @@ class JSON extends Model
                         }
                         if (!empty($this->id)) {
                             $this->id = (int) $this->id;
+                        } elseif (preg_match('!time_entries/(\d+)!',$headers['X-Action'], $match)) {
+                            $this->id = (int) $match[1];
                         }
+
+
                         return $this;
                 }
             } else {

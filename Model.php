@@ -53,7 +53,7 @@ abstract class Model extends Rest\Model
     }
     /**
      *
-     * @param mixed $id
+     * @param int $id
      * @return bool
      */
     public function delete($id)

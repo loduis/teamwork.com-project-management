@@ -43,6 +43,20 @@ class Task_ListTest extends TestCase
     }
 
     /**
+     * @dataProvider provider
+     * @test
+     */
+    public function update($data)
+    {
+        try {
+            $data['id'] = $this->id;
+            $this->assertTrue($this->model->save($data));
+        } catch (\TeamWorkPm\Exception $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
+    }
+
+    /**
      * @expectedException        \TeamWorkPm\Exception
      * @expectedExceptionMessage Invalid param project_id
      * @test

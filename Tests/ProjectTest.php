@@ -219,7 +219,7 @@ class ProjectTest extends TestCase
         try {
             $projects = $this->model->getAll();
             $this->assertGreaterThan(0, count($projects));
-            $save = $projects->save('output/projects');
+            $save = $projects->save(__DIR__ . '/build/projects');
             $this->assertTrue(is_numeric($save));
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertTrue(false, $e->getMessage());
