@@ -26,6 +26,19 @@ function get_first_project_category_id()
     return (int) $id;
 }
 
+function get_first_link_category_id($project_id)
+{
+    static $id = null;
+    if ($id === null) {
+        $category = TeamWorkPm::factory('category/link');
+        foreach($category->getByProject($project_id) as $c) {
+            $id = $c->id;
+            break;
+        }
+    }
+    return (int) $id;
+}
+
 function get_first_people_id($project_id)
 {
     static $id = null;
@@ -85,6 +98,20 @@ function get_first_time_id($task_id)
         $time = TeamWorkPm::factory('time');
         foreach($time->getByTask($task_id) as $t) {
             $id = $t->id;
+            break;
+        }
+    }
+    return (int) $id;
+}
+
+function get_first_link_id()
+{
+    static $id = null;
+    if ($id === null) {
+        $link = TeamWorkPm::factory('link');
+        $links = $link->getAll();
+        foreach($links as $l) {
+            $id = $l->id;
             break;
         }
     }

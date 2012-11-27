@@ -46,6 +46,22 @@ class FinishedTest extends TestCase
     }
 
     /**
+     *
+     * @test
+     */
+    public function deleteCategoryLink()
+    {
+        try {
+            $category = TeamWorkPm::factory('category/link');
+            foreach($category->getByProject($this->projectId) as $c) {
+                $this->assertTrue($category->delete($c->id));
+            }
+        } catch (\TeamWorkPm\Exception $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
+    }
+
+    /**
      * @test
      */
     public function deleteTime()
@@ -57,23 +73,6 @@ class FinishedTest extends TestCase
                 $this->assertTrue($time->delete($t->id));
             }
         } catch (Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
-        }
-    }
-
-    /**
-     *
-     * @test
-     */
-    public function deleteTask()
-    {
-        try {
-            $project_id   = get_first_project_id();
-            $task_list_id = get_first_task_list_id($project_id);
-            $id           = get_first_task_id($task_list_id);
-            $task         = TeamWorkPm::factory('task');
-            $this->assertTrue($task->delete($id));
-        } catch (\TeamWorkPm\Exception $e) {
             $this->assertTrue(false, $e->getMessage());
         }
     }
@@ -97,6 +96,24 @@ class FinishedTest extends TestCase
      *
      * @test
      */
+    public function deleteTask()
+    {
+        try {
+            $project_id   = get_first_project_id();
+            $task_list_id = get_first_task_list_id($project_id);
+            $id           = get_first_task_id($task_list_id);
+            $task         = TeamWorkPm::factory('task');
+            $this->assertTrue($task->delete($id));
+        } catch (\TeamWorkPm\Exception $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
+    }
+
+
+    /**
+     *
+     * @test
+     */
     public function deleteTaskList()
     {
         try {
@@ -104,6 +121,22 @@ class FinishedTest extends TestCase
             $list = TeamWorkPm::factory('task/list');
             $this->assertTrue($list->delete($id));
         } catch (\TeamWorkPm\Exception $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function deleteLink()
+    {
+        try {
+            $link = TeamWorkPm::factory('link');
+            $links = $link->getAll();
+            foreach($links as $l) {
+                $this->assertTrue($link->delete($l->id));
+            }
+        } catch (Exception $e) {
             $this->assertTrue(false, $e->getMessage());
         }
     }

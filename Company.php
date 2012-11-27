@@ -265,8 +265,9 @@ class Company extends Model
      */
     public function getAll()
     {
-        return $this->rest->get("$this->_action");
+        return $this->rest->get($this->_action);
     }
+
     /**
      * Retrieving Companies within a Project
      *

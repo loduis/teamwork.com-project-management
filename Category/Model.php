@@ -25,10 +25,13 @@ abstract class Model extends \TeamWorkPm\Model
      * @param int $id
      * @return TeamWorkPm\Response\Model
      */
-    public function getByProject($id)
+    public function getByProject($project_id)
     {
-        $id = (int) $id;
-        return $this->rest->get("projects/$id/$this->_action");
+        $project_id = (int) $project_id;
+        if ($project_id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param project_id');
+        }
+        return $this->rest->get("projects/$project_id/$this->_action");
     }
 
     /**
@@ -43,9 +46,9 @@ abstract class Model extends \TeamWorkPm\Model
      */
     public function insert(array $data)
     {
-        $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
+        $project_id = isset($data['project_id']) ? (int) $data['project_id'] : 0;
         if ($project_id <= 0) {
-            throw new \TeamWorkPm\Exception('Require field project_id');
+            throw new \TeamWorkPm\Exception('Required field project_id');
         }
         return $this->rest->post("projects/$project_id/$this->_action", $data);
     }

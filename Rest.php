@@ -118,6 +118,8 @@ final class Rest
         $headers['X-Url']  = $url;
         $headers['X-Request'] = $request;
         $headers['X-Action']  = $action;
+        // for chrome use
+        //$headers['X-Authorization'] = 'BASIC '. base64_encode($this->_key . ':xxx');
         // print_r($headers);
         $response = '\TeamWorkPm\Response\\' . strtoupper(self::$_FORMAT);
         $response = new $response;

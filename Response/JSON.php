@@ -55,7 +55,15 @@ class JSON extends Model
                         } else {
                             $source = current($source);
                         }
-
+                        if ($headers['X-Action'] === 'links') {
+                            $_source = array();
+                            foreach ($source as $project) {
+                                foreach ($project->links as $link) {
+                                    $_source[] = $link;
+                                }
+                            }
+                            $source = $_source;
+                        }
                         $this->_headers = $headers;
                         $this->_string = json_encode($source);
                         $_this = self::_camelizeObject($source);

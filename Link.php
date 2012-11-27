@@ -7,16 +7,42 @@ class Link extends Model
     protected function _init()
     {
         $this->_fields = array(
-            'name'=>true,
-            'description'=>false,
-            'private'=>false,
-            'code'=>true,
-            'width'=>false,
-            'height'=>false,
-            'category_id'=>false,
-            'category_name'=>false,
-            'notify'=>false,
-            'open_in_new_window'=>false
+            // {link name}
+            'name'          =>true,
+            // {link display code: Embed code, Iframe code, URL}
+            'code'          => true,
+            // {link description}
+            'description'   =>false,
+            // {1|0}
+            'private'       =>array(
+                'required'=> false,
+                'type'=>'integer',
+                'validate'=> array(0, 1)
+            ),
+            // {width of window in Teamwork (integer)}
+            'width'         => array(
+                'required'=> false,
+                'type'=>'integer'
+            ),
+            // {height of window in Teamwork (integer)}
+            'height'        => array(
+                'required'=> false,
+                'type'=>'integer'
+            ),
+            // {link category id}
+            'category_id'   => array(
+                'required'=> false,
+                'type'=>'integer'
+            ),
+            // {New link category name. category-id must be passed as 0}
+            'category_name' => false,
+            // {Comma separated list of users to notify OR (YES|NO|ALL)}
+            'notify'        => false,
+            // {Force link to open in new window (boolean)}
+            'open_in_new_window' => array(
+                'required'=> false,
+                'type'=>'boolean'
+            )
         );
     }
 
@@ -42,16 +68,13 @@ class Link extends Model
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getByProject($id)
+    public function getByProject($project_id)
     {
-        $id = (int) $id;
-        if ($id <= 0) {
-            throw new \TeamWorkPm\Exception('Require param id');
+        $project_id = (int) $project_id;
+        if ($project_id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param project_id');
         }
-
-        $response = $this->rest->get("/projects/$id/$this->_action");
-
-        return $response;
+        return $this->rest->get("/projects/$project_id/$this->_action");
     }
 
     /**
@@ -66,9 +89,9 @@ class Link extends Model
      */
     public function insert(array $data)
     {
-        $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
+        $project_id = isset($data['project_id']) ? (int) $data['project_id'] : 0;
         if ($project_id <= 0) {
-            throw new Exception('Require field project id');
+            throw new Exception('Required field project_id');
         }
         return $this->rest->post("projects/$project_id/$this->_action", $data);
     }

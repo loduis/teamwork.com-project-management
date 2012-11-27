@@ -21,6 +21,12 @@ class MilestoneTest extends TestCase
     public function insert($data)
     {
         try {
+            $this->model->save($data);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Required field project_id', $e->getMessage());
+        }
+        try {
             $data['project_id'] = $this->projectId;
             $data['responsible_party_ids'] = get_first_people_id($this->projectId);
             $id = $this->model->save($data);
@@ -29,18 +35,6 @@ class MilestoneTest extends TestCase
             $this->assertTrue(false, $e->getMessage());
         }
     }
-
-    /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Required field project_id
-     * @dataProvider provider
-     * @test
-     */
-    public function insertWithoutProjectId($data)
-    {
-        $this->model->save($data);
-    }
-
 
     /**
      * @dataProvider provider
@@ -57,21 +51,17 @@ class MilestoneTest extends TestCase
     }
 
     /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Invalid param id
-     * @test
-     */
-    public function getWithInvalidId()
-    {
-        $this->model->get(0);
-    }
-
-    /**
      *
      * @test
      */
     public function get()
     {
+        try {
+            $times = $this->model->get(0);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid param id', $e->getMessage());
+        }
         try {
             $milestone = $this->model->get($this->id);
             $this->assertEquals($this->id, $milestone->id);
@@ -81,32 +71,23 @@ class MilestoneTest extends TestCase
     }
 
     /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Invalid type for param filter
-     * @test
-     */
-    public function getAllWithInvalidFilterParamType()
-    {
-        $this->model->getAll(array('filter'=>'bladd'));
-    }
-
-    /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Invalid value for param filter
-     * @test
-     */
-    public function getAllWithInvalidFilterParamValue()
-    {
-        $this->model->getAll('bla');
-    }
-
-
-    /**
      *
      * @test
      */
-    public function getAllWithoutProject()
+    public function getAll()
     {
+        try {
+            $times = $this->model->getAll(array('filter'=>'Backk'));
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid type for param filter', $e->getMessage());
+        }
+        try {
+            $times = $this->model->getAll('backfilter');
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid value for param filter', $e->getMessage());
+        }
         try {
             $milestones = $this->model->getAll();
             $this->assertGreaterThan(0, count($milestones));

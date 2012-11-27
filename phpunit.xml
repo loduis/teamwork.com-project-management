@@ -6,8 +6,11 @@
         <file>Tests/Task/ListTest.php</file>
         <file>Tests/TaskTest.php</file>
         <file>Tests/TimeTest.php</file>
+        <file>Tests/Category/LinkTest.php</file>
+        <file>Tests/LinkTest.php</file>
         <file>Tests/FinishTest.php</file>
         <!--
+        <file>Tests/FinishTest.php</file>
         <exclude>
             <file>TeamWorkPm.php</file>
         </exclude>-->
