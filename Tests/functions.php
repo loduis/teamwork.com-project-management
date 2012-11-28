@@ -117,3 +117,17 @@ function get_first_link_id()
     }
     return (int) $id;
 }
+
+function get_first_company_id()
+{
+    static $id = null;
+    if ($id === null) {
+        $company = TeamWorkPm::factory('company');
+        $companies = $company->getAll();
+        foreach($companies as $c) {
+            $id = $c->id;
+            break;
+        }
+    }
+    return (int) $id;
+}

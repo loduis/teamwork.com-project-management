@@ -2,6 +2,7 @@
     <testsuite name="TeamWorkPm">
         <file>Tests/Category/ProjectTest.php</file>
         <file>Tests/ProjectTest.php</file>
+        <file>Tests/CompanyTest.php</file>
         <file>Tests/MilestoneTest.php</file>
         <file>Tests/Task/ListTest.php</file>
         <file>Tests/TaskTest.php</file>

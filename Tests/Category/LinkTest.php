@@ -33,7 +33,7 @@ class Category_LinkTest extends TestCase
         } catch (\TeamWorkPm\Exception $e) {
             $code = $e->getCode();
             switch ($code) {
-              case \TeamWorkPm\Error::ALREADY_EXISTS:
+              case \TeamWorkPm\Error::THIS_RESOURCE_ALREADY_EXISTSS:
                 $this->markTestSkipped($e->getMessage());
                 break;
               default:

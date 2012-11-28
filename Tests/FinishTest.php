@@ -66,6 +66,7 @@ class FinishedTest extends TestCase
      */
     public function deleteTime()
     {
+        $this->fail('Delete time api bug.');
         try {
             $time = TeamWorkPm::factory('time');
             $times = $time->getAll();
@@ -74,6 +75,30 @@ class FinishedTest extends TestCase
             }
         } catch (Exception $e) {
             $this->assertTrue(false, $e->getMessage());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function deleteCompany()
+    {
+        try {
+            $company = TeamWorkPm::factory('company');
+            $companies = $company->getAll();
+            foreach($companies as $c) {
+                $this->assertTrue($company->delete($c->id));
+            }
+        } catch (\TeamWorkPm\Exception $e) {
+            $code = $e->getCode();
+            switch ($code) {
+              case \TeamWorkPm\Error::CAN_NOT_DELETE_THIS_RESOURCE:
+                $this->markTestSkipped($e->getMessage());
+                break;
+              default:
+                $this->assertTrue(false, $e->getMessage());
+                break;
+            }
         }
     }
 

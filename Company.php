@@ -278,8 +278,12 @@ class Company extends Model
      * @param int $id
      * @return TeamWorkPm\Response\Model
      */
-    public function getByProject($id)
+    public function getByProject($project_id)
     {
-        return $this->rest->get("projects/$id/$this->_action");
+        $project_id = (int) $project_id;
+        if ($project_id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param project_id');
+        }
+        return $this->rest->get("projects/$project_id/$this->_action");
     }
 }
