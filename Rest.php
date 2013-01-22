@@ -9,6 +9,10 @@ final class Rest
      */
     private static $_FORMAT = 'json';
 
+    private static $time = null;
+
+    private static $rateLimit = 120;
+
     /**
      * @var string this is the api key
      */
@@ -33,7 +37,7 @@ final class Rest
     public function  __construct($company, $key)
     {
         if (empty($company) || empty($key)) {
-            throw new Exception('Set your company and api key.');
+            throw new Exception('Set your company and api key');
         } else {
             $this->_key     = $key;
             $this->_company = $company;
@@ -99,27 +103,38 @@ final class Rest
             CURLOPT_SSL_VERIFYHOST => FALSE,
             CURLOPT_SSL_VERIFYPEER => FALSE
         ));
-        $data        = curl_exec ($ch);
-        // echo $data, "\n";
-        // echo "-------------------------------", "\n";
-        $status      = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $headers     = $this->_parseHeaders(substr($data, 0, $header_size));
+
+        $i = 0;
+        while ($i < 5) {
+            $data        = curl_exec ($ch);
+            $status      = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+            $headers     = $this->_parseHeaders(substr($data, 0, $header_size));
+            if ($status === 400 && (int) $headers['X-RateLimit-Remaining'] === 0) {
+                $i ++;
+                sleep(10);
+            } else {
+                break;
+            }
+        }
+
         $body        = substr($data, $header_size);
 
         $errorInfo   = curl_error($ch);
         $error       = curl_errno($ch);
         curl_close($ch);
+
         if ($error) {
             throw new Exception($errorInfo);
         }
+
         $headers['Status'] = $status;
         $headers['Method'] = $method;
         $headers['X-Url']  = $url;
         $headers['X-Request'] = $request;
         $headers['X-Action']  = $action;
         // for chrome use
-        //$headers['X-Authorization'] = 'BASIC '. base64_encode($this->_key . ':xxx');
+        $headers['X-Authorization'] = 'BASIC '. base64_encode($this->_key . ':xxx');
         // print_r($headers);
         $response = '\TeamWorkPm\Response\\' . strtoupper(self::$_FORMAT);
         $response = new $response;
@@ -162,7 +177,9 @@ final class Rest
     {
         return $this->_request;
     }
-
+    /**
+     * @codeCoverageIgnore
+     */
     public static function setFormat($value)
     {
 

@@ -4,6 +4,10 @@ namespace TeamWorkPm;
 class Activity extends Rest\Model
 {
 
+    protected function _init()
+    {
+        $this->_action = 'latestActivity';
+    }
     /**
      * List Latest Activity (across all projects)
      * GET /activity.xml
@@ -13,13 +17,13 @@ class Activity extends Rest\Model
      * @param int $maxItems
      * @return type
      */
-    public function get($maxProjects = null, $maxItems = null)
+    public function getAll($maxItems = null, $onlyStarred = null)
     {
         $params      = array();
-        $maxProjects = (int) $maxProjects;
+        $onlyStarred = (bool) $onlyStarred;
         $maxItems    = (int) $maxItems;
-        if ($maxProjects) {
-            $params['maxProjects'] = $maxProjects;
+        if ($onlyStarred) {
+            $params['onlyStarred'] = $onlyStarred;
         }
         if ($maxItems) {
             $params['maxItems'] = $maxItems;
@@ -39,6 +43,9 @@ class Activity extends Rest\Model
     public function getByProject($project_id, $maxItems = null)
     {
         $project_id = (int) $project_id;
+        if ($project_id <= 0) {
+            throw new Exception('Invalid param project_id');
+        }
         $params      = array();
         $maxItems    = (int) $maxItems;
         if ($maxItems) {

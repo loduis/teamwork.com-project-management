@@ -35,14 +35,19 @@ class Reply extends \TeamWorkPm\Model
      * @param <type> $params
      * @return TeamWorkPm\Response\Model
      */
-    public function getByMessage($id, array $params = array())
+    public function getByMessage($message_id, array $params = array())
     {
+        $message_id = (int) $message_id;
+        if ($message_id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param message_id');
+        }
+        $validate = array('page', 'pagesize');
         foreach ($params as $name=>$value) {
-            if (!in_array(strtolower($name), array('page', 'pagesize'))) {
+            if (!in_array(strtolower($name), $validate)) {
                 unset ($params[$name]);
             }
         }
-        return $this->rest->get("messages/$id/replies", $params);
+        return $this->rest->get("messages/$message_id/replies", $params);
     }
 
     /**
@@ -58,9 +63,10 @@ class Reply extends \TeamWorkPm\Model
      */
     public function insert(array $data)
     {
-        $message_id = $data['message_id'];
-        if (empty($message_id)) {
-            throw new \TeamWorkPm\Exception('Require field message_id');
+
+        $message_id = empty($data['message_id']) ? 0 : (int) $data['message_id'];
+        if ($message_id <= 0) {
+            throw new \TeamWorkPm\Exception('Required field message_id');
         }
         return $this->rest->post("messages/$message_id/messageReplies", $data);
     }

@@ -16,16 +16,16 @@ class Status extends \TeamWorkPm\Rest\Model
     /**
      * Retrieve a Persons Status
      *
-     * GET /people/statuses/#{status_id}
+     * GET /people/#{person_id}/status
      * Returns the latest status post for a user
      *
      * @param type $id
      * @return TeamWorkPm\Response\Model
      */
-    public function get($id)
+    public function get($person_id)
     {
-        $id = (int) $id;
-        return $this->rest->get("people/statuses/$id");
+        $person_id = (int) $person_id;
+        return $this->rest->get("people/$person_id/$this->_action");
     }
 
     /**
@@ -72,11 +72,12 @@ class Status extends \TeamWorkPm\Rest\Model
     {
         $id = (int) empty($data['id']) ? 0 : $data['id'];
         if ($id <= 0) {
-            throw new \TeamWorkPm\Exception('Require field id');
+            throw new \TeamWorkPm\Exception('Required field id');
         }
         $person_id = empty($data['person_id']) ? 0 : (int) $data['person_id'];
         unset($data['id'], $data['person_id']);
-        return $this->rest->put('people/' . ($person_id ? $person_id . '/' : '') .  "$this->_action/$id", $data);
+        return $this->rest->put('people/' .
+           ($person_id ? $person_id . '/' : '') .  "$this->_action/$id", $data);
     }
 
     /**
@@ -94,7 +95,12 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function delete($id, $person_id = null)
     {
-        return $this->rest->delete('people/' . ($person_id ? $person_id . '/' : '') .  "$this->_action/$id");
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new  \TeamWorkPm\Exception('Invalid param id');
+        }
+        return $this->rest->delete('people/' .
+            ($person_id ? $person_id . '/' : '') .  "$this->_action/$id");
     }
 
     /**
@@ -104,7 +110,7 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     final public function save(array $data)
     {
-        return !empty($data['id']) ?
+        return array_key_exists('id', $data) ?
             $this->update($data) :
             $this->insert($data);
     }

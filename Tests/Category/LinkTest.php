@@ -27,19 +27,11 @@ class Category_LinkTest extends TestCase
             $this->assertEquals('Required field project_id', $e->getMessage());
         }
         try {
-          $data['project_id']  = $this->projectId;
-          $id = $this->model->save($data);
-          $this->assertGreaterThan(0, $id);
+            $data['project_id']  = $this->projectId;
+            $id = $this->model->save($data);
+            $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
-            $code = $e->getCode();
-            switch ($code) {
-              case \TeamWorkPm\Error::THIS_RESOURCE_ALREADY_EXISTSS:
-                $this->markTestSkipped($e->getMessage());
-                break;
-              default:
-                $this->assertTrue(false, $e->getMessage());
-                break;
-            }
+            $this->assertEquals('Already exists', $e->getMessage());
         }
     }
 
@@ -53,7 +45,7 @@ class Category_LinkTest extends TestCase
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -68,7 +60,7 @@ class Category_LinkTest extends TestCase
             $this->assertTrue(!empty($category->id) &&
                                                   $this->id === $category->id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -88,7 +80,7 @@ class Category_LinkTest extends TestCase
             $categories = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($categories));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 

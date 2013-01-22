@@ -9,7 +9,7 @@ class File extends Rest\Model
     {
         $this->_fields = array(
             'pending_file_ref' => true,
-            'description'=>true,
+            'description'=>false,
             'category_id'=>array(
                 'required'=>false,
                 'attributes'=>array(
@@ -20,23 +20,15 @@ class File extends Rest\Model
             'private'=>false
         );
     }
-    /**
-     * Get a Single File
-     *
-     * GET /files/#{file_id}
-     *
-     * This returns all details about an individual file.
-     * Crucially - this call also returns the download URL which is valid only for an hour.
-     *
-     * @param type $id
-     * @return type
-     */
+
     public function get($id)
     {
         $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
         return $this->rest->get("$this->_action/$id");
     }
-
     /**
      * List Files on a Project
      *
@@ -44,33 +36,18 @@ class File extends Rest\Model
      *
      * This lets you query the list of files for a project.
      *
-     * @param type $id
+     * @param int $project_id
      * @return TeamWorkPm\Response\Model
      */
-    public function getByProject($id)
+    public function getByProject($project_id)
     {
-        $id = (int) $id;
-        return $this->rest->get("projects/$id/$this->_action");
+        $project_id = (int) $project_id;
+        if ($project_id <= 0) {
+            throw new Exception('Invalid param project_id');
+        }
+        return $this->rest->get("projects/$project_id/$this->_action");
     }
 
-    /**
-     * Delete a File from a Project
-     *
-     * DELETE /files/#{file_id}
-     *
-     * This call deletes a file from a project.
-     *
-     * @param mixed $id
-     * @return bool
-     */
-    public function delete($id)
-    {
-        $id = (int) $id;
-        if (empty($id)) {
-            throw new Exception('Require field id');
-        }
-        return $this->rest->delete("$this->_action/$id");
-    }
     /**
      * Step 1. Upload the file
      *
@@ -79,19 +56,31 @@ class File extends Rest\Model
      * Send your file to POST /pendingfiles.xml using the FORM field "file".
      * You will still need to authenticate yourself by passing your API token.
      *
-     * @param string $filename
+     * If the upload is successful, you will get back something like:
+     * tf_1706111559e0a49
+     *
+     * @param mixed $files
      * @return string
      * @throws \TeamWorkPm\Exception
      */
-    public function upload($filename)
+    public function upload($files)
     {
-        if (file_exists($filename)) {
-            return $this->_id = $this->rest->upload('pendingfiles', array(
-              'file'=>'@' . $filename
-            ));
-        } else {
-            throw new Exception("Not file exist $filename");
+        $files = (array) $files;
+        $pending_file_attachments = array();
+        foreach ($files as $filename) {
+            if (!is_file($filename)) {
+                throw new Exception("Not file exist $filename");
+            }
         }
+        foreach ($files as $filename) {
+            $params = array('file'=>'@' . $filename);
+            $pending_file_attachments[] = $this->rest->upload(
+                'pendingfiles',
+                $params
+            );
+        }
+
+        return join(',', $pending_file_attachments);
     }
 
     /**
@@ -104,26 +93,34 @@ class File extends Rest\Model
      * @return int File id
      * @throws \TeamWorkPm\Exception
      */
-    public function addToProject($data = array())
+    public function save(array $data)
     {
-        $project_id = empty($data['project_id']) ? 0 : (int) $data['project_id'];
+        $project_id = empty($data['project_id']) ? 0: (int) $data['project_id'];
         if ($project_id <= 0) {
-            throw new Exception('Require field project_id');
+            throw new Exception('Required field project_id');
         }
         if (empty($data['pending_file_ref']) && empty($data['filename'])) {
-            throw new Exception('Require field pending_file_ref or filename');
-        }
-        if (empty($data['category_id']) && empty($data['category_name'])) {
-            throw new Exception('Require field category_id or category_name');
+            throw new Exception('Required field pending_file_ref or filename');
         }
         if (empty($data['pending_file_ref'])) {
-            if (empty($data['filename'])) {
-                throw new Exception('Require field filename.');
-            }
-            $pending_file_ref = $this->upload($data['filename']);
-            $data['pending_file_ref'] = $pending_file_ref;
+            $data['pending_file_ref'] = $this->upload($data['filename']);
         }
         unset($data['filename']);
         return $this->rest->post("projects/$project_id/files", $data);
     }
+
+    /**
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function delete($id)
+    {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
+        return $this->rest->delete("$this->_action/$id");
+    }
+
 }

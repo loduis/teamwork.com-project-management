@@ -49,13 +49,13 @@ class Message extends Model
      * @param bool $archive
      * @return array|SimpleXMLElement
      */
-    public function getByProject($id, $archive = FALSE)
+    public function getByProject($project_id, $archive = false)
     {
-        $id  = (int) $id;
-        if ($id <= 0) {
-            throw new \TeamWorkPm\Exception('Require parameter id');
+        $project_id = (int) $project_id;
+        if ($project_id <= 0) {
+            throw new Exception('Invalid param project_id');
         }
-        $action = "projects/$id/$this->_action";
+        $action = "projects/$project_id/$this->_action";
         if ($archive) {
             $action .= '/archive';
         }
@@ -80,15 +80,15 @@ class Message extends Model
      * @param bool $archive
      * @return TeamWorkPm\Response\Model
      */
-    public function getByProjectAndCategory($project_id, $category_id, $archive = FALSE)
+    public function getByProjectAndCategory($project_id, $category_id, $archive = false)
     {
         $project_id  = (int) $project_id;
         if ($project_id <= 0) {
-            throw new \TeamWorkPm\Exception('Require parameter project_id');
+            throw new \TeamWorkPm\Exception('Invalid param project_id');
         }
         $category_id  = (int) $category_id;
         if ($category_id <= 0) {
-            throw new \TeamWorkPm\Exception('Require parameter category_id');
+            throw new \TeamWorkPm\Exception('Invalid param category_id');
         }
         $action = "projects/$project_id/cat/$category_id/$this->_action";
         if ($archive) {
@@ -110,9 +110,14 @@ class Message extends Model
      */
     public function insert(array $data)
     {
-        $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
+        $project_id = empty($data['project_id']) ? 0: (int) $data['project_id'];
         if ($project_id <= 0) {
-            throw new Exception('Require field project_id');
+            throw new \TeamWorkPm\Exception('Required field project_id');
+        }
+        if (!empty($data['files'])) {
+            $file = \TeamWorkPm::factory('file');
+            $data['pending_file_attachments'] = $file->upload($data['files']);
+            unset($data['files']);
         }
         return $this->rest->post("projects/$project_id/$this->_action", $data);
     }

@@ -8,8 +8,8 @@ class Status extends \TeamWorkPm\Rest\Model
         $this->_parent = 'userstatus';
         $this->_action = 'status';
         $this->_fields = array(
-          'status'=>TRUE,
-          'notify'=>FALSE
+          'status'=>true,
+          'notify'=>false
         );
 
     }
@@ -56,11 +56,10 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function update(array $data)
     {
-        $id = (int) empty($data['id']) ? 0 : $data['id'];
+        $id = empty($data['id']) ? 0  : (int) $data['id'];
         if ($id <= 0) {
-            throw new \TeamWorkPm\Exception('Require field id');
+            throw new \TeamWorkPm\Exception('Required field id');
         }
-        unset($data['id']);
         return $this->rest->put("me/$this->_action/$id", $data);
     }
 
@@ -78,18 +77,23 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function delete($id)
     {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param id');
+        }
         return $this->rest->delete("me/$this->_action/$id");
     }
 
     /**
      *
      * @param array $data
-     * @return bool|int
+     * @return bool
      */
     final public function save(array $data)
     {
-        return !empty($data['id']) ?
-            $this->update($data) :
+        return array_key_exists('id', $data) ?
+            $this->update($data):
             $this->insert($data);
     }
+
 }

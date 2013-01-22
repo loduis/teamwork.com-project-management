@@ -21,19 +21,24 @@ class CompanyTest extends TestCase
     public function insert($data)
     {
         try {
-            $data['name'] .= rand(1, 100);
+            $countrycode = $data['countrycode'];
+            $data['countrycode'] = 'BAD CODE';
+            $data['name'] = 'PPPP';
+            $this->model->save($data);
+            $this->fail('An expected exception has not been raised.');
+        } catch (\TeamWorkPm\Exception $e) {
+            $this->assertEquals(
+                "Invalid value for field countrycode",
+                $e->getMessage()
+            );
+        }
+        $data['countrycode'] = $countrycode;
+        try {
+            $data['name'] = rand_string($data['name']);
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
-            $code = $e->getCode();
-            switch ($code) {
-              case \TeamWorkPm\Error::THIS_RESOURCE_ALREADY_EXISTS:
-                $this->markTestSkipped($e->getMessage());
-                break;
-              default:
-                $this->assertTrue(false, $e->getMessage());
-                break;
-            }
+            $this->assertEquals('Already exists', $e->getMessage());
         }
     }
 
@@ -45,10 +50,11 @@ class CompanyTest extends TestCase
     public function update($data)
     {
         try {
+            $data['name'] .= rand(1, 100);
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->assertEquals('Already exists', $e->getMessage());
         }
     }
 
@@ -68,7 +74,7 @@ class CompanyTest extends TestCase
             $company = $this->model->get($this->id);
             $this->assertEquals($this->id, $company->id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -82,7 +88,7 @@ class CompanyTest extends TestCase
             $companies = $this->model->getAll();
             $this->assertGreaterThan(0, count($companies));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -102,7 +108,7 @@ class CompanyTest extends TestCase
             $companies = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($companies));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -111,7 +117,7 @@ class CompanyTest extends TestCase
         return array(
             array(
               array(
-                'name'        => 'Test Company - ',
+                'name'        => 'Test Company',
                 'address_one' => 'Bla, Bla, Bla',
                 'address_two' => 'JAJA',
                 'zip'         => '057',

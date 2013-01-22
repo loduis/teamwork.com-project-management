@@ -2,7 +2,10 @@
 
 require __DIR__  . '/functions.php';
 
-// forzamos a usar excepciones
+// report all errors
+error_reporting(-1);
+
+// throw exception error for all errors
 set_error_handler(function($errno, $errstr, $errfile, $errline)
 {
     throw new ErrorException($errstr, 0, $errno, $errfile, $errline);

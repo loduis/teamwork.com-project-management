@@ -92,7 +92,7 @@ class Project extends Model
     private function _getByStatus($status, $params)
     {
         $params = (array) $params;
-        $params['status'] = $status;
+        $params['status'] = strtoupper($status);
         return $this->rest->get("$this->_action", $params);
     }
 

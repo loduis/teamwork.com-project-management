@@ -59,6 +59,10 @@ class Milestone extends Model
      */
     public function complete($id)
     {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
         return $this->rest->put("$this->_action/$id/complete");
     }
 
@@ -72,8 +76,12 @@ class Milestone extends Model
      * @param int $id
      * @return bool
      */
-    public function unComplete($id)
+    public function uncomplete($id)
     {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
         return $this->rest->put("$this->_action/$id/uncomplete");
     }
 
@@ -94,6 +102,10 @@ class Milestone extends Model
      */
     public function getByProject($project_id, $filter = 'all')
     {
+        $project_id = (int) $project_id;
+        if ($project_id <= 0) {
+            throw new Exception('Invalid param project_id');
+        }
         return $this->rest->get(
             "projects/$project_id/$this->_action",
             $this->getParams($filter)
@@ -104,9 +116,7 @@ class Milestone extends Model
     {
         $params = array();
         if ($filter) {
-            if (!is_string($filter)) {
-                throw new Exception('Invalid type for param filter');
-            }
+            $filter = (string) $filter;
             $filter = strtolower($filter);
             if ($filter !== 'all') {
                 $validate = array('completed', 'incomplete', 'late', 'upcoming');
@@ -126,7 +136,7 @@ class Milestone extends Model
      */
     public function insert(array $data)
     {
-        $project_id = (int) (isset($data['project_id']) ? $data['project_id'] : 0);
+        $project_id = empty($data['project_id']) ? 0: $data['project_id'];
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }

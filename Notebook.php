@@ -1,7 +1,7 @@
 <?php
 namespace TeamWorkPm;
 
-class Notebook extends Model
+class Notebook extends Rest\Model
 {
 
     protected function _init()
@@ -27,6 +27,15 @@ class Notebook extends Model
         );
     }
 
+    public function get($id, $params = null)
+    {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
+        return $this->rest->get("$this->_action/$id", $params);
+    }
+
     /**
      * List All Notebooks
      *
@@ -40,8 +49,9 @@ class Notebook extends Model
      */
     public function getAll($include_content = false)
     {
+        $include_content = (bool) $include_content;
         return $this->rest->get("$this->_action", array(
-          'includeContent'=>$include_content
+          'includeContent'=>$include_content ? 'true' : 'false'
         ));
     }
 
@@ -54,14 +64,18 @@ class Notebook extends Model
      * By default, the actual notebook HTML content is not returned.
      * You can pass includeContent=true to return the notebook HTML content with the notebook data
      *
-     * @param type $id
+     * @param int $project_id
      * @return TeamWorkPm\Response\Model
      */
-    public function getByProject($id, $include_content = false)
+    public function getByProject($project_id, $include_content = false)
     {
-        $id = (int) $id;
-        return $this->rest->get("projects/$id/$this->_action", array(
-          'includeContent'=>$include_content
+        $project_id = (int) $project_id;
+        if ($project_id <= 0) {
+            throw new Exception('Invalid param project_id');
+        }
+        $include_content = (bool) $include_content;
+        return $this->rest->get("projects/$project_id/$this->_action", array(
+          'includeContent'=>$include_content ? 'true' : 'false'
         ));
     }
     /**
@@ -77,6 +91,9 @@ class Notebook extends Model
     public function lock($id)
     {
         $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
         return $this->rest->put("$this->_action/$id/lock");
     }
 
@@ -93,6 +110,9 @@ class Notebook extends Model
     public function unlock($id)
     {
         $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
         return $this->rest->put("$this->_action/$id/unlock");
     }
 
@@ -106,15 +126,35 @@ class Notebook extends Model
      */
     public function insert(array $data)
     {
-        $project_id = (int) empty($data['project_id']) ? 0 : $data['project_id'];
+        $project_id = empty($data['project_id']) ? 0: (int) $data['project_id'];
         if ($project_id <= 0) {
-            throw new \TeamWorkPm\Exception('Require field project_id');
+            throw new \TeamWorkPm\Exception('Required field project_id');
         }
         return $this->rest->post("projects/$project_id/$this->_action", $data);
     }
 
-    public function update(array $data)
+    /**
+     *
+     * @param array $data
+     * @return bool
+     */
+    final public function save(array $data)
     {
-        throw new \TeamWorkPm\Exception('Not method supported');
+        return $this->insert($data);
     }
+
+    /**
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function delete($id)
+    {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
+        return $this->rest->delete("$this->_action/$id");
+    }
+
 }

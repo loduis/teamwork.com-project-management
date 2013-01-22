@@ -29,29 +29,48 @@ abstract class Model extends \TeamWorkPm\Model
      */
     public function insert(array $data)
     {
-        $resource_id = (int) $data['resource_id'];
+        $resource_id = empty($data['resource_id']) ? 0 :
+                                (int) $data['resource_id'];
         if ($resource_id <= 0) {
-            throw new Exception('Require field resource_id');
+            throw new \TeamWorkPm\Exception('Required field resource_id');
         }
-        return $this->rest->post("$this->_resource/$resource_id/$this->_action", $data);
+        if (!empty($data['files'])) {
+            $file = \TeamWorkPm::factory('file');
+            $data['pending_file_attachments'] = $file->upload($data['files']);
+            unset($data['files']);
+        }
+        return $this->rest->post(
+            "$this->_resource/$resource_id/$this->_action",
+            $data
+        );
     }
 
     /**
      *
      * @param int $resource_id
-     * @param array $params [page, pageSize] this is only posible values
-     * @return TeamWorkPm\Response\Model
+     * @param int $page_size
+     * @param int $page
+     *
+     * @return \TeamWorkPm\Response\Model
      */
-    public function getRecent($resource_id, array $params = array())
+    public function getRecent($resource_id, $page_size = 20, $page = 1)
     {
-        if (!isset($params['page'])) {
-            $params['page'] = 1;
+        $resource_id = (int) $resource_id;
+        if ($resource_id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param resource_id');
         }
-        foreach ($params as $name=>$value) {
-            if (!in_array(strtolower($name), array('page', 'pagesize'))) {
-                unset ($params[$name]);
-            }
-        }
-        return $this->rest->get("$this->_resource/$resource_id/$this->_action", $params);
+
+        $page_size = abs((int) $page_size);
+        $page      = abs((int) $page);
+
+        $params = array(
+            'page' => $page,
+            'pageSize'=> $page_size
+        );
+
+        return $this->rest->get(
+            "$this->_resource/$resource_id/$this->_action",
+            $params
+        );
     }
 }

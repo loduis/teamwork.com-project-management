@@ -9,9 +9,9 @@ class People extends Model
         $this->_fields = array(
             'first_name' => true,
             'last_name' => true,
-            'email_address'=>false,
+            'email_address'=>true,
             'user_name' => true,
-            'password' => true,
+            'password' => false,
             'company_id' => false,
             'title' => false,
             'phone_number_mobile'=>false,
@@ -46,21 +46,21 @@ class People extends Model
             ),
             'send_welcome_email'=>array(
                 'required'=>false,
-                'validate'=>array('yes', 'no')
+                'type'=>'boolean'
             ),
             'receive_daily_reports'=>array(
                 'required'=>false,
-                'validate'=>array('yes', 'no')
+                'type'=>'boolean'
             ),
             'welcome_email_message'=>false,
             'auto_give_project_access'=>array(
                 'required'=>false,
-                'validate'=>array('yes', 'no')
+                'type'=>'boolean'
             ),
             'open_id'=>false,
             'notes'=>array(
                 'required'=>false,
-                'validate'=>array('yes', 'no')
+                'type'=>'boolean'
             ),
             'user_language'=>array(
                 'required'=>false,
@@ -94,11 +94,25 @@ class People extends Model
             'administrator'=>false,
             'can_add_projects'=>array(
                 'required'=>false,
-                'validate'=>array('yes', 'no')
+                'type'=>'boolean'
             )
         );
         $this->_parent = 'person';
         $this->_action = 'people';
+    }
+
+    public function get($id, $project_id = null)
+    {
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
+        $project_id = (int) $project_id;
+        $action = "$this->_action/$id";
+        if ($project_id) {
+            $action = "projects/$project_id/$action";
+        }
+        return $this->rest->get($action);
     }
 
     /**
@@ -143,67 +157,38 @@ class People extends Model
     }
 
     /**
-     * Get a specific Person Permissions (within a Project)
-     * GET /projects/#{project_id}/people/{person_id}.xml
-     * Retrieves the details and permissions of a specific person on a given project
-     *
-     */
-    public function getInProject($people_id, $project_id)
-    {
-        return $this->rest->get("projects/$project_id/people/$people_id");
-    }
-
-    /**
-     * Add a new user to a project
-     * POST /projects/{id}/people/{id}
-     * Add a user to a project. Default permissions setup in Teamwork will be used.
-     * Returns HTTP status code 201 (Created) on success.
-     *
-     * @param int $people_id
-     * @param int $project_id
-     *
-     * @return bool
-     */
-    private function addToProject($people_id, $project_id)
-    {
-        $project_id = (int) $project_id;
-        $people_id  = (int) $people_id;
-        if ($project_id <= 0) {
-            throw new Exception('Require parameter project_id');
-        }
-        if ($people_id <= 0) {
-            throw new Exception('Require parameter people_id');
-        }
-        return $this->rest->post("projects/$project_id/people/$people_id");
-    }
-
-    /**
      * Add a new user
      * POST /people
      * Creates a new user account
-     *
-     * if an project_id is given to add this project
-     *
-     * if permissions is given update this
      *
      * @param array $data
      * @return int
      */
     public function insert(array $data)
     {
-        $project_id = (int) (isset($data['project_id']) ? $data['project_id'] : 0);
-        $permissions = empty($data['permissions']) ? array() : $data['permissions'];
-        unset ($data['permissions'], $data['project_id']);
-        if ($id = parent::insert($data)) {
-            if ($project_id > 0) {
-                $data = array(
-                    'permissions' => $permissions
-                );
-                $data['project_id'] = $project_id;
-                $data['id']         = $id;
-                $this->update($data);
+        // validate email address
+        if (!empty($data['email_address']) &&
+                !filter_var($data['email_address'], FILTER_VALIDATE_EMAIL)) {
+            throw new Exception(
+                'Invalid value for field email_address'
+            );
+        }
+        $project_id = empty($data['project_id']) ? 0 : $data['project_id'];
+        $permissions = empty($data['permissions']) ? null :
+                                                (array) $data['permissions'];
+        unset($data['project_id'], $data['permissions']);
+        $id = parent::insert($data);
+        // add permission to project
+        if ($project_id) {
+            $permission = \TeamWorkPm::factory('project/people');
+            $permission->add($project_id, $id);
+            if ($permissions) {
+                $permissions['person_id']  = $id;
+                $permissions['project_id'] = $project_id;
+                $permission->update($permissions);
             }
         }
+
         return $id;
     }
 
@@ -214,56 +199,55 @@ class People extends Model
      */
     public function update(array $data)
     {
-        $id = (int) empty($data['id']) ? 0 : $data['id'];
-        if ($id <= 0) {
-            throw new Exception('Require field id');
+        // validate email address
+        if (!empty($data['email_address']) &&
+                !filter_var($data['email_address'], FILTER_VALIDATE_EMAIL)) {
+            throw new Exception(
+                'Invalid value for field email_address'
+            );
         }
-        $permissions = empty($data['permissions']) ? array() : $data['permissions'];
-        $project_id = (int) (empty($data['project_id']) ? 0: $data['project_id']);
-        // remove user
-        unset ($data['permissions'], $data['project_id']);
-        if ($project_id > 0) {
+        $project_id = empty($data['project_id']) ? 0 : $data['project_id'];
+        $permissions = empty($data['permissions']) ? null :
+                                                (array) $data['permissions'];
+        unset($data['project_id'], $data['permissions']);
+        $save = false;
+        if (!empty($data)) {
+            $save = parent::update($data);
+        }
+        // add permission to project
+        if ($project_id) {
+            $permission = \TeamWorkPm::factory('project/people');
             try {
-                $in_project = $this->addToProject($id, $project_id);
-            } catch (Exception $e) {
-                $message = $e->getMessage();
-                $in_project = $message === 'User is already on project';
+                $add = $permission->add($project_id, $data['id']);
+            } catch(Exception $e) {
+                $add = $e->getMessage() == 'User is already on project';
             }
-            if ($in_project) {
-                if ($permissions) {
-                    $permission = \TeamWorkPm::factory('permission');
-                    $permissions['id'] = $id;
-                    $permissions['project_id'] = $project_id;
-                    if ($permission->update($permissions)) {
-                        if (!$data) {
-                            return true;
-                        }
-                    } else {
-                        return false;
-                    }
-                } elseif (!$data) {
-                    return true;
-                }
+            $save = $save && $add;
+            if ($add && $permissions) {
+                $permissions['person_id']  = $data['id'];
+                $permissions['project_id'] = $project_id;
+                $save = $permission->update($permissions);
             }
         }
-
-        return $this->rest->put("$this->_action/$id", $data);
+        return $save;
     }
 
     /**
-     * Remove a user from a project
-     * DELETE /projects/{id}/people/{id}.xml
-     * Removes a user from a project.
-     * Response
-     * Returns HTTP status code 200 on success
      *
-     * @param int $people_id
-     * @param int $project_id
-     *
+     * @param int $id
      * @return bool
      */
-    public function removeFromProject($people_id, $project_id)
+    public function delete($id, $project_id = null)
     {
-        return $this->rest->delete("projects/$project_id/people/$people_id");
+        $id = (int) $id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
+        $project_id = (int) $project_id;
+        $action = "$this->_action/$id";
+        if ($project_id) {
+            $action = "projects/$project_id/$action";
+        }
+        return $this->rest->delete($action);
     }
 }

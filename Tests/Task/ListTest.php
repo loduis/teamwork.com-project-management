@@ -22,27 +22,23 @@ class Task_ListTest extends TestCase
     public function insert($data)
     {
         try {
+            $this->model->save($data);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Required field project_id', $e->getMessage());
+        }
+        try {
             $data['project_id']   = $this->projectId;
             $data['milestone_id'] = get_first_milestone_id($this->projectId);
             $id                   = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
     /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Required field project_id
-     * @dataProvider provider
-     * @test
-     */
-    public function insertWithoutProjectId($data)
-    {
-        $this->model->save($data);
-    }
-
-    /**
+     * @depends insert
      * @dataProvider provider
      * @test
      */
@@ -52,60 +48,59 @@ class Task_ListTest extends TestCase
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
     /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Invalid param project_id
-     * @test
-     */
-    public function getByProjectWithinInvalidProjectId()
-    {
-        $this->model->getByProject(0);
-    }
-
-    /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Invalid param id
-     * @test
-     */
-    public function getWithInvalidId()
-    {
-        $this->model->get(0);
-    }
-
-    /**
-     *
+     * @depends insert
      * @test
      */
     public function get()
     {
         try {
+            $this->model->get(0);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid param id', $e->getMessage());
+        }
+        try {
             $list = $this->model->get($this->id);
             $this->assertEquals($this->id, $list->id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
+        }
+        // task list without tasks
+        try {
+            $list = $this->model->get($this->id, false);
+            $this->assertFalse(isset($list->todoItems));
+        } catch (\TeamWorkPm\Exception $e) {
+            $this->fail($e->getMessage());
         }
     }
 
     /**
-     *
+     * @depends insert
      * @test
      */
     public function getByProject()
     {
         try {
+            $this->model->getByProject(0);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid param project_id', $e->getMessage());
+        }
+        try {
             $list = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($list));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
     /**
-     *
+     * @depends insert
      * @test
      */
     public function getActiveByProject()
@@ -114,11 +109,11 @@ class Task_ListTest extends TestCase
             $list = $this->model->getByProject($this->projectId, 'active');
             $this->assertGreaterThan(0, count($list));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
     /**
-     *
+     * @depends insert
      * @test
      */
     public function getUpcomingByProject()
@@ -127,11 +122,12 @@ class Task_ListTest extends TestCase
             $list = $this->model->getByProject($this->projectId, 'upcoming');
             $this->assertGreaterThan(0, count($list));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
     /**
+     * @depends insert
      * @dataProvider provider
      * @test
      */
@@ -154,7 +150,7 @@ class Task_ListTest extends TestCase
             }
             $this->assertEquals($ids, $order);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -172,5 +168,4 @@ class Task_ListTest extends TestCase
             )
         );
     }
-
 }

@@ -34,23 +34,25 @@ abstract class Model extends Rest\Model
      */
     public function update(array $data)
     {
-        $id = isset($data['id']) ? (int) $data['id'] : 0;
+        $id = empty($data['id']) ? 0: (int) $data['id'];
         if ($id <= 0) {
             throw new Exception('Required field id');
         }
         return $this->rest->put("$this->_action/$id", $data);
     }
+
     /**
      *
      * @param array $data
-     * @return bool
+     * @return [bool|int]
      */
     final public function save(array $data)
     {
-        return isset($data['id']) ?
+        return array_key_exists('id', $data) ?
             $this->update($data):
             $this->insert($data);
     }
+
     /**
      *
      * @param int $id

@@ -22,11 +22,14 @@ class JSON extends Model
                     $value   = $this->_getValue($field, $options, $parameters);
                     if (isset ($options['attributes'])) {
                         foreach ($options['attributes'] as $name=>$type) {
-                            $this->_setDefaultValueIfIsNull($type, $value);
                             if (null !== $value) {
                                 if ($name === 'type') {
                                     if ($type === 'array') {
-
+                                        if (is_string($value) || is_numeric($value)) {
+                                            $value = (array) $value;
+                                        } else {
+                                            $value = null;
+                                        }
                                     } else {
                                         settype($value, $type);
                                     }
@@ -43,7 +46,7 @@ class JSON extends Model
             }
             $parameters =  json_encode($object);
         } else {
-            $parameters = null;
+            $parameters = '{}';
         }
 
         return $parameters;

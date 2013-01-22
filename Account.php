@@ -15,7 +15,7 @@ class Account extends Rest\Model
      */
     public function get()
     {
-        return $this->rest->get("$this->_action");
+        return $this->rest->get('account');
     }
 
     /**

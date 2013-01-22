@@ -1,5 +1,11 @@
 <?php
 
+function unique($string, $length = 10)
+{
+    $source  = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    return $string . '-' substr(str_shuffle($source), 0, $length);
+}
+
 function get_first_project()
 {
     $project = TeamWorkPm::factory('Project');

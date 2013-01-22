@@ -1,7 +1,8 @@
 <?php
-namespace TeamWorkPm;
 
-class Permission extends Rest\Model
+namespace TeamWorkPm\Project;
+
+class People extends \TeamWorkPm\Rest\Model
 {
     protected function _init()
     {
@@ -133,7 +134,19 @@ class Permission extends Rest\Model
                 )
             )
         );
-        $this->_parent = 'permissions';
+        $this->_action = $this->_parent = 'permissions';
+    }
+
+    public function get($project_id, $person_id)
+    {
+        $this->validates($project_id, $person_id);
+        return $this->rest->get("/projects/$project_id/people/$person_id");
+    }
+
+    public function add($project_id, $person_id)
+    {
+        $this->validates($project_id, $person_id);
+        return $this->rest->post("projects/$project_id/people/$person_id");
     }
 
     /**
@@ -144,13 +157,31 @@ class Permission extends Rest\Model
     public function update(array $data)
     {
         $project_id = (int) (empty($data['project_id']) ? 0: $data['project_id']);
-        $id = (int) (empty($data['id']) ? 0: $data['id']);
+        $person_id = (int) (empty($data['person_id']) ? 0: $data['person_id']);
         if ($project_id <= 0) {
-            throw new Exception("Require field project_id");
+            throw new \TeamWorkPm\Exception("Required field project_id");
         }
-        if ($id <= 0) {
-            throw new Exception("Require field id");
+        if ($person_id <= 0) {
+            throw new \TeamWorkPm\Exception("Required field person_id");
         }
-        return $this->rest->put("projects/$project_id/people/$id", $data);
+        return $this->rest->put("projects/$project_id/people/$person_id", $data);
+    }
+
+    public function delete($project_id, $person_id)
+    {
+        $this->validates($project_id, $person_id);
+        return $this->rest->delete("/projects/$project_id/people/$person_id");
+    }
+
+    private function validates($project_id, $person_id)
+    {
+        $project_id = (int) $project_id;
+        if ($project_id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param project_id');
+        }
+        $person_id = (int) $person_id;
+        if ($person_id <= 0) {
+            throw new \TeamWorkPm\Exception('Invalid param person_id');
+        }
     }
 }

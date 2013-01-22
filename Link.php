@@ -89,7 +89,7 @@ class Link extends Model
      */
     public function insert(array $data)
     {
-        $project_id = isset($data['project_id']) ? (int) $data['project_id'] : 0;
+        $project_id = empty($data['project_id']) ? 0: (int) $data['project_id'];
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }

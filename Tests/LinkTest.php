@@ -33,7 +33,7 @@ class LinkTest extends TestCase
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -51,7 +51,7 @@ class LinkTest extends TestCase
             $link = $this->model->get($this->id);
             $this->assertEquals((int) $link->categoryId, 0);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ class LinkTest extends TestCase
             $link = $this->model->get($this->id);
             $this->assertEquals($this->id, $link->id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -85,7 +85,7 @@ class LinkTest extends TestCase
             $links = $this->model->getAll();
             $this->assertGreaterThan(0, count($links));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -105,7 +105,7 @@ class LinkTest extends TestCase
             $links = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($links));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 

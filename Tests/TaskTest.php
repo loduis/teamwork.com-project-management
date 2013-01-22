@@ -23,23 +23,19 @@ class TaskTest extends TestCase
     public function insert($data)
     {
         try {
+            $data['files'] = __DIR__ . '/uploads/teamworkpm.jpg';
+            $this->model->save($data);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Required field task_list_id', $e->getMessage());
+        }
+        try {
             $data['task_list_id'] = $this->taskListId;
             $id                   = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
-    }
-
-    /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Required field task_list_id
-     * @dataProvider provider
-     * @test
-     */
-    public function insertWithoutTaskListId($data)
-    {
-        $this->model->save($data);
     }
 
     /**
@@ -52,18 +48,8 @@ class TaskTest extends TestCase
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
-    }
-
-    /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Invalid param id
-     * @test
-     */
-    public function getWithInvalidId()
-    {
-        $this->model->get(0);
     }
 
     /**
@@ -73,35 +59,23 @@ class TaskTest extends TestCase
     public function get()
     {
         try {
+            $times = $this->model->get(0);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid param id', $e->getMessage());
+        }
+        try {
             $task = $this->model->get($this->id);
             $this->assertEquals($this->id, $task->id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
-    }
-
-    /**
-     *
-     * @test
-     */
-    public function getWithLoggedTime()
-    {
         try {
             $task = $this->model->get($this->id, true);
             $this->assertTrue(isset($task->loggedTime));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
-    }
-
-    /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Invalid param task_list_id
-     * @test
-     */
-    public function getByTaskListWithInvalidId()
-    {
-        $this->model->getByTaskList(0);
     }
 
     /**
@@ -111,21 +85,17 @@ class TaskTest extends TestCase
     public function getByTaskList()
     {
         try {
+            $times = $this->model->getByTaskList(0);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid param task_list_id', $e->getMessage());
+        }
+        try {
             $tasks = $this->model->getByTaskList($this->taskListId);
             $this->assertGreaterThan(0, count($tasks));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
-    }
-
-    /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Invalid param id
-     * @test
-     */
-    public function completeWithInvalidId()
-    {
-        $this->model->complete(0);
     }
 
     /**
@@ -134,9 +104,15 @@ class TaskTest extends TestCase
     public function complete()
     {
         try {
+            $times = $this->model->complete(0);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid param id', $e->getMessage());
+        }
+        try {
             $this->assertTrue($this->model->complete($this->id));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -153,18 +129,8 @@ class TaskTest extends TestCase
                 $this->assertNotEmpty($t->completed);
             }
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
-    }
-
-    /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Invalid param id
-     * @test
-     */
-    public function unCompleteWithInvalidId()
-    {
-        $this->model->unComplete(0);
     }
 
     /**
@@ -173,9 +139,15 @@ class TaskTest extends TestCase
     public function unComplete()
     {
         try {
+            $times = $this->model->uncomplete(0);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid param id', $e->getMessage());
+        }
+        try {
             $this->assertTrue($this->model->unComplete($this->id));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -192,18 +164,8 @@ class TaskTest extends TestCase
                 $this->assertEmpty($t->completed);
             }
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
-    }
-
-    /**
-     * @expectedException        \TeamWorkPm\Exception
-     * @expectedExceptionMessage Invalid param task_list_id
-     * @test
-     */
-    public function reorderWithInvalidId()
-    {
-        $this->model->reorder(0, array());
     }
 
     /**
@@ -212,6 +174,12 @@ class TaskTest extends TestCase
      */
     public function reorder($data)
     {
+        try {
+            $this->model->reorder(0, array());
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid param task_list_id', $e->getMessage());
+        }
         try {
             $data['task_list_id'] = $this->taskListId;
             $id = $this->model->save($data);
@@ -230,7 +198,7 @@ class TaskTest extends TestCase
             }
             $this->assertEquals($ids, $order);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 

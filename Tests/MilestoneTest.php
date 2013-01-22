@@ -28,11 +28,11 @@ class MilestoneTest extends TestCase
         }
         try {
             $data['project_id'] = $this->projectId;
-            $data['responsible_party_ids'] = get_first_people_id($this->projectId);
+            $data['responsible_party_ids'] = get_first_person_id($this->projectId);
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -46,7 +46,7 @@ class MilestoneTest extends TestCase
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -57,7 +57,7 @@ class MilestoneTest extends TestCase
     public function get()
     {
         try {
-            $times = $this->model->get(0);
+            $this->model->get(0);
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
@@ -66,7 +66,7 @@ class MilestoneTest extends TestCase
             $milestone = $this->model->get($this->id);
             $this->assertEquals($this->id, $milestone->id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -74,14 +74,29 @@ class MilestoneTest extends TestCase
      *
      * @test
      */
-    public function getAll()
+    public function getByProject()
     {
         try {
-            $times = $this->model->getAll(array('filter'=>'Backk'));
+            $this->model->getByProject(0);
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
-            $this->assertEquals('Invalid type for param filter', $e->getMessage());
+            $this->assertEquals('Invalid param project_id', $e->getMessage());
         }
+        try {
+            $milestones = $this->model->getByProject($this->projectId);
+            $this->assertGreaterThan(0, count($milestones));
+        } catch (\TeamWorkPm\Exception $e) {
+            $this->fail($e->getMessage());
+        }
+    }
+
+
+    /**
+     *
+     * @test
+     */
+    public function getAll()
+    {
         try {
             $times = $this->model->getAll('backfilter');
             $this->fail('An expected exception has not been raised.');
@@ -92,7 +107,7 @@ class MilestoneTest extends TestCase
             $milestones = $this->model->getAll();
             $this->assertGreaterThan(0, count($milestones));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -102,9 +117,15 @@ class MilestoneTest extends TestCase
     public function complete()
     {
         try {
+            $this->model->complete(0);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid param id', $e->getMessage());
+        }
+        try {
             $this->assertTrue($this->model->complete($this->id));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -121,19 +142,25 @@ class MilestoneTest extends TestCase
             );
             $this->assertGreaterThan(0, count($milestones));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
     /**
      * @test
      */
-    public function unComplete()
+    public function uncomplete()
     {
         try {
-            $this->assertTrue($this->model->unComplete($this->id));
+            $this->model->uncomplete(0);
+            $this->fail('An expected exception has not been raised.');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid param id', $e->getMessage());
+        }
+        try {
+            $this->assertTrue($this->model->uncomplete($this->id));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -150,7 +177,7 @@ class MilestoneTest extends TestCase
             );
             $this->assertGreaterThan(0, count($milestones));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -165,7 +192,7 @@ class MilestoneTest extends TestCase
             $data['deadline'] = date('Ymd', strtotime('-10 days'));
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -182,7 +209,7 @@ class MilestoneTest extends TestCase
             );
             $this->assertGreaterThan(0, count($milestones));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -194,10 +221,10 @@ class MilestoneTest extends TestCase
     {
         try {
             $data['id'] = $this->id;
-            $data['deadline'] = date('Ymd', strtotime('-10 days'));
+            $data['deadline'] = date('Ymd', strtotime('+10 days'));
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -214,7 +241,7 @@ class MilestoneTest extends TestCase
             );
             $this->assertGreaterThan(0, count($milestones));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 

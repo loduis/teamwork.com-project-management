@@ -15,7 +15,6 @@ class ProjectTest extends TestCase
 
     /**
      * @dataProvider provider
-     * @testdox
      * @test
      */
     public function insert($data)
@@ -27,15 +26,7 @@ class ProjectTest extends TestCase
           $project = $this->model->get($id);
           $this->assertEquals((int) $project->category->id, $data['category_id']);
         } catch (\TeamWorkPm\Exception $e) {
-            $code = $e->getCode();
-            switch ($code) {
-              case \TeamWorkPm\Error::PROJECT_NAME_TAKEN:
-                $this->markTestSkipped($e->getMessage());
-                break;
-              default:
-                $this->assertTrue(false, $e->getMessage());
-                break;
-            }
+            $this->assertEquals('Project name taken', $e->getMessage());
         }
     }
 
@@ -52,7 +43,7 @@ class ProjectTest extends TestCase
             $project = $this->model->get($this->id);
             $this->assertEquals((int) $project->category->id, $data['category_id']);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->assertEquals('Project name taken', $e->getMessage());
         }
     }
 
@@ -74,7 +65,7 @@ class ProjectTest extends TestCase
         try {
             $this->assertTrue($this->model->star($this->id));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -99,7 +90,7 @@ class ProjectTest extends TestCase
             $projects = $this->model->getStarred();
             $this->assertGreaterThan(0, count($projects));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -121,7 +112,7 @@ class ProjectTest extends TestCase
         try {
             $this->assertTrue($this->model->unStar($this->id));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -143,7 +134,7 @@ class ProjectTest extends TestCase
         try {
             $this->assertTrue($this->model->archive($this->id));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -157,7 +148,7 @@ class ProjectTest extends TestCase
             $projects = $this->model->getArchived();
             $this->assertGreaterThan(0, count($projects));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -179,7 +170,7 @@ class ProjectTest extends TestCase
         try {
             $this->assertTrue($this->model->activate($this->id));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -193,7 +184,7 @@ class ProjectTest extends TestCase
             $projects = $this->model->getActive();
             $this->assertGreaterThan(0, count($projects));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -206,7 +197,7 @@ class ProjectTest extends TestCase
             $project     = $this->model->get($this->id);
             $this->assertEquals($project->id, $this->id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -222,7 +213,7 @@ class ProjectTest extends TestCase
             $save = $projects->save(__DIR__ . '/build/projects');
             $this->assertTrue(is_numeric($save));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 

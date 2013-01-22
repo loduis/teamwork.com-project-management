@@ -19,8 +19,6 @@ Using Api
     const API_FORMAT = 'json';
     // set your keys
     TeamWorkPm::setAuth(API_COMPANY, API_KEY);
-    // set format not need, by default json format api
-    TeamWorkPm::setFormat(API_FORMAT);
 
     $project = TeamWorkPm::factory('project');
     // where 'project' is the file Project.php
@@ -28,7 +26,7 @@ Using Api
 
     $data = array(
       'name'=> 'This is an test project',
-      'description'=> 'Bla, Bla, Bal'
+      'description'=> 'Bla, Bla, Bla'
     );
     try {
       $id = $project->insert($data);

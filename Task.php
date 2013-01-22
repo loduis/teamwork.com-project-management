@@ -119,9 +119,14 @@ class Task extends Model
      */
     public function insert(array $data)
     {
-        $task_list_id = isset($data['task_list_id']) ? (int) $data['task_list_id'] : 0;
+        $task_list_id = empty($data['task_list_id']) ? 0 : (int) $data['task_list_id'];
         if ($task_list_id <= 0) {
             throw new Exception('Required field task_list_id');
+        }
+        if (!empty($data['files'])) {
+            $file = \TeamWorkPm::factory('file');
+            $data['pending_file_attachments'] = $file->upload($data['files']);
+            unset($data['files']);
         }
         return $this->rest->post("todo_lists/$task_list_id/$this->_action", $data);
     }
@@ -155,7 +160,7 @@ class Task extends Model
      * @param int $id
      * @return bool
      */
-    public function unComplete($id)
+    public function uncomplete($id)
     {
         $id = (int) $id;
         if ($id <= 0) {

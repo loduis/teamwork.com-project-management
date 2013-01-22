@@ -1,7 +1,7 @@
 <?php
 namespace TeamWorkPm\Response;
 
-abstract class Model
+abstract class Model implements \Countable
 {
     protected $_string = null;
 
@@ -38,28 +38,31 @@ abstract class Model
 
     public function toArray()
     {
-        return self::_toArray($this);
+        $array = new \ArrayObject($this);
+        return $array->getArrayCopy();
     }
 
-    protected static function _camelize($lowerCaseAndUnderscoredWord)
+    protected static function _camelize($string)
     {
 
-        $replace = preg_replace('/_(.)/e','strtoupper(\'$1\');', $lowerCaseAndUnderscoredWord);
+        $replace = preg_replace('/_(.)/e','strtoupper(\'$1\');', $string);
         $replace = preg_replace('/-(.)/e','strtoupper(\'$1\');', $replace);
         return $replace;
-    }
-
-    private static function _toArray($source)
-    {
-        $destination = array();
-        foreach ($source as $key=>$value) {
-            $destination[$key] = is_scalar($value) ? $value : self::_toArray($value);
-        }
-        return $destination;
     }
 
     public function getHeaders()
     {
         return $this->_headers;
+    }
+
+    public function count()
+    {
+        $count = 0;
+        foreach($this as $key=>$value) {
+            if (is_numeric($key) && !is_scalar($value)) {
+                ++ $count;
+            }
+        }
+        return $count;
     }
 }

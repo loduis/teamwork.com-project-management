@@ -32,11 +32,11 @@ class TimeTest extends TestCase
         }
         try {
             $data['project_id'] = $this->projectId;
-            $data['person_id']  = get_first_people_id($this->projectId);
+            $data['person_id']  = get_first_person_id($this->projectId);
             $id                 = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -48,11 +48,11 @@ class TimeTest extends TestCase
     {
         try {
             $data['task_id'] = $this->taskId;
-            $data['person_id']  = get_first_people_id($this->projectId);
+            $data['person_id']  = get_first_person_id($this->projectId);
             $id                 = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -68,7 +68,7 @@ class TimeTest extends TestCase
             $data['hours'] = 50;
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -82,7 +82,7 @@ class TimeTest extends TestCase
             $times = $this->model->getAll();
             $this->assertGreaterThan(0, count($times));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -102,7 +102,7 @@ class TimeTest extends TestCase
             $times = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($times));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -122,7 +122,7 @@ class TimeTest extends TestCase
             $times = $this->model->getByTask($this->taskId);
             $this->assertGreaterThan(0, count($times));
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -140,10 +140,9 @@ class TimeTest extends TestCase
         }
         try {
             $time = $this->model->get($this->id);
-            //print_r($time);
             $this->assertEquals($this->id, $time->id);
         } catch (\TeamWorkPm\Exception $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 

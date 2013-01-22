@@ -13,10 +13,8 @@ class JSON extends Model
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
                 switch($headers['Method']) {
                     case 'UPLOAD':
-                        if (!empty($source->pendingFile->ref)) {
-                            return (string) $source->pendingFile->ref;
-                        }
-                        break;
+                        return empty($source->pendingFile->ref) ? null :
+                                            (string) $source->pendingFile->ref;
                     case 'POST':
                         if (!empty($headers['id'])) {
                             return (int) $headers['id'];
@@ -32,7 +30,6 @@ class JSON extends Model
                      case 'DELETE':
                          return true;
                      default:
-                        //print_r($source);
                         if (!empty($source->STATUS)) {
                             unset($source->STATUS);
                         }
@@ -42,24 +39,26 @@ class JSON extends Model
                             $source = $source->project->notebooks;
                         } elseif(!empty($source->project->links)) {
                             $source = $source->project->links;
-                        } elseif (!empty($source->messageReplies)) {
-                            $match = preg_match(
+                        } elseif (!empty($source->messageReplies) &&
+                            ($match = preg_match(
                                 '!messageReplies/(\d+)!',
-                                $headers['X-Action']
-                            );
-                            if ($match) {
+                                $headers['X-Action']))) {
                                 $source = current($source->messageReplies);
-                            } else {
-                                $source = current($source);
-                            }
+                        } elseif (!empty($source->people) &&
+                            preg_match(
+                                '!projects/(\d+)/people/(\d+)!',
+                                $headers['X-Action'])) {
+                            $source = current($source->people);
                         } else {
                             $source = current($source);
                         }
-                        if ($headers['X-Action'] === 'links') {
+                        if ($headers['X-Action'] === 'links' ||
+                                        $headers['X-Action'] === 'notebooks') {
                             $_source = array();
+                            $wrapper = $headers['X-Action'];
                             foreach ($source as $project) {
-                                foreach ($project->links as $link) {
-                                    $_source[] = $link;
+                                foreach ($project->$wrapper as $object) {
+                                    $_source[] = $object;
                                 }
                             }
                             $source = $_source;
@@ -72,17 +71,17 @@ class JSON extends Model
                         }
                         if (!empty($this->id)) {
                             $this->id = (int) $this->id;
-                        } elseif (preg_match('!time_entries/(\d+)!',$headers['X-Action'], $match)) {
-                            $this->id = (int) $match[1];
                         }
-
-
                         return $this;
                 }
-            } else {
+            } elseif (!empty($source->MESSAGE)) {
                 $errors = $source->MESSAGE;
+            } else {
+                $errors = null;
             }
         }
+        $headers['X-Data'] = $data;
+        //print_r($headers);
         throw new \TeamWorkPm\Exception(array(
             'Message'=>$errors,
             'Response'=> $data,
@@ -142,6 +141,9 @@ class JSON extends Model
         return $destination;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function _getJsonErrors()
     {
             switch(json_last_error())

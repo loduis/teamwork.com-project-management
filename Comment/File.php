@@ -18,9 +18,15 @@ class File extends Model
      */
     public function insert(array $data)
     {
-        $resource_id = (int) $data['resource_id'];
+        $resource_id = empty($data['resource_id']) ? 0 :
+                                (int) $data['resource_id'];
         if ($resource_id <= 0) {
-            throw new Exception('Require field resource_id');
+            throw new \TeamWorkPm\Exception('Required field resource_id');
+        }
+        if (!empty($data['files'])) {
+            $file = \TeamWorkPm::factory('file');
+            $data['pending_file_attachments'] = $file->upload($data['files']);
+            unset($data['files']);
         }
         return $this->rest->post("fileversions/$resource_id/$this->_action", $data);
     }

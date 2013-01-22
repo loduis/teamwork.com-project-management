@@ -1,17 +1,59 @@
 <phpunit bootstrap="Tests/bootstrap.php" colors="true">
     <testsuite name="TeamWorkPm">
+
+        <file>Tests/KeyTest.php</file>
+
+        <!-- PROJECT -->
         <file>Tests/Category/ProjectTest.php</file>
         <file>Tests/ProjectTest.php</file>
         <file>Tests/CompanyTest.php</file>
+
+        <!-- MILESTON -->
+
         <file>Tests/MilestoneTest.php</file>
+        <file>Tests/Comment/MilestoneTest.php</file>
+
+        <!-- TASK -->
+
         <file>Tests/Task/ListTest.php</file>
         <file>Tests/TaskTest.php</file>
+        <file>Tests/Comment/TaskTest.php</file>
+
         <file>Tests/TimeTest.php</file>
+
+        <!-- LINK -->
+
         <file>Tests/Category/LinkTest.php</file>
         <file>Tests/LinkTest.php</file>
-        <file>Tests/FinishTest.php</file>
+
+        <!-- NOTEBOOK -->
+
+        <file>Tests/Category/NotebookTest.php</file>
+        <file>Tests/NotebookTest.php</file>
+        <file>Tests/Comment/NotebookTest.php</file>
+
+        <!-- FILE -->
+
+        <file>Tests/Category/FileTest.php</file>
+        <file>Tests/FileTest.php</file>
+        <file>Tests/Comment/FileTest.php</file>
+
+        <!-- MESSAGE -->
+        <file>Tests/Category/MessageTest.php</file>
+        <file>Tests/MessageTest.php</file>
+        <file>Tests/Message/ReplyTest.php</file>
+
+        <!-- PEOPLE -->
+        <file>Tests/PeopleTest.php</file>
+        <file>Tests/People/StatusTest.php</file>
+        <file>Tests/Project/PeopleTest.php</file>
+
+        <file>Tests/ActivityTest.php</file>
+        <file>Tests/AccountTest.php</file>
+        <file>Tests/MeTest.php</file>
+        <file>Tests/Me/StatusTest.php</file>
+        <file>Tests/DestroyTest.php</file>
         <!--
-        <file>Tests/FinishTest.php</file>
         <exclude>
             <file>TeamWorkPm.php</file>
         </exclude>-->

@@ -11,9 +11,9 @@
 final class TeamWorkPm
 {
 
-    private static $_COMPANY = NULL;
+    private static $_COMPANY = null;
 
-    private static $_API_KEY = NULL;
+    private static $_API_KEY = null;
 
     /**
      * @codeCoverageIgnore
@@ -38,7 +38,7 @@ final class TeamWorkPm
                         )
                       );
         if (strcasecmp($class_name, 'task\\list') === 0) {
-            $class_name = 'task_list';
+            $class_name = 'Task_List';
         }
         $class_name = '\\' . __CLASS__ . '\\' .  $class_name;
         return forward_static_call_array(
@@ -53,6 +53,9 @@ final class TeamWorkPm
         self::$_API_KEY = $key;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function setFormat($value)
     {
         \TeamWorkPm\Rest::setFormat($value);
