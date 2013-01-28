@@ -3,30 +3,30 @@ namespace TeamWorkPm\Request;
 
 abstract class Model
 {
-    protected $_method = null;
-    protected $_action = null;
-    protected $_parent = null;
-    protected $_fields = null;
+    protected $method = null;
+    protected $action = null;
+    protected $parent = null;
+    protected $fields = array();
 
     public function setParent($parent)
     {
-        $this->_parent = $parent;
+        $this->parent = $parent;
         return $this;
     }
 
     public function setAction($action)
     {
-        $this->_action = $action;
+        $this->action = $action;
         return $this;
     }
 
     public function setFields(array $fields)
     {
-        $this->_fields = $fields;
+        $this->fields = $fields;
         return $this;
     }
 
-    protected function _getValue(& $field, & $options, array $parameters)
+    protected function getValue(& $field, & $options, array $parameters)
     {
         static
             $camelize = array(
@@ -58,7 +58,7 @@ abstract class Model
         }
         $isNull =  null === $value;
         //verficando campos requeridos
-        if ($this->_method == 'POST' && $options['required']) {
+        if ($this->method == 'POST' && $options['required']) {
             if ($isNull) {
                 throw new \TeamWorkPm\Exception('Required field ' . $field);
             }
@@ -74,36 +74,36 @@ abstract class Model
             if ($field === 'open_id') {
                 $field = 'openID';
             } else {
-                $field = self::_camelize($field);
+                $field = self::camelize($field);
             }
         } elseif (!isset($preserve[$field])) {
             if ($field === 'company_id') {
-                if ($this->_action === 'projects') {
-                    $field = self::_camelize($field);
+                if ($this->action === 'projects') {
+                    $field = self::camelize($field);
                 }
             } else {
-                $field = self::_dasherize($field);
+                $field = self::dasherize($field);
             }
         }
         return $value;
     }
 
-    protected function _actionInclude($value)
+    protected function actionInclude($value)
     {
-        return false !== strrpos($this->_action, $value);
+        return false !== strrpos($this->action, $value);
     }
 
-    protected function _getParent()
+    protected function getParent()
     {
-        return $this->_parent . ($this->_actionInclude('/reorder') ? 's' : '');
+        return $this->parent . ($this->actionInclude('/reorder') ? 's' : '');
     }
 
-    protected static function _camelize($string)
+    protected static function camelize($string)
     {
         return preg_replace('/_(.)/e','strtoupper(\'$1\');', $string);
     }
 
-    protected static function _dasherize($string)
+    protected static function dasherize($string)
     {
         return str_replace('_', '-', $string);
     }
@@ -111,13 +111,13 @@ abstract class Model
     public function getParameters($method, $parameters)
     {
         if ($parameters) {
-            $this->_method = $method;
+            $this->method = $method;
             if ($method === 'GET') {
                 if (is_array($parameters)) {
                     $parameters = http_build_query($parameters);
                 }
             } elseif ($method === 'POST' || $method === 'PUT') {
-                $parameters = $this->_getParameters($parameters);
+                $parameters = $this->parseParameters($parameters);
             }
         } else {
             $parameters = null;
@@ -130,5 +130,5 @@ abstract class Model
      * @param array $parameters
      * @return string
      */
-    abstract protected function _getParameters($parameters);
+    abstract protected function parseParameters($parameters);
 }

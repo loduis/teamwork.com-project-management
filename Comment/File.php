@@ -3,7 +3,7 @@ namespace TeamWorkPm\Comment;
 
 class File extends Model
 {
-    protected  $_resource = 'files';
+    protected  $resource = 'files';
 
     /**
      * Creating a Comment
@@ -28,6 +28,6 @@ class File extends Model
             $data['pending_file_attachments'] = $file->upload($data['files']);
             unset($data['files']);
         }
-        return $this->rest->post("fileversions/$resource_id/$this->_action", $data);
+        return $this->rest->post("fileversions/$resource_id/$this->action", $data);
     }
 }

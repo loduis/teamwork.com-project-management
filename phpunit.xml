@@ -53,10 +53,6 @@
         <file>Tests/MeTest.php</file>
         <file>Tests/Me/StatusTest.php</file>
         <file>Tests/DestroyTest.php</file>
-        <!--
-        <exclude>
-            <file>TeamWorkPm.php</file>
-        </exclude>-->
     </testsuite>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
@@ -64,6 +60,7 @@
             <exclude>
                 <directory suffix=".php">Example</directory>
                 <directory suffix=".php">Tests</directory>
+                <file>usage.php</file>
             </exclude>
         </whitelist>
     </filter>

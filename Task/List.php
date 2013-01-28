@@ -1,12 +1,11 @@
 <?php
-
 namespace TeamWorkPm;
 
 class Task_List extends Model
 {
-    protected function _init()
+    protected function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             'name'   => true,
             'private' => array(
                 'required'=>false,
@@ -35,8 +34,8 @@ class Task_List extends Model
             ),
             'todo_list_template_id' => false
         );
-        $this->_parent = 'todo-list';
-        $this->_action = 'todo_lists';
+        $this->parent = 'todo-list';
+        $this->action = 'todo_lists';
     }
 
     /**
@@ -57,7 +56,7 @@ class Task_List extends Model
         if (!$show_tasks) {
             $params['showTasks'] = 'no';
         }
-        return $this->rest->get("$this->_action/$id", $params);
+        return $this->rest->get("$this->action/$id", $params);
     }
 
     /**
@@ -88,7 +87,7 @@ class Task_List extends Model
                 $params = array('filter'=> $params);
             }
         }
-        return $this->rest->get("projects/$project_id/$this->_action", $params);
+        return $this->rest->get("projects/$project_id/$this->action", $params);
     }
 
     /**
@@ -105,7 +104,7 @@ class Task_List extends Model
     public function reorder($project_id, array $ids)
     {
         $project_id = (int) $project_id;
-        return $this->rest->post("projects/$project_id/$this->_action/reorder", $ids);
+        return $this->rest->post("projects/$project_id/$this->action/reorder", $ids);
     }
 
     /**
@@ -119,6 +118,6 @@ class Task_List extends Model
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }
-        return $this->rest->post("projects/$project_id/$this->_action", $data);
+        return $this->rest->post("projects/$project_id/$this->action", $data);
     }
 }

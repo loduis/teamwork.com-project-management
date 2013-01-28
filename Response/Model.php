@@ -3,9 +3,9 @@ namespace TeamWorkPm\Response;
 
 abstract class Model implements \Countable
 {
-    protected $_string = null;
+    protected $string = null;
 
-    protected $_headers = array();
+    protected $headers = array();
 
     final public function __construct()
     {
@@ -26,14 +26,14 @@ abstract class Model implements \Countable
             mkdir($dirname, 0777, true);
         }
 
-        return file_put_contents($filename, $this->_getContent());
+        return file_put_contents($filename, $this->getContent());
     }
 
-    abstract protected function _getContent();
+    abstract protected function getContent();
 
     public function __toString()
     {
-        return $this->_getContent();
+        return $this->getContent();
     }
 
     public function toArray()
@@ -42,7 +42,7 @@ abstract class Model implements \Countable
         return $array->getArrayCopy();
     }
 
-    protected static function _camelize($string)
+    protected static function camelize($string)
     {
 
         $replace = preg_replace('/_(.)/e','strtoupper(\'$1\');', $string);
@@ -52,7 +52,7 @@ abstract class Model implements \Countable
 
     public function getHeaders()
     {
-        return $this->_headers;
+        return $this->headers;
     }
 
     public function count()

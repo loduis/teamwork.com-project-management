@@ -3,8 +3,8 @@ namespace TeamWorkPm;
 
 class Exception extends \ErrorException
 {
-    private $_response = NULL;
-    private $_headers = array();
+    private $response = null;
+    private $headers = array();
 
 
     public function  __construct($errorInfo)
@@ -16,20 +16,20 @@ class Exception extends \ErrorException
         }
         $this->message = trim($errorInfo['Message']);
         if (isset($errorInfo['Response'])) {
-            $this->_response    = $errorInfo['Response'];
+            $this->response    = $errorInfo['Response'];
         }
         if (isset($errorInfo['Headers'])) {
-            $this->_headers = $errorInfo['Headers'];
+            $this->headers = $errorInfo['Headers'];
         }
     }
 
     public function getResponse()
     {
-        return $this->_response;
+        return $this->response;
     }
 
     public function getHeaders()
     {
-        return $this->_headers;
+        return $this->headers;
     }
 }

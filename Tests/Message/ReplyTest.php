@@ -60,7 +60,8 @@ class Message_ReplyTest extends TestCase
         }
         try {
             $replies = $this->model->getByMessage($this->messageId, array(
-                'pageSize'=> 10
+                'pageSize'=> 10,
+                'invalid_param' => true
             ));
             $this->assertGreaterThan(0, count($replies));
         } catch(\TeamWorkPm\Exception $e) {

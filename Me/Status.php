@@ -3,11 +3,11 @@ namespace TeamWorkPm\Me;
 
 class Status extends \TeamWorkPm\Rest\Model
 {
-    protected function _init()
+    protected function init()
     {
-        $this->_parent = 'userstatus';
-        $this->_action = 'status';
-        $this->_fields = array(
+        $this->parent = 'userstatus';
+        $this->action = 'status';
+        $this->fields = array(
           'status'=>true,
           'notify'=>false
         );
@@ -26,7 +26,7 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function get()
     {
-        return $this->rest->get("me/$this->_action");
+        return $this->rest->get("me/$this->action");
     }
 
     /**
@@ -41,7 +41,7 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function insert(array $data)
     {
-        return $this->rest->post("me/$this->_action", $data);
+        return $this->rest->post("me/$this->action", $data);
     }
 
     /**
@@ -60,7 +60,7 @@ class Status extends \TeamWorkPm\Rest\Model
         if ($id <= 0) {
             throw new \TeamWorkPm\Exception('Required field id');
         }
-        return $this->rest->put("me/$this->_action/$id", $data);
+        return $this->rest->put("me/$this->action/$id", $data);
     }
 
     /**
@@ -81,7 +81,7 @@ class Status extends \TeamWorkPm\Rest\Model
         if ($id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param id');
         }
-        return $this->rest->delete("me/$this->_action/$id");
+        return $this->rest->delete("me/$this->action/$id");
     }
 
     /**

@@ -4,9 +4,9 @@ namespace TeamWorkPm;
 class Message extends Model
 {
 
-    protected function _init()
+    protected function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             'title'                    => true,
             'category_id'              => array(
                 'required'=>true,
@@ -29,8 +29,8 @@ class Message extends Model
             'attachments'              => false,
             'pending_file_attachments' => false
         );
-        $this->_parent = 'post';
-        $this->_action = 'posts';
+        $this->parent = 'post';
+        $this->action = 'posts';
     }
 
     /**
@@ -55,7 +55,7 @@ class Message extends Model
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        $action = "projects/$project_id/$this->_action";
+        $action = "projects/$project_id/$this->action";
         if ($archive) {
             $action .= '/archive';
         }
@@ -90,7 +90,7 @@ class Message extends Model
         if ($category_id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param category_id');
         }
-        $action = "projects/$project_id/cat/$category_id/$this->_action";
+        $action = "projects/$project_id/cat/$category_id/$this->action";
         if ($archive) {
             $action .= '/archive';
         }
@@ -119,6 +119,6 @@ class Message extends Model
             $data['pending_file_attachments'] = $file->upload($data['files']);
             unset($data['files']);
         }
-        return $this->rest->post("projects/$project_id/$this->_action", $data);
+        return $this->rest->post("projects/$project_id/$this->action", $data);
     }
 }

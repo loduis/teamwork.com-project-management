@@ -4,9 +4,9 @@ namespace TeamWorkPm;
 class People extends Model
 {
 
-    protected function _init()
+    protected function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             'first_name' => true,
             'last_name' => true,
             'email_address'=>true,
@@ -97,8 +97,8 @@ class People extends Model
                 'type'=>'boolean'
             )
         );
-        $this->_parent = 'person';
-        $this->_action = 'people';
+        $this->parent = 'person';
+        $this->action = 'people';
     }
 
     public function get($id, $project_id = null)
@@ -108,7 +108,7 @@ class People extends Model
             throw new Exception('Invalid param id');
         }
         $project_id = (int) $project_id;
-        $action = "$this->_action/$id";
+        $action = "$this->action/$id";
         if ($project_id) {
             $action = "projects/$project_id/$action";
         }
@@ -124,7 +124,7 @@ class People extends Model
      */
     public function getAll()
     {
-        return $this->rest->get($this->_action);
+        return $this->rest->get($this->action);
     }
 
     /**
@@ -138,7 +138,7 @@ class People extends Model
     public function getByProject($id)
     {
         $id = (int) $id;
-        return $this->rest->get("projects/$id/$this->_action");
+        return $this->rest->get("projects/$id/$this->action");
     }
 
     /**
@@ -153,7 +153,7 @@ class People extends Model
     public function getByCompany($id)
     {
         $id = (int) $id;
-        return $this->rest->get("companies/$id/$this->_action");
+        return $this->rest->get("companies/$id/$this->action");
     }
 
     /**
@@ -244,7 +244,7 @@ class People extends Model
             throw new Exception('Invalid param id');
         }
         $project_id = (int) $project_id;
-        $action = "$this->_action/$id";
+        $action = "$this->action/$id";
         if ($project_id) {
             $action = "projects/$project_id/$action";
         }

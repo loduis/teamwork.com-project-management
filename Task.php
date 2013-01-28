@@ -3,9 +3,9 @@ namespace TeamWorkPm;
 
 class Task extends Model
 {
-    protected function _init()
+    protected function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             'content'=>true,
             'notify'=>array(
                 'required'=>false,
@@ -50,8 +50,8 @@ class Task extends Model
             'attachments'              => false,
             'pending_file_attachments' => false
         );
-        $this->_parent = 'todo-item';
-        $this->_action = 'todo_items';
+        $this->parent = 'todo-item';
+        $this->action = 'todo_items';
    }
 
     public function get($id, $get_time = false)
@@ -64,7 +64,7 @@ class Task extends Model
         if ($get_time) {
             $params['getTime'] = (int) $get_time;
         }
-        return $this->rest->get("$this->_action/$id", $params);
+        return $this->rest->get("$this->action/$id", $params);
     }
 
 
@@ -100,7 +100,7 @@ class Task extends Model
         if (in_array($filter, $validate)) {
             $params['filter'] = 'all';
         }
-        return $this->rest->get("todo_lists/$task_list_id/$this->_action", $params);
+        return $this->rest->get("todo_lists/$task_list_id/$this->action", $params);
     }
 
     /**
@@ -128,7 +128,7 @@ class Task extends Model
             $data['pending_file_attachments'] = $file->upload($data['files']);
             unset($data['files']);
         }
-        return $this->rest->post("todo_lists/$task_list_id/$this->_action", $data);
+        return $this->rest->post("todo_lists/$task_list_id/$this->action", $data);
     }
 
     /**
@@ -147,7 +147,7 @@ class Task extends Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->put("$this->_action/$id/complete");
+        return $this->rest->put("$this->action/$id/complete");
     }
 
     /**
@@ -167,7 +167,7 @@ class Task extends Model
             throw new Exception('Invalid param id');
         }
 
-        return $this->rest->put("$this->_action/$id/uncomplete");
+        return $this->rest->put("$this->action/$id/uncomplete");
     }
 
     /**
@@ -190,6 +190,6 @@ class Task extends Model
             throw new Exception('Invalid param task_list_id');
         }
         return $this->rest->post("todo_lists/$task_list_id/" .
-                                                "$this->_action/reorder", $ids);
+                                                "$this->action/reorder", $ids);
     }
 }

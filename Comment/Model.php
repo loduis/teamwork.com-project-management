@@ -3,11 +3,11 @@ namespace TeamWorkPm\Comment;
 
 abstract class Model extends \TeamWorkPm\Model
 {
-    protected function _init()
+    protected function init()
     {
-        $this->_parent = 'comment';
-        $this->_action = $this->_parent . 's';
-        $this->_fields = array(
+        $this->parent = 'comment';
+        $this->action = $this->parent . 's';
+        $this->fields = array(
             'body'                     => true,
             'notify'                   => false,
             'isprivate'                => false,
@@ -40,7 +40,7 @@ abstract class Model extends \TeamWorkPm\Model
             unset($data['files']);
         }
         return $this->rest->post(
-            "$this->_resource/$resource_id/$this->_action",
+            "$this->resource/$resource_id/$this->action",
             $data
         );
     }
@@ -69,7 +69,7 @@ abstract class Model extends \TeamWorkPm\Model
         );
 
         return $this->rest->get(
-            "$this->_resource/$resource_id/$this->_action",
+            "$this->resource/$resource_id/$this->action",
             $params
         );
     }

@@ -3,29 +3,30 @@ namespace TeamWorkPm\Request;
 
 class JSON extends Model
 {
-    protected function _getParameters($parameters)
+    protected function parseParameters($parameters)
     {
         if (!empty($parameters) && is_array($parameters)) {
             $object = new \stdClass();
-            $parent = $this->_getParent();
+            $parent = $this->getParent();
             $object->$parent = new \stdClass();
             $parent = $object->$parent;
 
-            if ($this->_actionInclude('/reorder')) {
+            if ($this->actionInclude('/reorder')) {
                 foreach ($parameters as $id) {
                     $item = new \stdClass();
                     $item->id = $id;
-                    $parent->{$this->_parent}[] = $item;
+                    $parent->{$this->parent}[] = $item;
                 }
             } else {
-                foreach ($this->_fields as $field=>$options) {
-                    $value   = $this->_getValue($field, $options, $parameters);
+                foreach ($this->fields as $field=>$options) {
+                    $value   = $this->getValue($field, $options, $parameters);
                     if (isset ($options['attributes'])) {
                         foreach ($options['attributes'] as $name=>$type) {
                             if (null !== $value) {
                                 if ($name === 'type') {
                                     if ($type === 'array') {
-                                        if (is_string($value) || is_numeric($value)) {
+                                        if (is_string($value) ||
+                                                        is_numeric($value)) {
                                             $value = (array) $value;
                                         } else {
                                             $value = null;
@@ -50,6 +51,5 @@ class JSON extends Model
         }
 
         return $parameters;
-
     }
 }

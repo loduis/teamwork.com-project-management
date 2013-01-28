@@ -3,43 +3,43 @@ namespace TeamWorkPm\Request;
 
 class XML extends Model
 {
-    private $_doc;
+    private $doc;
 
     public function  __construct()
     {
-        $this->_doc               = new \DOMDocument();
-        $this->_doc->formatOutput = true;
+        $this->doc               = new \DOMDocument();
+        $this->doc->formatOutput = true;
     }
 
-    protected function _getParameters($parameters)
+    protected function parseParameters($parameters)
     {
         if (!empty($parameters) && is_array($parameters)) {
-            $wrapper = $this->_doc->createElement($this->_getWrapper());
-            $parent = $this->_doc->createElement($this->_getParent());
-            if ($this->_actionInclude('/reorder')) {
+            $wrapper = $this->doc->createElement($this->getWrapper());
+            $parent = $this->doc->createElement($this->getParent());
+            if ($this->actionInclude('/reorder')) {
                 $parent->setAttribute('type', 'array');
                 foreach ($parameters as $id) {
-                    $element = $this->_doc->createElement($this->_parent);
-                    $item = $this->_doc->createElement('id');
-                    $item->appendChild($this->_doc->createTextNode($id));
+                    $element = $this->doc->createElement($this->parent);
+                    $item = $this->doc->createElement('id');
+                    $item->appendChild($this->doc->createTextNode($id));
                     $element->appendChild($item);
                     $parent->appendChild($element);
                 }
             } else {
-                foreach ($this->_fields as $field=>$options) {
+                foreach ($this->fields as $field=>$options) {
 
-                    $value   = $this->_getValue($field, $options, $parameters);
-                    $element = $this->_doc->createElement($field);
+                    $value   = $this->getValue($field, $options, $parameters);
+                    $element = $this->doc->createElement($field);
                     if (isset ($options['attributes'])) {
                         foreach ($options['attributes'] as $name=>$type) {
-                            $this->_setDefaultValueIfIsNull($type, $value);
+                            $this->setDefaultValueIfIsNull($type, $value);
                             if (null !== $value) {
                                 $element->setAttribute($name, $type);
                                 if ($name == 'type') {
                                     if ($type == 'array') {
-                                        $internal = $this->_doc->createElement($options['element']);
+                                        $internal = $this->doc->createElement($options['element']);
                                         foreach ($value as $v) {
-                                            $internal->appendChild($this->_doc->createTextNode($v));
+                                            $internal->appendChild($this->doc->createTextNode($v));
                                             $element->appendChild($internal);
                                         }
                                     } else {
@@ -53,7 +53,7 @@ class XML extends Model
                         if (is_bool($value)) {
                             $value = var_export($value, true);
                         }
-                        $element->appendChild($this->_doc->createTextNode($value));
+                        $element->appendChild($this->doc->createTextNode($value));
                         !empty($options['sibling']) ?
                             $wrapper->appendChild($element) :
                             $parent->appendChild($element);
@@ -61,17 +61,17 @@ class XML extends Model
                 }
             }
             $wrapper->appendChild($parent);
-            $this->_doc->appendChild($wrapper);
+            $this->doc->appendChild($wrapper);
 
-            $parameters = $this->_doc->saveXML();
+            $parameters = $this->doc->saveXML();
         } else {
-            $parameters = NULL;
+            $parameters = null;
         }
 
         return $parameters;
     }
 
-    protected function _getWrapper()
+    protected function getWrapper()
     {
         return 'request';
     }

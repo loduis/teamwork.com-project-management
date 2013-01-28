@@ -3,11 +3,6 @@
 class DestroyTest extends TestCase
 {
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     /**
      *
      * @test
@@ -192,8 +187,26 @@ class DestroyTest extends TestCase
         $fail = false;
 
         try {
-            foreach($people->getAll() as $p) {
+            $project_id = get_first_project_id();
+            $rows = $people->getAll();
+            if ($project_id) {
+                foreach($rows as $p) {
+                    try {
+                        // delete from project
+                        $this->assertTrue($people->delete($p->id, $project_id));
+                    } catch (\TeamWorkPm\Exception $e) {
+                        $message = $e->getMessage();
+                        $this->assertContains($e->getMessage(), array(
+                            'User is not on this project',
+                            "This user is the only user on the " .
+                            "project and can't be removed"
+                        ));
+                    }
+                }
+            }
+            foreach($rows as $p) {
                 try {
+                    // delete from account
                     $this->assertTrue($people->delete($p->id));
                 } catch (\TeamWorkPm\Exception $e) {
                     $this->assertEquals(

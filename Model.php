@@ -14,7 +14,7 @@ abstract class Model extends Rest\Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->get("$this->_action/$id", $params);
+        return $this->rest->get("$this->action/$id", $params);
     }
 
     /**
@@ -24,7 +24,7 @@ abstract class Model extends Rest\Model
      */
     public function insert(array $data)
     {
-        return $this->rest->post($this->_action, $data);
+        return $this->rest->post($this->action, $data);
     }
 
     /**
@@ -38,7 +38,7 @@ abstract class Model extends Rest\Model
         if ($id <= 0) {
             throw new Exception('Required field id');
         }
-        return $this->rest->put("$this->_action/$id", $data);
+        return $this->rest->put("$this->action/$id", $data);
     }
 
     /**
@@ -64,6 +64,6 @@ abstract class Model extends Rest\Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->delete("$this->_action/$id");
+        return $this->rest->delete("$this->action/$id");
     }
 }

@@ -4,9 +4,9 @@ namespace TeamWorkPm;
 class Link extends Model
 {
 
-    protected function _init()
+    protected function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             // {link name}
             'name'          =>true,
             // {link display code: Embed code, Iframe code, URL}
@@ -54,7 +54,7 @@ class Link extends Model
      */
     public function getAll()
     {
-        return $this->rest->get($this->_action);
+        return $this->rest->get($this->action);
     }
 
     /**
@@ -74,7 +74,7 @@ class Link extends Model
         if ($project_id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param project_id');
         }
-        return $this->rest->get("/projects/$project_id/$this->_action");
+        return $this->rest->get("/projects/$project_id/$this->action");
     }
 
     /**
@@ -93,6 +93,6 @@ class Link extends Model
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }
-        return $this->rest->post("projects/$project_id/$this->_action", $data);
+        return $this->rest->post("projects/$project_id/$this->action", $data);
     }
 }

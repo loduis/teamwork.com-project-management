@@ -14,9 +14,9 @@ class XML extends Model
     public function parse($data, array $headers)
     {
         libxml_use_internal_errors(true);
-        $this->_string = $data;
+        $this->string = $data;
         $source = simplexml_load_string($data);
-        $errors = $this->_getXmlErrors($source);
+        $errors = $this->getXmlErrors($source);
         //echo "\n", $data, "\n";
         if ($source) {
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
@@ -40,24 +40,25 @@ class XML extends Model
                         break;
                      case 'PUT':
                      case 'DELETE':
-                        return TRUE;
+                        return true;
                      default:
                         if (!empty($source->files->file)) {
                             $source = $source->files->file;
-                            $isArray = TRUE;
+                            $isArray = true;
                         } elseif (!empty($source->notebooks->notebook)) {
                             $source = $source->notebooks->notebook;
-                            $isArray = TRUE;
+                            $isArray = true;
                         }  elseif(!empty($source->project->links)) {
                             $source = $source->project->links;
-                              $isArray = TRUE;
+                              $isArray = true;
                         } else {
                             $attrs = $source->attributes();
-                            $isArray = !empty($attrs->type) && (string) $attrs->type === 'array';
+                            $isArray = !empty($attrs->type) &&
+                                            (string) $attrs->type === 'array';
                         }
-                        $this->_headers = $headers;
+                        $this->headers = $headers;
 
-                        $_this = self::_toStdClass($source, $isArray);
+                        $_this = self::toStdClass($source, $isArray);
 
                         foreach ($_this as $key=>$value) {
                             $this->$key = $value;
@@ -87,10 +88,10 @@ class XML extends Model
      *
      * @return string
      */
-    protected function _getContent()
+    protected function getContent()
     {
         $dom = new DOMDocument('1.0');
-        $dom->loadXML($this->_string);
+        $dom->loadXML($this->string);
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
 
@@ -104,11 +105,13 @@ class XML extends Model
      * @param bool $isArray
      * @return stdClass
      */
-    private static function _toStdClass(\SimpleXMLElement $source, $isArray = FALSE)
-    {
+    private static function toStdClass(
+        \SimpleXMLElement $source,
+        $isArray = false
+    ) {
         $destination = $isArray ? array() : new \stdClass();
         foreach($source as $key=>$value) {
-            $key = self::_camelize($key);
+            $key = self::camelize($key);
             $attrs = $value->attributes();
             if (!empty($attrs->type)) {
                 $type = (string) $attrs->type;
@@ -122,9 +125,9 @@ class XML extends Model
                         break;
                     case 'array':
                         if (is_array($destination)) {
-                            $destination[$key] = self::_toStdClass($value, TRUE);
+                            $destination[$key] = self::toStdClass($value, true);
                         } else {
-                            $destination->$key = self::_toStdClass($value, TRUE);
+                            $destination->$key = self::toStdClass($value, true);
                         }
                         break;
                     default:
@@ -136,9 +139,9 @@ class XML extends Model
                 if (!empty($children)) {
                     if ($isArray) {
                         $i               = count($destination);
-                        $destination[$i] = self::_toStdClass($value);
+                        $destination[$i] = self::toStdClass($value);
                     } else {
-                        $destination->$key = self::_toStdClass($value);
+                        $destination->$key = self::toStdClass($value);
                     }
                 } else {
                     $destination->$key = (string) $value;
@@ -149,7 +152,7 @@ class XML extends Model
         return $destination;
     }
 
-    private function _getXmlErrors($xml)
+    private function getXmlErrors($xml)
     {
         $errors = '';
         foreach (libxml_get_errors() as $error) {

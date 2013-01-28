@@ -3,11 +3,10 @@ namespace TeamWorkPm;
 
 class File extends Rest\Model
 {
-    private $_id = null;
 
-    protected function _init()
+    protected function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             'pending_file_ref' => true,
             'description'=>false,
             'category_id'=>array(
@@ -27,7 +26,7 @@ class File extends Rest\Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->get("$this->_action/$id");
+        return $this->rest->get("$this->action/$id");
     }
     /**
      * List Files on a Project
@@ -45,7 +44,7 @@ class File extends Rest\Model
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        return $this->rest->get("projects/$project_id/$this->_action");
+        return $this->rest->get("projects/$project_id/$this->action");
     }
 
     /**
@@ -120,7 +119,6 @@ class File extends Rest\Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->delete("$this->_action/$id");
+        return $this->rest->delete("$this->action/$id");
     }
-
 }

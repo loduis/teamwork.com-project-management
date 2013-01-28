@@ -22,17 +22,17 @@ abstract class Model
      * del put y del post
      * @var string
      */
-    protected $_parent = null;
+    protected $parent = null;
     /**
      * Es el comnun recurso que se debe ejecutar
      * @var string
      */
-    protected $_action = null;
+    protected $action = null;
     /**
      * Almacena los campos del objeto
      * @var array
      */
-    protected $_fields = array();
+    protected $fields = array();
     /**
      *
      * @var string
@@ -43,27 +43,27 @@ abstract class Model
     {
         $this->rest   = new \TeamWorkPm\Rest($company, $key);
         $this->hash   = $hash;
-        $this->_parent = strtolower(str_replace(
+        $this->parent = strtolower(str_replace(
           array('TeamWorkPm\\', '\\'),
           array('', '-'),
           $class
         ));
-        if (method_exists($this, '_init')) {
-            $this->_init();
+        if (method_exists($this, 'init')) {
+            $this->init();
         }
-        if (null === $this->_action) {
-            $this->_action = str_replace('-', '_', $this->_parent);
+        if (null === $this->action) {
+            $this->action = str_replace('-', '_', $this->parent);
             // pluralize
-            if (substr($this->_action, -1) === 'y') {
-                $this->_action = substr($this->_action, 0, -1) . 'ies';
+            if (substr($this->action, -1) === 'y') {
+                $this->action = substr($this->action, 0, -1) . 'ies';
             } else {
-                $this->_action .= 's';
+                $this->action .= 's';
             }
         }
         //configure request para put y post fields
         $this->rest->getRequest()
-                    ->setParent($this->_parent)
-                    ->setFields($this->_fields);
+                    ->setParent($this->parent)
+                    ->setFields($this->fields);
 
     }
 

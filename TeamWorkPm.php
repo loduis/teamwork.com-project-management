@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * @package    TeamWorkPm
@@ -11,9 +10,9 @@
 final class TeamWorkPm
 {
 
-    private static $_COMPANY = null;
+    private static $COMPANY = null;
 
-    private static $_API_KEY = null;
+    private static $API_KEY = null;
 
     /**
      * @codeCoverageIgnore
@@ -43,14 +42,14 @@ final class TeamWorkPm
         $class_name = '\\' . __CLASS__ . '\\' .  $class_name;
         return forward_static_call_array(
               array($class_name, 'getInstance'),
-              array(self::$_COMPANY, self::$_API_KEY)
+              array(self::$COMPANY, self::$API_KEY)
         );
     }
 
     public static function setAuth($company, $key)
     {
-        self::$_COMPANY = $company;
-        self::$_API_KEY = $key;
+        self::$COMPANY = $company;
+        self::$API_KEY = $key;
     }
 
     /**

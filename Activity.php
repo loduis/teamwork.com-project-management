@@ -4,9 +4,9 @@ namespace TeamWorkPm;
 class Activity extends Rest\Model
 {
 
-    protected function _init()
+    protected function init()
     {
-        $this->_action = 'latestActivity';
+        $this->action = 'latestActivity';
     }
     /**
      * List Latest Activity (across all projects)
@@ -28,7 +28,7 @@ class Activity extends Rest\Model
         if ($maxItems) {
             $params['maxItems'] = $maxItems;
         }
-        return $this->rest->get("$this->_action", $params);
+        return $this->rest->get("$this->action", $params);
     }
 
     /**
@@ -52,6 +52,6 @@ class Activity extends Rest\Model
             $params['maxItems'] = $maxItems;
         }
 
-        return $this->rest->get("projects/$project_id/$this->_action", $params);
+        return $this->rest->get("projects/$project_id/$this->action", $params);
     }
 }

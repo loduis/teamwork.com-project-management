@@ -23,7 +23,6 @@ class CompanyTest extends TestCase
         try {
             $countrycode = $data['countrycode'];
             $data['countrycode'] = 'BAD CODE';
-            $data['name'] = 'PPPP';
             $this->model->save($data);
             $this->fail('An expected exception has not been raised.');
         } catch (\TeamWorkPm\Exception $e) {
@@ -50,7 +49,7 @@ class CompanyTest extends TestCase
     public function update($data)
     {
         try {
-            $data['name'] .= rand(1, 100);
+            $data['name'] = rand_string($data['name']);
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {

@@ -3,13 +3,13 @@ namespace TeamWorkPm\People;
 
 class Status extends \TeamWorkPm\Rest\Model
 {
-    protected function _init()
+    protected function init()
     {
-        $this->_parent = 'userstatus';
-        $this->_action = 'status';
-        $this->_fields = array(
-          'status'=>TRUE,
-          'notify'=>FALSE
+        $this->parent = 'userstatus';
+        $this->action = 'status';
+        $this->fields = array(
+          'status'=>true,
+          'notify'=>false
         );
     }
 
@@ -25,7 +25,7 @@ class Status extends \TeamWorkPm\Rest\Model
     public function get($person_id)
     {
         $person_id = (int) $person_id;
-        return $this->rest->get("people/$person_id/$this->_action");
+        return $this->rest->get("people/$person_id/$this->action");
     }
 
     /**
@@ -37,7 +37,7 @@ class Status extends \TeamWorkPm\Rest\Model
      */
     public function getAll()
     {
-        return $this->rest->get("people/$this->_action");
+        return $this->rest->get("people/$this->action");
     }
 
     /**
@@ -56,7 +56,7 @@ class Status extends \TeamWorkPm\Rest\Model
         }
         unset($data['person_id']);
 
-        return $this->rest->post("people/$person_id/$this->_action", $data);
+        return $this->rest->post("people/$person_id/$this->action", $data);
     }
 
     /**
@@ -77,7 +77,7 @@ class Status extends \TeamWorkPm\Rest\Model
         $person_id = empty($data['person_id']) ? 0 : (int) $data['person_id'];
         unset($data['id'], $data['person_id']);
         return $this->rest->put('people/' .
-           ($person_id ? $person_id . '/' : '') .  "$this->_action/$id", $data);
+           ($person_id ? $person_id . '/' : '') .  "$this->action/$id", $data);
     }
 
     /**
@@ -100,7 +100,7 @@ class Status extends \TeamWorkPm\Rest\Model
             throw new  \TeamWorkPm\Exception('Invalid param id');
         }
         return $this->rest->delete('people/' .
-            ($person_id ? $person_id . '/' : '') .  "$this->_action/$id");
+            ($person_id ? $person_id . '/' : '') .  "$this->action/$id");
     }
 
     /**

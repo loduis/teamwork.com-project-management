@@ -3,9 +3,9 @@ namespace TeamWorkPm\Message;
 
 class Reply extends \TeamWorkPm\Model
 {
-    public function _init()
+    public function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             'body'=>true,
             'notify'=>array(
                 'required'=>false,
@@ -13,8 +13,8 @@ class Reply extends \TeamWorkPm\Model
                 'element'=>'person'
             ),
         );
-        $this->_parent = 'messagereply';
-        $this->_action = 'messageReplies';
+        $this->parent = 'messagereply';
+        $this->action = 'messageReplies';
     }
 
     /**

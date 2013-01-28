@@ -3,5 +3,5 @@ namespace TeamWorkPm\Comment;
 
 class Task extends Model
 {
-    protected $_resource = 'todo_items';
+    protected $resource = 'todo_items';
 }

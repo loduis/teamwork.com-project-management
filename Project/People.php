@@ -1,12 +1,11 @@
 <?php
-
 namespace TeamWorkPm\Project;
 
 class People extends \TeamWorkPm\Rest\Model
 {
-    protected function _init()
+    protected function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             'view_messages_and_files'=>array(
                 'require'=>false,
                 'attributes'=>array(
@@ -134,7 +133,7 @@ class People extends \TeamWorkPm\Rest\Model
                 )
             )
         );
-        $this->_action = $this->_parent = 'permissions';
+        $this->action = $this->parent = 'permissions';
     }
 
     public function get($project_id, $person_id)

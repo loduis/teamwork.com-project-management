@@ -3,10 +3,10 @@ namespace TeamWorkPm;
 
 class Milestone extends Model
 {
-    protected function _init()
+    protected function init()
     {
         // this is the list of fields that can send the api
-        $this->_fields = array(
+        $this->fields = array(
             'title'       => true,
             'description' => false,
             'deadline'    => array(
@@ -41,7 +41,7 @@ class Milestone extends Model
               'attributes'=>array('type'=>'boolean')
             ),
             'move_upcoming_milestones_off_weekends'=>array(
-              'sibling'=>TRUE,
+              'sibling'=>true,
               'required'=>false,
               'attributes'=>array('type'=>'boolean')
             )
@@ -63,7 +63,7 @@ class Milestone extends Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->put("$this->_action/$id/complete");
+        return $this->rest->put("$this->action/$id/complete");
     }
 
     /**
@@ -82,7 +82,7 @@ class Milestone extends Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->put("$this->_action/$id/uncomplete");
+        return $this->rest->put("$this->action/$id/uncomplete");
     }
 
     /**
@@ -92,7 +92,7 @@ class Milestone extends Model
      */
     public function getAll($filter = 'all')
     {
-        return $this->rest->get("$this->_action", $this->getParams($filter));
+        return $this->rest->get("$this->action", $this->getParams($filter));
     }
 
     /**
@@ -107,7 +107,7 @@ class Milestone extends Model
             throw new Exception('Invalid param project_id');
         }
         return $this->rest->get(
-            "projects/$project_id/$this->_action",
+            "projects/$project_id/$this->action",
             $this->getParams($filter)
         );
     }
@@ -140,6 +140,6 @@ class Milestone extends Model
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }
-        return $this->rest->post("projects/$project_id/$this->_action", $data);
+        return $this->rest->post("projects/$project_id/$this->action", $data);
     }
 }

@@ -4,9 +4,9 @@ namespace TeamWorkPm;
 class Notebook extends Rest\Model
 {
 
-    protected function _init()
+    protected function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             'name' => true,
             'description'=>true,
             'content'=>true,
@@ -33,7 +33,7 @@ class Notebook extends Rest\Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->get("$this->_action/$id", $params);
+        return $this->rest->get("$this->action/$id", $params);
     }
 
     /**
@@ -50,7 +50,7 @@ class Notebook extends Rest\Model
     public function getAll($include_content = false)
     {
         $include_content = (bool) $include_content;
-        return $this->rest->get("$this->_action", array(
+        return $this->rest->get("$this->action", array(
           'includeContent'=>$include_content ? 'true' : 'false'
         ));
     }
@@ -74,7 +74,7 @@ class Notebook extends Rest\Model
             throw new Exception('Invalid param project_id');
         }
         $include_content = (bool) $include_content;
-        return $this->rest->get("projects/$project_id/$this->_action", array(
+        return $this->rest->get("projects/$project_id/$this->action", array(
           'includeContent'=>$include_content ? 'true' : 'false'
         ));
     }
@@ -94,7 +94,7 @@ class Notebook extends Rest\Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->put("$this->_action/$id/lock");
+        return $this->rest->put("$this->action/$id/lock");
     }
 
     /**
@@ -113,7 +113,7 @@ class Notebook extends Rest\Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->put("$this->_action/$id/unlock");
+        return $this->rest->put("$this->action/$id/unlock");
     }
 
     /**
@@ -130,7 +130,7 @@ class Notebook extends Rest\Model
         if ($project_id <= 0) {
             throw new \TeamWorkPm\Exception('Required field project_id');
         }
-        return $this->rest->post("projects/$project_id/$this->_action", $data);
+        return $this->rest->post("projects/$project_id/$this->action", $data);
     }
 
     /**
@@ -154,7 +154,7 @@ class Notebook extends Rest\Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->delete("$this->_action/$id");
+        return $this->rest->delete("$this->action/$id");
     }
 
 }

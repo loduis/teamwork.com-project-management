@@ -3,9 +3,9 @@ namespace TeamWorkPm;
 
 class Project extends Model
 {
-    protected function _init()
+    protected function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             // New Project Name
             'name'        => true,
             // [Optional. Project Description]
@@ -56,7 +56,7 @@ class Project extends Model
      */
     public function getAll($params = array())
     {
-        return $this->_getByStatus('all', $params);
+        return $this->getByStatus('all', $params);
 
     }
 
@@ -68,7 +68,7 @@ class Project extends Model
      */
     public function getActive($params = array())
     {
-        return $this->_getByStatus('active', $params);
+        return $this->getByStatus('active', $params);
     }
 
     /**
@@ -79,7 +79,7 @@ class Project extends Model
      */
     public function getArchived($params = array())
     {
-        return $this->_getByStatus('archived', $params);
+        return $this->getByStatus('archived', $params);
     }
 
     /**
@@ -89,11 +89,11 @@ class Project extends Model
      * @param type $time
      * @return type
      */
-    private function _getByStatus($status, $params)
+    private function getByStatus($status, $params)
     {
         $params = (array) $params;
         $params['status'] = strtoupper($status);
-        return $this->rest->get("$this->_action", $params);
+        return $this->rest->get("$this->action", $params);
     }
 
     /**
@@ -102,7 +102,7 @@ class Project extends Model
      */
     public function getStarred()
     {
-        return $this->rest->get("$this->_action/starred");
+        return $this->rest->get("$this->action/starred");
     }
 
     /**
@@ -116,7 +116,7 @@ class Project extends Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->put("$this->_action/$id/star");
+        return $this->rest->put("$this->action/$id/star");
     }
 
     /**
@@ -130,7 +130,7 @@ class Project extends Model
         if ($id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param id');
         }
-        return $this->rest->put("$this->_action/$id/unstar");
+        return $this->rest->put("$this->action/$id/unstar");
     }
 
     /**

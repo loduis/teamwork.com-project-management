@@ -3,9 +3,9 @@ namespace TeamWorkPm;
 
 class Company extends Model
 {
-    protected function _init()
+    protected function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             'name'=>true,
             'address_one'=>false,
             'address_two'=>false,
@@ -265,7 +265,7 @@ class Company extends Model
      */
     public function getAll()
     {
-        return $this->rest->get($this->_action);
+        return $this->rest->get($this->action);
     }
 
     /**
@@ -284,6 +284,6 @@ class Company extends Model
         if ($project_id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param project_id');
         }
-        return $this->rest->get("projects/$project_id/$this->_action");
+        return $this->rest->get("projects/$project_id/$this->action");
     }
 }

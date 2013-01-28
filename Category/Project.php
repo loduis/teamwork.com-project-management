@@ -4,12 +4,12 @@ namespace TeamWorkPm\Category;
 class Project extends \TeamWorkPm\Model
 {
 
-    protected  function _init()
+    protected  function init()
     {
-        list ($parent, $type) = explode('-', $this->_parent);
-        $this->_parent = $parent;
-        $this->_action = $type . 'Categories';
-        $this->_fields = array(
+        list ($parent, $type) = explode('-', $this->parent);
+        $this->parent = $parent;
+        $this->action = $type . 'Categories';
+        $this->fields = array(
             'name'=>true,
             'parent'=> false
         );
@@ -22,6 +22,6 @@ class Project extends \TeamWorkPm\Model
      */
     public function getAll()
     {
-        return $this->rest->get($this->_action);
+        return $this->rest->get($this->action);
     }
 }

@@ -4,9 +4,9 @@ namespace TeamWorkPm;
 class Time extends Model
 {
 
-    protected function _init()
+    protected function init()
     {
-        $this->_fields = array(
+        $this->fields = array(
             'description'=>true,
             'person_id'=>true,
             'date'=>array(
@@ -27,8 +27,8 @@ class Time extends Model
             'time'=>true,
             'isbillable'=>false
         );
-        $this->_parent = 'time-entry';
-        //$this->_action = 'time_entries';
+        $this->parent = 'time-entry';
+        //$this->action = 'time_entries';
     }
 
     /**
@@ -50,7 +50,7 @@ class Time extends Model
         if ($id <= 0) {
             throw new Exception('Required field project_id or task_id');
         }
-        return $this->rest->post("$resource/$id/$this->_action", $data);
+        return $this->rest->post("$resource/$id/$this->action", $data);
     }
 
     /**
@@ -70,7 +70,7 @@ class Time extends Model
 
     public function getAll(array $params = array())
     {
-        return $this->rest->get("$this->_action", $params);
+        return $this->rest->get("$this->action", $params);
     }
 
     /**
@@ -93,7 +93,7 @@ class Time extends Model
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        return $this->rest->get("projects/$project_id/$this->_action", $params);
+        return $this->rest->get("projects/$project_id/$this->action", $params);
     }
 
     /**
@@ -113,6 +113,6 @@ class Time extends Model
         if ($task_id <= 0) {
             throw new Exception('Invalid param task_id');
         }
-        return $this->rest->get("todo_items/$task_id/$this->_action", $params);
+        return $this->rest->get("todo_items/$task_id/$this->action", $params);
     }
 }

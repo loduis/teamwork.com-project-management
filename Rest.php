@@ -7,26 +7,22 @@ final class Rest
      *
      * @var string api format request an response
      */
-    private static $_FORMAT = 'json';
-
-    private static $time = null;
-
-    private static $rateLimit = 120;
+    private static $FORMAT = 'json';
 
     /**
      * @var string this is the api key
      */
-    private $_key = null;
+    private $key = null;
 
     /**
      * @var string this your company name path
      */
-    private $_company = null;
+    private $company = null;
 
     /**
      * @var TeamWorkPm\Request\Model
      */
-    private $_request = null;
+    private $request = null;
 
     /**
      *
@@ -39,12 +35,12 @@ final class Rest
         if (empty($company) || empty($key)) {
             throw new Exception('Set your company and api key');
         } else {
-            $this->_key     = $key;
-            $this->_company = $company;
+            $this->key     = $key;
+            $this->company = $company;
         }
-        $format          = strtoupper(self::$_FORMAT);
+        $format          = strtoupper(self::$FORMAT);
         $request         = '\TeamWorkPm\Request\\' . $format;
-        $this->_request  = new $request;
+        $this->request  = new $request;
     }
 
     /**
@@ -56,11 +52,14 @@ final class Rest
      * @return mixed
      * @throws \TeamWorkPm\Exception
      */
-    private function _execute($method, $action, $request = null)
+    private function execute($method, $action, $request = null)
     {
-        $url = 'http://'. $this->_company . '.teamworkpm.net/'. $action . '.' . self::$_FORMAT;
-        $headers = array('Authorization: BASIC '. base64_encode($this->_key . ':xxx'));
-        $request = $this->_request
+        $url = 'http://'. $this->company . '.teamworkpm.net/'. $action .
+                                                        '.' . self::$FORMAT;
+        $headers = array('Authorization: BASIC '. base64_encode(
+            $this->key . ':xxx'
+        ));
+        $request = $this->request
                         ->setAction($action)
                         ->getParameters($method, $request);
         $ch = curl_init();
@@ -72,7 +71,7 @@ final class Rest
                 break;
             case 'UPLOAD':
                 curl_setopt_array( $ch, array(
-                    CURLOPT_POST       => TRUE,
+                    CURLOPT_POST       => true,
                     CURLOPT_POSTFIELDS => $request
                 ));
                 break;
@@ -82,7 +81,7 @@ final class Rest
             case 'PUT':
             case 'POST':
                 if ($method === 'POST') {
-                    curl_setopt( $ch, CURLOPT_POST, TRUE);
+                    curl_setopt( $ch, CURLOPT_POST, true);
                 } else {
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
                 }
@@ -90,7 +89,7 @@ final class Rest
                     curl_setopt( $ch, CURLOPT_POSTFIELDS, $request);
                 }
                 $headers = array_merge($headers, array(
-                    'Content-Type: application/' . self::$_FORMAT,
+                    'Content-Type: application/' . self::$FORMAT,
                     'Content-Length:' . strlen($request)
                 ));
                 break;
@@ -98,10 +97,10 @@ final class Rest
         curl_setopt_array($ch, array(
             CURLOPT_HTTPHEADER     => $headers,
             CURLOPT_URL            => $url,
-            CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_HEADER         => TRUE,
-            CURLOPT_SSL_VERIFYHOST => FALSE,
-            CURLOPT_SSL_VERIFYPEER => FALSE
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER         => true,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false
         ));
 
         $i = 0;
@@ -109,8 +108,9 @@ final class Rest
             $data        = curl_exec ($ch);
             $status      = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-            $headers     = $this->_parseHeaders(substr($data, 0, $header_size));
-            if ($status === 400 && (int) $headers['X-RateLimit-Remaining'] === 0) {
+            $headers     = $this->parseHeaders(substr($data, 0, $header_size));
+            if ($status === 400 &&
+                                (int) $headers['X-RateLimit-Remaining'] === 0) {
                 $i ++;
                 sleep(10);
             } else {
@@ -134,9 +134,8 @@ final class Rest
         $headers['X-Request'] = $request;
         $headers['X-Action']  = $action;
         // for chrome use
-        $headers['X-Authorization'] = 'BASIC '. base64_encode($this->_key . ':xxx');
-        // print_r($headers);
-        $response = '\TeamWorkPm\Response\\' . strtoupper(self::$_FORMAT);
+        $headers['X-Authorization'] = 'BASIC '. base64_encode($this->key . ':xxx');
+        $response = '\TeamWorkPm\Response\\' . strtoupper(self::$FORMAT);
         $response = new $response;
         return $response->parse($body, $headers);
     }
@@ -150,32 +149,32 @@ final class Rest
      */
     public function get($action, $request = null)
     {
-        return $this->_execute('GET', $action, $request);
+        return $this->execute('GET', $action, $request);
     }
 
     public function put($action, $request = null)
     {
-        return $this->_execute('PUT', $action, $request);
+        return $this->execute('PUT', $action, $request);
     }
 
     public function post($action, $request = null)
     {
-        return $this->_execute('POST', $action, $request);
+        return $this->execute('POST', $action, $request);
     }
 
     public function delete($action)
     {
-        return $this->_execute('DELETE', $action, null);
+        return $this->execute('DELETE', $action, null);
     }
 
     public function upload($action, $request = null)
     {
-        return $this->_execute('UPLOAD', $action, $request);
+        return $this->execute('UPLOAD', $action, $request);
     }
 
     public function getRequest()
     {
-        return $this->_request;
+        return $this->request;
     }
     /**
      * @codeCoverageIgnore
@@ -186,11 +185,11 @@ final class Rest
         static $format = array('json', 'xml');
         $value = strtolower($value);
         if (in_array($value, $format)) {
-            self::$_FORMAT = $value;
+            self::$FORMAT = $value;
         }
     }
 
-    private function _parseHeaders($stringHeaders)
+    private function parseHeaders($stringHeaders)
     {
         $headers = array();
         $stringHeaders = trim($stringHeaders);
@@ -198,7 +197,7 @@ final class Rest
             $parts = explode("\n", $stringHeaders);
             foreach ($parts as $header) {
                 $header = trim($header);
-                if ($header && FALSE !== strpos($header, ':')) {
+                if ($header && false !== strpos($header, ':')) {
                     list($name, $value) = explode(':', $header, 2);
                     $value = trim($value);
                     $name  = trim($name);
