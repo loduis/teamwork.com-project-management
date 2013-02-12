@@ -39,6 +39,13 @@ class JSON extends Model
                         }
                     }
                     if (null !== $value) {
+                        if (is_string($value)) {
+                            $value = mb_encode_numericentity(
+                                $value,
+                                array(0x80, 0xffff, 0, 0xffff),
+                                'utf-8'
+                            );
+                        }
                         !empty($options['sibling']) ?
                             $object->$field = $value :
                             $parent->$field = $value;
@@ -46,6 +53,12 @@ class JSON extends Model
                 }
             }
             $parameters =  json_encode($object);
+            $parameters = mb_decode_numericentity(
+                $parameters,
+                array(0x80, 0xffff, 0, 0xffff),
+                'utf-8'
+            );
+            echo $parameters;
         } else {
             $parameters = '{}';
         }
