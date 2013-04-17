@@ -60,16 +60,28 @@ class Task_List extends Model
     }
 
     /**
-     * Retrieve all lists in a Project
+     * Get all task lists for a project
      *
-     * GET /projects/#{project_id}/todo_lists.xml?filter=#{filter}
+     * GET /projects/#{project_id}/todo_lists.xml
+     * GET /projects/#{project_id}/todo_lists.xml?showTasks=no
+     * GET /projects/#{project_id}/todo_lists.xml?responsible-party-id=#{id}
+     * GET /projects/#{project_id}/todo_lists.xml?getOverdueCount=yes
+     * GET /projects/#{project_id}/todo_lists.xml?responsible-party-id=#{id}&getOverdueCount=yes
+     * GET /projects/#{project_id}/todo_lists.xml?status=completed&getCompletedCount=yes
+     * Retrieves all project task lists
+     * Options:
+     * You can pass 'showMilestones=yes' if you would like to get information on Milestones associated with each task list
+     * You can pass 'showTasks=no' if you do not want to have the tasks returned (showTasks defaults to "yes").
      *
-     * Retrieves all todo lists in a project. You can further filter these results with the
-     * 'filter' query. You can set this to 'all', 'pending', 'late' and 'finished'. 'pending'
-     * lists incomplete tasks. The filter is defaulted to 'pending'
+     * If 'responsible-party-id' is passed lists returned will be filtered to those with tasks for the user.
+     * Passing "getOverdueCount" will return the number of overdue tasks ("overdue-count") for each task list.
+     * Passing "getCompletedCount" will return the number of completed tasks ("completed-count") for each task list.
+     * Status: You can use the Status option to restrict the lists return - valid values are 'all', 'active', and 'completed'. The default is "ACTIVE"
+     * Filter: You can use the Filter option to return specific tasks - valid values are 'all','upcoming','late','today','tomorrow'. The default is "ALL"
+     * If you pass FILTER as upcoming, late, today or tomorrow, you can also pass includeOverdue to also include overdue tasks
      *
-     * @param <type> $id
-     * @param <type> $filter
+     * @param [int] $id
+     * @param [string | array] $params
      * @return object
      */
     public function getByProject($id, $params = null)
@@ -85,6 +97,8 @@ class Task_List extends Model
                 $params = array('status'=> $params);
             } elseif (in_array($params, $filter)) {
                 $params = array('filter'=> $params);
+            } else {
+                $params = null;
             }
         }
         return $this->rest->get("projects/$project_id/$this->action", $params);
