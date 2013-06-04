@@ -58,7 +58,6 @@ class JSON extends Model
                 array(0x80, 0xffff, 0, 0xffff),
                 'utf-8'
             );
-            echo $parameters;
         } else {
             $parameters = '{}';
         }

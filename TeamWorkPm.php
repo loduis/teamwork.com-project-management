@@ -46,10 +46,19 @@ final class TeamWorkPm
         );
     }
 
-    public static function setAuth($company, $key)
+    public static function setAuth()
     {
-        self::$COMPANY = $company;
-        self::$API_KEY = $key;
+        $num_args = func_num_args();
+        if ($num_args === 1) {
+            self::$API_KEY = func_get_arg(0);
+            self::$COMPANY = 'authenticate';
+            $account       = self::factory('account');
+            $authenticate  = $account->authenticate();
+            self::$COMPANY = $authenticate->code;
+        } elseif($num_args === 2) {
+            self::$COMPANY = func_get_arg(0);
+            self::$API_KEY = func_get_arg(1);
+        }
     }
 
     /**

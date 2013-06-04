@@ -72,7 +72,7 @@ class TaskTest extends TestCase
         }
         try {
             $task = $this->model->get($this->id, true);
-            $this->assertTrue(isset($task->loggedTime));
+            $this->assertTrue(isset($task->timeIsLogged));
         } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
         }

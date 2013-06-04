@@ -3,12 +3,12 @@
 require './TeamWorkPm.php';
 
 // START configurtion
-const API_COMPANY = 'phpapi2';
 const API_KEY = 'horse48street';
 
 try {
     // set your keys
-    TeamWorkPm::setAuth(API_COMPANY, API_KEY);
+    TeamWorkPm::setAuth(API_KEY);
+
     // create an project
     $project = TeamWorkPm::factory('project');
     $project_id = $project->save(array(
