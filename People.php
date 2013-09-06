@@ -119,12 +119,15 @@ class People extends Model
      * Get people
      * GET /people.xml
      * All people visible to the user will be returned, including the user themselves
-     *
+	 * 
+     * @param int $pageSize Number of results per page
+     * @param int $page Page number
      * @return TeamWorkPm\Response\Model
      */
-    public function getAll()
+    public function getAll($pageSize = 200, $page = 1)
     {
-        return $this->rest->get($this->action);
+		$params = array('pageSize' => $pageSize, 'page' => $page);
+        return $this->rest->get($this->action, $params);
     }
 
     /**
