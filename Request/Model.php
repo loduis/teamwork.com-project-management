@@ -100,7 +100,10 @@ abstract class Model
 
     protected static function camelize($string)
     {
-        return preg_replace('/_(.)/e','strtoupper(\'$1\');', $string);
+        return preg_replace_callback('/_(.)/',
+                function($matches) {
+                    return strtoupper($matches[1]);
+                }, $string);
     }
 
     protected static function dasherize($string)

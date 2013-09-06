@@ -30,11 +30,10 @@ final class TeamWorkPm
     {
         $class_name = str_replace('/', '\\', $class_name);
         $class_name = ucfirst(
-                        preg_replace(
-                            '/(\\\.)/e',
-                            'strtoupper(\'$1\');',
-                            $class_name
-                        )
+                        preg_replace_callback('/(\\\.)/',
+                            function($matches) {
+							    return strtoupper($matches[1]);
+                            }, $class_name)
                       );
         if (strcasecmp($class_name, 'task\\list') === 0) {
             $class_name = 'Task_List';
