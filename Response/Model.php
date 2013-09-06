@@ -45,8 +45,15 @@ abstract class Model implements \Countable
     protected static function camelize($string)
     {
 
-        $replace = preg_replace('/_(.)/e','strtoupper(\'$1\');', $string);
-        $replace = preg_replace('/-(.)/e','strtoupper(\'$1\');', $replace);
+        $replace = preg_replace_callback('/_(.)/',
+                function($matches) {
+                    return strtoupper($matches[1]);
+                }, $string);
+        $replace = preg_replace_callback('/-(.)/',
+                function($matches) {
+                    return strtoupper($matches[1]);
+                }, $replace);
+                
         return $replace;
     }
 
