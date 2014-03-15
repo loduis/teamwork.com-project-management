@@ -1,6 +1,8 @@
 <?php
 namespace TeamWorkPm\Request;
 
+use \TeamWorkPm\Helper\Str;
+
 abstract class Model
 {
     protected $method = null;
@@ -74,15 +76,15 @@ abstract class Model
             if ($field === 'open_id') {
                 $field = 'openID';
             } else {
-                $field = self::camelize($field);
+                $field = Str::camel($field);
             }
         } elseif (!isset($preserve[$field])) {
             if ($field === 'company_id') {
                 if ($this->action === 'projects') {
-                    $field = self::camelize($field);
+                    $field = Str::camel($field);
                 }
             } else {
-                $field = self::dasherize($field);
+                $field = Str::dash($field);
             }
         }
         return $value;
@@ -96,16 +98,6 @@ abstract class Model
     protected function getParent()
     {
         return $this->parent . ($this->actionInclude('/reorder') ? 's' : '');
-    }
-
-    protected static function camelize($string)
-    {
-        return preg_replace('/_(.)/e','strtoupper(\'$1\');', $string);
-    }
-
-    protected static function dasherize($string)
-    {
-        return str_replace('_', '-', $string);
     }
 
     public function getParameters($method, $parameters)

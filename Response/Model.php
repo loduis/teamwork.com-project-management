@@ -42,14 +42,6 @@ abstract class Model implements \Countable
         return $array->getArrayCopy();
     }
 
-    protected static function camelize($string)
-    {
-
-        $replace = preg_replace('/_(.)/e','strtoupper(\'$1\');', $string);
-        $replace = preg_replace('/-(.)/e','strtoupper(\'$1\');', $replace);
-        return $replace;
-    }
-
     public function getHeaders()
     {
         return $this->headers;

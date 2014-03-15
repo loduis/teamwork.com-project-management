@@ -19,7 +19,7 @@ class AccountTest extends TestCase
     {
         try {
             $account = $this->model->get();
-            $this->assertEquals($account->URL, 'https://' . API_COMPANY
+            $this->assertEquals($account->url, 'https://' . API_COMPANY
                 . '.teamworkpm.net/');
             $this->assertEquals($account->code, API_COMPANY);
             // $this->assertEquals($project->id, $this->id);
@@ -36,7 +36,7 @@ class AccountTest extends TestCase
     {
         try {
             $authenticate = $this->model->authenticate();
-            $this->assertEquals($authenticate->URL, 'https://' . API_COMPANY
+            $this->assertEquals($authenticate->url, 'https://' . API_COMPANY
                 . '.teamworkpm.net/');
             $this->assertEquals($authenticate->code, API_COMPANY);
         } catch (\TeamWorkPm\Exception $e) {

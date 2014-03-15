@@ -1,11 +1,7 @@
 <?php
-/**
- *
- * @package    TeamWorkPm
- * Copyright   @ Loduis Madariaga
- * @license    LICENCE.txt
- * @version    0.0.1-dev
- */
+
+use \TeamWorkPm\Rest;
+use \TeamWorkPm\Helper\Str;
 
 final class TeamWorkPm
 {
@@ -21,6 +17,7 @@ final class TeamWorkPm
     {
 
     }
+
     /**
      *
      * @param string $class
@@ -28,14 +25,14 @@ final class TeamWorkPm
      */
     public static function factory($class_name)
     {
-        $class_name = str_replace('/', '\\', $class_name);
-        $class_name = ucfirst(
-                        preg_replace(
-                            '/(\\\.)/e',
-                            'strtoupper(\'$1\');',
-                            $class_name
-                        )
+        $class_name = str_replace(array('/', '.'), '\\', $class_name);
+        $class_name = preg_replace_callback('/(\\\.)/',
+                        function($matches) {
+                            return strtoupper($matches[1]);
+                        },
+                        $class_name
                       );
+        $class_name = ucfirst($class_name);
         if (strcasecmp($class_name, 'task\\list') === 0) {
             $class_name = 'Task_List';
         }
@@ -66,7 +63,7 @@ final class TeamWorkPm
      */
     public static function setFormat($value)
     {
-        \TeamWorkPm\Rest::setFormat($value);
+        Rest::setFormat($value);
     }
 
     /**

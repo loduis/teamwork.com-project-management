@@ -111,7 +111,7 @@ class XML extends Model
     ) {
         $destination = $isArray ? array() : new \stdClass();
         foreach($source as $key=>$value) {
-            $key = self::camelize($key);
+            $key = Str::camel($key);
             $attrs = $value->attributes();
             if (!empty($attrs->type)) {
                 $type = (string) $attrs->type;

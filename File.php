@@ -72,7 +72,7 @@ class File extends Rest\Model
             }
         }
         foreach ($files as $filename) {
-            $params = array('file'=>'@' . $filename);
+            $params = array('file'=> self::getFileParam($filename));
             $pending_file_attachments[] = $this->rest->upload(
                 'pendingfiles',
                 $params
@@ -80,6 +80,15 @@ class File extends Rest\Model
         }
 
         return join(',', $pending_file_attachments);
+    }
+
+    private static function getFileParam($filename)
+    {
+        if (function_exists('curl_file_create')) {
+            return curl_file_create($filename);
+        }
+
+        return "@$filename";
     }
 
     /**

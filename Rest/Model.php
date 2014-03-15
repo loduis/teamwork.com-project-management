@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm\Rest;
+<?php namespace TeamWorkPm\Rest;
 
 abstract class Model
 {

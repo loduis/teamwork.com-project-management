@@ -9,7 +9,12 @@ abstract class Model extends \TeamWorkPm\Model
         $this->action = $this->parent . 's';
         $this->fields = array(
             'body'                     => true,
-            'notify'                   => false,
+            'notify'                   => array(
+                'required'=>false,
+                'attributes'=>array(
+                    'type'=>'array'
+                )
+            ),
             'isprivate'                => false,
             'author_id'                => false,
             'pending_file_attachments' => false

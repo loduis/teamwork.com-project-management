@@ -1,6 +1,8 @@
 <?php
 namespace TeamWorkPm\Response;
 
+use \TeamWorkPm\Helper\Str;
+
 class JSON extends Model
 {
 
@@ -63,6 +65,12 @@ class JSON extends Model
                                 }
                             }
                             $source = $_source;
+                        } elseif (
+                            strpos($headers['X-Action'], 'time_entries') > 0 &&
+                            !$source
+                        ) {
+
+                            $source = array();
                         }
                         $this->headers = $headers;
                         $this->string = json_encode($source);
@@ -135,7 +143,10 @@ class JSON extends Model
     {
         $destination = new \stdClass();
         foreach ($source as $key=>$value) {
-            $key = self::camelize($key);
+            if (ctype_upper($key)) {
+                $key = strtolower($key);
+            }
+            $key = Str::camel($key);
             $destination->$key = is_scalar($value) ?
                                         $value : self::camelizeObject($value);
         }
