@@ -22,12 +22,7 @@ class JSON extends Model
                             return (int) $headers['id'];
                         } elseif (!empty($source->fileId)) {
                             return (int) $source->fileId;
-                        }/* elseif (!empty($headers['Location'])) {
-                            $location = $headers['Location'];
-                            $id = substr($location, strrpos($location, '/') + 1);
-                            $id = (int) substr($id, 0, strpos($id, '.'));
-                            return $id;
-                        }*/
+                        }
                         // no break
                      case 'PUT':
                      case 'DELETE':
@@ -99,44 +94,9 @@ class JSON extends Model
 
     protected function getContent()
     {
-        $result    = '';
-        $pos       = 0;
-        $strLen    = strlen($this->string);
-        $indentStr = '  ';
-        $newLine   = "\n";
+        $object = json_decode($this->string);
 
-        for($i = 0; $i <= $strLen; $i++) {
-
-            // Grab the next character in the string
-            $char = substr($this->string, $i, 1);
-
-            // If this character is the end of an element,
-            // output a new line and indent the next line
-            if($char == '}' || $char == ']') {
-                $result .= $newLine;
-                $pos --;
-                for ($j=0; $j<$pos; $j++) {
-                    $result .= $indentStr;
-                }
-            }
-
-            // Add the character to the result string
-            $result .= $char;
-
-            // If the last character was the beginning of an element,
-            // output a new line and indent the next line
-            if ($char == ',' || $char == '{' || $char == '[') {
-                $result .= $newLine;
-                if ($char == '{' || $char == '[') {
-                    $pos ++;
-                }
-                for ($j = 0; $j < $pos; $j++) {
-                    $result .= $indentStr;
-                }
-            }
-        }
-
-        return $result;
+        return json_encode($object, JSON_PRETTY_PRINT);
     }
 
     protected static function camelizeObject($source)
