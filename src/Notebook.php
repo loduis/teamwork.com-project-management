@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm;
+<?php namespace TeamWorkPm;
 
 class Notebook extends Rest\Model
 {
@@ -27,7 +26,7 @@ class Notebook extends Rest\Model
         ];
     }
 
-    public function get($id, $params = null)
+    public function get($id, array $params = [])
     {
         $id = (int) $id;
         if ($id <= 0) {

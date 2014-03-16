@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm\Category;
+<?php namespace TeamWorkPm\Category;
 
 abstract class Model extends \TeamWorkPm\Model
 {

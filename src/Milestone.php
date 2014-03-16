@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm;
+<?php namespace TeamWorkPm;
 
 class Milestone extends Model
 {

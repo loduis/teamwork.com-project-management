@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm\Comment;
+<?php namespace TeamWorkPm\Comment;
 
 class Milestone extends Model
 {

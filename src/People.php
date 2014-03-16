@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm;
+<?php namespace TeamWorkPm;
 
 class People extends Model
 {
@@ -117,14 +116,20 @@ class People extends Model
 
     /**
      * Get people
-     * GET /people.xml
+     * GET /people
      * All people visible to the user will be returned, including the user themselves
+     *
+     * @param $pageSize int
+     * @param $page int
      *
      * @return TeamWorkPm\Response\Model
      */
-    public function getAll()
+    public function getAll($pageSize = 200, $page = 1)
     {
-        return $this->rest->get($this->action);
+        return $this->rest->get($this->action, [
+            'pageSize' => $pageSize,
+            'page' => $page
+        ]);
     }
 
     /**

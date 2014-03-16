@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm\Message;
+<?php namespace TeamWorkPm\Message;
 
 class Reply extends \TeamWorkPm\Model
 {

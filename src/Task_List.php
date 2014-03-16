@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm;
+<?php namespace TeamWorkPm;
 
 class Task_List extends Model
 {

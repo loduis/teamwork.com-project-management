@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm\Response;
+<?php namespace TeamWorkPm\Response;
 
 abstract class Model implements \Countable
 {

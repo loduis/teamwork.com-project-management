@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm\People;
+<?php namespace TeamWorkPm\People;
 
 class Status extends \TeamWorkPm\Rest\Model
 {

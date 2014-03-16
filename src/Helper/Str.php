@@ -1,8 +1,6 @@
-<?php
+<?php namespace TeamWorkPm\Helper;
 
 // from https://github.com/laravel/framework/blob/master/src/Illuminate/Support/Str.php
-
-namespace TeamWorkPm\Helper;
 
 final class Str
 {

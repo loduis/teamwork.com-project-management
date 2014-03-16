@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm\Comment;
+<?php namespace TeamWorkPm\Comment;
 
 abstract class Model extends \TeamWorkPm\Model
 {

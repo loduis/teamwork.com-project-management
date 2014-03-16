@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm;
+<?php namespace TeamWorkPm;
 
 abstract class Model extends Rest\Model
 {
@@ -8,7 +7,7 @@ abstract class Model extends Rest\Model
             PUBLIC METHOD
      ------------------------------*/
 
-    public function get($id, $params = null)
+    public function get($id, array $params = [])
     {
         $id = (int) $id;
         if ($id <= 0) {

@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm;
+<?php namespace TeamWorkPm;
 
 class Project extends Model
 {
@@ -54,7 +53,7 @@ class Project extends Model
      * with a time using the variables updatedAfterDate and updatedAfterTime.
      * @return TeamWorkPm\Response\Model
      */
-    public function getAll($params = [])
+    public function getAll(array $params = [])
     {
         return $this->getByStatus('all', $params);
 
@@ -66,7 +65,7 @@ class Project extends Model
      * @param type $time
      * @return TeamWorkPm\Response\Model
      */
-    public function getActive($params = [])
+    public function getActive(array $params = [])
     {
         return $this->getByStatus('active', $params);
     }
@@ -77,7 +76,7 @@ class Project extends Model
      * @param type $time
      * @return TeamWorkPm\Response\Model
      */
-    public function getArchived($params = [])
+    public function getArchived(array $params = [])
     {
         return $this->getByStatus('archived', $params);
     }

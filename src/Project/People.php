@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm\Project;
+<?php namespace TeamWorkPm\Project;
 
 class People extends \TeamWorkPm\Rest\Model
 {

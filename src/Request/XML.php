@@ -1,5 +1,4 @@
-<?php
-namespace TeamWorkPm\Request;
+<?php namespace TeamWorkPm\Request;
 
 class XML extends Model
 {
