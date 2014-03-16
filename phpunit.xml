@@ -1,77 +1,79 @@
-<phpunit bootstrap="Tests/bootstrap.php" colors="true">
+<phpunit bootstrap="./tests/bootstrap.php" colors="true">
+   <testsuites>
     <testsuite name="TeamWorkPm">
 
-        <file>Tests/KeyTest.php</file>
+        <file>./tests/KeyTest.php</file>
 
         <!-- PROJECT -->
-        <file>Tests/Category/ProjectTest.php</file>
-        <file>Tests/ProjectTest.php</file>
-        <file>Tests/CompanyTest.php</file>
+        <file>./tests/Category/ProjectTest.php</file>
+        <file>./tests/ProjectTest.php</file>
+        <file>./tests/CompanyTest.php</file>
 
         <!-- MILESTON -->
 
-        <file>Tests/MilestoneTest.php</file>
-        <file>Tests/Comment/MilestoneTest.php</file>
+        <file>./tests/MilestoneTest.php</file>
+        <file>./tests/Comment/MilestoneTest.php</file>
 
         <!-- TASK -->
 
-        <file>Tests/Task/ListTest.php</file>
-        <file>Tests/TaskTest.php</file>
-        <file>Tests/Comment/TaskTest.php</file>
+        <file>./tests/Task/ListTest.php</file>
+        <file>./tests/TaskTest.php</file>
+        <file>./tests/Comment/TaskTest.php</file>
 
-        <file>Tests/TimeTest.php</file>
+        <file>./tests/TimeTest.php</file>
 
         <!-- LINK -->
 
-        <file>Tests/Category/LinkTest.php</file>
-        <file>Tests/LinkTest.php</file>
+        <file>./tests/Category/LinkTest.php</file>
+        <file>./tests/LinkTest.php</file>
 
         <!-- NOTEBOOK -->
 
-        <file>Tests/Category/NotebookTest.php</file>
-        <file>Tests/NotebookTest.php</file>
-        <file>Tests/Comment/NotebookTest.php</file>
+        <file>./tests/Category/NotebookTest.php</file>
+        <file>./tests/NotebookTest.php</file>
+        <file>./tests/Comment/NotebookTest.php</file>
 
         <!-- FILE -->
 
-        <file>Tests/Category/FileTest.php</file>
-        <file>Tests/FileTest.php</file>
-        <file>Tests/Comment/FileTest.php</file>
+        <file>./tests/Category/FileTest.php</file>
+        <file>./tests/FileTest.php</file>
+        <file>./tests/Comment/FileTest.php</file>
 
         <!-- MESSAGE -->
-        <file>Tests/Category/MessageTest.php</file>
-        <file>Tests/MessageTest.php</file>
-        <file>Tests/Message/ReplyTest.php</file>
+        <file>./tests/Category/MessageTest.php</file>
+        <file>./tests/MessageTest.php</file>
+        <file>./tests/Message/ReplyTest.php</file>
 
         <!-- PEOPLE -->
-        <file>Tests/PeopleTest.php</file>
-        <file>Tests/People/StatusTest.php</file>
-        <file>Tests/Project/PeopleTest.php</file>
+        <file>./tests/PeopleTest.php</file>
+        <file>./tests/People/StatusTest.php</file>
+        <file>./tests/Project/PeopleTest.php</file>
 
-        <file>Tests/ActivityTest.php</file>
-        <file>Tests/AccountTest.php</file>
-        <file>Tests/MeTest.php</file>
-        <file>Tests/Me/StatusTest.php</file>
-        <file>Tests/DestroyTest.php</file>
+        <file>./tests/ActivityTest.php</file>
+        <file>./tests/AccountTest.php</file>
+        <file>./tests/MeTest.php</file>
+        <file>./tests/Me/StatusTest.php</file>
+        <file>./tests/DestroyTest.php</file>
     </testsuite>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">.</directory>
-            <exclude>
-                <directory suffix=".php">Example</directory>
-                <directory suffix=".php">Tests</directory>
-                <file>usage.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
-    <logging>
-        <log type="coverage-html" target="Tests/build/coverage" charset="UTF-8"
-            yui="true" highlight="true" lowUpperBound="50" highLowerBound="80" />
-        <log type="testdox-html" target="Tests/build/testdox.html" />
-    </logging>
-    <php>
-        <const name="API_COMPANY" value="phpapi2"/>
-        <const name="API_KEY" value="horse48street"/>
-        <const name="API_FORMAT" value="json"/>
-    </php>
+  </testsuites>
+  <filter>
+      <whitelist processUncoveredFilesFromWhitelist="true">
+          <directory suffix=".php">.</directory>
+          <exclude>
+              <directory suffix=".php">tests</directory>
+              <directory suffix=".php">vendor</directory>
+              <directory suffix=".php">examples</directory>
+          </exclude>
+      </whitelist>
+  </filter>
+  <logging>
+      <log type="coverage-html" target="tests/build/coverage" charset="UTF-8"
+          yui="true" highlight="true" lowUpperBound="50" highLowerBound="80" />
+      <log type="testdox-html" target="tests/build/testdox.html" />
+  </logging>
+  <php>
+      <const name="API_COMPANY" value="phpapi2"/>
+      <const name="API_KEY" value="horse48street"/>
+      <const name="API_FORMAT" value="json"/>
+  </php>
 </phpunit>
