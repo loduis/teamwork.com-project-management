@@ -5,7 +5,7 @@ abstract class Model implements \Countable
 {
     protected $string = null;
 
-    protected $headers = array();
+    protected $headers = [];
 
     final public function __construct()
     {

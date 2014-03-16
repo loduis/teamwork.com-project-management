@@ -29,10 +29,10 @@ class MessageTest extends TestCase
         try {
             $data['project_id'] = $this->projectId;
             // upload file to the server
-            $data['files'] = array(
+            $data['files'] = [
                 __DIR__ . '/uploads/teamworkpm.jpg',
                 __DIR__ . '/uploads/person.png'
-            );
+            ];
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
@@ -150,9 +150,9 @@ class MessageTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'title'          => 'Test message',
                 'body'       => '<b>Nada</b>, <i>nada</i>, nada',
                 'notify'        => false,
@@ -160,8 +160,8 @@ class MessageTest extends TestCase
                 'category_id'   => 0,
                 'attachments'   => null,
                 'pending_file_attachments' => null
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

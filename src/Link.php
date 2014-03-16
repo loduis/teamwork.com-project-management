@@ -6,7 +6,7 @@ class Link extends Model
 
     protected function init()
     {
-        $this->fields = array(
+        $this->fields = [
             // {link name}
             'name'          =>true,
             // {link display code: Embed code, Iframe code, URL}
@@ -14,36 +14,36 @@ class Link extends Model
             // {link description}
             'description'   =>false,
             // {1|0}
-            'private'       =>array(
+            'private'       =>[
                 'required'=> false,
                 'type'=>'integer',
-                'validate'=> array(0, 1)
-            ),
+                'validate'=> [0, 1]
+            ],
             // {width of window in Teamwork (integer)}
-            'width'         => array(
+            'width'         => [
                 'required'=> false,
                 'type'=>'integer'
-            ),
+            ],
             // {height of window in Teamwork (integer)}
-            'height'        => array(
+            'height'        => [
                 'required'=> false,
                 'type'=>'integer'
-            ),
+            ],
             // {link category id}
-            'category_id'   => array(
+            'category_id'   => [
                 'required'=> false,
                 'type'=>'integer'
-            ),
+            ],
             // {New link category name. category-id must be passed as 0}
             'category_name' => false,
             // {Comma separated list of users to notify OR (YES|NO|ALL)}
             'notify'        => false,
             // {Force link to open in new window (boolean)}
-            'open_in_new_window' => array(
+            'open_in_new_window' => [
                 'required'=> false,
                 'type'=>'boolean'
-            )
-        );
+            ]
+        ];
     }
 
     /**

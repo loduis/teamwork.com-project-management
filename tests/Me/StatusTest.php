@@ -66,13 +66,13 @@ class Me_StatusTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'status' => 'Test me status',
                 'notify'   => false
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

@@ -19,7 +19,7 @@ class Activity extends Rest\Model
      */
     public function getAll($maxItems = null, $onlyStarred = null)
     {
-        $params      = array();
+        $params      = [];
         $onlyStarred = (bool) $onlyStarred;
         $maxItems    = (int) $maxItems;
         if ($onlyStarred) {
@@ -46,7 +46,7 @@ class Activity extends Rest\Model
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        $params      = array();
+        $params      = [];
         $maxItems    = (int) $maxItems;
         if ($maxItems) {
             $params['maxItems'] = $maxItems;

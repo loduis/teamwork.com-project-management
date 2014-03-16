@@ -175,7 +175,7 @@ class TaskTest extends TestCase
     public function reorder($data)
     {
         try {
-            $this->model->reorder(0, array());
+            $this->model->reorder(0, []);
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
             $this->assertEquals('Invalid param task_list_id', $e->getMessage());
@@ -185,14 +185,14 @@ class TaskTest extends TestCase
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
             $tasks = $this->model->getByTaskList($this->taskListId);
-            $ids = array();
+            $ids = [];
             foreach ($tasks as $t) {
                 $ids[] = $t->id;
             }
             shuffle($ids);
             $this->assertTrue($this->model->reorder($this->taskListId, $ids));
             $tasks = $this->model->getByTaskList($this->taskListId);
-            $order = array();
+            $order = [];
             foreach ($tasks as $t) {
                 $order[] = $t->id;
             }
@@ -204,9 +204,9 @@ class TaskTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'content'     => 'Test Task',
                 'notify'      => false,
                 'description' => 'Bla, Bla, Bla',
@@ -218,8 +218,8 @@ class TaskTest extends TestCase
                 'responsible_party_id' => null,
                 'attachments'          => null,
                 'pending_file_attachments'=> null
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

@@ -6,25 +6,25 @@ class Notebook extends Rest\Model
 
     protected function init()
     {
-        $this->fields = array(
+        $this->fields = [
             'name' => true,
             'description'=>true,
             'content'=>true,
             'notify'=>false,
-            'category_id'=>array(
+            'category_id'=>[
                 'required'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer'
-                )
-            ),
+                ]
+            ],
             'category_name'=> false,
-            'private'=>array(
+            'private'=>[
                 'required'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'boolean'
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 
     public function get($id, $params = null)
@@ -50,9 +50,9 @@ class Notebook extends Rest\Model
     public function getAll($include_content = false)
     {
         $include_content = (bool) $include_content;
-        return $this->rest->get("$this->action", array(
+        return $this->rest->get("$this->action", [
           'includeContent'=>$include_content ? 'true' : 'false'
-        ));
+        ]);
     }
 
     /**
@@ -74,9 +74,9 @@ class Notebook extends Rest\Model
             throw new Exception('Invalid param project_id');
         }
         $include_content = (bool) $include_content;
-        return $this->rest->get("projects/$project_id/$this->action", array(
+        return $this->rest->get("projects/$project_id/$this->action", [
           'includeContent'=>$include_content ? 'true' : 'false'
-        ));
+        ]);
     }
     /**
      * Lock a Single Notebook For Editing

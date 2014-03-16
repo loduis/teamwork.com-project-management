@@ -149,9 +149,9 @@ class TimeTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'description' => 'Test Time',
                 'person_id'   => null, // this is a required field
                 'date'  => date('Ymd'),
@@ -159,8 +159,8 @@ class TimeTest extends TestCase
                 'minutes' => 30,
                 'time' => '08:30',
                 'isbillable' => true
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

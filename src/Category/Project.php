@@ -9,10 +9,10 @@ class Project extends \TeamWorkPm\Model
         list ($parent, $type) = explode('-', $this->parent);
         $this->parent = $parent;
         $this->action = $type . 'Categories';
-        $this->fields = array(
+        $this->fields = [
             'name'=>true,
             'parent'=> false
-        );
+        ];
     }
 
     /**

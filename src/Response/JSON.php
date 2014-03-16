@@ -57,7 +57,7 @@ class JSON extends Model
                         }
                         if ($headers['X-Action'] === 'links' ||
                                         $headers['X-Action'] === 'notebooks') {
-                            $_source = array();
+                            $_source = [];
                             $wrapper = $headers['X-Action'];
                             foreach ($source as $project) {
                                 foreach ($project->$wrapper as $object) {
@@ -70,7 +70,7 @@ class JSON extends Model
                             !$source
                         ) {
 
-                            $source = array();
+                            $source = [];
                         }
                         $this->headers = $headers;
                         $this->string = json_encode($source);
@@ -90,11 +90,11 @@ class JSON extends Model
             }
         }
 
-        throw new \TeamWorkPm\Exception(array(
+        throw new \TeamWorkPm\Exception([
             'Message'  => $errors,
             'Response' => $data,
             'Headers'  => $headers
-        ));
+        ]);
     }
 
     protected function getContent()

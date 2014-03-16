@@ -4,14 +4,14 @@ namespace TeamWorkPm;
 class Exception extends \ErrorException
 {
     private $response = null;
-    private $headers = array();
+    private $headers = [];
 
 
     public function  __construct($errorInfo)
     {
         if (!is_array($errorInfo)) {
             $message              = $errorInfo;
-            $errorInfo = array();
+            $errorInfo = [];
             $errorInfo['Message'] = $message;
         }
         $this->message = trim($errorInfo['Message']);

@@ -4,7 +4,7 @@ class Factory
 {
     public static function build($class_name)
     {
-        $class_name = str_replace(array('/', '.'), '\\', $class_name);
+        $class_name = str_replace(['/', '.'], '\\', $class_name);
         $class_name = preg_replace_callback('/(\\\.)/',
                         function($matches) {
                             return strtoupper($matches[1]);
@@ -17,7 +17,7 @@ class Factory
         }
         $class_name = '\\' . __NAMESPACE__ . '\\' .  $class_name;
         return forward_static_call_array(
-              array($class_name, 'getInstance'),
+              [$class_name, 'getInstance'],
               Auth::get()
         );
     }

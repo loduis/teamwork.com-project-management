@@ -133,9 +133,9 @@ class NotebookTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'name'          => 'Test notebook',
                 'description'   => 'Bla, Bla, Bla',
                 'content'       => '<b>Nada</b>, <i>nada</i>, nada',
@@ -143,8 +143,8 @@ class NotebookTest extends TestCase
                 'category_id'   => 0,
                 'category_name' => 'New Notebook category.',
                 'private'       => false
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

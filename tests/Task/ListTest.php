@@ -137,14 +137,14 @@ class Task_ListTest extends TestCase
             $data['project_id'] = $this->projectId;
             $this->model->save($data);
             $list = $this->model->getByProject($this->projectId);
-            $ids = array();
+            $ids = [];
             foreach ($list as $l) {
                 $ids[] = $l->id;
             }
             shuffle($ids);
             $this->assertTrue($this->model->reorder($this->projectId, $ids));
             $list = $this->model->getByProject($this->projectId);
-            $order = array();
+            $order = [];
             foreach ($list as $l) {
                 $order[] = $l->id;
             }
@@ -156,16 +156,16 @@ class Task_ListTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'name'       => 'Test Task List',
                 'description' => 'Bla, Bla, Bla',
                 'private'     => false,
                 'pinned'      => false,
                 'tracked'    => false,
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

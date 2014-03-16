@@ -6,46 +6,46 @@ class Milestone extends Model
     protected function init()
     {
         // this is the list of fields that can send the api
-        $this->fields = array(
+        $this->fields = [
             'title'       => true,
             'description' => false,
-            'deadline'    => array(
+            'deadline'    => [
                 'required'=>true,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer'
-                )
-            ),//format YYYYMMDD
-            'notify'      => array(
+                ]
+            ],//format YYYYMMDD
+            'notify'      => [
                 'required'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'boolean'
-                )
-            ),
-            'reminder'=>array(
+                ]
+            ],
+            'reminder'=>[
                 'required'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'boolean'
-                )
-            ),
-            'private'=>array(
+                ]
+            ],
+            'private'=>[
                 'required'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'boolean'
-                )
-            ),
+                ]
+            ],
             'responsible_party_ids' => true,
             # USE ONLY FOR UPDATE OR PUT METHOD
-            'move_upcoming_milestones'=>array(
+            'move_upcoming_milestones'=>[
               'sibling'=>true,
               'required'=>false,
-              'attributes'=>array('type'=>'boolean')
-            ),
-            'move_upcoming_milestones_off_weekends'=>array(
+              'attributes'=>['type'=>'boolean']
+            ],
+            'move_upcoming_milestones_off_weekends'=>[
               'sibling'=>true,
               'required'=>false,
-              'attributes'=>array('type'=>'boolean')
-            )
-        );
+              'attributes'=>['type'=>'boolean']
+            ]
+        ];
     }
 
     /**
@@ -114,12 +114,12 @@ class Milestone extends Model
 
     private function getParams($filter)
     {
-        $params = array();
+        $params = [];
         if ($filter) {
             $filter = (string) $filter;
             $filter = strtolower($filter);
             if ($filter !== 'all') {
-                $validate = array('completed', 'incomplete', 'late', 'upcoming');
+                $validate = ['completed', 'incomplete', 'late', 'upcoming'];
                 if (!in_array($filter, $validate)) {
                     throw new Exception('Invalid value for param filter');
                 }

@@ -248,17 +248,17 @@ class MilestoneTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'title'       => 'Test milestone',
                 'description' => 'Bla, Bla, Bla',
                 'deadline'    => date('Ymd', strtotime('+10 day')),
                 'notify'      => false,
                 'reminder'    => false,
                 'private'     => false
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

@@ -39,9 +39,9 @@ class FileTest extends TestCase
      */
     public function save()
     {
-        $data = array(
+        $data = [
             'description'=> 'Bla, Bla, Bla'
-        );
+        ];
         try {
             $this->model->save($data);
             $this->fail('An expected exception has not been raised.');

@@ -5,45 +5,45 @@ class Project extends Model
 {
     protected function init()
     {
-        $this->fields = array(
+        $this->fields = [
             // New Project Name
             'name'        => true,
             // [Optional. Project Description]
             'description' =>  false,
             // [Optional. Start date in yyyymmdd format]
-            'start_date'  => array(
+            'start_date'  => [
                 'required'=> false,
-                'attributes' => array(
+                'attributes' => [
                     'type'=>'integer'
-                )
-            ),
+                ]
+            ],
             // [Optional. End date in yyyymmdd format]
-            'end_date'    => array(
+            'end_date'    => [
                 'required' => false,
-                'attributes' => array(
+                'attributes' => [
                     'type'=>'integer'
-                )
-            ),
+                ]
+            ],
             // [Optional. Id of company to assign the project to]
-            'company_id'  => array(
+            'company_id'  => [
                 'required' => false,
-                'attributes' => array(
+                'attributes' => [
                     'type' => 'integer'
-                )
-            ),
+                ]
+            ],
             // [Optional. Name of a new company to assign the project to]
             'new_company'    => false,
             //[Optional. Numeric ID of project category, 0 = no category]
             'category_id'     => false,
 
-            'notifyeveryone' => array(
+            'notifyeveryone' => [
                 'required' => false,
-                'attributes' => array(
+                'attributes' => [
                     'type'=>'boolean'
-                )
-            ),
+                ]
+            ],
             'status'         => false
-        );
+        ];
     }
 
     /**
@@ -54,7 +54,7 @@ class Project extends Model
      * with a time using the variables updatedAfterDate and updatedAfterTime.
      * @return TeamWorkPm\Response\Model
      */
-    public function getAll($params = array())
+    public function getAll($params = [])
     {
         return $this->getByStatus('all', $params);
 
@@ -66,7 +66,7 @@ class Project extends Model
      * @param type $time
      * @return TeamWorkPm\Response\Model
      */
-    public function getActive($params = array())
+    public function getActive($params = [])
     {
         return $this->getByStatus('active', $params);
     }
@@ -77,7 +77,7 @@ class Project extends Model
      * @param type $time
      * @return TeamWorkPm\Response\Model
      */
-    public function getArchived($params = array())
+    public function getArchived($params = [])
     {
         return $this->getByStatus('archived', $params);
     }
@@ -145,7 +145,7 @@ class Project extends Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        $data = array();
+        $data = [];
         $data['id'] = $id;
         $data['status'] = 'active';
         return $this->update($data);
@@ -163,7 +163,7 @@ class Project extends Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        $data = array();
+        $data = [];
         $data['id'] = $id;
         $data['status'] = 'archived';
         return $this->update($data);

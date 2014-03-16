@@ -17,7 +17,7 @@ class PeopleTest extends TestCase
      */
     public function insert($data)
     {
-        $fail = array();
+        $fail = [];
         // =========== validate email address ========= //
         try {
             $fail['email_address'] = 'back@email_address';
@@ -31,12 +31,12 @@ class PeopleTest extends TestCase
         }
         // =========== required fields ========= //
         $fail['email_address'] = null;
-        $required = array(
+        $required = [
             'first_name',
             'last_name',
             'email_address',
             'user_name',
-        );
+        ];
         foreach ($required as $field) {
             try {
                 $this->model->save($fail);
@@ -126,10 +126,10 @@ class PeopleTest extends TestCase
             // and add to this project
             $data['project_id'] = get_first_project_id();
             // change this permissions on insert
-            $data['permissions'] = array(
+            $data['permissions'] = [
                 'view_risk_register'=> 0,
                 'view_invoices'     => 0
-            );
+            ];
             self::$id = $this->model->save($data);
             $this->assertGreaterThan(0, self::$id);
         } catch (\TeamWorkPm\Exception $e) {
@@ -150,7 +150,7 @@ class PeopleTest extends TestCase
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertEquals('Required field id', $e->getMessage());
         }
-        $fail = array();
+        $fail = [];
         // =========== validate email address ========= //
         try {
             $fail['id'] = self::$id;
@@ -168,10 +168,10 @@ class PeopleTest extends TestCase
             // and add to this project
             $data['project_id'] = get_first_project_id();
             // change this permissions on insert
-            $data['permissions'] = array(
+            $data['permissions'] = [
                 'view_risk_register'=> 1,
                 'view_invoices'     => 1
-            );
+            ];
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
@@ -255,9 +255,9 @@ class PeopleTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'first_name'  => "Test",
                 'last_name'   => 'User',
                 'user_name'     => 'test',
@@ -265,8 +265,8 @@ class PeopleTest extends TestCase
                 'password'      => 'El loco de la calle',
                 'address_one'   => 'Cra 45 # 40-10',
                 'send_welcome_email' => false
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

@@ -101,13 +101,13 @@ class People_StatusTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'status' => 'Test people status',
                 'notify'   => false
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

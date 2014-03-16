@@ -104,9 +104,9 @@ class Project_PeopleTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'view_messages_and_files'   => 0,
                 'view_tasks_and_milestones' => 1,
                 'view_time'                 => 1,
@@ -121,8 +121,8 @@ class Project_PeopleTest extends TestCase
                 'add_files'             => 0,
                 'add_time'             => 0,
                 'add_links'             => 0
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

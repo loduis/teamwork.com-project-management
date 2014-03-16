@@ -89,15 +89,15 @@ class Comment_MilestoneTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'body'   => 'Comment, Comment, Blaa',
                 'notify' => false,
                 'isprivate'=> false,
                 'pending_file_attachments'=> null
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

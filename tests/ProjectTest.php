@@ -229,16 +229,16 @@ class ProjectTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 "name"        => "test project",
                 "description" => "bla, bla, bla",
                 "start_date"  => 20121110,
                 "end_date"    => 20121210,
                 "new_company" => "Test Company"
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

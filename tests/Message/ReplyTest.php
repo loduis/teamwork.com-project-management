@@ -29,9 +29,9 @@ class Message_ReplyTest extends TestCase
             $this->assertEquals('Required field message_id', $e->getMessage());
         }
         try {
-            $_data = array(
+            $_data = [
                 'message_id'=> 10
-            );
+            ];
             $this->model->save($_data);
             $this->fail('An expected exception has not been raised.');
         } catch(\TeamWorkPm\Exception $e) {
@@ -59,10 +59,10 @@ class Message_ReplyTest extends TestCase
             $this->assertEquals('Invalid param message_id', $e->getMessage());
         }
         try {
-            $replies = $this->model->getByMessage($this->messageId, array(
+            $replies = $this->model->getByMessage($this->messageId, [
                 'pageSize'=> 10,
                 'invalid_param' => true
-            ));
+            ]);
             $this->assertGreaterThan(0, count($replies));
         } catch(\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
@@ -110,13 +110,13 @@ class Message_ReplyTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'body' => 'Reply message',
                 'notify'   => false
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

@@ -1,13 +1,6 @@
 TeamWorkPm PHP Api
 ==================
 
-  Require php 5.3 +
-
-Installation
-------------
-
-    $ git clone git://github.com/loduis/TeamWorkPmPhpApi.git TeamWorkPm
-
 Using Api
 ---------
   This is very easy use the method: save, insert, update, delete
@@ -90,4 +83,4 @@ Using Api
         print_r($e);
     }
 
-View the Tests folder for more details
+View the tests folder for more details

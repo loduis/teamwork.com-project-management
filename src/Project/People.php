@@ -5,134 +5,134 @@ class People extends \TeamWorkPm\Rest\Model
 {
     protected function init()
     {
-        $this->fields = array(
-            'view_messages_and_files'=>array(
+        $this->fields = [
+            'view_messages_and_files'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'view_tasks_and_milestones'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'view_tasks_and_milestones'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'view_time'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'view_time'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'view_notebooks'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'view_notebooks'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'view_risk_register'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'view_risk_register'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'view_invoices'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'view_invoices'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'view_links'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'view_links'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'add_tasks'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'add_tasks'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'add_milestones'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'add_milestones'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'add_taskLists'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'add_taskLists'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'add_messages'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'add_messages'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'add_files'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'add_files'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'add_time'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'add_time'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'add_links'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'add_links'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'set_privacy'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'set_privacy'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'can_be_assigned_to_tasks_and_milestones'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'can_be_assigned_to_tasks_and_milestones'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'project_administrator'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'project_administrator'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            ),
-            'add_people_to_project'=>array(
+                    'validate'=>[1, 0]
+                ]
+            ],
+            'add_people_to_project'=>[
                 'require'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer',
-                    'validate'=>array(1, 0)
-                )
-            )
-        );
+                    'validate'=>[1, 0]
+                ]
+            ]
+        ];
         $this->action = $this->parent = 'permissions';
     }
 

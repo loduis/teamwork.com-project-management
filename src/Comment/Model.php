@@ -7,18 +7,18 @@ abstract class Model extends \TeamWorkPm\Model
     {
         $this->parent = 'comment';
         $this->action = $this->parent . 's';
-        $this->fields = array(
+        $this->fields = [
             'body'                     => true,
-            'notify'                   => array(
+            'notify'                   => [
                 'required'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'array'
-                )
-            ),
+                ]
+            ],
             'isprivate'                => false,
             'author_id'                => false,
             'pending_file_attachments' => false
-        );
+        ];
     }
 
     /**
@@ -68,10 +68,10 @@ abstract class Model extends \TeamWorkPm\Model
         $page_size = abs((int) $page_size);
         $page      = abs((int) $page);
 
-        $params = array(
+        $params = [
             'page' => $page,
             'pageSize'=> $page_size
-        );
+        ];
 
         return $this->rest->get(
             "$this->resource/$resource_id/$this->action",

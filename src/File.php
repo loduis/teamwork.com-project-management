@@ -6,18 +6,18 @@ class File extends Rest\Model
 
     protected function init()
     {
-        $this->fields = array(
+        $this->fields = [
             'pending_file_ref' => true,
             'description'=>false,
-            'category_id'=>array(
+            'category_id'=>[
                 'required'=>false,
-                'attributes'=>array(
+                'attributes'=>[
                     'type'=>'integer'
-                )
-            ),
+                ]
+            ],
             'category_name'=> false,
             'private'=>false
-        );
+        ];
     }
 
     public function get($id)
@@ -65,14 +65,14 @@ class File extends Rest\Model
     public function upload($files)
     {
         $files = (array) $files;
-        $pending_file_attachments = array();
+        $pending_file_attachments = [];
         foreach ($files as $filename) {
             if (!is_file($filename)) {
                 throw new Exception("Not file exist $filename");
             }
         }
         foreach ($files as $filename) {
-            $params = array('file'=> self::getFileParam($filename));
+            $params = ['file'=> self::getFileParam($filename)];
             $pending_file_attachments[] = $this->rest->upload(
                 'pendingfiles',
                 $params

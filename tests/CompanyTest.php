@@ -113,9 +113,9 @@ class CompanyTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'name'        => 'Test Company',
                 'address_one' => 'Bla, Bla, Bla',
                 'address_two' => 'JAJA',
@@ -126,8 +126,8 @@ class CompanyTest extends TestCase
                 'phone'       => '25034030',
                 'fax'         => 'No tengo',
                 'web_address' => 'No tengo'
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

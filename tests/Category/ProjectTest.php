@@ -72,13 +72,13 @@ class Category_ProjectTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'name'   => 'Test category',
                 'parent' => 0
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }

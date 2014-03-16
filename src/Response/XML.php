@@ -81,11 +81,11 @@ class XML extends Model
                 }
             }
         }
-        throw new \TeamWorkPm\Exception(array(
+        throw new \TeamWorkPm\Exception([
             'Message'=> $errors,
             'Response'=> $data,
             'Headers'=> $headers
-        ));
+        ]);
     }
 
     /**
@@ -114,7 +114,7 @@ class XML extends Model
         SimpleXMLElement $source,
         $isArray = false
     ) {
-        $destination = $isArray ? array() : new stdClass();
+        $destination = $isArray ? [] : new stdClass();
         foreach($source as $key=>$value) {
             $key = Str::camel($key);
             $attrs = $value->attributes();

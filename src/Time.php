@@ -6,27 +6,27 @@ class Time extends Model
 
     protected function init()
     {
-        $this->fields = array(
-            'description'=>true,
-            'person_id'=>true,
-            'date'=>array(
-                'required'=>true,
-                'type'=>'integer',
-                'length'=> 6
-            ),
-            'hours'=>array(
-                'required'=>true,
-                'type'=>'integer',
-                'length' => 3
-            ),
-            'minutes'=>array(
-                'required'=>false,
-                'type'=>'integer',
-                'length'=> 2
-            ),
+        $this->fields = [
+            'description' => true,
+            'person_id'   => true,
+            'date'=>[
+                'required' => true,
+                'type'     => 'integer',
+                'length'   => 6
+            ],
+            'hours' => [
+                'required' => true,
+                'type'     => 'integer',
+                'length'   => 3
+            ],
+            'minutes'=>[
+                'required' => false,
+                'type'     => 'integer',
+                'length'   => 2
+            ],
             'time'=>true,
             'isbillable'=>false
-        );
+        ];
         $this->parent = 'time-entry';
         //$this->action = 'time_entries';
     }
@@ -68,7 +68,7 @@ class Time extends Model
      * @return TeamWorkPm\Response\Model
      */
 
-    public function getAll(array $params = array())
+    public function getAll(array $params = [])
     {
         return $this->rest->get("$this->action", $params);
     }
@@ -87,7 +87,7 @@ class Time extends Model
      * @param array $params
      * @return TeamWorkPm\Response\Model
      */
-    public function getByProject($project_id, array $params = array())
+    public function getByProject($project_id, array $params = [])
     {
         $project_id = (int) $project_id;
         if ($project_id <= 0) {
@@ -107,7 +107,7 @@ class Time extends Model
      * @param array $params
      * @return TeamWorkPm\Response\Model
      */
-    public function getByTask($task_id, array $params = array())
+    public function getByTask($task_id, array $params = [])
     {
         $task_id = (int) $task_id;
         if ($task_id <= 0) {

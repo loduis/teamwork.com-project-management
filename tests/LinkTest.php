@@ -111,9 +111,9 @@ class LinkTest extends TestCase
 
     public function provider()
     {
-        return array(
-            array(
-              array(
+        return [
+            [
+              [
                 'name'       => 'Test Link',
                 'description' => 'Bla, Bla, Bla',
                 'code'        => 'http://developer.teamworkpm.net',
@@ -122,8 +122,8 @@ class LinkTest extends TestCase
                 'private'     => false,
                 'notify'      => null,
                 'open_in_new_window' => true
-              )
-            )
-        );
+              ]
+            ]
+        ];
     }
 }
