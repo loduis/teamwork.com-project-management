@@ -1,9 +1,4 @@
-
-/nbproject
-*.project
-*.buildpath
-/Tests/data
-/Tests/build
-/Tests/output
-/.settings
-
+/tests/data
+/tests/build
+/vendor
+composer.lock

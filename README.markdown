@@ -13,22 +13,20 @@ Using Api
   This is very easy use the method: save, insert, update, delete
 
 
-    require './TeamWorkPm.php';
-
     // START configurtion
     const API_KEY = 'horse48street';
 
     try {
         // set your keys
-        TeamWorkPm::setAuth(API_KEY);
+        TeamWorkPm\Auth::set(API_KEY);
         // create an project
-        $project = TeamWorkPm::factory('project');
+        $project = TeamWorkPm\Factory::build('project');
         $project_id = $project->save(array(
             'name'=> 'This is an test project',
             'description'=> 'Bla, Bla, Bla'
         ));
         // create one people and add to project
-        $people = TeamWorkPm::factory('people');
+        $people = TeamWorkPm\Factory::build('people');
         $person_id = $people->save(array(
             'first_name'  => "Test",
             'last_name'   => 'User',
@@ -38,7 +36,7 @@ Using Api
             'project_id'    => $project_id
         ));
         // create on milestone
-        $milestone = TeamWorkPm::factory('milestone');
+        $milestone = TeamWorkPm\Factory::build('milestone');
         $milestone_id = $milestone->save(array(
             'project_id'            => $project_id,
             'responsible_party_ids' => $person_id,
@@ -47,7 +45,7 @@ Using Api
             'deadline'              => date('Ymd', strtotime('+10 day'))
         ));
         // create one task list
-        $taskList = TeamWorkPm::factory('task/list');
+        $taskList = TeamWorkPm\Factory::build('task.list');
         $task_list_id = $taskList->save(array(
             'project_id'  => $project_id,
             'milestone_id' => $milestone_id,
@@ -55,7 +53,7 @@ Using Api
             'description' => 'Bla, Bla'
         ));
         // create one task
-        $task = TeamWorkPm::factory('task');
+        $task = TeamWorkPm\Factory::build('task');
         $task_id = $task->save(array(
             'task_list_id' => $task_list_id,
             'content'      => 'Test Task',
@@ -69,7 +67,7 @@ Using Api
             'responsible_party_id' => $person_id,
         ));
         // add time to task
-        $time = TeamWorkPm::factory('time');
+        $time = TeamWorkPm\Factory::build('time');
         $time_id = $time->save(array(
             'task_id'     => $task_id,
             'person_id'   => $person_id, // this is a required field
