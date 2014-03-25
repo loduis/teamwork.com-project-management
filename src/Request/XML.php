@@ -26,12 +26,10 @@ class XML extends Model
                 }
             } else {
                 foreach ($this->fields as $field=>$options) {
-
                     $value   = $this->getValue($field, $options, $parameters);
                     $element = $this->doc->createElement($field);
                     if (isset ($options['attributes'])) {
                         foreach ($options['attributes'] as $name=>$type) {
-                            $this->setDefaultValueIfIsNull($type, $value);
                             if (null !== $value) {
                                 $element->setAttribute($name, $type);
                                 if ($name == 'type') {

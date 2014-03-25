@@ -117,11 +117,16 @@ class JSON extends Model
      */
     private function getJsonErrors()
     {
+        $errorCode = json_last_error();
+        if (!$errorCode) {
+            return;
+        }
+
         if (function_exists('json_last_error_msg')) {
             return json_last_error_msg();
         }
 
-        switch (json_last_error()) {
+        switch ($errorCode) {
             case JSON_ERROR_DEPTH:
                 return 'Maximum stack depth exceeded';
             break;

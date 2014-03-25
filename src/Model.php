@@ -7,7 +7,7 @@ abstract class Model extends Rest\Model
             PUBLIC METHOD
      ------------------------------*/
 
-    public function get($id, array $params = [])
+    public function get($id, $params = null)
     {
         $id = (int) $id;
         if ($id <= 0) {
