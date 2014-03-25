@@ -1,18 +1,20 @@
 <?php namespace TeamWorkPm\Request;
 
+use \stdClass;
+
 class JSON extends Model
 {
     protected function parseParameters($parameters)
     {
         if (!empty($parameters) && is_array($parameters)) {
-            $object = new \stdClass();
+            $object = new stdClass();
             $parent = $this->getParent();
-            $object->$parent = new \stdClass();
+            $object->$parent = new stdClass();
             $parent = $object->$parent;
 
             if ($this->actionInclude('/reorder')) {
                 foreach ($parameters as $id) {
-                    $item = new \stdClass();
+                    $item = new stdClass();
                     $item->id = $id;
                     $parent->{$this->parent}[] = $item;
                 }

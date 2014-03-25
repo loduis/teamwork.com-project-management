@@ -81,6 +81,8 @@ abstract class Model
             if ($field === 'company_id') {
                 if ($this->action === 'projects') {
                     $field = Str::camel($field);
+                } elseif ($this->action == 'people') {
+                    $field = Str::dash($field);
                 }
             } else {
                 $field = Str::dash($field);
