@@ -53,7 +53,7 @@ final class Rest
      */
     private function execute($method, $action, $request = null)
     {
-        $url = 'http://'. $this->company . '.teamworkpm.net/'. $action .
+        $url = 'http://'. $this->company . '.teamwork.com/'. $action .
                                                         '.' . self::$FORMAT;
         $headers = ['Authorization: BASIC '. base64_encode(
             $this->key . ':xxx'
