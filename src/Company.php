@@ -259,12 +259,17 @@ class Company extends Model
      * GET /companies.xml
      *
      * The requesting user is returned a list of companies available to them.
-     *
+     * 
+     * @param $pageSize int
+     * @param $page int
      * @return array|SimpleXMLElement
      */
-    public function getAll()
+    public function getAll($pageSize = 200, $page = 1)
     {
-        return $this->rest->get($this->action);
+        return $this->rest->get($this->action, [
+            'pageSize' => $pageSize,
+            'page' => $page
+        ]);
     }
 
     /**
