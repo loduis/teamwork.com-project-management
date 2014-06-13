@@ -99,7 +99,8 @@ final class Rest
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER         => true,
             CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_SSL_VERIFYPEER => false
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT        => ini_get('default_socket_timeout')
         ]);
 
         $i = 0;
