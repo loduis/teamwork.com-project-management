@@ -51,12 +51,17 @@ class Project extends Model
      * This is very useful if you are implementing local caching as you won't have to recheck
      * everything therefore making your applicaton much faster. You can pass in a date and/or a date
      * with a time using the variables updatedAfterDate and updatedAfterTime.
+	 * 
+     * @param $params array
+	 * @param $pageSize int
+     * @param $page int
      * @return TeamWorkPm\Response\Model
      */
-    public function getAll(array $params = [])
+    public function getAll(array $params = [], $pageSize = 200, $page = 1)
     {
+		$params['pageSize'] = $pageSize;
+		$params['page'] = $page;
         return $this->getByStatus('all', $params);
-
     }
 
     /**
