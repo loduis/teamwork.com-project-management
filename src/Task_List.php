@@ -90,7 +90,7 @@ class Task_List extends Model
             throw new Exception('Invalid param project_id');
         }
         if ($params && is_string($params)) {
-            $status = ['active','completed'];
+            $status = ['active','completed','all'];
             $filter = ['upcoming','late','today','tomorrow'];
             if (in_array($params, $status)) {
                 $params = ['status'=> $params];

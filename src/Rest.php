@@ -53,7 +53,7 @@ final class Rest
      */
     private function execute($method, $action, $request = null)
     {
-        $url = 'http://'. $this->company . '.teamworkpm.net/'. $action .
+        $url = 'http://'. $this->company . '.teamwork.com/'. $action .
                                                         '.' . self::$FORMAT;
         $headers = ['Authorization: BASIC '. base64_encode(
             $this->key . ':xxx'
@@ -99,7 +99,8 @@ final class Rest
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER         => true,
             CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_SSL_VERIFYPEER => false
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT        => ini_get('default_socket_timeout')
         ]);
 
         $i = 0;
