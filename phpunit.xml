@@ -71,9 +71,15 @@
           yui="true" highlight="true" lowUpperBound="50" highLowerBound="80" />
       <log type="testdox-html" target="tests/build/testdox.html" />
   </logging>
+  <!-- on teamwork.com -->
   <php>
+      <const name="API_COMPANY" value="phpapi3" />
+      <const name="API_KEY" value="soap506wind" />
+      <const name="API_FORMAT" value="json" />
+  </php>
+  <!-- on teamworkpm.net
       <const name="API_COMPANY" value="phpapi2"/>
       <const name="API_KEY" value="horse48street"/>
       <const name="API_FORMAT" value="json"/>
-  </php>
+  -->
 </phpunit>

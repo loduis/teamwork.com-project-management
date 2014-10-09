@@ -2,10 +2,16 @@
 
 class TestCase extends PHPUnit_Framework_TestCase
 {
-
-    public function setUp()
+/*
+    public static function setUpBeforeClass()
     {
-        TeamWorkPm\Auth::set(API_COMPANY, API_KEY);
-        TeamWorkPm\Rest::setFormat(API_FORMAT);
+        static $auth = false;
+        if (!$auth) {
+            TeamWorkPm\Auth::set(API_COMPANY, API_KEY);
+            TeamWorkPm\Rest::setFormat(API_FORMAT);
+            $auth = true;
+            echo 'AUTH..', PHP_EOL;
+        }
     }
+*/
 }

@@ -16,7 +16,7 @@ final class Rest
     /**
      * @var string this your company name path
      */
-    private $company = null;
+    private $url = null;
 
     /**
      * @var TeamWorkPm\Request\Model
@@ -29,13 +29,13 @@ final class Rest
      * @param string $key
      * @throws \TeamWorkPm\Exception
      */
-    public function  __construct($company, $key)
+    public function __construct($url, $key)
     {
-        if (empty($company) || empty($key)) {
-            throw new Exception('Set your company and api key');
+        if (empty($url) || empty($key)) {
+            throw new Exception('Set your url and api key');
         } else {
-            $this->key     = $key;
-            $this->company = $company;
+            $this->key = $key;
+            $this->url = $url;
         }
         $format          = strtoupper(self::$FORMAT);
         $request         = '\TeamWorkPm\Request\\' . $format;
@@ -53,58 +53,17 @@ final class Rest
      */
     private function execute($method, $action, $request = null)
     {
-        $url = 'http://'. $this->company . '.teamworkpm.net/'. $action .
-                                                        '.' . self::$FORMAT;
+        $url =  "{$this->url}$action." . self::$FORMAT;
         $headers = ['Authorization: BASIC '. base64_encode(
             $this->key . ':xxx'
         )];
         $request = $this->request
                         ->setAction($action)
                         ->getParameters($method, $request);
-        $ch = curl_init();
-        switch ($method) {
-            case 'GET':
-                if (!empty($request)) {
-                    $url .= '?' . $request;
-                }
-                break;
-            case 'UPLOAD':
-                curl_setopt_array( $ch, [
-                    CURLOPT_POST       => true,
-                    CURLOPT_POSTFIELDS => $request
-                ]);
-                break;
-            case 'DELETE':
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-                break;
-            case 'PUT':
-            case 'POST':
-                if ($method === 'POST') {
-                    curl_setopt( $ch, CURLOPT_POST, true);
-                } else {
-                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-                }
-                if ($request) {
-                    curl_setopt( $ch, CURLOPT_POSTFIELDS, $request);
-                }
-                $headers = array_merge($headers, [
-                    'Content-Type: application/' . self::$FORMAT,
-                    'Content-Length:' . strlen($request)
-                ]);
-                break;
-        }
-        curl_setopt_array($ch, [
-            CURLOPT_HTTPHEADER     => $headers,
-            CURLOPT_URL            => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER         => true,
-            CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_SSL_VERIFYPEER => false
-        ]);
-
+        $ch = static::initCurl($method, $url, $request, $headers);
         $i = 0;
         while ($i < 5) {
-            $data        = curl_exec ($ch);
+            $data        = curl_exec($ch);
             $status      = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
             $headers     = $this->parseHeaders(substr($data, 0, $header_size));
@@ -116,13 +75,11 @@ final class Rest
                 break;
             }
         }
-
+        // echo $data, PHP_EOL, PHP_EOL;
         $body        = substr($data, $header_size);
-
         $errorInfo   = curl_error($ch);
         $error       = curl_errno($ch);
         curl_close($ch);
-
         if ($error) {
             throw new Exception($errorInfo);
         }
@@ -136,7 +93,54 @@ final class Rest
         $headers['X-Authorization'] = 'BASIC '. base64_encode($this->key . ':xxx');
         $response = '\TeamWorkPm\Response\\' . strtoupper(self::$FORMAT);
         $response = new $response;
+
         return $response->parse($body, $headers);
+    }
+
+    private static function initCurl($method, $url, $params, $headers)
+    {
+        $ch = curl_init();
+        switch ($method) {
+            case 'GET':
+                if (!empty($params)) {
+                    $url .= '?' . $params;
+                }
+                break;
+            case 'UPLOAD':
+                curl_setopt_array($ch, [
+                    CURLOPT_POST       => true,
+                    CURLOPT_POSTFIELDS => $params
+                ]);
+                break;
+            case 'DELETE':
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+                break;
+            case 'PUT':
+            case 'POST':
+                if ($method === 'POST') {
+                    curl_setopt($ch, CURLOPT_POST, true);
+                } else {
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+                }
+                if ($params) {
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                }
+                $headers = array_merge($headers, [
+                    'Content-Type: application/' . self::$FORMAT,
+                    'Content-Length:' . strlen($params)
+                ]);
+                break;
+        }
+        curl_setopt_array($ch, [
+            CURLOPT_HTTPHEADER     => $headers,
+            CURLOPT_URL            => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER         => true,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false
+        ]);
+
+        return $ch;
     }
 
     /**

@@ -38,9 +38,9 @@ abstract class Model
      */
     private $hash = null;
 
-    final private function  __construct($company, $key, $class, $hash)
+    final private function  __construct($url, $key, $class, $hash)
     {
-        $this->rest   = new \TeamWorkPm\Rest($company, $key);
+        $this->rest   = new \TeamWorkPm\Rest($url, $key);
         $this->hash   = $hash;
         $this->parent = strtolower(str_replace(
           ['TeamWorkPm\\', '\\'],
@@ -88,12 +88,12 @@ abstract class Model
      * @param string $key
      * @return TeamWorkPm\Model
      */
-    final public static function getInstance($company, $key)
+    final public static function getInstance($url, $key)
     {
         $class = get_called_class();
-        $hash = md5($class . '-' . $company . '-' . $key);
+        $hash = md5($class . '-' . $url . '-' . $key);
         if (!isset(self::$instances[$hash])) {
-            self::$instances[$hash] = new $class($company, $key, $class, $hash);
+            self::$instances[$hash] = new $class($url, $key, $class, $hash);
         }
 
         return self::$instances[$hash];

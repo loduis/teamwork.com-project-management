@@ -1,10 +1,17 @@
 <?php namespace TeamWorkPm\Response;
 
-abstract class Model implements \Countable
+use \IteratorAggregate;
+use \ArrayIterator;
+use \Countable;
+use \ArrayAccess;
+
+abstract class Model implements IteratorAggregate, Countable, ArrayAccess
 {
     protected $string = null;
 
     protected $headers = [];
+
+    protected $data = [];
 
     final public function __construct()
     {
@@ -37,8 +44,7 @@ abstract class Model implements \Countable
 
     public function toArray()
     {
-        $array = new \ArrayObject($this);
-        return $array->getArrayCopy();
+        return $this->data;
     }
 
     public function getHeaders()
@@ -46,14 +52,57 @@ abstract class Model implements \Countable
         return $this->headers;
     }
 
+    public function getIterator()
+    {
+        return new ArrayIterator($this->data);
+    }
+
     public function count()
     {
-        $count = 0;
-        foreach($this as $key=>$value) {
-            if (is_numeric($key) && !is_scalar($value)) {
-                ++ $count;
-            }
+        return count($this->data);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->data[] = $value;
+        } else {
+            $this->data[$offset] = $value;
         }
-        return $count;
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->data[$offset]);
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->data[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return isset($this->data[$offset]) ? $this->data[$offset] : null;
+    }
+
+    public function __get($name)
+    {
+        return isset($this->data[$name]) ? $this->data[$name] : null;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->data[$name] = $value;
+    }
+
+    public function __isset($name)
+    {
+        return isset($this->data[$name]);
+    }
+
+    public function __unset($name)
+    {
+        unset($this->data[$name]);
     }
 }

@@ -2,28 +2,35 @@
 
 class Auth
 {
-    private static $_config = [
-        'company' => null,
-        'key'     => null
+    const URL = 'https://authenticate.teamworkpm.net/';
+
+    private static $config = [
+        'url' => null,
+        'key' => null
     ];
 
     public static function set()
     {
         $num_args = func_num_args();
         if ($num_args === 1) {
-            self::$_config['company'] = 'authenticate';
-            self::$_config['key']     = func_get_arg(0);
-            $account       = Factory::build('account');
-            $authenticate  = $account->authenticate();
-            self::$_config['company'] = $authenticate->code;
-        } elseif($num_args === 2) {
-            self::$_config['company'] = func_get_arg(0);
-            self::$_config['key']     = func_get_arg(1);
+            self::$config['url'] = self::$url;
+            self::$config['key'] = func_get_arg(0);
+            self::$config['url'] = Factory::build('account')->authenticate()->url;
+        } elseif ($num_args === 2) {
+            self::$config['url'] = $url = func_get_arg(0);
+            if ($is_subdomain = (strpos($url, '.') === false)) {
+                self::$config['url'] = self::URL;
+            }
+            self::$config['key']  = func_get_arg(1);
+            if ($is_subdomain) {
+                $url = Factory::build('account')->authenticate()->url;
+            }
+            self::$config['url'] = $url;
         }
     }
 
     public static function get()
     {
-        return array_values(self::$_config);
+        return array_values(self::$config);
     }
 }

@@ -1,6 +1,7 @@
 <?php namespace TeamWorkPm\Response;
 
 use \TeamWorkPm\Helper\Str;
+use \ArrayObject;
 
 class JSON extends Model
 {
@@ -11,41 +12,66 @@ class JSON extends Model
         $errors = $this->getJsonErrors();
         $this->string = $data;
         if (!$errors) {
+            if (!(
+                $headers['Status'] === 201 ||
+                $headers['Status'] === 200 ||
+                $headers['Status'] === 409 ||
+                $headers['Status'] === 422
+            )) {
+                print_r($headers);
+                exit;
+            }
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
-                switch($headers['Method']) {
+                switch ($headers['Method']) {
                     case 'UPLOAD':
                         return empty($source->pendingFile->ref) ? null :
                                             (string) $source->pendingFile->ref;
                     case 'POST':
+                        // print_r($headers);
                         if (!empty($headers['id'])) {
                             return (int) $headers['id'];
                         } elseif (!empty($source->fileId)) {
                             return (int) $source->fileId;
                         }
                         // no break
-                     case 'PUT':
-                     case 'DELETE':
+                    case 'PUT':
+                    case 'DELETE':
                          return true;
-                     default:
+
+                    default:
                         if (!empty($source->STATUS)) {
                             unset($source->STATUS);
                         }
                         if (!empty($source->project->files)) {
                             $source = $source->project->files;
-                        } elseif(!empty($source->project->notebooks)) {
+                        } elseif (!empty($source->project->notebooks)) {
                             $source = $source->project->notebooks;
-                        } elseif(!empty($source->project->links)) {
+                        } elseif (!empty($source->project->links)) {
                             $source = $source->project->links;
-                        } elseif (!empty($source->messageReplies) &&
-                            ($match = preg_match(
+                        } elseif (
+                            !empty($source->messageReplies) &&
+                            preg_match(
                                 '!messageReplies/(\d+)!',
-                                $headers['X-Action']))) {
+                                $headers['X-Action']
+                            )
+                        ) {
                                 $source = current($source->messageReplies);
-                        } elseif (!empty($source->people) &&
+                        } elseif (
+                            !empty($source->people) &&
                             preg_match(
                                 '!projects/(\d+)/people/(\d+)!',
-                                $headers['X-Action'])) {
+                                $headers['X-Action']
+                            )
+                        ) {
                             $source = current($source->people);
+                        } elseif (
+                            !empty($source->project) &&
+                            preg_match(
+                                '!projects/(\d+)/notebooks!',
+                                $headers['X-Action']
+                            )
+                        ) {
+                            $source = [];
                         } else {
                             $source = current($source);
                         }
@@ -63,18 +89,17 @@ class JSON extends Model
                             strpos($headers['X-Action'], 'time_entries') > 0 &&
                             !$source
                         ) {
-
                             $source = [];
                         }
                         $this->headers = $headers;
                         $this->string = json_encode($source);
-                        $_this = self::camelizeObject($source);
-                        foreach ($_this as $key=>$value) {
-                            $this->$key = $value;
+
+                        $this->data   = self::camelizeObject($source);
+
+                        if (!empty($this->data->id)) {
+                            $this->data->id = (int) $this->data->id;
                         }
-                        if (!empty($this->id)) {
-                            $this->id = (int) $this->id;
-                        }
+
                         return $this;
                 }
             } elseif (!empty($source->MESSAGE)) {
@@ -100,8 +125,8 @@ class JSON extends Model
 
     protected static function camelizeObject($source)
     {
-        $destination = new \stdClass();
-        foreach ($source as $key=>$value) {
+        $destination = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+        foreach ($source as $key => $value) {
             if (ctype_upper($key)) {
                 $key = strtolower($key);
             }
