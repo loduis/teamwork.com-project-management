@@ -13,7 +13,7 @@ class Auth
     {
         $num_args = func_num_args();
         if ($num_args === 1) {
-            self::$config['url'] = self::$url;
+            self::$config['url'] = self::URL;
             self::$config['key'] = func_get_arg(0);
             self::$config['url'] = Factory::build('account')->authenticate()->url;
         } elseif ($num_args === 2) {
