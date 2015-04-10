@@ -86,7 +86,7 @@ class JSON extends Model
                             }
                             $source = $_source;
                         } elseif (
-                            strpos($headers['X-Action'], 'time_entries') > 0 &&
+                            strpos($headers['X-Action'], 'time_entries') !==FALSE &&
                             !$source
                         ) {
                             $source = [];
