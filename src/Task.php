@@ -45,6 +45,12 @@ class Task extends Model
                     'type'=>'integer'
                 ]
             ],
+            'tasklistId'=>[
+                'required'=>false,
+                'attributes'=>[
+                    'type'=>'integer'
+                ]
+            ],
             'responsible_party_id'     => false,
             'attachments'              => false,
             'pending_file_attachments' => false
