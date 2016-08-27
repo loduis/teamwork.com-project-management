@@ -41,6 +41,7 @@ class Project extends Model
                     'type'=>'boolean'
                 ]
             ],
+            
             'status'         => false
         ];
     }

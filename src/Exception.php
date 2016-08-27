@@ -4,7 +4,7 @@ class Exception extends \ErrorException
 {
     private $response = null;
     private $headers = [];
-
+    public  $message;
 
     public function  __construct($errorInfo)
     {

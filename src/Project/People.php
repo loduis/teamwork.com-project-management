@@ -6,131 +6,134 @@ class People extends \TeamWorkPm\Rest\Model
     {
         $this->fields = [
             'view_messages_and_files'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'view_tasks_and_milestones'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'view_time'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'view_notebooks'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'view_risk_register'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'view_invoices'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'view_links'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'add_tasks'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'add_milestones'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'add_taskLists'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'add_messages'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'add_files'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'add_time'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'add_links'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'set_privacy'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'can_be_assigned_to_tasks_and_milestones'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'project_administrator'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
             ],
             'add_people_to_project'=>[
-                'require'=>false,
+                'required'=>false,
                 'attributes'=>[
                     'type'=>'integer',
                     'validate'=>[1, 0]
                 ]
-            ]
+            ],
+            'users' =>  [
+                'required' => false
+            ],
         ];
         $this->action = $this->parent = 'permissions';
     }

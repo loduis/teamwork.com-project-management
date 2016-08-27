@@ -59,6 +59,7 @@ abstract class Model
         }
         $isNull =  null === $value;
         //verficando campos requeridos
+
         if ($this->method == 'POST' && $options['required']) {
             if ($isNull) {
                 throw new \TeamWorkPm\Exception('Required field ' . $field);
