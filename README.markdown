@@ -8,10 +8,15 @@ Using Api
 
     // START configurtion
     const API_KEY = 'horse48street';
+    const API_URL = 'http://yourcustomdomain.com'; // only required if you have a custom domain
 
     try {
         // set your keys
+        // if you do not have a custom domain:
         TeamWorkPm\Auth::set(API_KEY);
+        // if you do have a custom domain:
+        // TeamWorkPm\Auth::set(API_URL, API_KEY);
+        
         // create an project
         $project = TeamWorkPm\Factory::build('project');
         $project_id = $project->save(array(
