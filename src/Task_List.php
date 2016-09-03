@@ -31,7 +31,8 @@ class Task_List extends Model
                     'type'=>'integer'
                 ]
             ],
-            'todo_list_template_id' => false
+            'todo_list_template_id' => false,
+            'todo-list-template-assignments' => false
         ];
         $this->parent = 'todo-list';
         $this->action = 'todo_lists';
