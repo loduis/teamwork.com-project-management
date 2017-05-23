@@ -162,6 +162,22 @@ class People extends Model
     }
 
     /**
+     * Get User by Email
+     * GET /people
+     * Retrieves user by email address
+     *
+     * @param string $emailaddress
+     * @return TeamWorkPm\Response\Model
+     */
+    public function getByEmail($emailaddress)
+    {
+        $emailaddress = (string) $emailaddress;
+        return $this->rest->get($this->action, [
+            'emailaddress' => $emailaddress
+        ]);
+    }
+
+    /**
      * Add a new user
      * POST /people
      * Creates a new user account
