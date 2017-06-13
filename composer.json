@@ -1,11 +1,14 @@
 {
-    "name": "myabakus/teamworkpm",
+    "name": "jamiebuckell/teamworkpm",
     "description": "PHP wrapper for TeamWorkPm api.",
     "license": "MIT",
     "authors": [
         {
             "name": "Loduis Madariaga",
             "email": "loduis@gmail.com"
+        },
+        {
+            "name": "Jamie Buckell"
         }
     ],
     "require": {

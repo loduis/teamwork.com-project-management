@@ -10,30 +10,31 @@ class Project extends Model
             // [Optional. Project Description]
             'description' =>  false,
             // [Optional. Start date in yyyymmdd format]
-            'start_date'  => [
+            'startDate'  => [
                 'required'=> false,
                 'attributes' => [
                     'type'=>'integer'
                 ]
             ],
             // [Optional. End date in yyyymmdd format]
-            'end_date'    => [
+            'endDate'    => [
                 'required' => false,
                 'attributes' => [
                     'type'=>'integer'
                 ]
             ],
             // [Optional. Id of company to assign the project to]
-            'company_id'  => [
+            'companyId'  => [
                 'required' => false,
                 'attributes' => [
                     'type' => 'integer'
                 ]
             ],
             // [Optional. Name of a new company to assign the project to]
-            'new_company'    => false,
+            'newCompany'    => false,
             //[Optional. Numeric ID of project category, 0 = no category]
-            'category_id'     => false,
+            'category-id'     => false,
+            'tags'            => false,
 
             'notifyeveryone' => [
                 'required' => false,
@@ -61,8 +62,7 @@ class Project extends Model
 
     /**
      *
-     * @param type $date
-     * @param type $time
+     * @param array $params
      * @return TeamWorkPm\Response\Model
      */
     public function getActive(array $params = [])
@@ -72,8 +72,7 @@ class Project extends Model
 
     /**
      *
-     * @param type $date
-     * @param type $time
+     * @param array $params
      * @return TeamWorkPm\Response\Model
      */
     public function getArchived(array $params = [])
@@ -84,8 +83,7 @@ class Project extends Model
     /**
      *
      * @param type $status
-     * @param type $date
-     * @param type $time
+     * @param array $params
      * @return type
      */
     private function getByStatus($status, $params)
@@ -108,6 +106,7 @@ class Project extends Model
      * Adds a project to your list of favourite projects.
      * @param int $id
      * @return bool
+     * @throws Exception
      */
     public function star($id)
     {
@@ -122,6 +121,7 @@ class Project extends Model
      * Removes a project from your list of favourite projects.
      * @param int $id
      * @return bool
+     * @throws Exception
      */
     public function unStar($id)
     {
@@ -137,6 +137,7 @@ class Project extends Model
      *
      * @param type $id
      * @return bool
+     * @throws Exception
      */
     public function activate($id)
     {
@@ -155,6 +156,7 @@ class Project extends Model
      *
      * @param type $id
      * @return bool
+     * @throws Exception
      */
     public function archive($id)
     {

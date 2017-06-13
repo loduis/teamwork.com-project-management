@@ -32,14 +32,14 @@ class Milestone extends Model
                     'type'=>'boolean'
                 ]
             ],
-            'responsible_party_ids' => true,
+            'responsible-party-ids' => true,
             # USE ONLY FOR UPDATE OR PUT METHOD
-            'move_upcoming_milestones'=>[
+            'move-upcoming-milestones'=>[
               'sibling'=>true,
               'required'=>false,
               'attributes'=>['type'=>'boolean']
             ],
-            'move_upcoming_milestones_off_weekends'=>[
+            'move-upcoming-milestones-off-weekends'=>[
               'sibling'=>true,
               'required'=>false,
               'attributes'=>['type'=>'boolean']
@@ -55,6 +55,7 @@ class Milestone extends Model
      * Marks the specified milestone as complete. Returns Status 200 OK.
      * @param int $id
      * @return bool
+     * @throws Exception
      */
     public function complete($id)
     {
@@ -74,6 +75,7 @@ class Milestone extends Model
      *
      * @param int $id
      * @return bool
+     * @throws Exception
      */
     public function uncomplete($id)
     {
@@ -98,6 +100,7 @@ class Milestone extends Model
      * Get all milestone
      *
      * @return TeamWorkPm\Response\Model
+     * @throws Exception
      */
     public function getByProject($project_id, $filter = 'all')
     {
@@ -132,6 +135,7 @@ class Milestone extends Model
      *
      * @param array $data
      * @return int
+     * @throws Exception
      */
     public function insert(array $data)
     {

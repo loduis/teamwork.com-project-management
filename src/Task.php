@@ -5,6 +5,13 @@ class Task extends Model
     protected function init()
     {
         $this->fields = [
+            'name'=>true,
+            'color'=>[
+                'required'=>false,
+                'attributes'=>[
+                    'type'=>'boolean'
+                ]
+            ],
             'content'=>true,
             'notify'=>[
                 'required'=>false,
@@ -13,13 +20,13 @@ class Task extends Model
                 ]
             ],
             'description'=>false,
-            'due_date'=>[
+            'due-date'=>[
                 'required'=>false,
                 'attributes'=>[
                     'type'=>'integer'
                 ]
             ],
-            'start_date'=>[
+            'start-date'=>[
                 'required'=>false,
                 'attributes'=>[
                     'type'=>'integer'
@@ -39,15 +46,15 @@ class Task extends Model
                     'high'
                 ]
             ],
-            'estimated_minutes'=>[
+            'estimated-minutes'=>[
                 'required'=>false,
                 'attributes'=>[
                     'type'=>'integer'
                 ]
             ],
-            'responsible_party_id'     => false,
+            'responsible-party-id'     => false,
             'attachments'              => false,
-            'pending_file_attachments' => false
+            'pendingFileAttachments' => false
         ];
         $this->parent = 'todo-item';
         $this->action = 'todo_items';
@@ -66,7 +73,6 @@ class Task extends Model
         return $this->rest->get("$this->action/$id", $params);
     }
 
-
     /**
      * Retrieve all tasks on a task list
      *
@@ -84,6 +90,7 @@ class Task extends Model
      * @param mixed $params
      *
      * @return TeamWorkPm\Response\Model
+     * @throws Exception
      */
     public function getByTaskList($task_list_id, $filter = 'all')
     {
@@ -115,6 +122,7 @@ class Task extends Model
      *
      * @param array $data
      * @return int
+     * @throws Exception
      */
     public function insert(array $data)
     {
@@ -139,6 +147,7 @@ class Task extends Model
      *
      * @param int $id
      * @return bool
+     * @throws Exception
      */
     public function complete($id)
     {
@@ -158,6 +167,7 @@ class Task extends Model
      *
      * @param int $id
      * @return bool
+     * @throws Exception
      */
     public function uncomplete($id)
     {
@@ -181,6 +191,7 @@ class Task extends Model
      * @param int $task_list_id
      * @param array $ids
      * @return bool
+     * @throws Exception
      */
     public function reorder($task_list_id, array $ids)
     {

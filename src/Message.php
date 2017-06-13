@@ -7,7 +7,7 @@ class Message extends Model
     {
         $this->fields = [
             'title'                    => true,
-            'category_id'              => [
+            'category-id'              => [
                 'required'=>true,
                 'attributes'=>[
                     'type'=>'integer'
@@ -26,7 +26,8 @@ class Message extends Model
             ],
             'body'                     => true,
             'attachments'              => false,
-            'pending_file_attachments' => false
+            'pendingFileAttachments' => false,
+            'author-id' => false,
         ];
         $this->parent = 'post';
         $this->action = 'posts';
@@ -44,9 +45,10 @@ class Message extends Model
      *
      * Rather than the full message, this returns a summary record for each message in the specified project.
      *
-     * @param int $id
+     * @param      $project_id
      * @param bool $archive
      * @return array|SimpleXMLElement
+     * @throws Exception
      */
     public function getByProject($project_id, $archive = false)
     {
@@ -78,6 +80,7 @@ class Message extends Model
      * @param int $category_id
      * @param bool $archive
      * @return TeamWorkPm\Response\Model
+     * @throws Exception
      */
     public function getByProjectAndCategory($project_id, $category_id, $archive = false)
     {
@@ -106,6 +109,7 @@ class Message extends Model
      *
      * @param array $data
      * @return int
+     * @throws Exception
      */
     public function insert(array $data)
     {

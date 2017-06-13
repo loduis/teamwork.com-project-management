@@ -9,14 +9,20 @@ class Notebook extends Rest\Model
             'name' => true,
             'description'=>true,
             'content'=>true,
+            'project-id'=>[
+              'required'=>true,
+              'attributes'=>[
+                'type'=>'integer'
+              ]
+            ],
             'notify'=>false,
-            'category_id'=>[
+            'category-id'=>[
                 'required'=>false,
                 'attributes'=>[
                     'type'=>'integer'
                 ]
             ],
-            'category_name'=> false,
+            'category-name'=> false,
             'private'=>[
                 'required'=>false,
                 'attributes'=>[
@@ -65,6 +71,7 @@ class Notebook extends Rest\Model
      *
      * @param int $project_id
      * @return TeamWorkPm\Response\Model
+     * @throws Exception
      */
     public function getByProject($project_id, $include_content = false)
     {
@@ -86,6 +93,7 @@ class Notebook extends Rest\Model
      *
      * @param type $id
      * @return bool
+     * @throws Exception
      */
     public function lock($id)
     {
@@ -105,6 +113,7 @@ class Notebook extends Rest\Model
      *
      * @param type $id
      * @return bool
+     * @throws Exception
      */
     public function unlock($id)
     {
@@ -133,19 +142,42 @@ class Notebook extends Rest\Model
     }
 
     /**
+     * Update Notebook
+     *
+     * PUT /notebooks/#{notebook_id}
+     *
+     * Modifies an existing notebook.
+     *
+     * @param array $data
+     * @return mixed
+     * @throws Exception
+     */
+    public function update(array $data)
+    {
+      $id = empty($data['id']) ? 0  : (int) $data['id'];
+      if ($id <= 0) {
+          throw new \TeamWorkPm\Exception('Required field id');
+      }
+      return $this->rest->put("$this->action/$id", $data);
+    }
+
+    /**
      *
      * @param array $data
      * @return bool
      */
     final public function save(array $data)
     {
-        return $this->insert($data);
+      return array_key_exists('id', $data) ?
+          $this->update($data):
+          $this->insert($data);
     }
 
     /**
      *
      * @param int $id
      * @return bool
+     * @throws Exception
      */
     public function delete($id)
     {
