@@ -5,6 +5,13 @@ class Task extends Model
     protected function init()
     {
         $this->fields = [
+            'name'=>true,
+            'color'=>[
+                'required'=>false,
+                'attributes'=>[
+                    'type'=>'boolean'
+                ]
+            ],
             'content'=>true,
             'notify'=>[
                 'required'=>false,
@@ -13,13 +20,13 @@ class Task extends Model
                 ]
             ],
             'description'=>false,
-            'due_date'=>[
+            'due-date'=>[
                 'required'=>false,
                 'attributes'=>[
                     'type'=>'integer'
                 ]
             ],
-            'start_date'=>[
+            'start-date'=>[
                 'required'=>false,
                 'attributes'=>[
                     'type'=>'integer'
@@ -39,15 +46,15 @@ class Task extends Model
                     'high'
                 ]
             ],
-            'estimated_minutes'=>[
+            'estimated-minutes'=>[
                 'required'=>false,
                 'attributes'=>[
                     'type'=>'integer'
                 ]
             ],
-            'responsible_party_id'     => false,
+            'responsible-party-id'     => false,
             'attachments'              => false,
-            'pending_file_attachments' => false
+            'pendingFileAttachments' => false
         ];
         $this->parent = 'todo-item';
         $this->action = 'todo_items';
@@ -66,6 +73,13 @@ class Task extends Model
         return $this->rest->get("$this->action/$id", $params);
     }
 
+    public function get_tag_by_name($tag_name = null)
+    {
+        $params = [
+          'name' => $tag_name
+        ];
+        return $this->rest->get("$this->action", $params);
+    }
 
     /**
      * Retrieve all tasks on a task list
