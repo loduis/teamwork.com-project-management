@@ -73,14 +73,6 @@ class Task extends Model
         return $this->rest->get("$this->action/$id", $params);
     }
 
-    public function get_tag_by_name($tag_name = null)
-    {
-        $params = [
-          'name' => $tag_name
-        ];
-        return $this->rest->get("$this->action", $params);
-    }
-
     /**
      * Retrieve all tasks on a task list
      *
@@ -98,6 +90,7 @@ class Task extends Model
      * @param mixed $params
      *
      * @return TeamWorkPm\Response\Model
+     * @throws Exception
      */
     public function getByTaskList($task_list_id, $filter = 'all')
     {
@@ -129,6 +122,7 @@ class Task extends Model
      *
      * @param array $data
      * @return int
+     * @throws Exception
      */
     public function insert(array $data)
     {
@@ -153,6 +147,7 @@ class Task extends Model
      *
      * @param int $id
      * @return bool
+     * @throws Exception
      */
     public function complete($id)
     {
@@ -172,6 +167,7 @@ class Task extends Model
      *
      * @param int $id
      * @return bool
+     * @throws Exception
      */
     public function uncomplete($id)
     {
@@ -195,6 +191,7 @@ class Task extends Model
      * @param int $task_list_id
      * @param array $ids
      * @return bool
+     * @throws Exception
      */
     public function reorder($task_list_id, array $ids)
     {
