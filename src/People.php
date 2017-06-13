@@ -133,6 +133,22 @@ class People extends Model
     }
 
     /**
+     * Get specific Person by Email
+     * GET /people
+     * Retrieves all of the people in a given project
+     *
+     * @param string $emailaddress
+     * @return TeamWorkPm\Response\Model
+     */
+    public function getByEmail($emailaddress)
+    {
+        $emailaddress = (string) $emailaddress;
+        return $this->rest->get($this->action, [
+            'emailaddress' => $emailaddress
+        ]);
+    }
+
+    /**
      * Get all People (within a Project)
      * GET /projects/#{project_id}/people
      * Retrieves all of the people in a given project
