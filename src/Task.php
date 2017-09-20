@@ -45,6 +45,12 @@ class Task extends Model
                     'type'=>'integer'
                 ]
             ],
+            'tasklistId'=>[
+                'required'=>false,
+                'attributes'=>[
+                    'type'=>'integer'
+                ]
+            ],
             'responsible_party_id'     => false,
             'attachments'              => false,
             'pending_file_attachments' => false
@@ -191,4 +197,14 @@ class Task extends Model
         return $this->rest->post("todo_lists/$task_list_id/" .
                                                 "$this->action/reorder", $ids);
     }
+
+	/**
+	 * Get all tasks (limit 250 by page)
+	 * @param array $params
+	 * @return TeamWorkPm\Response\Model
+	 */
+	public function getAll(array $params = [])
+	{
+		return $this->rest->get("tasks.json", $params);
+	}
 }
