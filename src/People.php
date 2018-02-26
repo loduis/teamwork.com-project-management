@@ -100,6 +100,13 @@ class People extends Model
         $this->action = 'people';
     }
 
+    /**
+     * @param $id
+     * @param null $project_id
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
     public function get($id, $project_id = null)
     {
         $id = (int) $id;
@@ -122,7 +129,8 @@ class People extends Model
      * @param $pageSize int
      * @param $page int
      *
-     * @return TeamWorkPm\Response\Model
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getAll($pageSize = 200, $page = 1)
     {
@@ -137,8 +145,10 @@ class People extends Model
      * GET /projects/#{project_id}/people
      * Retrieves all of the people in a given project
      *
-     * @param type $id
-     * @return TeamWorkPm\Response\Model
+     * @param int $id
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByProject($id)
     {
@@ -153,7 +163,9 @@ class People extends Model
      * (excluding those you don't have permission to see)
      *
      * @param int $id
-     * @return TeamWorkPm\Response\Model
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByCompany($id)
     {
@@ -167,7 +179,9 @@ class People extends Model
      * Retrieves user by email address
      *
      * @param string $emailaddress
-     * @return TeamWorkPm\Response\Model
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByEmail($emailaddress)
     {
@@ -183,7 +197,9 @@ class People extends Model
      * Creates a new user account
      *
      * @param array $data
+     *
      * @return int
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {
@@ -214,9 +230,10 @@ class People extends Model
     }
 
     /**
-     *
      * @param array $data
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function update(array $data)
     {
@@ -254,9 +271,11 @@ class People extends Model
     }
 
     /**
-     *
      * @param int $id
+     * @param null $project_id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function delete($id, $project_id = null)
     {

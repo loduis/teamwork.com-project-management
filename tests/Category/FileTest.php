@@ -85,15 +85,14 @@ class Category_FileTest extends TestCase
         }
     }
 
-
     public function provider()
     {
         return [
             [
-              [
-                'name'   => 'Test category',
-                'parent' => 0
-              ]
+                [
+                    'name' => 'Test category',
+                    'parent' => 0
+                ]
             ]
         ];
     }

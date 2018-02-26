@@ -73,7 +73,6 @@ class TimeTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getAll()
@@ -87,7 +86,6 @@ class TimeTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getByProject()
@@ -107,7 +105,6 @@ class TimeTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getByTask()

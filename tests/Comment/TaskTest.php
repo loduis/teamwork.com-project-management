@@ -53,7 +53,6 @@ class Comment_TaskTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function get()
@@ -68,7 +67,6 @@ class Comment_TaskTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getRecent()
@@ -87,17 +85,16 @@ class Comment_TaskTest extends TestCase
         }
     }
 
-
     public function provider()
     {
         return [
             [
-              [
-                'body'   => 'Comment, Comment, Blaa',
-                'notify' => false,
-                'isprivate'=> false,
-                'pending_file_attachments'=> null
-              ]
+                [
+                    'body' => 'Comment, Comment, Blaa',
+                    'notify' => false,
+                    'isprivate' => false,
+                    'pending_file_attachments' => null
+                ]
             ]
         ];
     }

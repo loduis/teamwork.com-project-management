@@ -50,6 +50,7 @@ class Link extends Model
      * GET /links
      * Lists all links on projects that the authenticated user is associated with.
      *
+     * @throws \TeamWorkPm\Exception
      */
     public function getAll()
     {
@@ -63,9 +64,10 @@ class Link extends Model
      *
      * This lets you query the list of links for a project.
      *
-     * @param int $id This is a project id
+     * @param $project_id
      *
-     * @return TeamWorkPm\Response\Model
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByProject($project_id)
     {
@@ -82,9 +84,11 @@ class Link extends Model
      * POST /projects/#{project_id}/links
      * This command will create a single link.
      * Code must be valid Embed Code, IFrame Code or a URL
+     *
      * @param array $data
      *
      * @return int
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {

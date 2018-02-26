@@ -103,10 +103,10 @@ class People_StatusTest extends TestCase
     {
         return [
             [
-              [
-                'status' => 'Test people status',
-                'notify'   => false
-              ]
+                [
+                    'status' => 'Test people status',
+                    'notify' => false
+                ]
             ]
         ];
     }

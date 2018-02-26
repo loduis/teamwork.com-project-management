@@ -19,6 +19,12 @@ class File extends Rest\Model
         ];
     }
 
+    /**
+     * @param $id
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
     public function get($id)
     {
         $id = (int) $id;
@@ -27,6 +33,7 @@ class File extends Rest\Model
         }
         return $this->rest->get("$this->action/$id");
     }
+
     /**
      * List Files on a Project
      *
@@ -35,7 +42,9 @@ class File extends Rest\Model
      * This lets you query the list of files for a project.
      *
      * @param int $project_id
-     * @return TeamWorkPm\Response\Model
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByProject($project_id)
     {
@@ -95,8 +104,8 @@ class File extends Rest\Model
      *
      * POST /projects/#{file_id}/files
      *
-     * @param int $id
-     * @param array $params [filename, category_id, category_name, description, private, pending_file_ref, project_id]
+     * @param array $data
+     *
      * @return int File id
      * @throws \TeamWorkPm\Exception
      */
@@ -117,9 +126,10 @@ class File extends Rest\Model
     }
 
     /**
-     *
      * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function delete($id)
     {

@@ -41,7 +41,6 @@ class Category_ProjectTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function get()
@@ -56,7 +55,6 @@ class Category_ProjectTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getAll()
@@ -69,15 +67,14 @@ class Category_ProjectTest extends TestCase
         }
     }
 
-
     public function provider()
     {
         return [
             [
-              [
-                'name'   => 'Test category',
-                'parent' => 0
-              ]
+                [
+                    'name' => 'Test category',
+                    'parent' => 0
+                ]
             ]
         ];
     }

@@ -32,8 +32,11 @@ class Time extends Model
     /**
      * Inserta un time entry ya sea para
      * un projecto o para un todo item
+     *
      * @param array $data
+     *
      * @return int
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {
@@ -61,11 +64,11 @@ class Time extends Model
      * TODATE : string (YYYYMMDD) - The end date to retrieve to
      * TOTIME : string (HH:MM) - The end time only if TODATE is passed
      *
-     * @param string $id
      * @param array $params
-     * @return TeamWorkPm\Response\Model
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
-
     public function getAll(array $params = [])
     {
         return $this->rest->get("$this->action", $params);
@@ -81,9 +84,11 @@ class Time extends Model
      * TODATE : string (YYYYMMDD) - The end date to retrieve to
      * TOTIME : string (HH:MM) - The end time only if TODATE is passed
      *
-     * @param int $id
+     * @param $project_id
      * @param array $params
-     * @return TeamWorkPm\Response\Model
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByProject($project_id, array $params = [])
     {
@@ -101,9 +106,11 @@ class Time extends Model
      *
      * Retrieves all of the time entries from a submitted todo item.
      *
-     * @param int $id
+     * @param $task_id
      * @param array $params
-     * @return TeamWorkPm\Response\Model
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByTask($task_id, array $params = [])
     {

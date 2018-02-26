@@ -1,6 +1,9 @@
 <?php namespace TeamWorkPm\Message;
 
-class Reply extends \TeamWorkPm\Model
+use TeamWorkPm\Exception;
+use TeamWorkPm\Model;
+
+class Reply extends Model
 {
     public function init()
     {
@@ -31,14 +34,16 @@ class Reply extends \TeamWorkPm\Model
      * "X-Page" - The page you requested
      *
      * @param <type> $id
-     * @param <type> $params
-     * @return TeamWorkPm\Response\Model
+     * @param array $params
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByMessage($message_id, array $params = [])
     {
         $message_id = (int) $message_id;
         if ($message_id <= 0) {
-            throw new \TeamWorkPm\Exception('Invalid param message_id');
+            throw new Exception('Invalid param message_id');
         }
         $validate = ['page', 'pagesize'];
         foreach ($params as $name=>$value) {
@@ -58,14 +63,15 @@ class Reply extends \TeamWorkPm\Model
      * Also, you have the option of sending a notification to a list of people you select.people.
      *
      * @param array $data
+     *
      * @return int
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {
-
         $message_id = empty($data['message_id']) ? 0 : (int) $data['message_id'];
         if ($message_id <= 0) {
-            throw new \TeamWorkPm\Exception('Required field message_id');
+            throw new Exception('Required field message_id');
         }
         return $this->rest->post("messages/$message_id/messageReplies", $data);
     }

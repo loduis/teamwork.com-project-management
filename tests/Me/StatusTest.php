@@ -27,7 +27,6 @@ class Me_StatusTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function get()
@@ -68,10 +67,10 @@ class Me_StatusTest extends TestCase
     {
         return [
             [
-              [
-                'status' => 'Test me status',
-                'notify'   => false
-              ]
+                [
+                    'status' => 'Test me status',
+                    'notify' => false
+                ]
             ]
         ];
     }

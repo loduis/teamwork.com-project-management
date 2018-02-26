@@ -1,6 +1,7 @@
 <?php namespace TeamWorkPm\Request;
 
-use \TeamWorkPm\Helper\Str;
+use TeamWorkPm\Exception;
+use TeamWorkPm\Helper\Str;
 
 abstract class Model
 {
@@ -27,6 +28,14 @@ abstract class Model
         return $this;
     }
 
+    /**
+     * @param $field
+     * @param $options
+     * @param array $parameters
+     *
+     * @return mixed|null
+     * @throws \TeamWorkPm\Exception
+     */
     protected function getValue(& $field, & $options, array $parameters)
     {
         static
@@ -61,13 +70,13 @@ abstract class Model
         //verficando campos requeridos
         if ($this->method == 'POST' && $options['required']) {
             if ($isNull) {
-                throw new \TeamWorkPm\Exception('Required field ' . $field);
+                throw new Exception('Required field ' . $field);
             }
         }
         //verficando campos que debe cumplir ciertos valores
         if (!$isNull && isset($options['validate']) &&
                         !in_array($value, $options['validate'])) {
-                throw new \TeamWorkPm\Exception('Invalid value for field ' .
+                throw new Exception('Invalid value for field ' .
                                                             $field);
         }
         // @todo Ojo la gente de team work no mainten constante el formato name-other

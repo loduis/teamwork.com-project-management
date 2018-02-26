@@ -152,15 +152,15 @@ class MessageTest extends TestCase
     {
         return [
             [
-              [
-                'title'          => 'Test message',
-                'body'       => '<b>Nada</b>, <i>nada</i>, nada',
-                'notify'        => false,
-                'private'       => false,
-                'category_id'   => 0,
-                'attachments'   => null,
-                'pending_file_attachments' => null
-              ]
+                [
+                    'title' => 'Test message',
+                    'body' => '<b>Nada</b>, <i>nada</i>, nada',
+                    'notify' => false,
+                    'private' => false,
+                    'category_id' => 0,
+                    'attachments' => null,
+                    'pending_file_attachments' => null
+                ]
             ]
         ];
     }

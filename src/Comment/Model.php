@@ -29,7 +29,9 @@ abstract class Model extends \TeamWorkPm\Model
      * When named in the URL, it can be either posts, todo_items or milestones.
      *
      * @param array $data
+     *
      * @return int
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {
@@ -50,12 +52,12 @@ abstract class Model extends \TeamWorkPm\Model
     }
 
     /**
-     *
      * @param int $resource_id
      * @param int $page_size
      * @param int $page
      *
      * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getRecent($resource_id, $page_size = 20, $page = 1)
     {

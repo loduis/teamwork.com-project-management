@@ -257,15 +257,15 @@ class PeopleTest extends TestCase
     {
         return [
             [
-              [
-                'first_name'  => "Test",
-                'last_name'   => 'User',
-                'user_name'     => 'test',
-                'email_address' => 'loduis@hotmail.com',
-                'password'      => 'El loco de la calle',
-                'address_one'   => 'Cra 45 # 40-10',
-                'send_welcome_email' => false
-              ]
+                [
+                    'first_name' => "Test",
+                    'last_name' => 'User',
+                    'user_name' => 'test',
+                    'email_address' => 'loduis@hotmail.com',
+                    'password' => 'El loco de la calle',
+                    'address_one' => 'Cra 45 # 40-10',
+                    'send_welcome_email' => false
+                ]
             ]
         ];
     }

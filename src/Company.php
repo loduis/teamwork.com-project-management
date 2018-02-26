@@ -252,7 +252,6 @@ class Company extends Model
         ];
     }
 
-
     /**
      * Retrieve Companies
      *
@@ -260,7 +259,8 @@ class Company extends Model
      *
      * The requesting user is returned a list of companies available to them.
      *
-     * @return array|SimpleXMLElement
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getAll()
     {
@@ -274,8 +274,10 @@ class Company extends Model
      *
      * All of the companies within the specified project are returned
      *
-     * @param int $id
-     * @return TeamWorkPm\Response\Model
+     * @param $project_id
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByProject($project_id)
     {

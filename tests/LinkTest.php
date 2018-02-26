@@ -76,7 +76,6 @@ class LinkTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getAll()
@@ -90,7 +89,6 @@ class LinkTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getByProject()
@@ -113,16 +111,16 @@ class LinkTest extends TestCase
     {
         return [
             [
-              [
-                'name'       => 'Test Link',
-                'description' => 'Bla, Bla, Bla',
-                'code'        => 'http://developer.teamworkpm.net',
-                'height'      => 300,
-                'width'       => 300,
-                'private'     => false,
-                'notify'      => null,
-                'open_in_new_window' => true
-              ]
+                [
+                    'name' => 'Test Link',
+                    'description' => 'Bla, Bla, Bla',
+                    'code' => 'http://developer.teamworkpm.net',
+                    'height' => 300,
+                    'width' => 300,
+                    'private' => false,
+                    'notify' => null,
+                    'open_in_new_window' => true
+                ]
             ]
         ];
     }

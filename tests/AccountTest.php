@@ -30,7 +30,6 @@ class AccountTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function authenticate()
