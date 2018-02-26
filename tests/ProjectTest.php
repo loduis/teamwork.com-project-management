@@ -202,7 +202,6 @@ class ProjectTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getAll()
@@ -231,13 +230,13 @@ class ProjectTest extends TestCase
     {
         return [
             [
-              [
-                "name"        => "test project",
-                "description" => "bla, bla, bla",
-                "start_date"  => 20121110,
-                "end_date"    => 20121210,
-                "new_company" => "Test Company"
-              ]
+                [
+                    "name" => "test project",
+                    "description" => "bla, bla, bla",
+                    "start_date" => 20121110,
+                    "end_date" => 20121210,
+                    "new_company" => "Test Company"
+                ]
             ]
         ];
     }

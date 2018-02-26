@@ -71,7 +71,6 @@ class Message_ReplyTest extends TestCase
 
 
     /**
-     *
      * @test
      */
     public function get()
@@ -112,10 +111,10 @@ class Message_ReplyTest extends TestCase
     {
         return [
             [
-              [
-                'body' => 'Reply message',
-                'notify'   => false
-              ]
+                [
+                    'body' => 'Reply message',
+                    'notify' => false
+                ]
             ]
         ];
     }

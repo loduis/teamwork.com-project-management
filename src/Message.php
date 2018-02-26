@@ -44,9 +44,11 @@ class Message extends Model
      *
      * Rather than the full message, this returns a summary record for each message in the specified project.
      *
-     * @param int $id
+     * @param $project_id
      * @param bool $archive
-     * @return array|SimpleXMLElement
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByProject($project_id, $archive = false)
     {
@@ -77,7 +79,9 @@ class Message extends Model
      * @param int $project_id
      * @param int $category_id
      * @param bool $archive
-     * @return TeamWorkPm\Response\Model
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByProjectAndCategory($project_id, $category_id, $archive = false)
     {
@@ -105,7 +109,9 @@ class Message extends Model
      * Also, you have the option of sending a notification to a list of people you specify.
      *
      * @param array $data
+     *
      * @return int
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {

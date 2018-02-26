@@ -52,7 +52,6 @@ class Comment_NotebookTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function get()
@@ -67,7 +66,6 @@ class Comment_NotebookTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getRecent()
@@ -86,17 +84,16 @@ class Comment_NotebookTest extends TestCase
         }
     }
 
-
     public function provider()
     {
         return [
             [
-              [
-                'body'   => 'Comment, Comment, Blaa',
-                'notify' => false,
-                'isprivate'=> false,
-                'pending_file_attachments'=> null
-              ]
+                [
+                    'body' => 'Comment, Comment, Blaa',
+                    'notify' => false,
+                    'isprivate' => false,
+                    'pending_file_attachments' => null
+                ]
             ]
         ];
     }

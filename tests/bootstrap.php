@@ -8,4 +8,3 @@ require __DIR__  . '/TestCase.php';
 
 TeamWorkPm\Auth::set(API_COMPANY, API_KEY);
 TeamWorkPm\Rest::setFormat(API_FORMAT);
-

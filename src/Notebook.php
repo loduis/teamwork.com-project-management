@@ -26,6 +26,13 @@ class Notebook extends Rest\Model
         ];
     }
 
+    /**
+     * @param $id
+     * @param array $params
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
     public function get($id, array $params = [])
     {
         $id = (int) $id;
@@ -44,7 +51,10 @@ class Notebook extends Rest\Model
      * By default, the actual notebook HTML content is not returned.
      * You can pass includeContent=true to return the notebook HTML content with the notebook data
      *
-     * @return TeamWorkPm\Response\Model
+     * @param bool $include_content
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getAll($include_content = false)
     {
@@ -64,7 +74,11 @@ class Notebook extends Rest\Model
      * You can pass includeContent=true to return the notebook HTML content with the notebook data
      *
      * @param int $project_id
-     * @return TeamWorkPm\Response\Model
+     *
+     * @param bool $include_content
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByProject($project_id, $include_content = false)
     {
@@ -77,6 +91,7 @@ class Notebook extends Rest\Model
           'includeContent'=>$include_content ? 'true' : 'false'
         ]);
     }
+
     /**
      * Lock a Single Notebook For Editing
      *
@@ -84,8 +99,10 @@ class Notebook extends Rest\Model
      *
      * Locks the notebook and all versions for editing.
      *
-     * @param type $id
+     * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function lock($id)
     {
@@ -103,8 +120,10 @@ class Notebook extends Rest\Model
      *
      * Unlocks a locked notebook so it can be edited again.
      *
-     * @param type $id
+     * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function unlock($id)
     {
@@ -122,6 +141,8 @@ class Notebook extends Rest\Model
      * This command will create a single notebook.
      * Content must be valid XHMTL
      * You not not need to include <html>, <head> or <body> tags
+     *
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {
@@ -133,9 +154,10 @@ class Notebook extends Rest\Model
     }
 
     /**
-     *
      * @param array $data
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     final public function save(array $data)
     {
@@ -143,9 +165,10 @@ class Notebook extends Rest\Model
     }
 
     /**
-     *
      * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function delete($id)
     {

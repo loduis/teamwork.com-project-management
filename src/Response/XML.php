@@ -1,5 +1,6 @@
 <?php namespace TeamWorkPm\Response;
 
+use TeamWorkPm\Exception;
 use \TeamWorkPm\Helper\Str;
 use \stdClass;
 use \SimpleXMLElement;
@@ -21,7 +22,6 @@ class XML extends Model
         $this->string = $data;
         $source = simplexml_load_string($data);
         $errors = $this->getXmlErrors($source);
-        //echo "\n", $data, "\n";
         if ($source) {
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
                 switch($headers['Method']) {
@@ -80,7 +80,7 @@ class XML extends Model
                 }
             }
         }
-        throw new \TeamWorkPm\Exception([
+        throw new Exception([
             'Message'=> $errors,
             'Response'=> $data,
             'Headers'=> $headers

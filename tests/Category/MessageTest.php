@@ -51,7 +51,6 @@ class Category_MessageTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function get()
@@ -66,7 +65,6 @@ class Category_MessageTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getByProject()
@@ -89,10 +87,10 @@ class Category_MessageTest extends TestCase
     {
         return [
             [
-              [
-                'name'   => 'Test category',
-                'parent' => 0
-              ]
+                [
+                    'name' => 'Test category',
+                    'parent' => 0
+                ]
             ]
         ];
     }

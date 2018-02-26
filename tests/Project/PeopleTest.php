@@ -101,27 +101,26 @@ class Project_PeopleTest extends TestCase
         );
     }
 
-
     public function provider()
     {
         return [
             [
-              [
-                'view_messages_and_files'   => 0,
-                'view_tasks_and_milestones' => 1,
-                'view_time'                 => 1,
-                'view_notebooks'            => 0,
-                'view_risk_register'        => 0,
-                'view_invoices'             => 0,
-                'view_links'                => 0,
-                'add_tasks'             => 0,
-                'add_milestones'             => 0,
-                'add_taskLists'             => 0,
-                'add_messages'             => 0,
-                'add_files'             => 0,
-                'add_time'             => 0,
-                'add_links'             => 0
-              ]
+                [
+                    'view_messages_and_files' => 0,
+                    'view_tasks_and_milestones' => 1,
+                    'view_time' => 1,
+                    'view_notebooks' => 0,
+                    'view_risk_register' => 0,
+                    'view_invoices' => 0,
+                    'view_links' => 0,
+                    'add_tasks' => 0,
+                    'add_milestones' => 0,
+                    'add_taskLists' => 0,
+                    'add_messages' => 0,
+                    'add_files' => 0,
+                    'add_time' => 0,
+                    'add_links' => 0
+                ]
             ]
         ];
     }

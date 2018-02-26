@@ -51,7 +51,6 @@ class MilestoneTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function get()
@@ -71,7 +70,6 @@ class MilestoneTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getByProject()
@@ -92,7 +90,6 @@ class MilestoneTest extends TestCase
 
 
     /**
-     *
      * @test
      */
     public function getAll()
@@ -130,7 +127,6 @@ class MilestoneTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getCompleted()
@@ -165,7 +161,6 @@ class MilestoneTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getIncomplete()
@@ -245,19 +240,18 @@ class MilestoneTest extends TestCase
         }
     }
 
-
     public function provider()
     {
         return [
             [
-              [
-                'title'       => 'Test milestone',
-                'description' => 'Bla, Bla, Bla',
-                'deadline'    => date('Ymd', strtotime('+10 day')),
-                'notify'      => false,
-                'reminder'    => false,
-                'private'     => false
-              ]
+                [
+                    'title' => 'Test milestone',
+                    'description' => 'Bla, Bla, Bla',
+                    'deadline' => date('Ymd', strtotime('+10 day')),
+                    'notify' => false,
+                    'reminder' => false,
+                    'private' => false
+                ]
             ]
         ];
     }

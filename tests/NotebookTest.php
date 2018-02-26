@@ -36,7 +36,6 @@ class NotebookTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function get()
@@ -56,7 +55,6 @@ class NotebookTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getAll()
@@ -73,7 +71,6 @@ class NotebookTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getByProject()
