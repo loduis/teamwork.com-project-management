@@ -262,9 +262,9 @@ class Company extends Model
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function getAll()
+    public function getAll($request = null)
     {
-        return $this->rest->get($this->action);
+        return $this->rest->get($this->action, $request);
     }
 
     /**
