@@ -10,30 +10,32 @@ class Project extends Model
             // [Optional. Project Description]
             'description' =>  false,
             // [Optional. Start date in yyyymmdd format]
-            'start_date'  => [
+            'startDate'  => [
                 'required'=> false,
                 'attributes' => [
                     'type'=>'integer'
                 ]
             ],
             // [Optional. End date in yyyymmdd format]
-            'end_date'    => [
+            'endDate'    => [
                 'required' => false,
                 'attributes' => [
                     'type'=>'integer'
                 ]
             ],
             // [Optional. Id of company to assign the project to]
-            'company_id'  => [
+            'companyId'  => [
                 'required' => false,
                 'attributes' => [
                     'type' => 'integer'
                 ]
             ],
             // [Optional. Name of a new company to assign the project to]
-            'new_company'    => false,
+            'newCompany'    => false,
             //[Optional. Numeric ID of project category, 0 = no category]
-            'category_id'     => false,
+            'category-id'     => false,
+            // [Optional. Comma separated list of tags to apply to project]
+            'tags'            => false,
 
             'notifyeveryone' => [
                 'required' => false,
