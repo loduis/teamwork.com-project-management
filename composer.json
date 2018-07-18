@@ -1,6 +1,6 @@
 {
     "name": "myabakus/teamworkpm",
-    "description": "PHP wrapper for TeamWorkPm API.",
+    "description": "PHP wrapper for Teamwork.com API",
     "license": "MIT",
     "authors": [
         {

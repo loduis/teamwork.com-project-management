@@ -1,4 +1,4 @@
-TeamWorkPm PHP Api
+Teamwork.com PHP Api
 ==================
 
 Using Api
