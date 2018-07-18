@@ -1,8 +1,8 @@
 <?php namespace TeamWorkPm\Response;
 
+use ArrayObject;
 use TeamWorkPm\Exception;
-use \TeamWorkPm\Helper\Str;
-use \ArrayObject;
+use TeamWorkPm\Helper\Str;
 
 class JSON extends Model
 {
@@ -32,8 +32,7 @@ class JSON extends Model
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
                 switch ($headers['Method']) {
                     case 'UPLOAD':
-                        return empty($source->pendingFile->ref) ? null :
-                                            (string) $source->pendingFile->ref;
+                        return empty($source->pendingFile->ref) ? null : (string) $source->pendingFile->ref;
                     case 'POST':
                         // print_r($headers);
                         if (!empty($headers['id'])) {
@@ -58,33 +57,23 @@ class JSON extends Model
                             $source = $source->project->links;
                         } elseif (
                             !empty($source->messageReplies) &&
-                            preg_match(
-                                '!messageReplies/(\d+)!',
-                                $headers['X-Action']
-                            )
+                            preg_match('!messageReplies/(\d+)!', $headers['X-Action'])
                         ) {
-                                $source = current($source->messageReplies);
+                            $source = current($source->messageReplies);
                         } elseif (
                             !empty($source->people) &&
-                            preg_match(
-                                '!projects/(\d+)/people/(\d+)!',
-                                $headers['X-Action']
-                            )
+                            preg_match('!projects/(\d+)/people/(\d+)!', $headers['X-Action'])
                         ) {
                             $source = current($source->people);
                         } elseif (
                             !empty($source->project) &&
-                            preg_match(
-                                '!projects/(\d+)/notebooks!',
-                                $headers['X-Action']
-                            )
+                            preg_match('!projects/(\d+)/notebooks!', $headers['X-Action'])
                         ) {
                             $source = [];
                         } else {
                             $source = current($source);
                         }
-                        if ($headers['X-Action'] === 'links' ||
-                                        $headers['X-Action'] === 'notebooks') {
+                        if ($headers['X-Action'] === 'links' || $headers['X-Action'] === 'notebooks') {
                             $_source = [];
                             $wrapper = $headers['X-Action'];
                             foreach ($source as $project) {
@@ -93,10 +82,7 @@ class JSON extends Model
                                 }
                             }
                             $source = $_source;
-                        } elseif (
-                            strpos($headers['X-Action'], 'time_entries') > 0 &&
-                            !$source
-                        ) {
+                        } elseif (strpos($headers['X-Action'], 'time_entries') !== false && !$source) {
                             $source = [];
                         }
                         $this->headers = $headers;
@@ -124,6 +110,9 @@ class JSON extends Model
         ]);
     }
 
+    /**
+     * @return string
+     */
     protected function getContent()
     {
         $object = json_decode($this->string);
@@ -131,7 +120,12 @@ class JSON extends Model
         return json_encode($object, JSON_PRETTY_PRINT);
     }
 
-    protected static function camelizeObject($source)
+    /**
+     * @param array $source
+     *
+     * @return ArrayObject
+     */
+    protected static function camelizeObject(array $source)
     {
         $destination = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
         foreach ($source as $key => $value) {
@@ -139,8 +133,7 @@ class JSON extends Model
                 $key = strtolower($key);
             }
             $key = Str::camel($key);
-            $destination->$key = is_scalar($value) ?
-                                        $value : self::camelizeObject($value);
+            $destination->$key = is_scalar($value) ? $value : self::camelizeObject($value);
         }
         return $destination;
     }
