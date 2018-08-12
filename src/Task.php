@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class Task extends Model
 {
@@ -57,7 +59,7 @@ class Task extends Model
         ];
         $this->parent = 'todo-item';
         $this->action = 'todo_items';
-   }
+    }
 
     /**
      * @param $id

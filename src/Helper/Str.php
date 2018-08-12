@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm\Helper;
+<?php
+
+namespace TeamWorkPm\Helper;
 
 // from https://github.com/laravel/framework/blob/master/src/Illuminate/Support/Str.php
 
@@ -39,4 +41,3 @@ final class Str
         return str_replace('_', '-', $value);
     }
 }
-

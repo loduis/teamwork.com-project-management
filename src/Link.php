@@ -1,8 +1,9 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class Link extends Model
 {
-
     protected function init()
     {
         $this->fields = [

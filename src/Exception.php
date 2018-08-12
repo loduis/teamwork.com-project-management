@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class Exception extends \ErrorException
 {
@@ -6,7 +8,7 @@ class Exception extends \ErrorException
     private $headers = [];
 
 
-    public function  __construct($errorInfo)
+    public function __construct($errorInfo)
     {
         if (!is_array($errorInfo)) {
             $message              = $errorInfo;

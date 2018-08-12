@@ -1,8 +1,9 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class People extends Model
 {
-
     protected function init()
     {
         $this->fields = [
@@ -257,7 +258,7 @@ class People extends Model
             $permission = \TeamWorkPm\Factory::build('project/people');
             try {
                 $add = $permission->add($project_id, $data['id']);
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $add = $e->getMessage() == 'User is already on project';
             }
             $save = $save && $add;

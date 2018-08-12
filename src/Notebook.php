@@ -1,8 +1,9 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class Notebook extends Rest\Model
 {
-
     protected function init()
     {
         $this->fields = [
@@ -178,5 +179,4 @@ class Notebook extends Rest\Model
         }
         return $this->rest->delete("$this->action/$id");
     }
-
 }

@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class Project extends Model
 {

@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm\Me;
+<?php
+
+namespace TeamWorkPm\Me;
 
 use TeamWorkPm\Rest\Model;
 
@@ -12,7 +14,6 @@ class Status extends Model
           'status'=>true,
           'notify'=>false
         ];
-
     }
 
     /**
@@ -100,5 +101,4 @@ class Status extends Model
             $this->update($data):
             $this->insert($data);
     }
-
 }

@@ -1,8 +1,9 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class File extends Rest\Model
 {
-
     protected function init()
     {
         $this->fields = [

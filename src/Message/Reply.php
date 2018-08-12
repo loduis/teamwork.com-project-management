@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm\Message;
+<?php
+
+namespace TeamWorkPm\Message;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Model;
@@ -48,7 +50,7 @@ class Reply extends Model
         $validate = ['page', 'pagesize'];
         foreach ($params as $name=>$value) {
             if (!in_array(strtolower($name), $validate)) {
-                unset ($params[$name]);
+                unset($params[$name]);
             }
         }
         return $this->rest->get("messages/$message_id/replies", $params);

@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm\Project;
+<?php
+
+namespace TeamWorkPm\Project;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Model;

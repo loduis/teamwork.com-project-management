@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm\Request;
+<?php
+
+namespace TeamWorkPm\Request;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Helper\Str;
@@ -76,7 +78,7 @@ abstract class Model
         //verficando campos que debe cumplir ciertos valores
         if (!$isNull && isset($options['validate']) &&
                         !in_array($value, $options['validate'])) {
-                throw new Exception('Invalid value for field ' .
+            throw new Exception('Invalid value for field ' .
                                                             $field);
         }
         // @todo Ojo la gente de team work no mainten constante el formato name-other

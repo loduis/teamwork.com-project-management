@@ -24,5 +24,8 @@
             "dev-master": "1.0.6-dev"
         }
     },
+    "config": {
+        "preferred-install": "dist"
+    },
     "minimum-stability": "dev"
 }

@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 final class Rest
 {
@@ -186,7 +188,6 @@ final class Rest
      */
     public static function setFormat($value)
     {
-
         static $format = ['json', 'xml'];
         $value = strtolower($value);
         if (in_array($value, $format)) {

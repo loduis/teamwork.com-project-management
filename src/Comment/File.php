@@ -1,8 +1,10 @@
-<?php namespace TeamWorkPm\Comment;
+<?php
+
+namespace TeamWorkPm\Comment;
 
 class File extends Model
 {
-    protected  $resource = 'files';
+    protected $resource = 'files';
 
     /**
      * Creating a Comment
