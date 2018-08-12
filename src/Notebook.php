@@ -52,16 +52,16 @@ class Notebook extends Rest\Model
      * By default, the actual notebook HTML content is not returned.
      * You can pass includeContent=true to return the notebook HTML content with the notebook data
      *
-     * @param bool $include_content
+     * @param bool $includeContent
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function getAll($include_content = false)
+    public function getAll($includeContent = false)
     {
-        $include_content = (bool) $include_content;
+        $includeContent = (bool) $includeContent;
         return $this->rest->get("$this->action", [
-          'includeContent'=>$include_content ? 'true' : 'false'
+          'includeContent'=>$includeContent ? 'true' : 'false'
         ]);
     }
 
@@ -74,22 +74,22 @@ class Notebook extends Rest\Model
      * By default, the actual notebook HTML content is not returned.
      * You can pass includeContent=true to return the notebook HTML content with the notebook data
      *
-     * @param int $project_id
+     * @param int $projectId
      *
-     * @param bool $include_content
+     * @param bool $includeContent
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function getByProject($project_id, $include_content = false)
+    public function getByProject($projectId, $includeContent = false)
     {
-        $project_id = (int) $project_id;
-        if ($project_id <= 0) {
+        $projectId = (int) $projectId;
+        if ($projectId <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        $include_content = (bool) $include_content;
-        return $this->rest->get("projects/$project_id/$this->action", [
-          'includeContent'=>$include_content ? 'true' : 'false'
+        $includeContent = (bool) $includeContent;
+        return $this->rest->get("projects/$projectId/$this->action", [
+          'includeContent'=>$includeContent ? 'true' : 'false'
         ]);
     }
 
@@ -147,11 +147,11 @@ class Notebook extends Rest\Model
      */
     public function insert(array $data)
     {
-        $project_id = empty($data['project_id']) ? 0: (int) $data['project_id'];
-        if ($project_id <= 0) {
+        $projectId = empty($data['project_id']) ? 0: (int) $data['project_id'];
+        if ($projectId <= 0) {
             throw new \TeamWorkPm\Exception('Required field project_id');
         }
-        return $this->rest->post("projects/$project_id/$this->action", $data);
+        return $this->rest->post("projects/$projectId/$this->action", $data);
     }
 
     /**
