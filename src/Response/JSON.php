@@ -2,9 +2,9 @@
 
 namespace TeamWorkPm\Response;
 
-use \ArrayObject;
+use ArrayObject;
 use TeamWorkPm\Exception;
-use \TeamWorkPm\Helper\Str;
+use TeamWorkPm\Helper\Str;
 
 class JSON extends Model
 {
