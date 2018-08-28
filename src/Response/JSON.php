@@ -127,7 +127,7 @@ class JSON extends Model
      *
      * @return ArrayObject
      */
-    protected static function camelizeObject(array $source)
+    protected static function camelizeObject($source)
     {
         $destination = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
         foreach ($source as $key => $value) {
