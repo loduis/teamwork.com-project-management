@@ -259,6 +259,8 @@ class Company extends Model
      *
      * The requesting user is returned a list of companies available to them.
      *
+     * @param null $request
+     * 
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
