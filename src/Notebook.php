@@ -9,11 +9,11 @@ class Notebook extends Rest\Model
             'name' => true,
             'description'=>true,
             'content'=>true,
-            'project_id'=>[
-              'required'=>true,
-              'attributes'=>[
-                'type'=>'integer'
-              ]
+            'project_id' => [
+                'required' => true,
+                'attributes' => [
+                    'type' => 'integer'
+                ]
             ],
             'notify'=>false,
             'category_id'=>[
@@ -23,8 +23,8 @@ class Notebook extends Rest\Model
                 ]
             ],
             'category_name'=> false,
-            'grant-access-to'=> false,
-            'version'=> false,
+            'grant-access-to' => false,
+            'version' => false,
             'private'=>[
                 'required'=>false,
                 'attributes'=>[
@@ -174,11 +174,11 @@ class Notebook extends Rest\Model
      */
     public function update(array $data)
     {
-      $id = empty($data['id']) ? 0  : (int) $data['id'];
-      if ($id <= 0) {
-          throw new \TeamWorkPm\Exception('Required field id');
-      }
-      return $this->rest->put("$this->action/$id", $data);
+        $id = empty($data['id']) ? 0 : (int)$data['id'];
+        if ($id <= 0) {
+            throw new \TeamWorkPm\Exception('Required field id');
+        }
+        return $this->rest->put("$this->action/$id", $data);
     }
 
     /**
@@ -191,8 +191,8 @@ class Notebook extends Rest\Model
     final public function save(array $data)
     {
         return array_key_exists('id', $data) ?
-          $this->update($data):
-          $this->insert($data);
+            $this->update($data):
+            $this->insert($data);
     }
 
     /**
