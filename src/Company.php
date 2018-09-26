@@ -259,14 +259,14 @@ class Company extends Model
      *
      * The requesting user is returned a list of companies available to them.
      *
-     * @param null $request
+     * @param array $params
      * 
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function getAll($request = null)
+    public function getAll(array $params = [])
     {
-        return $this->rest->get($this->action, $request);
+        return $this->rest->get($this->action, $params);
     }
 
     /**
