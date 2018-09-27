@@ -2,28 +2,32 @@
 
 class Auth
 {
-    const URL = 'https://authenticate.teamworkpm.net/';
+    private static $url = 'https://authenticate.teamwork.com/';
 
     private static $config = [
         'url' => null,
         'key' => null
     ];
 
+    private static $is_subdomain = false;
+
     public static function set()
     {
         $num_args = func_num_args();
         if ($num_args === 1) {
-            self::$config['url'] = self::URL;
+            self::$config['url'] = self::$url;
             self::$config['key'] = func_get_arg(0);
             self::$config['url'] = Factory::build('account')->authenticate()->url;
         } elseif ($num_args === 2) {
             self::$config['url'] = $url = func_get_arg(0);
-            if ($is_subdomain = (strpos($url, '.') === false)) {
-                self::$config['url'] = self::URL;
+            self::checkSubDomain($url);
+            if (self::$is_subdomain) {
+                self::$config['url'] = self::$url;
             }
             self::$config['key']  = func_get_arg(1);
-            if ($is_subdomain) {
-                $url = Factory::build('account')->authenticate()->url;
+            if (self::$is_subdomain) {
+                $test = Factory::build('account')->authenticate();
+                $url = $test->url;
             }
             self::$config['url'] = $url;
         }
@@ -32,5 +36,18 @@ class Auth
     public static function get()
     {
         return array_values(self::$config);
+    }
+
+    private static function checkSubDomain($url)
+    {
+        $eu_domain = strpos($url, '.eu');
+
+        if ($eu_domain !== false) {
+            self::$url = 'https://authenticate.eu.teamwork.com/';
+            $url = substr($url, 0, $eu_domain);
+        }
+        if (strpos($url, '.') === false) {
+            self::$is_subdomain = true;
+        }
     }
 }
