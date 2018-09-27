@@ -43,8 +43,9 @@ class JSON extends Model
                         }
                         // no break
                     case 'PUT':
+                        return isset($source->id) ? $source->id : true;
                     case 'DELETE':
-                         return true;
+                        return true;
 
                     default:
                         if (!empty($source->STATUS)) {
