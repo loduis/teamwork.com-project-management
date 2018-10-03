@@ -17,6 +17,7 @@ class Tag extends Model
      * Retrieve a single tag
      *
      * @param int $id
+     * @param null $params
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
@@ -27,7 +28,7 @@ class Tag extends Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->get("$this->action/$id");
+        return $this->rest->get("$this->action/$id", $params);
     }
 
     /**
