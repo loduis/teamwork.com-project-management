@@ -24,7 +24,8 @@ class JSON extends Model
                 $headers['Status'] === 201 ||
                 $headers['Status'] === 200 ||
                 $headers['Status'] === 409 ||
-                $headers['Status'] === 422
+                $headers['Status'] === 422 ||
+                $headers['Status'] === 400
             )) {
                 print_r($headers);
                 exit;
