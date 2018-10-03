@@ -79,7 +79,7 @@ class TagTest extends TestCase
 
     public function provider()
     {
-        $project_id = get_first_project_id(true);
+        $project_id = get_first_project_id('active');
         return [
             [
                 [
