@@ -10,6 +10,12 @@ class Notebook extends Rest\Model
             'name' => true,
             'description'=>true,
             'content'=>true,
+            'project_id' => [
+                'required' => true,
+                'attributes' => [
+                    'type' => 'integer'
+                ]
+            ],
             'notify'=>false,
             'category_id'=>[
                 'required'=>false,
@@ -18,6 +24,8 @@ class Notebook extends Rest\Model
                 ]
             ],
             'category_name'=> false,
+            'grant-access-to' => false,
+            'version' => false,
             'private'=>[
                 'required'=>false,
                 'attributes'=>[
@@ -155,6 +163,27 @@ class Notebook extends Rest\Model
     }
 
     /**
+     * Update Notebook
+     *
+     * PUT /notebooks/#{notebook_id}
+     *
+     * Modifies an existing notebook.
+     *
+     * @param array $data
+     * @return mixed
+     * @throws Exception
+     */
+    public function update(array $data)
+    {
+        $id = empty($data['id']) ? 0 : (int)$data['id'];
+        if ($id <= 0) {
+            throw new \TeamWorkPm\Exception('Required field id');
+        }
+        return $this->rest->put("$this->action/$id", $data);
+    }
+
+    /**
+     *
      * @param array $data
      *
      * @return bool
@@ -162,7 +191,9 @@ class Notebook extends Rest\Model
      */
     final public function save(array $data)
     {
-        return $this->insert($data);
+        return array_key_exists('id', $data) ?
+            $this->update($data):
+            $this->insert($data);
     }
 
     /**
