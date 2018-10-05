@@ -26,7 +26,8 @@ class JSON extends Model
                 $headers['Status'] === 201 ||
                 $headers['Status'] === 200 ||
                 $headers['Status'] === 409 ||
-                $headers['Status'] === 422
+                $headers['Status'] === 422 ||
+                $headers['Status'] === 400
             )) {
                 print_r($headers);
                 exit;
@@ -44,8 +45,9 @@ class JSON extends Model
                         }
                         // no break
                     case 'PUT':
+                        return isset($source->id) ? $source->id : true;
                     case 'DELETE':
-                         return true;
+                        return true;
 
                     default:
                         if (!empty($source->STATUS)) {

@@ -6,13 +6,21 @@ function rand_string($string, $length = 10)
     return $string . ' - ' . substr(str_shuffle($source), 0, $length);
 }
 
-
-function get_first_project_id()
+/**
+ * Grab the first project id for the project with the option of only returning active projects
+ *
+ * @param string $project_status
+ * @return int
+ */
+function get_first_project_id($project_status = '')
 {
     static $id = null;
     if ($id === null) {
         $project = TeamWorkPm\Factory::build('project');
         foreach($project->getAll() as $p) {
+            if (!empty($project_status) && $p->status != $project_status) {
+                continue;
+            }
             $id = $p->id;
             break;
         }
