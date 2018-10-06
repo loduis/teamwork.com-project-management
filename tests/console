@@ -14,14 +14,14 @@ require __DIR__ . '/../vendor/autoload.php';
 
 // Shortcut to alegra class
 
-/*
+
 spl_autoload_register(function ($className) {
-    $wrapClass = 'TeamWorkPm\\' . $className;
+    $wrapClass = '\\TeamWorkPm\\' . $className;
     if (class_exists($wrapClass)) {
         class_alias($wrapClass, $className);
     }
 });
-*/
+
 
 TeamWorkPm\Api::auth($_ENV['API_USER'], $_ENV['API_KEY']);
 
