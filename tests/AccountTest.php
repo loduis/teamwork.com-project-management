@@ -1,48 +1,21 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Account;
+
 class AccountTest extends TestCase
 {
-
-    private $model;
-
-    public function setUp()
+    public function testResolvePath()
     {
-        parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('account');
+        $this->assertEquals('account', Account::resolvePath());
     }
 
-
-    /**
-     * @test
-     */
-    public function get()
+    public function testGet()
     {
-        try {
-            $account = $this->model->get();
-            /*
-            $this->assertEquals($account->url, 'https://' . API_COMPANY
-                . '.teamworkpm.net/');*/
-            $this->assertEquals($account->code, API_COMPANY);
-            // $this->assertEquals($project->id, $this->id);
-        } catch (\TeamWorkPm\Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function authenticate()
-    {
-        try {
-            $authenticate = $this->model->authenticate();
-            /*
-            $this->assertEquals($authenticate->url, 'https://' . API_COMPANY
-                . '.teamworkpm.net/');*/
-
-            $this->assertEquals($authenticate->code, API_COMPANY);
-        } catch (\TeamWorkPm\Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $account = Account::get();
+        $this->assertArrayHasKey('name', $account);
+        $this->assertArrayHasKey('URL', $account);
+        $this->assertInstanceOf(Account::class, $account);
     }
 }

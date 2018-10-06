@@ -1,6 +1,7 @@
 {
     "name": "myabakus/teamworkpm",
     "description": "PHP wrapper for Teamwork.com API",
+    "homepage": "https://developer.teamwork.com/projects/introduction/welcome-to-the-teamwork-projects-api",
     "license": "MIT",
     "authors": [
         {
@@ -8,24 +9,44 @@
             "email": "loduis@gmail.com"
         }
     ],
-    "require": {
-        "php": ">=5.4"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "3.7.*"
-    },
     "autoload": {
         "psr-4": {
             "TeamWorkPm\\": "src/"
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.6-dev"
+    "autoload-dev": {
+        "psr-4": {
+            "TeamWorkPm\\Tests\\": "tests/"
         }
     },
-    "config": {
-        "preferred-install": "dist"
+    "require": {
+        "php": ">=7.2.9",
+        "loduis/illuminate-api": "1.0.*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0",
+        "vlucas/phpdotenv": "^2.2",
+        "psy/psysh": "@stable"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "php -r \"copy('.env.dist', '.env');\""
+        ]
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/loduis/illuminate-api.git"
+        }
+    ],
+    "prefer-stable": true,
     "minimum-stability": "dev"
 }

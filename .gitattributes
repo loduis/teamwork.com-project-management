@@ -1,3 +1,6 @@
 .php_css export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
 /tests export-ignore
-/examples export-ignore
+phpunit.xml.dist export-ignore
+

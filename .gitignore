@@ -1,10 +1,6 @@
 .env
 composer.lock
 .php_cs.cache
+phpunit.xml
 
-
-/tests/data
-/tests/build
 /vendor
-composer.lock
-/.idea/
