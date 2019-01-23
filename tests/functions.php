@@ -298,3 +298,21 @@ function get_first_notebook_id($project_id)
     }
     return (int) $id;
 }
+
+/**
+ * Grab the ID of the first portfolio board
+ *
+ * @return int
+ */
+function get_first_portfolio_board_id()
+{
+    static $id = null;
+    if ($id === null) {
+        $portfolioBoard = TeamWorkPm\Factory::build('portfolio/board');
+        foreach($portfolioBoard->getAll() as $b) {
+            $id = $b->id;
+            break;
+        }
+    }
+    return (int) $id;
+}
