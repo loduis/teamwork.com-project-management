@@ -84,7 +84,7 @@ class Column extends Model
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function getAll($boardId)
+    public function getAllForBoard($boardId)
     {
         $boardId = (int) $boardId;
         if ($boardId <= 0) {

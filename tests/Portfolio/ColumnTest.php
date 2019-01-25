@@ -81,10 +81,10 @@ class ColumnTest extends TestCase
     /**
      * @test
      */
-    public function getAll()
+    public function getAllForBoard()
     {
         try {
-            $portfolioColumns = $this->model->getAll($this->boardId);
+            $portfolioColumns = $this->model->getAllForBoard($this->boardId);
 
             $this->assertEquals($this->id, $portfolioColumns[0]->id);
         } catch (\TeamWorkPm\Exception $e) {
@@ -96,9 +96,9 @@ class ColumnTest extends TestCase
      * @expectedException \TeamWorkPm\Exception
      * @test
      */
-    public function getAllInvalidId()
+    public function getAllForBoardInvalidId()
     {
-        $this->model->getAll(0);
+        $this->model->getAllForBoard(0);
     }
 
     /**

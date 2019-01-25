@@ -329,7 +329,7 @@ function get_first_portfolio_board_column_id($boardId)
     static $id = null;
     if ($id === null) {
         $portfolioColumn = TeamWorkPm\Factory::build('portfolio/column');
-        foreach($portfolioColumn->getAll($boardId) as $c) {
+        foreach($portfolioColumn->getAllForBoard($boardId) as $c) {
             $id = $c->id;
             break;
         }
