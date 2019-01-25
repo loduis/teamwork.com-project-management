@@ -74,6 +74,11 @@ class JSON extends Model
                             preg_match('!projects/(\d+)/notebooks!', $headers['X-Action'])
                         ) {
                             $source = [];
+                        } elseif (
+                            isset($source->cards) &&
+                            preg_match('!portfolio/columns/(\d+)/cards!', $headers['X-Action'])
+                        ) {
+                            $source = $source->cards;
                         } else {
                             $source = current($source);
                         }

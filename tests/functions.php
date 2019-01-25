@@ -336,3 +336,23 @@ function get_first_portfolio_board_column_id($boardId)
     }
     return (int) $id;
 }
+
+/**
+ * Grab the ID of the first card in the given column
+ *
+ * @param integer $columnId
+ *
+ * @return int
+ */
+function get_first_portfolio_card_id($columnId)
+{
+    static $id = null;
+    if ($id === null) {
+        $portfolioCard = TeamWorkPm\Factory::build('portfolio/card');
+        foreach($portfolioCard->getAllForColumn($columnId) as $c) {
+            $id = $c->id;
+            break;
+        }
+    }
+    return (int) $id;
+}
