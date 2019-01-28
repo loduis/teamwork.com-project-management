@@ -117,8 +117,8 @@ class BoardTest extends TestCase
         return [
             [
                 [
-                    "name" => "test board",
-                    "color" => "#cccccc",
+                    'name' => 'test board',
+                    'color' => '#cccccc'
                 ]
             ]
         ];
