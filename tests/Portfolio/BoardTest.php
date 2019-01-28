@@ -5,7 +5,7 @@ class BoardTest extends TestCase
     /** @var \TeamWorkPm\Portfolio\Board */
     private $model;
 
-    /** @var integer */
+    /** @var int */
     private $id;
 
     public function setUp()

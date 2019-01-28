@@ -5,10 +5,10 @@ class ColumnTest extends TestCase
     /** @var \TeamWorkPm\Portfolio\Column */
     private $model;
 
-    /** @var integer */
+    /** @var int */
     private $boardId;
 
-    /** @var integer */
+    /** @var int */
     private $id;
 
     public function setUp()

@@ -320,7 +320,7 @@ function get_first_portfolio_board_id()
 /**
  * Grab the ID of the first portfolio board column id
  *
- * @param integer $boardId
+ * @param int $boardId
  *
  * @return int
  */
@@ -340,7 +340,7 @@ function get_first_portfolio_board_column_id($boardId)
 /**
  * Grab the ID of the first card in the given column
  *
- * @param integer $columnId
+ * @param int $columnId
  *
  * @return int
  */

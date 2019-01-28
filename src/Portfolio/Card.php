@@ -49,7 +49,7 @@ class Card extends Model
      * Get all the Columns for a Portfolio Column
      * GET /portfolio/columns/{columnId}/cards
      *
-     * @param integer $columnId
+     * @param int $columnId
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception

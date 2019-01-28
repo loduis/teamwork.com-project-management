@@ -5,16 +5,16 @@ class CardTest extends TestCase
     /** @var \TeamWorkPm\Portfolio\Card */
     private $model;
 
-    /** @var integer */
+    /** @var int */
     private $projectId;
 
-    /** @var integer */
+    /** @var int */
     private $boardId;
 
-    /** @var integer */
+    /** @var int */
     private $columnId;
 
-    /** @var integer */
+    /** @var int */
     private $id;
 
     public function setUp()

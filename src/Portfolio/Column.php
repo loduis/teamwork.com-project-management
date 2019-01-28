@@ -79,7 +79,7 @@ class Column extends Model
      * Get all the Columns for a Portfolio Board
      * GET /portfolio/boards/{boardId}/columns
      *
-     * @param integer $boardId
+     * @param int $boardId
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
