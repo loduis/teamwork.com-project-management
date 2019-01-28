@@ -298,3 +298,61 @@ function get_first_notebook_id($project_id)
     }
     return (int) $id;
 }
+
+/**
+ * Grab the ID of the first portfolio board
+ *
+ * @return int
+ */
+function get_first_portfolio_board_id()
+{
+    static $id = null;
+    if ($id === null) {
+        $portfolioBoard = TeamWorkPm\Factory::build('portfolio/board');
+        foreach($portfolioBoard->getAll() as $b) {
+            $id = $b->id;
+            break;
+        }
+    }
+    return (int) $id;
+}
+
+/**
+ * Grab the ID of the first portfolio board column id
+ *
+ * @param int $boardId
+ *
+ * @return int
+ */
+function get_first_portfolio_board_column_id($boardId)
+{
+    static $id = null;
+    if ($id === null) {
+        $portfolioColumn = TeamWorkPm\Factory::build('portfolio/column');
+        foreach($portfolioColumn->getAllForBoard($boardId) as $c) {
+            $id = $c->id;
+            break;
+        }
+    }
+    return (int) $id;
+}
+
+/**
+ * Grab the ID of the first card in the given column
+ *
+ * @param int $columnId
+ *
+ * @return int
+ */
+function get_first_portfolio_card_id($columnId)
+{
+    static $id = null;
+    if ($id === null) {
+        $portfolioCard = TeamWorkPm\Factory::build('portfolio/card');
+        foreach($portfolioCard->getAllForColumn($columnId) as $c) {
+            $id = $c->id;
+            break;
+        }
+    }
+    return (int) $id;
+}
