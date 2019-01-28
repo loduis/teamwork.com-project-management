@@ -56,8 +56,6 @@ class Card extends Model
      */
     public function getAllForColumn($columnId)
     {
-        // Doesnt work
-
         $columnId = (int) $columnId;
         if ($columnId <= 0) {
             throw new Exception('Invalid param columnId');
