@@ -30,9 +30,9 @@ class JSON extends Model
                 $headers['Status'] === 400
             )) {
                 throw new Exception([
-                    'Message'=> $errors,
-                    'Response'=> $data,
-                    'Headers'=> $headers
+                    'Message' => $errors,
+                    'Response' => $data,
+                    'Headers' => $headers
                 ]);
             }
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
