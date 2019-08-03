@@ -1,8 +1,15 @@
-Teamwork.com PHP Api
-==================
+# Teamwork.com PHP Api
 
-Using Api
----------
+[![Latest Stable Version](https://poser.pugx.org/myabakus/teamworkpm/v/stable)](https://packagist.org/packages/myabakus/teamworkpm)
+[![Total Downloads](https://poser.pugx.org/myabakus/teamworkpm/downloads)](https://packagist.org/packages/myabakus/teamworkpm)
+
+## Installation
+
+```bash
+composer require myabakus/teamworkpm
+```
+
+## Using the Api
 
 This is very easy use the method: save, insert, update, delete
 
