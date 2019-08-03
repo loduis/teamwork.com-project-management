@@ -29,8 +29,11 @@ class JSON extends Model
                 $headers['Status'] === 422 ||
                 $headers['Status'] === 400
             )) {
-                print_r($headers);
-                exit;
+                throw new Exception([
+                    'Message' => $errors,
+                    'Response' => $data,
+                    'Headers' => $headers
+                ]);
             }
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
                 switch ($headers['Method']) {
