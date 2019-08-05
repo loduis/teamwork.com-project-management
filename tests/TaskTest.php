@@ -53,7 +53,6 @@ class TaskTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function get()
@@ -79,7 +78,6 @@ class TaskTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getByTaskList()
@@ -117,7 +115,6 @@ class TaskTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getFinishedByTaskList()
@@ -152,7 +149,6 @@ class TaskTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getPendingByTaskList()

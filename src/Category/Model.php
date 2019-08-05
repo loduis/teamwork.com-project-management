@@ -1,11 +1,12 @@
-<?php namespace TeamWorkPm\Category;
+<?php
+
+namespace TeamWorkPm\Category;
 
 abstract class Model extends \TeamWorkPm\Model
 {
-
-    protected  function init()
+    protected function init()
     {
-        list ($parent, $type) = explode('-', $this->parent);
+        list($parent, $type) = explode('-', $this->parent);
         $this->parent = $parent;
         $this->action = $type . 'Categories';
         $this->fields = [

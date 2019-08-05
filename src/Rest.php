@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 final class Rest
 {
@@ -91,7 +93,7 @@ final class Rest
         $headers['X-Action']  = $action;
         // for chrome use
         $headers['X-Authorization'] = 'BASIC '. base64_encode($this->key . ':xxx');
-        $response = '\TeamWorkPm\Response\\' . strtoupper(self::$FORMAT);
+        $response = '\\TeamWorkPm\\Response\\' . strtoupper(self::$FORMAT);
         $response = new $response;
 
         return $response->parse($body, $headers);
@@ -148,7 +150,9 @@ final class Rest
      *
      * @param string $action
      * @param mixed $request
-     * @return TeamWorkPm\Response\Model
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function get($action, $request = null)
     {
@@ -184,7 +188,6 @@ final class Rest
      */
     public static function setFormat($value)
     {
-
         static $format = ['json', 'xml'];
         $value = strtolower($value);
         if (in_array($value, $format)) {

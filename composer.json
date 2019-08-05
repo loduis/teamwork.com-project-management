@@ -1,6 +1,6 @@
 {
     "name": "myabakus/teamworkpm",
-    "description": "PHP wrapper for TeamWorkPm api.",
+    "description": "PHP wrapper for Teamwork.com API",
     "license": "MIT",
     "authors": [
         {
@@ -15,12 +15,17 @@
         "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
-        "psr-4": {"TeamWorkPm\\": "src/"}
+        "psr-4": {
+            "TeamWorkPm\\": "src/"
+        }
     },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.6-dev"
         }
+    },
+    "config": {
+        "preferred-install": "dist"
     },
     "minimum-stability": "dev"
 }

@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 abstract class Model extends Rest\Model
 {
@@ -7,6 +9,13 @@ abstract class Model extends Rest\Model
             PUBLIC METHOD
      ------------------------------*/
 
+    /**
+     * @param $id
+     * @param null $params
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
     public function get($id, $params = null)
     {
         $id = (int) $id;
@@ -17,7 +26,6 @@ abstract class Model extends Rest\Model
     }
 
     /**
-     *
      * @param array $data
      * @return int
      */
@@ -27,9 +35,10 @@ abstract class Model extends Rest\Model
     }
 
     /**
-     *
      * @param array $data
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function update(array $data)
     {
@@ -41,9 +50,10 @@ abstract class Model extends Rest\Model
     }
 
     /**
-     *
      * @param array $data
+     *
      * @return [bool|int]
+     * @throws \TeamWorkPm\Exception
      */
     final public function save(array $data)
     {
@@ -53,9 +63,10 @@ abstract class Model extends Rest\Model
     }
 
     /**
-     *
      * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function delete($id)
     {

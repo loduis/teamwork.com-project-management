@@ -90,17 +90,16 @@ class Comment_FileTest extends TestCase
         }
     }
 
-
     public function provider()
     {
         return [
             [
-              [
-                'body'   => 'Comment, Comment, Blaa',
-                'notify' => false,
-                'isprivate'=> false,
-                'pending_file_attachments'=> null
-              ]
+                [
+                    'body' => 'Comment, Comment, Blaa',
+                    'notify' => false,
+                    'isprivate' => false,
+                    'pending_file_attachments' => null
+                ]
             ]
         ];
     }

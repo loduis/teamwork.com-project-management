@@ -78,7 +78,6 @@ class CompanyTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getAll()
@@ -92,7 +91,6 @@ class CompanyTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getByProject()
@@ -115,18 +113,18 @@ class CompanyTest extends TestCase
     {
         return [
             [
-              [
-                'name'        => 'Test Company',
-                'address_one' => 'Bla, Bla, Bla',
-                'address_two' => 'JAJA',
-                'zip'         => '057',
-                'city'        => 'Bogota',
-                'state'       => 'Engativa',
-                'countrycode' => 'CO',
-                'phone'       => '25034030',
-                'fax'         => 'No tengo',
-                'web_address' => 'No tengo'
-              ]
+                [
+                    'name' => 'Test Company',
+                    'address_one' => 'Bla, Bla, Bla',
+                    'address_two' => 'JAJA',
+                    'zip' => '057',
+                    'city' => 'Bogota',
+                    'state' => 'Engativa',
+                    'countrycode' => 'CO',
+                    'phone' => '25034030',
+                    'fax' => 'No tengo',
+                    'web_address' => 'No tengo'
+                ]
             ]
         ];
     }

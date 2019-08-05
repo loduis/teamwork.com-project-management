@@ -1,14 +1,21 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class Notebook extends Rest\Model
 {
-
     protected function init()
     {
         $this->fields = [
             'name' => true,
             'description'=>true,
             'content'=>true,
+            'project_id' => [
+                'required' => true,
+                'attributes' => [
+                    'type' => 'integer'
+                ]
+            ],
             'notify'=>false,
             'category_id'=>[
                 'required'=>false,
@@ -17,6 +24,8 @@ class Notebook extends Rest\Model
                 ]
             ],
             'category_name'=> false,
+            'grant-access-to' => false,
+            'version' => false,
             'private'=>[
                 'required'=>false,
                 'attributes'=>[
@@ -26,6 +35,13 @@ class Notebook extends Rest\Model
         ];
     }
 
+    /**
+     * @param $id
+     * @param array $params
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
     public function get($id, array $params = [])
     {
         $id = (int) $id;
@@ -44,13 +60,16 @@ class Notebook extends Rest\Model
      * By default, the actual notebook HTML content is not returned.
      * You can pass includeContent=true to return the notebook HTML content with the notebook data
      *
-     * @return TeamWorkPm\Response\Model
+     * @param bool $includeContent
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
-    public function getAll($include_content = false)
+    public function getAll($includeContent = false)
     {
-        $include_content = (bool) $include_content;
+        $includeContent = (bool) $includeContent;
         return $this->rest->get("$this->action", [
-          'includeContent'=>$include_content ? 'true' : 'false'
+          'includeContent'=>$includeContent ? 'true' : 'false'
         ]);
     }
 
@@ -63,20 +82,25 @@ class Notebook extends Rest\Model
      * By default, the actual notebook HTML content is not returned.
      * You can pass includeContent=true to return the notebook HTML content with the notebook data
      *
-     * @param int $project_id
-     * @return TeamWorkPm\Response\Model
+     * @param int $projectId
+     *
+     * @param bool $includeContent
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
-    public function getByProject($project_id, $include_content = false)
+    public function getByProject($projectId, $includeContent = false)
     {
-        $project_id = (int) $project_id;
-        if ($project_id <= 0) {
+        $projectId = (int) $projectId;
+        if ($projectId <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        $include_content = (bool) $include_content;
-        return $this->rest->get("projects/$project_id/$this->action", [
-          'includeContent'=>$include_content ? 'true' : 'false'
+        $includeContent = (bool) $includeContent;
+        return $this->rest->get("projects/$projectId/$this->action", [
+          'includeContent'=>$includeContent ? 'true' : 'false'
         ]);
     }
+
     /**
      * Lock a Single Notebook For Editing
      *
@@ -84,8 +108,10 @@ class Notebook extends Rest\Model
      *
      * Locks the notebook and all versions for editing.
      *
-     * @param type $id
+     * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function lock($id)
     {
@@ -103,8 +129,10 @@ class Notebook extends Rest\Model
      *
      * Unlocks a locked notebook so it can be edited again.
      *
-     * @param type $id
+     * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function unlock($id)
     {
@@ -122,30 +150,57 @@ class Notebook extends Rest\Model
      * This command will create a single notebook.
      * Content must be valid XHMTL
      * You not not need to include <html>, <head> or <body> tags
+     *
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {
-        $project_id = empty($data['project_id']) ? 0: (int) $data['project_id'];
-        if ($project_id <= 0) {
+        $projectId = empty($data['project_id']) ? 0: (int) $data['project_id'];
+        if ($projectId <= 0) {
             throw new \TeamWorkPm\Exception('Required field project_id');
         }
-        return $this->rest->post("projects/$project_id/$this->action", $data);
+        return $this->rest->post("projects/$projectId/$this->action", $data);
+    }
+
+    /**
+     * Update Notebook
+     *
+     * PUT /notebooks/#{notebook_id}
+     *
+     * Modifies an existing notebook.
+     *
+     * @param array $data
+     * @return mixed
+     * @throws Exception
+     */
+    public function update(array $data)
+    {
+        $id = empty($data['id']) ? 0 : (int)$data['id'];
+        if ($id <= 0) {
+            throw new \TeamWorkPm\Exception('Required field id');
+        }
+        return $this->rest->put("$this->action/$id", $data);
     }
 
     /**
      *
      * @param array $data
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     final public function save(array $data)
     {
-        return $this->insert($data);
+        return array_key_exists('id', $data) ?
+            $this->update($data):
+            $this->insert($data);
     }
 
     /**
-     *
      * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function delete($id)
     {
@@ -155,5 +210,4 @@ class Notebook extends Rest\Model
         }
         return $this->rest->delete("$this->action/$id");
     }
-
 }

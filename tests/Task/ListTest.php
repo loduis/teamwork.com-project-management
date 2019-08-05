@@ -158,13 +158,13 @@ class Task_ListTest extends TestCase
     {
         return [
             [
-              [
-                'name'       => 'Test Task List',
-                'description' => 'Bla, Bla, Bla',
-                'private'     => false,
-                'pinned'      => false,
-                'tracked'    => false,
-              ]
+                [
+                    'name' => 'Test Task List',
+                    'description' => 'Bla, Bla, Bla',
+                    'private' => false,
+                    'pinned' => false,
+                    'tracked' => false,
+                ]
             ]
         ];
     }

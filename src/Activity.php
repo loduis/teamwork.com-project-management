@@ -1,20 +1,25 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class Activity extends Rest\Model
 {
-
     protected function init()
     {
         $this->action = 'latestActivity';
     }
+
     /**
      * List Latest Activity (across all projects)
      * GET /activity.xml
      * Lists the latest activity list new tasks etc. across all projects that the user has access to.
      *
-     * @param int $maxProjects
      * @param int $maxItems
-     * @return type
+     *
+     * @param null $onlyStarred
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getAll($maxItems = null, $onlyStarred = null)
     {
@@ -37,7 +42,9 @@ class Activity extends Rest\Model
      *
      * @param int $project_id
      * @param int $maxItems
-     * @return TeamWorkPm\Response\Model
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByProject($project_id, $maxItems = null)
     {

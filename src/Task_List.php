@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class Task_List extends Model
 {
@@ -45,6 +47,12 @@ class Task_List extends Model
      *
      * Retrieves the todo list corresponding to the submitted integer ID.
      * if you pass showTasks=no, no tasks will be returned (showTasks defaults to "yes").
+     *
+     * @param int $id
+     * @param bool $show_tasks
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function get($id, $show_tasks = true)
     {
@@ -82,7 +90,9 @@ class Task_List extends Model
      *
      * @param [int] $id
      * @param [string | array] $params
+     *
      * @return object
+     * @throws \TeamWorkPm\Exception
      */
     public function getByProject($id, $params = null)
     {
@@ -122,9 +132,10 @@ class Task_List extends Model
     }
 
     /**
-     *
      * @param array $data
+     *
      * @return int
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {

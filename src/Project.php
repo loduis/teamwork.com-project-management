@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class Project extends Model
 {
@@ -10,30 +12,32 @@ class Project extends Model
             // [Optional. Project Description]
             'description' =>  false,
             // [Optional. Start date in yyyymmdd format]
-            'start_date'  => [
+            'startDate'  => [
                 'required'=> false,
                 'attributes' => [
                     'type'=>'integer'
                 ]
             ],
             // [Optional. End date in yyyymmdd format]
-            'end_date'    => [
+            'endDate'    => [
                 'required' => false,
                 'attributes' => [
                     'type'=>'integer'
                 ]
             ],
             // [Optional. Id of company to assign the project to]
-            'company_id'  => [
+            'companyId'  => [
                 'required' => false,
                 'attributes' => [
                     'type' => 'integer'
                 ]
             ],
             // [Optional. Name of a new company to assign the project to]
-            'new_company'    => false,
+            'newCompany'    => false,
             //[Optional. Numeric ID of project category, 0 = no category]
-            'category_id'     => false,
+            'category-id'     => false,
+            // [Optional. Comma separated list of tags to apply to project]
+            'tags'            => false,
 
             'notifyeveryone' => [
                 'required' => false,
@@ -60,19 +64,22 @@ class Project extends Model
      * This is very useful if you are implementing local caching as you won't have to recheck
      * everything therefore making your applicaton much faster. You can pass in a date and/or a date
      * with a time using the variables updatedAfterDate and updatedAfterTime.
-     * @return TeamWorkPm\Response\Model
+     *
+     * @param array $params
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getAll(array $params = [])
     {
         return $this->getByStatus('all', $params);
-
     }
 
     /**
+     * @param array $params
      *
-     * @param type $date
-     * @param type $time
-     * @return TeamWorkPm\Response\Model
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getActive(array $params = [])
     {
@@ -80,10 +87,10 @@ class Project extends Model
     }
 
     /**
+     * @param array $params
      *
-     * @param type $date
-     * @param type $time
-     * @return TeamWorkPm\Response\Model
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getArchived(array $params = [])
     {
@@ -92,10 +99,11 @@ class Project extends Model
 
     /**
      *
-     * @param type $status
-     * @param type $date
-     * @param type $time
-     * @return type
+     * @param string $status
+     * @param array $params
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     private function getByStatus($status, $params)
     {
@@ -106,7 +114,9 @@ class Project extends Model
 
     /**
      * Surprisingly, this will retrieve all of your projects, which have been starred!
-     * @return array|SimpleXMLElement
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getStarred()
     {
@@ -115,8 +125,11 @@ class Project extends Model
 
     /**
      * Adds a project to your list of favourite projects.
+     *
      * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function star($id)
     {
@@ -129,8 +142,11 @@ class Project extends Model
 
     /**
      * Removes a project from your list of favourite projects.
+     *
      * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function unStar($id)
     {
@@ -144,8 +160,10 @@ class Project extends Model
     /**
      * Shortcut for active project
      *
-     * @param type $id
+     * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function activate($id)
     {
@@ -162,8 +180,10 @@ class Project extends Model
     /**
      * Shortcut for archive project
      *
-     * @param type $id
+     * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function archive($id)
     {

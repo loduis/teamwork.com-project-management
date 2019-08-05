@@ -4,7 +4,6 @@ class DestroyTest extends TestCase
 {
 
     /**
-     *
      * @test
      */
     public function deleteCategoryProject()
@@ -35,7 +34,6 @@ class DestroyTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function deleteCategoryLink()
@@ -53,7 +51,7 @@ class DestroyTest extends TestCase
         }
     }
 
-        /**
+    /**
      * @test
      */
     public function deleteMessageReply()
@@ -83,7 +81,6 @@ class DestroyTest extends TestCase
 
 
     /**
-     *
      * @test
      */
     public function deleteMessage()
@@ -113,7 +110,6 @@ class DestroyTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function deleteCategoryMessage()
@@ -238,7 +234,6 @@ class DestroyTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function deleteMilestone()
@@ -254,7 +249,6 @@ class DestroyTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function deleteNotebook()
@@ -277,7 +271,6 @@ class DestroyTest extends TestCase
 
 
     /**
-     *
      * @test
      */
     public function deleteCategoryNotebook()
@@ -296,7 +289,6 @@ class DestroyTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function deleteTask()
@@ -319,7 +311,6 @@ class DestroyTest extends TestCase
 
 
     /**
-     *
      * @test
      */
     public function deleteTaskList()
@@ -338,7 +329,6 @@ class DestroyTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function deleteCommentFile()
@@ -360,7 +350,6 @@ class DestroyTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function deleteFile()
@@ -385,7 +374,6 @@ class DestroyTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function deleteCategoryFile()

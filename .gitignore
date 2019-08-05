@@ -1,4 +1,10 @@
+.env
+composer.lock
+.php_cs.cache
+
+
 /tests/data
 /tests/build
 /vendor
 composer.lock
+/.idea/

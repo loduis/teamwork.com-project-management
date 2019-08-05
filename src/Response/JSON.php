@@ -1,11 +1,21 @@
-<?php namespace TeamWorkPm\Response;
+<?php
 
-use \TeamWorkPm\Helper\Str;
-use \ArrayObject;
+namespace TeamWorkPm\Response;
+
+use ArrayObject;
+use TeamWorkPm\Exception;
+use TeamWorkPm\Helper\Str;
 
 class JSON extends Model
 {
 
+    /**
+     * @param $data
+     * @param array $headers
+     *
+     * @return $this
+     * @throws \TeamWorkPm\Exception
+     */
     public function parse($data, array $headers)
     {
         $source = json_decode($data);
@@ -16,19 +26,19 @@ class JSON extends Model
                 $headers['Status'] === 201 ||
                 $headers['Status'] === 200 ||
                 $headers['Status'] === 409 ||
-                $headers['Status'] === 422
+                $headers['Status'] === 422 ||
+                $headers['Status'] === 400
             )) {
-                throw new \TeamWorkPm\Exception([
-                    'Message'  => $errors,
+                throw new Exception([
+                    'Message' => $errors,
                     'Response' => $data,
-                    'Headers'  => $headers
+                    'Headers' => $headers
                 ]);
             }
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
                 switch ($headers['Method']) {
                     case 'UPLOAD':
-                        return empty($source->pendingFile->ref) ? null :
-                                            (string) $source->pendingFile->ref;
+                        return empty($source->pendingFile->ref) ? null : (string) $source->pendingFile->ref;
                     case 'POST':
                         // print_r($headers);
                         if (!empty($headers['id'])) {
@@ -38,8 +48,9 @@ class JSON extends Model
                         }
                         // no break
                     case 'PUT':
+                        return isset($source->id) ? $source->id : true;
                     case 'DELETE':
-                         return true;
+                        return true;
 
                     default:
                         if (!empty($source->STATUS)) {
@@ -53,33 +64,28 @@ class JSON extends Model
                             $source = $source->project->links;
                         } elseif (
                             !empty($source->messageReplies) &&
-                            preg_match(
-                                '!messageReplies/(\d+)!',
-                                $headers['X-Action']
-                            )
+                            preg_match('!messageReplies/(\d+)!', $headers['X-Action'])
                         ) {
-                                $source = current($source->messageReplies);
+                            $source = current($source->messageReplies);
                         } elseif (
                             !empty($source->people) &&
-                            preg_match(
-                                '!projects/(\d+)/people/(\d+)!',
-                                $headers['X-Action']
-                            )
+                            preg_match('!projects/(\d+)/people/(\d+)!', $headers['X-Action'])
                         ) {
                             $source = current($source->people);
                         } elseif (
                             !empty($source->project) &&
-                            preg_match(
-                                '!projects/(\d+)/notebooks!',
-                                $headers['X-Action']
-                            )
+                            preg_match('!projects/(\d+)/notebooks!', $headers['X-Action'])
                         ) {
                             $source = [];
+                        } elseif (
+                            isset($source->cards) &&
+                            preg_match('!portfolio/columns/(\d+)/cards!', $headers['X-Action'])
+                        ) {
+                            $source = $source->cards;
                         } else {
                             $source = current($source);
                         }
-                        if ($headers['X-Action'] === 'links' ||
-                                        $headers['X-Action'] === 'notebooks') {
+                        if ($headers['X-Action'] === 'links' || $headers['X-Action'] === 'notebooks') {
                             $_source = [];
                             $wrapper = $headers['X-Action'];
                             foreach ($source as $project) {
@@ -88,10 +94,7 @@ class JSON extends Model
                                 }
                             }
                             $source = $_source;
-                        } elseif (
-                            strpos($headers['X-Action'], 'time_entries') > 0 &&
-                            !$source
-                        ) {
+                        } elseif (strpos($headers['X-Action'], 'time_entries') !== false && !$source) {
                             $source = [];
                         }
                         $this->headers = $headers;
@@ -112,13 +115,16 @@ class JSON extends Model
             }
         }
 
-        throw new \TeamWorkPm\Exception([
+        throw new Exception([
             'Message'  => $errors,
             'Response' => $data,
             'Headers'  => $headers
         ]);
     }
 
+    /**
+     * @return string
+     */
     protected function getContent()
     {
         $object = json_decode($this->string);
@@ -126,6 +132,11 @@ class JSON extends Model
         return json_encode($object, JSON_PRETTY_PRINT);
     }
 
+    /**
+     * @param array $source
+     *
+     * @return ArrayObject
+     */
     protected static function camelizeObject($source)
     {
         $destination = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
@@ -134,8 +145,7 @@ class JSON extends Model
                 $key = strtolower($key);
             }
             $key = Str::camel($key);
-            $destination->$key = is_scalar($value) ?
-                                        $value : self::camelizeObject($value);
+            $destination->$key = is_scalar($value) ? $value : self::camelizeObject($value);
         }
         return $destination;
     }

@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm;
+<?php
+
+namespace TeamWorkPm;
 
 class Task extends Model
 {
@@ -45,14 +47,27 @@ class Task extends Model
                     'type'=>'integer'
                 ]
             ],
+            'predecessors'=>[
+                'required'=>false,
+                'attributes'=>[
+                    'type'=>'array'
+                ]
+            ],
             'responsible_party_id'     => false,
             'attachments'              => false,
             'pending_file_attachments' => false
         ];
         $this->parent = 'todo-item';
         $this->action = 'todo_items';
-   }
+    }
 
+    /**
+     * @param $id
+     * @param bool $get_time
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
     public function get($id, $get_time = false)
     {
         $id = (int) $id;
@@ -65,7 +80,6 @@ class Task extends Model
         }
         return $this->rest->get("$this->action/$id", $params);
     }
-
 
     /**
      * Retrieve all tasks on a task list
@@ -81,9 +95,10 @@ class Task extends Model
      * A flag "canEdit" is returned with each task.
      *
      * @param int $task_list_id
-     * @param mixed $params
+     * @param string $filter
      *
-     * @return TeamWorkPm\Response\Model
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getByTaskList($task_list_id, $filter = 'all')
     {
@@ -114,7 +129,9 @@ class Task extends Model
      * Multiple people can be assigned by passing a comma delimited list for responsible-party-id.
      *
      * @param array $data
+     *
      * @return int
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {
@@ -138,7 +155,9 @@ class Task extends Model
      * The submitted todo item is marked as complete
      *
      * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function complete($id)
     {
@@ -157,7 +176,9 @@ class Task extends Model
      * Changes the item to uncomplete. (if called on an uncomplete item, has no effect)
      *
      * @param int $id
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function uncomplete($id)
     {
@@ -180,7 +201,9 @@ class Task extends Model
      *
      * @param int $task_list_id
      * @param array $ids
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function reorder($task_list_id, array $ids)
     {

@@ -1,6 +1,11 @@
-<?php namespace TeamWorkPm\People;
+<?php
 
-class Status extends \TeamWorkPm\Rest\Model
+namespace TeamWorkPm\People;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Rest\Model;
+
+class Status extends Model
 {
     protected function init()
     {
@@ -18,8 +23,10 @@ class Status extends \TeamWorkPm\Rest\Model
      * GET /people/#{person_id}/status
      * Returns the latest status post for a user
      *
-     * @param type $id
-     * @return TeamWorkPm\Response\Model
+     * @param $person_id
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function get($person_id)
     {
@@ -32,7 +39,8 @@ class Status extends \TeamWorkPm\Rest\Model
      * GET /people/status
      * All of the latest status posts are returned for all users in the parent company.
      *
-     * @return TeamWorkPm\Response\Model
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
      */
     public function getAll()
     {
@@ -45,13 +53,15 @@ class Status extends \TeamWorkPm\Rest\Model
      * This call will create a status entry. The Id of the new status is returned in header "id".
      *
      * @param array $data
+     *
      * @return int
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {
         $person_id = empty($data['person_id']) ? 0 : (int) $data['person_id'];
         if ($person_id <= 0) {
-            throw new \TeamWorkPm\Exception('Required field person_id');
+            throw new Exception('Required field person_id');
         }
         unset($data['person_id']);
 
@@ -65,13 +75,15 @@ class Status extends \TeamWorkPm\Rest\Model
      *   Modifies a status post.
      *
      * @param array $data
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function update(array $data)
     {
         $id = (int) empty($data['id']) ? 0 : $data['id'];
         if ($id <= 0) {
-            throw new \TeamWorkPm\Exception('Required field id');
+            throw new Exception('Required field id');
         }
         $person_id = empty($data['person_id']) ? 0 : (int) $data['person_id'];
         unset($data['id'], $data['person_id']);
@@ -90,22 +102,25 @@ class Status extends \TeamWorkPm\Rest\Model
      *
      * @param int $id
      * @param int $person_id optional
+     *
      * @return bool
+     * @throws \TeamWorkPm\Exception
      */
     public function delete($id, $person_id = null)
     {
         $id = (int) $id;
         if ($id <= 0) {
-            throw new  \TeamWorkPm\Exception('Invalid param id');
+            throw new Exception('Invalid param id');
         }
         return $this->rest->delete('people/' .
             ($person_id ? $person_id . '/' : '') .  "$this->action/$id");
     }
 
     /**
-     *
      * @param array $data
+     *
      * @return bool|int
+     * @throws \TeamWorkPm\Exception
      */
     final public function save(array $data)
     {

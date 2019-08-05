@@ -6,13 +6,21 @@ function rand_string($string, $length = 10)
     return $string . ' - ' . substr(str_shuffle($source), 0, $length);
 }
 
-
-function get_first_project_id()
+/**
+ * Grab the first project id for the project with the option of only returning active projects
+ *
+ * @param string $project_status
+ * @return int
+ */
+function get_first_project_id($project_status = '')
 {
     static $id = null;
     if ($id === null) {
         $project = TeamWorkPm\Factory::build('project');
         foreach($project->getAll() as $p) {
+            if (!empty($project_status) && $p->status != $project_status) {
+                continue;
+            }
             $id = $p->id;
             break;
         }
@@ -285,6 +293,64 @@ function get_first_notebook_id($project_id)
         $notebook = TeamWorkPm\Factory::build('notebook');
         foreach($notebook->getByProject($project_id) as $n) {
             $id = $n->id;
+            break;
+        }
+    }
+    return (int) $id;
+}
+
+/**
+ * Grab the ID of the first portfolio board
+ *
+ * @return int
+ */
+function get_first_portfolio_board_id()
+{
+    static $id = null;
+    if ($id === null) {
+        $portfolioBoard = TeamWorkPm\Factory::build('portfolio/board');
+        foreach($portfolioBoard->getAll() as $b) {
+            $id = $b->id;
+            break;
+        }
+    }
+    return (int) $id;
+}
+
+/**
+ * Grab the ID of the first portfolio board column id
+ *
+ * @param int $boardId
+ *
+ * @return int
+ */
+function get_first_portfolio_board_column_id($boardId)
+{
+    static $id = null;
+    if ($id === null) {
+        $portfolioColumn = TeamWorkPm\Factory::build('portfolio/column');
+        foreach($portfolioColumn->getAllForBoard($boardId) as $c) {
+            $id = $c->id;
+            break;
+        }
+    }
+    return (int) $id;
+}
+
+/**
+ * Grab the ID of the first card in the given column
+ *
+ * @param int $columnId
+ *
+ * @return int
+ */
+function get_first_portfolio_card_id($columnId)
+{
+    static $id = null;
+    if ($id === null) {
+        $portfolioCard = TeamWorkPm\Factory::build('portfolio/card');
+        foreach($portfolioCard->getAllForColumn($columnId) as $c) {
+            $id = $c->id;
             break;
         }
     }

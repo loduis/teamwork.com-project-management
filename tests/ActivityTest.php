@@ -37,7 +37,6 @@ class ActivityTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function getByProject()

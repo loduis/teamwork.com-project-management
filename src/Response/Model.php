@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm\Response;
+<?php
+
+namespace TeamWorkPm\Response;
 
 use \IteratorAggregate;
 use \ArrayIterator;

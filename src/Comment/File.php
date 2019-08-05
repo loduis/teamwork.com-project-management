@@ -1,8 +1,10 @@
-<?php namespace TeamWorkPm\Comment;
+<?php
+
+namespace TeamWorkPm\Comment;
 
 class File extends Model
 {
-    protected  $resource = 'files';
+    protected $resource = 'files';
 
     /**
      * Creating a Comment
@@ -13,7 +15,9 @@ class File extends Model
      * When named in the URL, it can be either posts, todo_items or milestones.
      *
      * @param array $data
+     *
      * @return int
+     * @throws \TeamWorkPm\Exception
      */
     public function insert(array $data)
     {

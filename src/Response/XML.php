@@ -1,5 +1,8 @@
-<?php namespace TeamWorkPm\Response;
+<?php
 
+namespace TeamWorkPm\Response;
+
+use TeamWorkPm\Exception;
 use \TeamWorkPm\Helper\Str;
 use \stdClass;
 use \SimpleXMLElement;
@@ -21,10 +24,9 @@ class XML extends Model
         $this->string = $data;
         $source = simplexml_load_string($data);
         $errors = $this->getXmlErrors($source);
-        //echo "\n", $data, "\n";
         if ($source) {
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
-                switch($headers['Method']) {
+                switch ($headers['Method']) {
                     case 'UPLOAD':
                         if (!empty($source->ref)) {
                             return (string) $source->ref;
@@ -52,9 +54,9 @@ class XML extends Model
                         } elseif (!empty($source->notebooks->notebook)) {
                             $source = $source->notebooks->notebook;
                             $isArray = true;
-                        }  elseif(!empty($source->project->links)) {
+                        } elseif (!empty($source->project->links)) {
                             $source = $source->project->links;
-                              $isArray = true;
+                            $isArray = true;
                         } else {
                             $attrs = $source->attributes();
                             $isArray = !empty($attrs->type) &&
@@ -71,7 +73,7 @@ class XML extends Model
                 }
             } else {
                 if (!empty($source->error)) {
-                    foreach($source as $error) {
+                    foreach ($source as $error) {
                         $errors .= $error ."\n";
                     }
                 } else {
@@ -80,7 +82,7 @@ class XML extends Model
                 }
             }
         }
-        throw new \TeamWorkPm\Exception([
+        throw new Exception([
             'Message'=> $errors,
             'Response'=> $data,
             'Headers'=> $headers
@@ -114,12 +116,12 @@ class XML extends Model
         $isArray = false
     ) {
         $destination = $isArray ? [] : new stdClass();
-        foreach($source as $key=>$value) {
+        foreach ($source as $key=>$value) {
             $key = Str::camel($key);
             $attrs = $value->attributes();
             if (!empty($attrs->type)) {
                 $type = (string) $attrs->type;
-                switch($type) {
+                switch ($type) {
                     case 'integer':
                         $destination->$key = (int) $value;
                         break;
@@ -193,5 +195,4 @@ class XML extends Model
 
         return "$return\n\n--------------------------------------------\n\n";
     }
-
 }

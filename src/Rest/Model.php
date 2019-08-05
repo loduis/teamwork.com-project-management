@@ -1,4 +1,8 @@
-<?php namespace TeamWorkPm\Rest;
+<?php
+
+namespace TeamWorkPm\Rest;
+
+use TeamWorkPm\Rest;
 
 abstract class Model
 {
@@ -38,9 +42,19 @@ abstract class Model
      */
     private $hash = null;
 
-    final private function  __construct($url, $key, $class, $hash)
+    /**
+     * Model constructor.
+     *
+     * @param $url
+     * @param $key
+     * @param $class
+     * @param $hash
+     *
+     * @throws \TeamWorkPm\Exception
+     */
+    final private function __construct($url, $key, $class, $hash)
     {
-        $this->rest   = new \TeamWorkPm\Rest($url, $key);
+        $this->rest   = new Rest($url, $key);
         $this->hash   = $hash;
         $this->parent = strtolower(str_replace(
           ['TeamWorkPm\\', '\\'],
@@ -63,30 +77,28 @@ abstract class Model
         $this->rest->getRequest()
                     ->setParent($this->parent)
                     ->setFields($this->fields);
-
     }
 
     /**
      * @codeCoverageIgnore
      */
-    final public function  __destruct()
+    final public function __destruct()
     {
-        unset (self::$instances[$this->hash]);
+        unset(self::$instances[$this->hash]);
     }
 
     /**
      * @codeCoverageIgnore
      */
-    final protected function __clone ()
+    final protected function __clone()
     {
-
     }
 
     /**
-     *
-     * @param string $company
+     * @param $url
      * @param string $key
-     * @return TeamWorkPm\Model
+     *
+     * @return \TeamWorkPm\Model
      */
     final public static function getInstance($url, $key)
     {

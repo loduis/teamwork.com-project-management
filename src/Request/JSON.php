@@ -1,4 +1,6 @@
-<?php namespace TeamWorkPm\Request;
+<?php
+
+namespace TeamWorkPm\Request;
 
 use \stdClass;
 
@@ -20,8 +22,8 @@ class JSON extends Model
                 }
             } else {
                 foreach ($this->fields as $field=>$options) {
-                    $value   = $this->getValue($field, $options, $parameters);
-                    if (isset ($options['attributes'])) {
+                    $value = $this->getValue($field, $options, $parameters);
+                    if (isset($options['attributes'])) {
                         foreach ($options['attributes'] as $name=>$type) {
                             if (null !== $value) {
                                 if ($name === 'type') {
@@ -29,8 +31,6 @@ class JSON extends Model
                                         if (is_string($value) ||
                                                         is_numeric($value)) {
                                             $value = (array) $value;
-                                        } else {
-                                            $value = null;
                                         }
                                     } else {
                                         settype($value, $type);
