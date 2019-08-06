@@ -46,15 +46,15 @@ class Project extends Model
                 ]
             ], 
             'status'         => false,
-            "use-tasks"      => false,
-            "use-milestones" => false,
-            "use-messages"   => false,
-            "use-files"      => false,
-            "use-time"       => false,
-            "use-notebook"   => false,
-            "use-riskregister" => false,
-            "use-links"      => false, 
-            "use-billing"    => false  
+            'use-tasks'      => false,
+            'use-milestones' => false,
+            'use-messages'   => false,
+            'use-files'      => false,
+            'use-time'       => false,
+            'use-notebook'   => false,
+            'use-riskregister' => false,
+            'use-links'      => false, 
+            'use-billing'    => false  
         ];
     }
 
