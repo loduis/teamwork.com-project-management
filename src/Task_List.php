@@ -146,7 +146,8 @@ class Task_List extends Model
         return $this->rest->post("projects/$project_id/$this->action", $data);
     }
 
-    public function getTemplates() {
+    public function getTemplates() 
+    {
         return $this->rest->get("tasklists/templates.json", []);
     }
 }
