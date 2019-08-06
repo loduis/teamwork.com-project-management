@@ -33,4 +33,9 @@ class Exception extends \ErrorException
     {
         return $this->headers;
     }
+    
+    public function getMessage() 
+    {
+        return $this->message;
+    }
 }
