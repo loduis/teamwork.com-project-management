@@ -100,7 +100,7 @@ class JSON extends Model
                         $this->headers = $headers;
                         $this->string = json_encode($source);
 
-                        $this->data   = self::camelizeObject($source);
+                        $this->data   = is_object($source) ? self::camelizeObject($source) : $source;
 
                         if (!empty($this->data->id)) {
                             $this->data->id = (int) $this->data->id;
@@ -139,6 +139,10 @@ class JSON extends Model
      */
     protected static function camelizeObject($source)
     {
+        if (!is_object($source) && !is_array($source)) {
+            return $source;
+        }
+
         $destination = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
         foreach ($source as $key => $value) {
             if (ctype_upper($key)) {
