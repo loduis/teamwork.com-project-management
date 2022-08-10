@@ -25,10 +25,13 @@ class Time extends Model
                 'length'   => 2
             ],
             'time'=>true,
-            'isbillable'=>false
+            'isbillable'=>false,
+            'tags'=> [
+              'required' => false,
+              'type'     => 'string',
+            ],
         ];
         $this->parent = 'time-entry';
-        //$this->action = 'time_entries';
     }
 
     /**
