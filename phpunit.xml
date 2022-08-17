@@ -9,7 +9,7 @@
         <file>./tests/ProjectTest.php</file>
         <file>./tests/CompanyTest.php</file>
 
-        <!-- MILESTON -->
+        <!-- MILESTONE -->
 
         <file>./tests/MilestoneTest.php</file>
         <file>./tests/Comment/MilestoneTest.php</file>

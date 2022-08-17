@@ -2,14 +2,14 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// START configurtion
+// START configuration
 const API_KEY = 'horse48street';
 
 try {
     // set your keys
     TeamWorkPm\Auth::set(API_KEY);
 
-    // create an project
+    // create a project
     $project = TeamWorkPm\Factory::build('project');
     $project_id = $project->save([
         'name'=> 'This is an test project',

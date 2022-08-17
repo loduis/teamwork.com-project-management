@@ -14,7 +14,7 @@ composer require myabakus/teamworkpm
 This is very easy use the method: save, insert, update, delete
 
 ```php
-// START configurtion
+// START configuration
 const API_KEY = 'horse48street';
 const API_URL = 'http://yourcustomdomain.com'; // only required if you have a custom domain
 
@@ -25,7 +25,7 @@ try {
 	// if you do have a custom domain:
 	// TeamWorkPm\Auth::set(API_URL, API_KEY);
 
-	// create an project
+	// create a project
 	$project = \TeamWorkPm\Factory::build('project');
 	$project_id = $project->save([
 		'name'=> 'This is a test project',
