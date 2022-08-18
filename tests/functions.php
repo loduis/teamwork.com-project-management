@@ -1,5 +1,7 @@
 <?php
 
+use TeamWorkPm\Factory;
+
 function rand_string($string, $length = 10)
 {
     $source = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -16,7 +18,7 @@ function get_first_project_id($project_status = '')
 {
     static $id = null;
     if ($id === null) {
-        $project = \TeamWorkPm\Factory::build('project');
+        $project = Factory::build('project');
         foreach ($project->getAll() as $p) {
             if (!empty($project_status) && $p->status != $project_status) {
                 continue;
@@ -32,7 +34,7 @@ function get_first_project_category_id()
 {
     static $id = null;
     if ($id === null) {
-        $category = \TeamWorkPm\Factory::build('category/project');
+        $category = Factory::build('category/project');
         foreach ($category->getAll() as $c) {
             $id = $c->id;
             break;
@@ -45,7 +47,7 @@ function get_first_link_category_id($project_id)
 {
     static $id = null;
     if ($id === null) {
-        $category = \TeamWorkPm\Factory::build('category/link');
+        $category = Factory::build('category/link');
         foreach ($category->getByProject($project_id) as $c) {
             $id = $c->id;
             break;
@@ -58,7 +60,7 @@ function get_first_file_category_id($project_id)
 {
     static $id = null;
     if ($id === null) {
-        $category = \TeamWorkPm\Factory::build('category/file');
+        $category = Factory::build('category/file');
         foreach ($category->getByProject($project_id) as $c) {
             $id = $c->id;
             break;
@@ -71,7 +73,7 @@ function get_first_notebook_category_id($project_id)
 {
     static $id = null;
     if ($id === null) {
-        $category = \TeamWorkPm\Factory::build('category/notebook');
+        $category = Factory::build('category/notebook');
         foreach ($category->getByProject($project_id) as $c) {
             $id = $c->id;
             break;
@@ -84,7 +86,7 @@ function get_first_message_category_id($project_id)
 {
     static $id = null;
     if ($id === null) {
-        $category = \TeamWorkPm\Factory::build('category/message');
+        $category = Factory::build('category/message');
         foreach ($category->getByProject($project_id) as $c) {
             $id = $c->id;
             break;
@@ -98,7 +100,7 @@ function get_first_person_id($project_id = null)
 {
     static $id = null;
     if ($id === null) {
-        $people = \TeamWorkPm\Factory::build('people');
+        $people = Factory::build('people');
         $method = $project_id ? 'getByProject' : 'getAll';
         foreach ($people->$method($project_id) as $p) {
             $id = $p->id;
@@ -112,7 +114,7 @@ function get_first_milestone_id($project_id)
 {
     static $id = null;
     if ($id === null) {
-        $milestone = \TeamWorkPm\Factory::build('milestone');
+        $milestone = Factory::build('milestone');
         foreach ($milestone->getByProject($project_id) as $m) {
             $id = $m->id;
             break;
@@ -125,7 +127,7 @@ function get_first_message_id($project_id)
 {
     static $id = null;
     if ($id === null) {
-        $message = \TeamWorkPm\Factory::build('message');
+        $message = Factory::build('message');
         foreach ($message->getByProject($project_id) as $m) {
             $id = $m->id;
             break;
@@ -139,7 +141,7 @@ function get_first_file_id($project_id)
 {
     static $id = null;
     if ($id === null) {
-        $file = \TeamWorkPm\Factory::build('file');
+        $file = Factory::build('file');
         foreach ($file->getByProject($project_id) as $f) {
             $id = $f->id;
             break;
@@ -153,7 +155,7 @@ function get_first_file_version_id($project_id)
 {
     static $id = null;
     if ($id === null) {
-        $milestone = \TeamWorkPm\Factory::build('file');
+        $milestone = Factory::build('file');
         foreach($milestone->getByProject($project_id) as $f) {
             $id = $f->versionId;
             break;
@@ -162,12 +164,11 @@ function get_first_file_version_id($project_id)
     return (int) $id;
 }*/
 
-
 function get_first_task_list_id($project_id)
 {
     static $id = null;
     if ($id === null) {
-        $list = \TeamWorkPm\Factory::build('task/list');
+        $list = Factory::build('task/list');
         foreach ($list->getByProject($project_id) as $t) {
             $id = $t->id;
             break;
@@ -180,7 +181,7 @@ function get_first_task_id($task_list_id)
 {
     static $id = null;
     if ($id === null) {
-        $task = \TeamWorkPm\Factory::build('task');
+        $task = Factory::build('task');
         foreach ($task->getByTaskList($task_list_id) as $t) {
             $id = $t->id;
             break;
@@ -193,7 +194,7 @@ function get_first_time_id($task_id)
 {
     static $id = null;
     if ($id === null) {
-        $time = \TeamWorkPm\Factory::build('time');
+        $time = Factory::build('time');
         foreach ($time->getByTask($task_id) as $t) {
             $id = $t->id;
             break;
@@ -206,7 +207,7 @@ function get_first_link_id()
 {
     static $id = null;
     if ($id === null) {
-        $link = \TeamWorkPm\Factory::build('link');
+        $link = Factory::build('link');
         $links = $link->getAll();
         foreach ($links as $l) {
             $id = $l->id;
@@ -220,7 +221,7 @@ function get_first_company_id()
 {
     static $id = null;
     if ($id === null) {
-        $company = \TeamWorkPm\Factory::build('company');
+        $company = Factory::build('company');
         $companies = $company->getAll();
         foreach ($companies as $c) {
             $id = $c->id;
@@ -234,7 +235,7 @@ function get_first_milestone_comment_id($milestone_id)
 {
     static $id = null;
     if ($id === null) {
-        $comment = \TeamWorkPm\Factory::build('comment/milestone');
+        $comment = Factory::build('comment/milestone');
         foreach ($comment->getRecent($milestone_id) as $c) {
             $id = $c->id;
             break;
@@ -247,7 +248,7 @@ function get_first_task_comment_id($task_id)
 {
     static $id = null;
     if ($id === null) {
-        $comment = \TeamWorkPm\Factory::build('comment/task');
+        $comment = Factory::build('comment/task');
         foreach ($comment->getRecent($task_id) as $c) {
             $id = $c->id;
             break;
@@ -260,7 +261,7 @@ function get_first_file_comment_id($file_id)
 {
     static $id = null;
     if ($id === null) {
-        $comment = \TeamWorkPm\Factory::build('comment/file');
+        $comment = Factory::build('comment/file');
         foreach ($comment->getRecent($file_id) as $c) {
             $id = $c->id;
             break;
@@ -274,7 +275,7 @@ function get_first_notebook_comment_id($notebook_id)
 {
     static $id = null;
     if ($id === null) {
-        $comment = \TeamWorkPm\Factory::build('comment/notebook');
+        $comment = Factory::build('comment/notebook');
         foreach ($comment->getRecent($notebook_id) as $c) {
             $id = $c->id;
             break;
@@ -287,7 +288,7 @@ function get_first_notebook_id($project_id)
 {
     static $id = null;
     if ($id === null) {
-        $notebook = \TeamWorkPm\Factory::build('notebook');
+        $notebook = Factory::build('notebook');
         foreach ($notebook->getByProject($project_id) as $n) {
             $id = $n->id;
             break;
@@ -305,7 +306,7 @@ function get_first_portfolio_board_id()
 {
     static $id = null;
     if ($id === null) {
-        $portfolioBoard = \TeamWorkPm\Factory::build('portfolio/board');
+        $portfolioBoard = Factory::build('portfolio/board');
         foreach ($portfolioBoard->getAll() as $b) {
             $id = $b->id;
             break;
@@ -325,7 +326,7 @@ function get_first_portfolio_board_column_id($boardId)
 {
     static $id = null;
     if ($id === null) {
-        $portfolioColumn = \TeamWorkPm\Factory::build('portfolio/column');
+        $portfolioColumn = Factory::build('portfolio/column');
         foreach ($portfolioColumn->getAllForBoard($boardId) as $c) {
             $id = $c->id;
             break;
@@ -345,7 +346,7 @@ function get_first_portfolio_card_id($columnId)
 {
     static $id = null;
     if ($id === null) {
-        $portfolioCard = \TeamWorkPm\Factory::build('portfolio/card');
+        $portfolioCard = Factory::build('portfolio/card');
         foreach ($portfolioCard->getAllForColumn($columnId) as $c) {
             $id = $c->id;
             break;

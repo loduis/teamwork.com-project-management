@@ -1,5 +1,10 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class MessageTest extends TestCase
 {
     private $model;
@@ -9,7 +14,7 @@ class MessageTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('message');
+        $this->model = Factory::build('message');
         $this->projectId = get_first_project_id();
         $this->id = get_first_message_id($this->projectId);
     }
@@ -35,7 +40,7 @@ class MessageTest extends TestCase
             ];
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -51,7 +56,7 @@ class MessageTest extends TestCase
             $data['id'] = $this->id;
             $data['category_id'] = get_first_message_category_id($this->projectId);
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Not method supported', $e->getMessage());
         }
     }
@@ -71,7 +76,7 @@ class MessageTest extends TestCase
         try {
             $message = $this->model->get($this->id);
             $this->assertEquals($this->id, $message->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -93,14 +98,14 @@ class MessageTest extends TestCase
             $messages = $this->model->getByProject($this->projectId);
             //print_r($messages);
             $this->assertGreaterThan(0, count($messages));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
         // get archive
         try {
             $messages = $this->model->getByProject($this->projectId, true);
             $this->assertCount(0, $messages);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
         // get with content
@@ -132,7 +137,7 @@ class MessageTest extends TestCase
                 $category_id
             );
             $this->assertGreaterThan(0, count($messages));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
         // get archive
@@ -143,7 +148,7 @@ class MessageTest extends TestCase
                 true
             );
             $this->assertCount(0, $messages);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

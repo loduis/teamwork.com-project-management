@@ -1,6 +1,12 @@
 <?php
 
-class Category_LinkTest extends TestCase
+namespace TeamWorkPm\Tests\Category;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Tests\TestCase;
+
+class LinkTest extends TestCase
 {
     private $model;
     private $projectId;
@@ -9,7 +15,7 @@ class Category_LinkTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('category/link');
+        $this->model = Factory::build('category/link');
         $this->projectId = get_first_project_id();
         $this->id = get_first_link_category_id($this->projectId);
     }
@@ -30,7 +36,7 @@ class Category_LinkTest extends TestCase
             $data['project_id'] = $this->projectId;
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Already exists', $e->getMessage());
         }
     }
@@ -44,7 +50,7 @@ class Category_LinkTest extends TestCase
         try {
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -57,7 +63,7 @@ class Category_LinkTest extends TestCase
         try {
             $category = $this->model->get($this->id);
             $this->assertTrue(!empty($category->id) && $this->id === $category->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -76,7 +82,7 @@ class Category_LinkTest extends TestCase
         try {
             $categories = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($categories));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

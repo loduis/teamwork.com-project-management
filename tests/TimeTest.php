@@ -1,5 +1,10 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class TimeTest extends TestCase
 {
     private $model;
@@ -10,11 +15,11 @@ class TimeTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model     = \TeamWorkPm\Factory::build('time');
+        $this->model = Factory::build('time');
         $this->projectId = get_first_project_id();
-        $task_list_id    = get_first_task_list_id($this->projectId);
-        $this->taskId    = get_first_task_id($task_list_id);
-        $this->id        = get_first_time_id($this->taskId);
+        $task_list_id = get_first_task_list_id($this->projectId);
+        $this->taskId = get_first_task_id($task_list_id);
+        $this->id = get_first_time_id($this->taskId);
 
     }
 
@@ -32,10 +37,10 @@ class TimeTest extends TestCase
         }
         try {
             $data['project_id'] = $this->projectId;
-            $data['person_id']  = get_first_person_id($this->projectId);
-            $id                 = $this->model->save($data);
+            $data['person_id'] = get_first_person_id($this->projectId);
+            $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -48,10 +53,10 @@ class TimeTest extends TestCase
     {
         try {
             $data['task_id'] = $this->taskId;
-            $data['person_id']  = get_first_person_id($this->projectId);
-            $id                 = $this->model->save($data);
+            $data['person_id'] = get_first_person_id($this->projectId);
+            $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -67,7 +72,7 @@ class TimeTest extends TestCase
             // up 24
             $data['hours'] = 50;
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -80,7 +85,7 @@ class TimeTest extends TestCase
         try {
             $times = $this->model->getAll();
             $this->assertGreaterThan(0, count($times));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -99,7 +104,7 @@ class TimeTest extends TestCase
         try {
             $times = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($times));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -118,7 +123,7 @@ class TimeTest extends TestCase
         try {
             $times = $this->model->getByTask($this->taskId);
             $this->assertGreaterThan(0, count($times));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -138,7 +143,7 @@ class TimeTest extends TestCase
         try {
             $time = $this->model->get($this->id);
             $this->assertEquals($this->id, $time->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -148,16 +153,16 @@ class TimeTest extends TestCase
     {
         return [
             [
-              [
-                'description' => 'Test Time',
-                'person_id'   => null, // this is a required field
-                'date'  => date('Ymd'),
-                'hours'     => 5,
-                'minutes' => 30,
-                'time' => '08:30',
-                'isbillable' => true
-              ]
-            ]
+                [
+                    'description' => 'Test Time',
+                    'person_id' => null, // this is a required field
+                    'date' => date('Ymd'),
+                    'hours' => 5,
+                    'minutes' => 30,
+                    'time' => '08:30',
+                    'isbillable' => true,
+                ],
+            ],
         ];
     }
 }

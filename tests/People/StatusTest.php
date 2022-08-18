@@ -1,8 +1,13 @@
 <?php
 
-class People_StatusTest extends TestCase
-{
+namespace TeamWorkPm\Tests\People;
 
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Tests\TestCase;
+
+class StatusTest extends TestCase
+{
     private $model;
     private static $id;
     private static $userId = null;
@@ -10,9 +15,9 @@ class People_StatusTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('people/status');
+        $this->model = Factory::build('people/status');
         if (!self::$userId) {
-            $people = \TeamWorkPm\Factory::build('people');
+            $people = Factory::build('people');
             foreach ($people->getAll() as $p) {
                 if (!$p->siteOwner) {
                     self::$userId = (int)$p->id;
@@ -38,7 +43,7 @@ class People_StatusTest extends TestCase
             $data['person_id'] = self::$userId;
             self::$id = $this->model->insert($data);
             $this->assertGreaterThan(0, self::$id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -52,7 +57,7 @@ class People_StatusTest extends TestCase
         try {
             $status = $this->model->get(self::$userId);
             $this->assertEquals($status->id, self::$id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -66,7 +71,7 @@ class People_StatusTest extends TestCase
         try {
             $status = $this->model->getAll();
             $this->assertGreaterThan(0, count($status));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -82,7 +87,7 @@ class People_StatusTest extends TestCase
             $data['id'] = null;
             $this->model->save($data);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Required field id', $e->getMessage());
         }
 
@@ -93,7 +98,7 @@ class People_StatusTest extends TestCase
             $this->assertTrue($this->model->update($data));
             $status = $this->model->get(self::$userId);
             $this->assertEquals($data['status'], $status->status);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

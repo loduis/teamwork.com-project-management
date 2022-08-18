@@ -1,6 +1,12 @@
 <?php
 
-class Comment_MilestoneTest extends TestCase
+namespace TeamWorkPm\Tests\Comment;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Tests\TestCase;
+
+class MilestoneTest extends TestCase
 {
     private $model;
     private $resourceId;
@@ -9,7 +15,7 @@ class Comment_MilestoneTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('comment/milestone');
+        $this->model = Factory::build('comment/milestone');
         $project_id = get_first_project_id();
         $this->resourceId = get_first_milestone_id($project_id);
         $this->id = get_first_milestone_comment_id($this->resourceId);
@@ -32,7 +38,7 @@ class Comment_MilestoneTest extends TestCase
             $data['resource_id'] = $this->resourceId;
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -46,7 +52,7 @@ class Comment_MilestoneTest extends TestCase
         try {
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -59,7 +65,7 @@ class Comment_MilestoneTest extends TestCase
         try {
             $comment = $this->model->get($this->id);
             $this->assertTrue(!empty($comment->id) && $this->id === $comment->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -78,7 +84,7 @@ class Comment_MilestoneTest extends TestCase
         try {
             $comments = $this->model->getRecent($this->resourceId);
             $this->assertGreaterThan(0, count($comments));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

@@ -2,6 +2,7 @@
 
 namespace TeamWorkPm\Me;
 
+use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Model;
 
 class Status extends Model
@@ -24,7 +25,7 @@ class Status extends Model
      * Returns the latest status post for a user
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get()
     {
@@ -56,13 +57,13 @@ class Status extends Model
      * @param array $data
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function update(array $data)
     {
         $id = empty($data['id']) ? 0 : (int)$data['id'];
         if ($id <= 0) {
-            throw new \TeamWorkPm\Exception('Required field id');
+            throw new Exception('Required field id');
         }
         return $this->rest->put("me/$this->action/$id", $data);
     }
@@ -78,13 +79,13 @@ class Status extends Model
      * @param int $id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function delete($id)
     {
         $id = (int)$id;
         if ($id <= 0) {
-            throw new \TeamWorkPm\Exception('Invalid param id');
+            throw new Exception('Invalid param id');
         }
         return $this->rest->delete("me/$this->action/$id");
     }
@@ -93,7 +94,7 @@ class Status extends Model
      * @param array $data
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     final public function save(array $data)
     {

@@ -1,6 +1,12 @@
 <?php
 
-class Me_StatusTest extends TestCase
+namespace TeamWorkPm\Tests\Me;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Tests\TestCase;
+
+class StatusTest extends TestCase
 {
     private $model;
     private static $id;
@@ -8,7 +14,7 @@ class Me_StatusTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('me/status');
+        $this->model = Factory::build('me/status');
     }
 
     /**
@@ -20,7 +26,7 @@ class Me_StatusTest extends TestCase
         try {
             self::$id = $this->model->save($data);
             $this->assertGreaterThan(0, self::$id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -33,7 +39,7 @@ class Me_StatusTest extends TestCase
         try {
             $status = $this->model->get();
             $this->assertEquals($status->id, self::$id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -48,7 +54,7 @@ class Me_StatusTest extends TestCase
             $data['id'] = null;
             $this->model->save($data);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Required field id', $e->getMessage());
         }
         try {
@@ -57,7 +63,7 @@ class Me_StatusTest extends TestCase
             $this->assertTrue($this->model->save($data));
             $status = $this->model->get();
             $this->assertEquals($data['status'], $status->status);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

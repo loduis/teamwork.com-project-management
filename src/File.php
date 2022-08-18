@@ -67,7 +67,7 @@ class File extends Rest\Model
      * If the upload is successful, you will get back something like:
      * tf_1706111559e0a49
      *
-     * @param mixed $files
+     * @param array $files
      * @return string
      * @throws \TeamWorkPm\Exception
      */
@@ -88,7 +88,7 @@ class File extends Rest\Model
             );
         }
 
-        return join(',', $pending_file_attachments);
+        return implode(',', $pending_file_attachments);
     }
 
     private static function getFileParam($filename)

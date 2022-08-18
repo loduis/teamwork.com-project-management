@@ -1,6 +1,8 @@
 <?php
 
-class TestCase extends PHPUnit_Framework_TestCase
+namespace TeamWorkPm\Tests;
+
+class TestCase extends \PHPUnit_Framework_TestCase
 {
     /*
     public static function setUpBeforeClass()

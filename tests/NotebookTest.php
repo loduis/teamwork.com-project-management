@@ -1,5 +1,10 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class NotebookTest extends TestCase
 {
     private $model;
@@ -9,7 +14,7 @@ class NotebookTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('notebook');
+        $this->model = Factory::build('notebook');
         $this->projectId = get_first_project_id();
         $this->id = get_first_notebook_id($this->projectId);
     }

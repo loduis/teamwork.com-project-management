@@ -1,8 +1,15 @@
 <?php
 
+namespace TeamWorkPm\Tests\Portfolio;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Portfolio\Card;
+use TeamWorkPm\Tests\TestCase;
+
 class CardTest extends TestCase
 {
-    /** @var \TeamWorkPm\Portfolio\Card */
+    /** @var Card */
     private $model;
 
     /** @var int */
@@ -20,7 +27,7 @@ class CardTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('portfolio/card');
+        $this->model = Factory::build('portfolio/card');
         $this->projectId = get_first_project_id();
         $this->boardId = get_first_portfolio_board_id();
         $this->columnId = get_first_portfolio_board_column_id($this->boardId);
@@ -37,13 +44,13 @@ class CardTest extends TestCase
             $data['projectId'] = $this->projectId;
 
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Already exists', $e->getMessage());
         }
     }
 
     /**
-     * @expectedException \TeamWorkPm\Exception
+     * @expectedException Exception
      * @test
      */
     public function insertInvalidColumnId()
@@ -55,7 +62,7 @@ class CardTest extends TestCase
     }
 
     /**
-     * @expectedException \TeamWorkPm\Exception
+     * @expectedException Exception
      * @test
      */
     public function insertInvalidProjectId()
@@ -81,13 +88,13 @@ class CardTest extends TestCase
             $portfolioCard = $this->model->get($this->id);
 
             $this->assertEquals($data['columnId'], $portfolioCard->columnId);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
 
     /**
-     * @expectedException \TeamWorkPm\Exception
+     * @expectedException Exception
      * @test
      */
     public function updateInvalidId()
@@ -100,7 +107,7 @@ class CardTest extends TestCase
     }
 
     /**
-     * @expectedException \TeamWorkPm\Exception
+     * @expectedException Exception
      * @test
      */
     public function updateInvalidColumnId()
@@ -113,7 +120,7 @@ class CardTest extends TestCase
     }
 
     /**
-     * @expectedException \TeamWorkPm\Exception
+     * @expectedException Exception
      * @test
      */
     public function updateInvalidOldColumnId()
@@ -133,7 +140,7 @@ class CardTest extends TestCase
         try {
             $portfolioCard = $this->model->get($this->id);
             $this->assertEquals($this->id, $portfolioCard->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -147,13 +154,13 @@ class CardTest extends TestCase
             $portfolioCards = $this->model->getAllForColumn($this->columnId);
 
             $this->assertEquals($this->id, $portfolioCards[0]->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
 
     /**
-     * @expectedException \TeamWorkPm\Exception
+     * @expectedException Exception
      * @test
      */
     public function getAllForColumnInvalidId()
@@ -162,7 +169,7 @@ class CardTest extends TestCase
     }
 
     /**
-     * @expectedException \TeamWorkPm\Exception
+     * @expectedException Exception
      * @test
      */
     public function deleteInvalidId()
@@ -177,7 +184,7 @@ class CardTest extends TestCase
     {
         try {
             $this->assertTrue($this->model->delete($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

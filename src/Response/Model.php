@@ -2,10 +2,10 @@
 
 namespace TeamWorkPm\Response;
 
-use \IteratorAggregate;
-use \ArrayIterator;
-use \Countable;
-use \ArrayAccess;
+use ArrayAccess;
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 
 abstract class Model implements IteratorAggregate, Countable, ArrayAccess
 {

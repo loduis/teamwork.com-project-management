@@ -47,11 +47,11 @@ final class Rest
      *
      * @param string $method
      * @param string $action
-     * @param mixed $request
+     * @param mixed $parameters
      * @return mixed
      * @throws \TeamWorkPm\Exception
      */
-    private function execute($method, $action, $request = null)
+    private function execute($method, $action, $parameters = null)
     {
         $url = "{$this->url}$action." . self::$FORMAT;
         $headers = [
@@ -59,7 +59,7 @@ final class Rest
         ];
         $request = $this->request
             ->setAction($action)
-            ->getParameters($method, $request);
+            ->getParameters($method, $parameters);
         $ch = static::initCurl($method, $url, $request, $headers);
         $i = 0;
         while ($i < 5) {
@@ -155,24 +155,24 @@ final class Rest
      * Shortcut call get method to api
      *
      * @param string $action
-     * @param mixed $request
+     * @param string|null $parameters
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function get($action, $request = null)
+    public function get($action, $parameters = null)
     {
-        return $this->execute('GET', $action, $request);
+        return $this->execute('GET', $action, $parameters);
     }
 
-    public function put($action, $request = null)
+    public function put($action, $parameters = null)
     {
-        return $this->execute('PUT', $action, $request);
+        return $this->execute('PUT', $action, $parameters);
     }
 
-    public function post($action, $request = null)
+    public function post($action, $parameters = null)
     {
-        return $this->execute('POST', $action, $request);
+        return $this->execute('POST', $action, $parameters);
     }
 
     public function delete($action)
@@ -180,9 +180,9 @@ final class Rest
         return $this->execute('DELETE', $action, null);
     }
 
-    public function upload($action, $request = null)
+    public function upload($action, $parameters = null)
     {
-        return $this->execute('UPLOAD', $action, $request);
+        return $this->execute('UPLOAD', $action, $parameters);
     }
 
     /**

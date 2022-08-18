@@ -1,6 +1,12 @@
 <?php
 
-class Comment_TaskTest extends TestCase
+namespace TeamWorkPm\Tests\Comment;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Tests\TestCase;
+
+class TaskTest extends TestCase
 {
     private $model;
     private $resourceId;
@@ -9,7 +15,7 @@ class Comment_TaskTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('comment/task');
+        $this->model = Factory::build('comment/task');
         $project_id = get_first_project_id();
         $task_list_id = get_first_task_list_id($project_id);
         $this->resourceId = get_first_task_id($task_list_id);
@@ -33,7 +39,7 @@ class Comment_TaskTest extends TestCase
             $data['resource_id'] = $this->resourceId;
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -47,7 +53,7 @@ class Comment_TaskTest extends TestCase
         try {
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -60,7 +66,7 @@ class Comment_TaskTest extends TestCase
         try {
             $comment = $this->model->get($this->id);
             $this->assertTrue(!empty($comment->id) && $this->id === $comment->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -79,7 +85,7 @@ class Comment_TaskTest extends TestCase
         try {
             $comments = $this->model->getRecent($this->resourceId);
             $this->assertGreaterThan(0, count($comments));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

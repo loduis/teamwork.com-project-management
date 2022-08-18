@@ -1,6 +1,11 @@
 <?php
 
-class KeyTest extends PHPUnit_Framework_TestCase
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
+class KeyTest extends TestCase
 {
     /**
      * @test
@@ -8,8 +13,8 @@ class KeyTest extends PHPUnit_Framework_TestCase
     public function setYourApiKey()
     {
         try {
-            $project = \TeamWorkPm\Factory::build('project');
-        } catch (\TeamWorkPm\Exception $e) {
+            $project = Factory::build('project');
+        } catch (Exception $e) {
             $this->assertEquals('Set your url and api key', $e->getMessage());
         }
     }

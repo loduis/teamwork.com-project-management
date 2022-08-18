@@ -1,5 +1,9 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Factory;
+
 class MilestoneTest extends TestCase
 {
     private $model;
@@ -9,7 +13,7 @@ class MilestoneTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('milestone');
+        $this->model = Factory::build('milestone');
         $this->projectId = get_first_project_id();
         $this->id = get_first_milestone_id($this->projectId);
     }

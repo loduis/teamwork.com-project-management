@@ -1,5 +1,10 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class PeopleTest extends TestCase
 {
     private $model;
@@ -8,7 +13,7 @@ class PeopleTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('people');
+        $this->model = Factory::build('people');
     }
 
     /**
@@ -23,7 +28,7 @@ class PeopleTest extends TestCase
             $fail['email_address'] = 'back@email_address';
             $this->model->save($fail);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals(
                 'Invalid value for field email_address',
                 $e->getMessage()
@@ -41,7 +46,7 @@ class PeopleTest extends TestCase
             try {
                 $this->model->save($fail);
                 $this->fail('An expected exception has not been raised.');
-            } catch (\TeamWorkPm\Exception $e) {
+            } catch (Exception $e) {
                 $this->assertEquals(
                     'Required field ' . $field,
                     $e->getMessage()
@@ -55,7 +60,7 @@ class PeopleTest extends TestCase
             $fail['im_service'] = 'invalid_im';
             $this->model->save($fail);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals(
                 'Invalid value for field im_service',
                 $e->getMessage()
@@ -68,7 +73,7 @@ class PeopleTest extends TestCase
             $fail['user_language'] = 'invalid_lang';
             $this->model->save($fail);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals(
                 'Invalid value for field user_language',
                 $e->getMessage()
@@ -82,7 +87,7 @@ class PeopleTest extends TestCase
             $fail['date_format'] = 'invalid_date_format';
             $this->model->save($fail);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals(
                 'Invalid value for field date_format',
                 $e->getMessage()
@@ -100,7 +105,7 @@ class PeopleTest extends TestCase
             $fail['email_address'] = $person->emailAddress;
             $this->model->save($fail);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals(
                 'Email in use',
                 $e->getMessage()
@@ -113,7 +118,7 @@ class PeopleTest extends TestCase
             $fail['user_name'] = $person->userName;
             $this->model->save($fail);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals(
                 'Login already taken',
                 $e->getMessage()
@@ -132,7 +137,7 @@ class PeopleTest extends TestCase
             ];
             self::$id = $this->model->save($data);
             $this->assertGreaterThan(0, self::$id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -147,7 +152,7 @@ class PeopleTest extends TestCase
         try {
             $data['id'] = null;
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Required field id', $e->getMessage());
         }
         $fail = [];
@@ -157,7 +162,7 @@ class PeopleTest extends TestCase
             $fail['email_address'] = 'back@email_address';
             $this->model->save($fail);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals(
                 'Invalid value for field email_address',
                 $e->getMessage()
@@ -173,7 +178,7 @@ class PeopleTest extends TestCase
                 'view_invoices' => 1,
             ];
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -193,7 +198,7 @@ class PeopleTest extends TestCase
         try {
             $people = $this->model->get(self::$id);
             $this->assertEquals(self::$id, $people->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
         // get people in project
@@ -202,7 +207,7 @@ class PeopleTest extends TestCase
             $people = $this->model->get(self::$id, $project_id);
             $this->assertEquals(self::$id, $people->id);
             $this->assertTrue(isset($people->permissions));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -216,7 +221,7 @@ class PeopleTest extends TestCase
         try {
             $people = $this->model->getAll();
             $this->assertGreaterThan(1, count($people));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -233,7 +238,7 @@ class PeopleTest extends TestCase
                 $people = $this->model->getByProject($project_id);
                 $this->assertGreaterThan(0, count($people));
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -248,7 +253,7 @@ class PeopleTest extends TestCase
             $company_id = get_first_company_id();
             $people = $this->model->getByCompany($company_id);
             $this->assertGreaterThan(1, count($people));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

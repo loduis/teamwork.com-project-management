@@ -1,6 +1,12 @@
 <?php
 
-class Comment_FileTest extends TestCase
+namespace TeamWorkPm\Tests\Comment;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Tests\TestCase;
+
+class FileTest extends TestCase
 {
     private $model;
     private $resourceId;
@@ -10,7 +16,7 @@ class Comment_FileTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('comment/file');
+        $this->model = Factory::build('comment/file');
         $this->projectId = get_first_project_id();
         $this->resourceId = get_first_file_id($this->projectId);
         $this->id = get_first_file_comment_id($this->resourceId);
@@ -30,12 +36,12 @@ class Comment_FileTest extends TestCase
         }
         try {
             $data['files'] = dirname(__DIR__) . '/uploads/teamworkpm.jpg';
-            $file = \TeamWorkPm\Factory::build('file');
+            $file = Factory::build('file');
             $file = $file->get($this->resourceId);
             $data['resource_id'] = $file->versionId;
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -50,7 +56,7 @@ class Comment_FileTest extends TestCase
         try {
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -64,7 +70,7 @@ class Comment_FileTest extends TestCase
         try {
             $comment = $this->model->get($this->id);
             $this->assertTrue(!empty($comment->id) && $this->id === $comment->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -84,7 +90,7 @@ class Comment_FileTest extends TestCase
         try {
             $comments = $this->model->getRecent($this->resourceId);
             $this->assertGreaterThan(0, count($comments));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

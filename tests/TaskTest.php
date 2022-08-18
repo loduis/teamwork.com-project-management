@@ -1,5 +1,10 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class TaskTest extends TestCase
 {
     private $model;
@@ -9,11 +14,10 @@ class TaskTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('task');
+        $this->model = Factory::build('task');
         $projectId = get_first_project_id();
         $this->taskListId = get_first_task_list_id($projectId);
         $this->id = get_first_task_id($this->taskListId);
-
     }
 
     /**
@@ -33,7 +37,7 @@ class TaskTest extends TestCase
             $data['task_list_id'] = $this->taskListId;
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -47,7 +51,7 @@ class TaskTest extends TestCase
         try {
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -66,13 +70,13 @@ class TaskTest extends TestCase
         try {
             $task = $this->model->get($this->id);
             $this->assertEquals($this->id, $task->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
         try {
             $task = $this->model->get($this->id, true);
             $this->assertTrue(isset($task->timeIsLogged));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -91,7 +95,7 @@ class TaskTest extends TestCase
         try {
             $tasks = $this->model->getByTaskList($this->taskListId);
             $this->assertGreaterThan(0, count($tasks));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -109,7 +113,7 @@ class TaskTest extends TestCase
         }
         try {
             $this->assertTrue($this->model->complete($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -125,7 +129,7 @@ class TaskTest extends TestCase
             foreach ($tasks as $t) {
                 $this->assertNotEmpty($t->completed);
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -143,7 +147,7 @@ class TaskTest extends TestCase
         }
         try {
             $this->assertTrue($this->model->unComplete($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -159,7 +163,7 @@ class TaskTest extends TestCase
             foreach ($tasks as $t) {
                 $this->assertEmpty($t->completed);
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -193,7 +197,7 @@ class TaskTest extends TestCase
                 $order[] = $t->id;
             }
             $this->assertEquals($ids, $order);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

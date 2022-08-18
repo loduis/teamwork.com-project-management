@@ -1,6 +1,12 @@
 <?php
 
-class Category_ProjectTest extends TestCase
+namespace TeamWorkPm\Tests\Category;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Tests\TestCase;
+
+class ProjectTest extends TestCase
 {
     private $model;
     private $id;
@@ -8,7 +14,7 @@ class Category_ProjectTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('category/project');
+        $this->model = Factory::build('category/project');
         $this->id = get_first_project_category_id();
     }
 
@@ -21,7 +27,7 @@ class Category_ProjectTest extends TestCase
         try {
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Already exists', $e->getMessage());
         }
     }
@@ -35,7 +41,7 @@ class Category_ProjectTest extends TestCase
         try {
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Already exists', $e->getMessage());
         }
     }
@@ -48,7 +54,7 @@ class Category_ProjectTest extends TestCase
         try {
             $category = $this->model->get($this->id);
             $this->assertTrue(!empty($category->id) && $this->id === $category->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -61,7 +67,7 @@ class Category_ProjectTest extends TestCase
         try {
             $categories = $this->model->getAll();
             $this->assertGreaterThan(0, count($categories));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

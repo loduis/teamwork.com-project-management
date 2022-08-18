@@ -1,13 +1,22 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Account;
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class AccountTest extends TestCase
 {
+    /**
+     * @var Account
+     */
     private $model;
 
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('account');
+        $this->model = Factory::build('account');
     }
 
     /**
@@ -17,12 +26,10 @@ class AccountTest extends TestCase
     {
         try {
             $account = $this->model->get();
-            /*
-            $this->assertEquals($account->url, 'https://' . API_COMPANY
-                . '.teamworkpm.net/');*/
-            $this->assertEquals(API_COMPANY, $account->code);
+            // $this->assertEquals($account->url, 'https://' . API_COMPANY. '.teamworkpm.net/');
+            $this->assertEquals(getenv('API_COMPANY'), $account->code);
             // $this->assertEquals($project->id, $this->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -34,12 +41,9 @@ class AccountTest extends TestCase
     {
         try {
             $authenticate = $this->model->authenticate();
-            /*
-            $this->assertEquals($authenticate->url, 'https://' . API_COMPANY
-                . '.teamworkpm.net/');*/
-
-            $this->assertEquals(API_COMPANY, $authenticate->code);
-        } catch (\TeamWorkPm\Exception $e) {
+            // $this->assertEquals($account->url, 'https://' . API_COMPANY. '.teamworkpm.net/');
+            $this->assertEquals(getenv('API_COMPANY'), $authenticate->code);
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

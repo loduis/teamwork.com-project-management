@@ -1,16 +1,19 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class MeTest extends TestCase
 {
-
     private $model;
 
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('me');
+        $this->model = Factory::build('me');
     }
-
 
     /**
      * @test
@@ -20,7 +23,7 @@ class MeTest extends TestCase
         try {
             $me = $this->model->get();
             $this->assertEquals('loduis@gmail.com', $me->userName);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

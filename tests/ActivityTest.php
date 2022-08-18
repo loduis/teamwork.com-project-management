@@ -1,18 +1,25 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class ActivityTest extends TestCase
 {
     private $projectId;
 
+    /**
+     * @var \TeamWorkPm\Activity
+     */
     private $model;
 
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('activity');
+        $this->model = Factory::build('activity');
         $this->projectId = get_first_project_id();
     }
-
 
     /**
      * @test
@@ -22,16 +29,16 @@ class ActivityTest extends TestCase
         try {
             $activity = $this->model->getAll();
             $this->assertGreaterThan(0, count($activity));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
         // stared
         try {
-            $project = \TeamWorkPm\Factory::build('project');
+            $project = Factory::build('project');
             $project->star($this->projectId);
             $activity = $this->model->getAll(5, true);
             $this->assertGreaterThan(0, count($activity));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -50,7 +57,7 @@ class ActivityTest extends TestCase
         try {
             $activity = $this->model->getByProject($this->projectId, 5);
             $this->assertGreaterThan(0, count($activity));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

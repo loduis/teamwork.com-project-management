@@ -1,5 +1,10 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class FileTest extends TestCase
 {
     private $model;
@@ -9,7 +14,7 @@ class FileTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('file');
+        $this->model = Factory::build('file');
         $this->projectId = get_first_project_id();
         $this->id = get_first_file_id($this->projectId);
     }
@@ -22,13 +27,13 @@ class FileTest extends TestCase
         try {
             $filename = 'back_file_path';
             $this->model->upload($filename);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Not file exist ' . $filename, $e->getMessage());
         }
         try {
             $filename = __DIR__ . '/uploads/teamworkpm.jpg';
             $this->assertNotEmpty($this->model->upload($filename));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertTrue(false, $filename, $e->getMessage());
         }
     }
@@ -62,7 +67,7 @@ class FileTest extends TestCase
             $data['filename'] = __DIR__ . '/uploads/teamworkpm.jpg';
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -82,7 +87,7 @@ class FileTest extends TestCase
         try {
             $file = $this->model->get($this->id);
             $this->assertEquals($this->id, $file->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -102,7 +107,7 @@ class FileTest extends TestCase
         try {
             $files = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($files));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

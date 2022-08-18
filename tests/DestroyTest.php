@@ -1,5 +1,10 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class DestroyTest extends TestCase
 {
 
@@ -9,11 +14,11 @@ class DestroyTest extends TestCase
     public function deleteCategoryProject()
     {
         try {
-            $category = \TeamWorkPm\Factory::build('category/project');
+            $category = Factory::build('category/project');
             foreach ($category->getAll() as $c) {
                 $this->assertTrue($category->delete($c->id));
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -24,7 +29,7 @@ class DestroyTest extends TestCase
     public function deleteLink()
     {
         try {
-            $link = \TeamWorkPm\Factory::build('link');
+            $link = Factory::build('link');
             foreach ($link->getAll() as $l) {
                 $this->assertTrue($link->delete($l->id));
             }
@@ -39,14 +44,14 @@ class DestroyTest extends TestCase
     public function deleteCategoryLink()
     {
         try {
-            $category = \TeamWorkPm\Factory::build('category/link');
-            $project = \TeamWorkPm\Factory::build('project');
+            $category = Factory::build('category/link');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 foreach ($category->getByProject($p->id) as $c) {
                     $this->assertTrue($category->delete($c->id));
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -58,15 +63,15 @@ class DestroyTest extends TestCase
     {
 
         try {
-            $reply = \TeamWorkPm\Factory::build('message/reply');
+            $reply = Factory::build('message/reply');
             $reply->delete(0);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
         try {
-            $message = \TeamWorkPm\Factory::build('message');
-            $project = \TeamWorkPm\Factory::build('project');
+            $message = Factory::build('message');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 foreach ($message->getByProject($p->id) as $m) {
                     foreach ($reply->getByMessage($m->id) as $r) {
@@ -74,7 +79,7 @@ class DestroyTest extends TestCase
                     }
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -86,25 +91,25 @@ class DestroyTest extends TestCase
     public function deleteMessage()
     {
         try {
-            $message = \TeamWorkPm\Factory::build('message');
-            $project = \TeamWorkPm\Factory::build('project');
+            $message = Factory::build('message');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 foreach ($message->getByProject($p->id) as $m) {
                     $this->assertTrue($message->delete($m->id));
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
         try {
-            $message = \TeamWorkPm\Factory::build('message');
-            $project = \TeamWorkPm\Factory::build('project');
+            $message = Factory::build('message');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 foreach ($message->getByProject($p->id, true) as $m) {
                     $this->assertTrue($message->delete($m->id));
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -115,14 +120,14 @@ class DestroyTest extends TestCase
     public function deleteCategoryMessage()
     {
         try {
-            $category = \TeamWorkPm\Factory::build('category/message');
-            $project = \TeamWorkPm\Factory::build('project');
+            $category = Factory::build('category/message');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 foreach ($category->getByProject($p->id) as $c) {
                     $this->assertTrue($category->delete($c->id));
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -134,7 +139,7 @@ class DestroyTest extends TestCase
     {
         //$this->fail('Delete time api bug.');
         try {
-            $time = \TeamWorkPm\Factory::build('time');
+            $time = Factory::build('time');
             foreach ($time->getAll() as $t) {
                 $this->assertTrue($time->delete($t->id));
             }
@@ -149,13 +154,13 @@ class DestroyTest extends TestCase
     public function deleteCompany()
     {
 
-        $company = \TeamWorkPm\Factory::build('company');
+        $company = Factory::build('company');
         $fail = false;
         try {
             foreach ($company->getAll() as $c) {
                 try {
                     $this->assertTrue($company->delete($c->id));
-                } catch (\TeamWorkPm\Exception $e) {
+                } catch (Exception $e) {
                     $this->assertEquals(
                         "You can't delete the owner company",
                         $e->getMessage()
@@ -176,10 +181,10 @@ class DestroyTest extends TestCase
      */
     public function deletePeople()
     {
-        $people = \TeamWorkPm\Factory::build('people');
+        $people = Factory::build('people');
         try {
             $people->delete(0);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
         $fail = false;
@@ -192,7 +197,7 @@ class DestroyTest extends TestCase
                     try {
                         // delete from project
                         $this->assertTrue($people->delete($p->id, $project_id));
-                    } catch (\TeamWorkPm\Exception $e) {
+                    } catch (Exception $e) {
                         $message = $e->getMessage();
                         $this->assertContains($e->getMessage(), [
                             'User is not on this project',
@@ -206,7 +211,7 @@ class DestroyTest extends TestCase
                 try {
                     // delete from account
                     $this->assertTrue($people->delete($p->id));
-                } catch (\TeamWorkPm\Exception $e) {
+                } catch (Exception $e) {
                     $this->assertEquals(
                         "Site owner can not be deleted",
                         $e->getMessage()
@@ -225,14 +230,14 @@ class DestroyTest extends TestCase
     public function deleteMilestoneComments()
     {
         try {
-            $milestone = \TeamWorkPm\Factory::build('milestone');
-            $comment = \TeamWorkPm\Factory::build('comment/milestone');
+            $milestone = Factory::build('milestone');
+            $comment = Factory::build('comment/milestone');
             foreach ($milestone->getAll() as $m) {
                 foreach ($comment->getRecent($m->id) as $c) {
                     $this->assertTrue($comment->delete($c->id));
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -243,11 +248,11 @@ class DestroyTest extends TestCase
     public function deleteMilestone()
     {
         try {
-            $milestone = \TeamWorkPm\Factory::build('milestone');
+            $milestone = Factory::build('milestone');
             foreach ($milestone->getAll() as $m) {
                 $this->assertTrue($milestone->delete($m->id));
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -258,17 +263,17 @@ class DestroyTest extends TestCase
     public function deleteNotebook()
     {
         try {
-            $notebook = \TeamWorkPm\Factory::build('notebook');
+            $notebook = Factory::build('notebook');
             $notebook->delete(0);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
         try {
             foreach ($notebook->getAll() as $n) {
                 $this->assertTrue($notebook->delete($n->id));
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -280,14 +285,14 @@ class DestroyTest extends TestCase
     public function deleteCategoryNotebook()
     {
         try {
-            $category = \TeamWorkPm\Factory::build('category/notebook');
-            $project = \TeamWorkPm\Factory::build('project');
+            $category = Factory::build('category/notebook');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 foreach ($category->getByProject($p->id) as $c) {
                     $this->assertTrue($category->delete($c->id));
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -298,9 +303,9 @@ class DestroyTest extends TestCase
     public function deleteTask()
     {
         try {
-            $taskList = \TeamWorkPm\Factory::build('task/list');
-            $task = \TeamWorkPm\Factory::build('task');
-            $project = \TeamWorkPm\Factory::build('project');
+            $taskList = Factory::build('task/list');
+            $task = Factory::build('task');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 foreach ($taskList->getByProject($p->id) as $l) {
                     foreach ($task->getByTaskList($l->id) as $t) {
@@ -308,7 +313,7 @@ class DestroyTest extends TestCase
                     }
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -320,14 +325,14 @@ class DestroyTest extends TestCase
     public function deleteTaskList()
     {
         try {
-            $taskList = \TeamWorkPm\Factory::build('task/list');
-            $project = \TeamWorkPm\Factory::build('project');
+            $taskList = Factory::build('task/list');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 foreach ($taskList->getByProject($p->id) as $l) {
                     $this->assertTrue($taskList->delete($l->id));
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -338,9 +343,9 @@ class DestroyTest extends TestCase
     public function deleteCommentFile()
     {
         try {
-            $comment = \TeamWorkPm\Factory::build('comment/file');
-            $file = \TeamWorkPm\Factory::build('file');
-            $project = \TeamWorkPm\Factory::build('project');
+            $comment = Factory::build('comment/file');
+            $file = Factory::build('file');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 foreach ($file->getByProject($p->id) as $f) {
                     foreach ($comment->getRecent($f->id) as $c) {
@@ -348,7 +353,7 @@ class DestroyTest extends TestCase
                     }
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -359,20 +364,20 @@ class DestroyTest extends TestCase
     public function deleteFile()
     {
         try {
-            $file = \TeamWorkPm\Factory::build('file');
+            $file = Factory::build('file');
             $file->delete(0);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
         try {
-            $project = \TeamWorkPm\Factory::build('project');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 foreach ($file->getByProject($p->id) as $c) {
                     $this->assertTrue($file->delete($c->id));
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -383,14 +388,14 @@ class DestroyTest extends TestCase
     public function deleteCategoryFile()
     {
         try {
-            $category = \TeamWorkPm\Factory::build('category/file');
-            $project = \TeamWorkPm\Factory::build('project');
+            $category = Factory::build('category/file');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 foreach ($category->getByProject($p->id) as $c) {
                     $this->assertTrue($category->delete($c->id));
                 }
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -401,10 +406,10 @@ class DestroyTest extends TestCase
     public function deleteMeStatus()
     {
         try {
-            $status = \TeamWorkPm\Factory::build('me/status');
+            $status = Factory::build('me/status');
             $status->delete(0);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
         try {
@@ -414,7 +419,7 @@ class DestroyTest extends TestCase
                 $object = $status->get();
                 $this->assertFalse(isset($object->id));
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -425,17 +430,17 @@ class DestroyTest extends TestCase
     public function deletePeopleStatus()
     {
         try {
-            $status = \TeamWorkPm\Factory::build('people/status');
+            $status = Factory::build('people/status');
             $status->delete(0);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
         try {
             foreach ($status->getAll() as $s) {
                 $this->assertTrue($status->delete($s->id));
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -446,11 +451,11 @@ class DestroyTest extends TestCase
     public function deleteProject()
     {
         try {
-            $project = \TeamWorkPm\Factory::build('project');
+            $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
                 $this->assertTrue($project->delete($p->id));
             }
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

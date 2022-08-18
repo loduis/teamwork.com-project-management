@@ -1,8 +1,13 @@
 <?php
 
-class Message_ReplyTest extends TestCase
-{
+namespace TeamWorkPm\Tests\Message;
 
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Tests\TestCase;
+
+class ReplyTest extends TestCase
+{
     private $model;
     private static $id;
     private $messageId;
@@ -10,7 +15,7 @@ class Message_ReplyTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('message/reply');
+        $this->model = Factory::build('message/reply');
         $project_id = get_first_project_id();
         $this->messageId = get_first_message_id($project_id);
     }
@@ -21,11 +26,10 @@ class Message_ReplyTest extends TestCase
      */
     public function insert($data)
     {
-
         try {
             $this->model->save($data);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Required field message_id', $e->getMessage());
         }
         try {
@@ -34,20 +38,19 @@ class Message_ReplyTest extends TestCase
             ];
             $this->model->save($_data);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Required field body', $e->getMessage());
         }
         try {
             $data['message_id'] = $this->messageId;
             self::$id = $this->model->save($data);
             $this->assertGreaterThan(0, self::$id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
 
     /**
-     *
      * @test
      */
     public function getByMessage()
@@ -64,7 +67,7 @@ class Message_ReplyTest extends TestCase
                 'invalid_param' => true,
             ]);
             $this->assertGreaterThan(0, count($replies));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -77,7 +80,7 @@ class Message_ReplyTest extends TestCase
         try {
             $reply = $this->model->get(self::$id);
             $this->assertEquals($reply->id, self::$id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -92,7 +95,7 @@ class Message_ReplyTest extends TestCase
             $data['id'] = null;
             $this->model->save($data);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Required field id', $e->getMessage());
         }
         try {
@@ -101,7 +104,7 @@ class Message_ReplyTest extends TestCase
             $this->assertTrue($this->model->save($data));
             $reply = $this->model->get(self::$id);
             $this->assertEquals($data['body'], $reply->body);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

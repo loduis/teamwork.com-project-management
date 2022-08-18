@@ -1,6 +1,10 @@
 <?php
 
-class TagTest extends TestCase
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Factory;
+
+class RoleTest extends TestCase
 {
     private $model;
     private static $id;
@@ -8,7 +12,7 @@ class TagTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('role');
+        $this->model = Factory::build('role');
     }
 
     /**

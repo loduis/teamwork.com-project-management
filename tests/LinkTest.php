@@ -1,5 +1,10 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class LinkTest extends TestCase
 {
     private $model;
@@ -9,7 +14,7 @@ class LinkTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('link');
+        $this->model = Factory::build('link');
         $this->projectId = get_first_project_id();
         $this->id = get_first_link_id();
     }
@@ -32,7 +37,7 @@ class LinkTest extends TestCase
             $data['category_id'] = get_first_link_category_id($this->projectId);
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -50,7 +55,7 @@ class LinkTest extends TestCase
             $this->assertTrue($this->model->save($data));
             $link = $this->model->get($this->id);
             $this->assertEquals((int)$link->categoryId, 0);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -70,7 +75,7 @@ class LinkTest extends TestCase
         try {
             $link = $this->model->get($this->id);
             $this->assertEquals($this->id, $link->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -83,7 +88,7 @@ class LinkTest extends TestCase
         try {
             $links = $this->model->getAll();
             $this->assertGreaterThan(0, count($links));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -102,7 +107,7 @@ class LinkTest extends TestCase
         try {
             $links = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($links));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

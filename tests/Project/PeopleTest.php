@@ -1,18 +1,23 @@
 <?php
 
-class Project_PeopleTest extends TestCase
+namespace TeamWorkPm\Tests\Project;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Tests\TestCase;
+
+class PeopleTest extends TestCase
 {
     private $model;
     private static $personId;
     private static $projectId;
 
-
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('project/people');
+        $this->model = Factory::build('project/people');
         if (!self::$personId) {
-            $people = \TeamWorkPm\Factory::build('people');
+            $people = Factory::build('people');
             foreach ($people->getAll() as $p) {
                 if (!$p->siteOwner) {
                     self::$personId = (int)$p->id;
@@ -33,13 +38,13 @@ class Project_PeopleTest extends TestCase
         try {
             $add = $this->model->add(self::$projectId, self::$personId);
             $this->assertTrue($add);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('User is already on project', $e->getMessage());
         }
         try {
             $this->model->add(self::$projectId, self::$personId);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('User is already on project', $e->getMessage());
         }
     }
@@ -64,14 +69,14 @@ class Project_PeopleTest extends TestCase
         try {
             $this->model->update($data);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Required field project_id', $e->getMessage());
         }
         $data['project_id'] = self::$projectId;
         try {
             $this->model->update($data);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Required field person_id', $e->getMessage());
         }
         $data['person_id'] = self::$personId;
@@ -87,13 +92,13 @@ class Project_PeopleTest extends TestCase
         try {
             $this->model->delete(0, self::$personId);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Invalid param project_id', $e->getMessage());
         }
         try {
             $this->model->delete(self::$projectId, 0);
             $this->fail('An expected exception has not been raised.');
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Invalid param person_id', $e->getMessage());
         }
         $this->assertTrue(

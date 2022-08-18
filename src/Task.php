@@ -146,7 +146,7 @@ class Task extends Model
             throw new Exception('Required field task_list_id');
         }
         if (!empty($data['files'])) {
-            $file = \TeamWorkPm\Factory::build('file');
+            $file = Factory::build('file');
             $data['pending_file_attachments'] = $file->upload($data['files']);
             unset($data['files']);
         }

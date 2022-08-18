@@ -1,8 +1,6 @@
 <?php
 
 require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/functions.php';
-require __DIR__ . '/TestCase.php';
 
 // Start auth here to do so only once
 

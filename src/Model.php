@@ -5,8 +5,8 @@ namespace TeamWorkPm;
 abstract class Model extends Rest\Model
 {
     /**
-     * @param $id
-     * @param null $params
+     * @param int $id
+     * @param string $params
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception

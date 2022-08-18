@@ -1,5 +1,10 @@
 <?php
 
+namespace TeamWorkPm\Tests;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 class ProjectTest extends TestCase
 {
     private $id;
@@ -9,7 +14,7 @@ class ProjectTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('project');
+        $this->model = Factory::build('project');
         $this->id = get_first_project_id();
     }
 
@@ -25,7 +30,7 @@ class ProjectTest extends TestCase
             $this->assertGreaterThan(0, $id);
             $project = $this->model->get($id);
             $this->assertEquals((int)$project->category->id, $data['category_id']);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Project name taken', $e->getMessage());
         }
     }
@@ -42,13 +47,13 @@ class ProjectTest extends TestCase
             $this->assertTrue($this->model->save($data));
             $project = $this->model->get($this->id);
             $this->assertEquals((int)$project->category->id, $data['category_id']);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Project name taken', $e->getMessage());
         }
     }
 
     /**
-     * @expectedException        \TeamWorkPm\Exception
+     * @expectedException        Exception
      * @dataProvider provider
      * @test
      */
@@ -64,13 +69,13 @@ class ProjectTest extends TestCase
     {
         try {
             $this->assertTrue($this->model->star($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
 
     /**
-     * @expectedException        \TeamWorkPm\Exception
+     * @expectedException        Exception
      * @expectedExceptionMessage Invalid param id
      * @test
      */
@@ -89,13 +94,13 @@ class ProjectTest extends TestCase
         try {
             $projects = $this->model->getStarred();
             $this->assertGreaterThan(0, count($projects));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
 
     /**
-     * @expectedException        \TeamWorkPm\Exception
+     * @expectedException        Exception
      * @expectedExceptionMessage Invalid param id
      * @test
      */
@@ -111,13 +116,13 @@ class ProjectTest extends TestCase
     {
         try {
             $this->assertTrue($this->model->unStar($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
 
     /**
-     * @expectedException        \TeamWorkPm\Exception
+     * @expectedException        Exception
      * @expectedExceptionMessage Invalid param id
      * @test
      */
@@ -133,7 +138,7 @@ class ProjectTest extends TestCase
     {
         try {
             $this->assertTrue($this->model->archive($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -147,13 +152,13 @@ class ProjectTest extends TestCase
         try {
             $projects = $this->model->getArchived();
             $this->assertGreaterThan(0, count($projects));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
 
     /**
-     * @expectedException        \TeamWorkPm\Exception
+     * @expectedException        Exception
      * @expectedExceptionMessage Invalid param id
      * @test
      */
@@ -169,7 +174,7 @@ class ProjectTest extends TestCase
     {
         try {
             $this->assertTrue($this->model->activate($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -183,7 +188,7 @@ class ProjectTest extends TestCase
         try {
             $projects = $this->model->getActive();
             $this->assertGreaterThan(0, count($projects));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -196,7 +201,7 @@ class ProjectTest extends TestCase
         try {
             $project = $this->model->get($this->id);
             $this->assertEquals($project->id, $this->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -211,14 +216,14 @@ class ProjectTest extends TestCase
             $this->assertGreaterThan(0, count($projects));
             $save = $projects->save(__DIR__ . '/build/projects');
             $this->assertTrue(is_numeric($save));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
 
 
     /**
-     * @expectedException \TeamWorkPm\Exception
+     * @expectedException Exception
      * @test
      */
     public function deleteInvalidId()

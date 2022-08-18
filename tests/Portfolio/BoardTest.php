@@ -1,8 +1,15 @@
 <?php
 
+namespace TeamWorkPm\Tests\Portfolio;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Portfolio\Board;
+use TeamWorkPm\Tests\TestCase;
+
 class BoardTest extends TestCase
 {
-    /** @var \TeamWorkPm\Portfolio\Board */
+    /** @var Board */
     private $model;
 
     /** @var int */
@@ -11,7 +18,7 @@ class BoardTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('portfolio/board');
+        $this->model = Factory::build('portfolio/board');
         $this->id = get_first_portfolio_board_id();
     }
 
@@ -33,7 +40,7 @@ class BoardTest extends TestCase
             $this->assertStringStartsWith($data['name'], $portfolioBoard->name);
 
             $this->assertEquals($data['color'], $portfolioBoard->color);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -54,7 +61,7 @@ class BoardTest extends TestCase
 
             $portfolioBoard = $this->model->get($this->id);
             $this->assertEquals($data['color'], $portfolioBoard->color);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -67,7 +74,7 @@ class BoardTest extends TestCase
         try {
             $portfolioBoard = $this->model->get($this->id);
             $this->assertEquals($this->id, $portfolioBoard->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -81,13 +88,13 @@ class BoardTest extends TestCase
             $portfolioBoards = $this->model->getAll();
 
             $this->assertEquals($this->id, $portfolioBoards[0]->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
 
     /**
-     * @expectedException \TeamWorkPm\Exception
+     * @expectedException Exception
      * @test
      */
     public function deleteInvalidId()
@@ -102,7 +109,7 @@ class BoardTest extends TestCase
     {
         try {
             $this->assertTrue($this->model->delete($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

@@ -1,8 +1,15 @@
 <?php
 
+namespace TeamWorkPm\Tests\Portfolio;
+
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Portfolio\Column;
+use TeamWorkPm\Tests\TestCase;
+
 class ColumnTest extends TestCase
 {
-    /** @var \TeamWorkPm\Portfolio\Column */
+    /** @var Column */
     private $model;
 
     /** @var int */
@@ -14,7 +21,7 @@ class ColumnTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = \TeamWorkPm\Factory::build('portfolio/column');
+        $this->model = Factory::build('portfolio/column');
         $this->boardId = get_first_portfolio_board_id();
         $this->id = get_first_portfolio_board_column_id($this->boardId);
     }
@@ -39,7 +46,7 @@ class ColumnTest extends TestCase
             $this->assertStringStartsWith($data['name'], $portfolioColumn->name);
 
             $this->assertEquals($data['color'], $portfolioColumn->color);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -60,7 +67,7 @@ class ColumnTest extends TestCase
 
             $portfolioColumn = $this->model->get($this->id);
             $this->assertEquals($data['color'], $portfolioColumn->color);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -73,7 +80,7 @@ class ColumnTest extends TestCase
         try {
             $portfolioColumn = $this->model->get($this->id);
             $this->assertEquals($this->id, $portfolioColumn->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -87,13 +94,13 @@ class ColumnTest extends TestCase
             $portfolioColumns = $this->model->getAllForBoard($this->boardId);
 
             $this->assertEquals($this->id, $portfolioColumns[0]->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
 
     /**
-     * @expectedException \TeamWorkPm\Exception
+     * @expectedException Exception
      * @test
      */
     public function getAllForBoardInvalidId()
@@ -102,7 +109,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @expectedException \TeamWorkPm\Exception
+     * @expectedException Exception
      * @test
      */
     public function deleteInvalidId()
@@ -117,7 +124,7 @@ class ColumnTest extends TestCase
     {
         try {
             $this->assertTrue($this->model->delete($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
