@@ -9,10 +9,10 @@ class TaskTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model      = TeamWorkPm\Factory::build('task');
-        $projectId        = get_first_project_id();
+        $this->model = \TeamWorkPm\Factory::build('task');
+        $projectId = get_first_project_id();
         $this->taskListId = get_first_task_list_id($projectId);
-        $this->id         = get_first_task_id($this->taskListId);
+        $this->id = get_first_task_id($this->taskListId);
 
     }
 
@@ -31,7 +31,7 @@ class TaskTest extends TestCase
         }
         try {
             $data['task_list_id'] = $this->taskListId;
-            $id                   = $this->model->save($data);
+            $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
@@ -202,20 +202,20 @@ class TaskTest extends TestCase
     {
         return [
             [
-              [
-                'content'     => 'Test Task',
-                'notify'      => false,
-                'description' => 'Bla, Bla, Bla',
-                'due_date'    => date('Ymd', strtotime('+10 days')),
-                'start_date'  => date('Ymd'),
-                'private'     => false,
-                'priority'    => 'high',
-                'estimated_minutes' => 1000,
-                'responsible_party_id' => null,
-                'attachments'          => null,
-                'pending_file_attachments'=> null
-              ]
-            ]
+                [
+                    'content' => 'Test Task',
+                    'notify' => false,
+                    'description' => 'Bla, Bla, Bla',
+                    'due_date' => date('Ymd', strtotime('+10 days')),
+                    'start_date' => date('Ymd'),
+                    'private' => false,
+                    'priority' => 'high',
+                    'estimated_minutes' => 1000,
+                    'responsible_party_id' => null,
+                    'attachments' => null,
+                    'pending_file_attachments' => null,
+                ],
+            ],
         ];
     }
 }

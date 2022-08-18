@@ -21,16 +21,15 @@ class JSON extends Model
                     $parent->{$this->parent}[] = $item;
                 }
             } else {
-                foreach ($this->fields as $field=>$options) {
+                foreach ($this->fields as $field => $options) {
                     $value = $this->getValue($field, $options, $parameters);
                     if (isset($options['attributes'])) {
-                        foreach ($options['attributes'] as $name=>$type) {
-                            if (null !== $value) {
+                        foreach ($options['attributes'] as $name => $type) {
+                            if ($value !== null) {
                                 if ($name === 'type') {
                                     if ($type === 'array') {
-                                        if (is_string($value) ||
-                                                        is_numeric($value)) {
-                                            $value = (array) $value;
+                                        if (is_string($value) || is_numeric($value)) {
+                                            $value = (array)$value;
                                         }
                                     } else {
                                         settype($value, $type);
@@ -47,13 +46,13 @@ class JSON extends Model
                                 'utf-8'
                             );
                         }
-                        !empty($options['sibling']) ?
-                            $object->$field = $value :
-                            $parent->$field = $value;
+                        !empty($options['sibling'])
+                            ? $object->$field = $value
+                            : $parent->$field = $value;
                     }
                 }
             }
-            $parameters =  json_encode($object);
+            $parameters = json_encode($object);
             $parameters = mb_decode_numericentity(
                 $parameters,
                 [0x80, 0xffff, 0, 0xffff],

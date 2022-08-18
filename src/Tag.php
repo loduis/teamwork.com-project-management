@@ -97,7 +97,6 @@ class Tag extends Model
 
     public function addTagToResource($resource = '', $id = null)
     {
-
         return $this->rest->put("$resource/$id/$this->action");
     }
 }

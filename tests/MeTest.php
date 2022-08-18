@@ -8,7 +8,7 @@ class MeTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('me');
+        $this->model = \TeamWorkPm\Factory::build('me');
     }
 
 

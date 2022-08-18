@@ -2,14 +2,13 @@
 
 class Me_StatusTest extends TestCase
 {
-
     private $model;
     private static $id;
 
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('me/status');
+        $this->model = \TeamWorkPm\Factory::build('me/status');
     }
 
     /**
@@ -21,7 +20,7 @@ class Me_StatusTest extends TestCase
         try {
             self::$id = $this->model->save($data);
             $this->assertGreaterThan(0, self::$id);
-        } catch(\TeamWorkPm\Exception $e) {
+        } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -34,7 +33,7 @@ class Me_StatusTest extends TestCase
         try {
             $status = $this->model->get();
             $this->assertEquals($status->id, self::$id);
-        } catch(\TeamWorkPm\Exception $e) {
+        } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -53,12 +52,12 @@ class Me_StatusTest extends TestCase
             $this->assertEquals('Required field id', $e->getMessage());
         }
         try {
-            $data['id']     = self::$id;
+            $data['id'] = self::$id;
             $data['status'] = rand_string($data['status']);
             $this->assertTrue($this->model->save($data));
             $status = $this->model->get();
             $this->assertEquals($data['status'], $status->status);
-        } catch(\TeamWorkPm\Exception $e) {
+        } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -69,9 +68,9 @@ class Me_StatusTest extends TestCase
             [
                 [
                     'status' => 'Test me status',
-                    'notify' => false
-                ]
-            ]
+                    'notify' => false,
+                ],
+            ],
         ];
     }
 }

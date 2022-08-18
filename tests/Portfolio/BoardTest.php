@@ -11,7 +11,7 @@ class BoardTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('portfolio/board');
+        $this->model = \TeamWorkPm\Factory::build('portfolio/board');
         $this->id = get_first_portfolio_board_id();
     }
 
@@ -118,9 +118,9 @@ class BoardTest extends TestCase
             [
                 [
                     'name' => 'test board',
-                    'color' => '#cccccc'
-                ]
-            ]
+                    'color' => '#cccccc',
+                ],
+            ],
         ];
     }
 }

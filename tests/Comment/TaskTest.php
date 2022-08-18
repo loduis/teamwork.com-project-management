@@ -9,11 +9,11 @@ class Comment_TaskTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model      = TeamWorkPm\Factory::build('comment/task');
-        $project_id       = get_first_project_id();
-        $task_list_id     = get_first_task_list_id($project_id);
+        $this->model = \TeamWorkPm\Factory::build('comment/task');
+        $project_id = get_first_project_id();
+        $task_list_id = get_first_task_list_id($project_id);
         $this->resourceId = get_first_task_id($task_list_id);
-        $this->id         = get_first_task_comment_id($this->resourceId);
+        $this->id = get_first_task_comment_id($this->resourceId);
     }
 
     /**
@@ -59,8 +59,7 @@ class Comment_TaskTest extends TestCase
     {
         try {
             $comment = $this->model->get($this->id);
-            $this->assertTrue(!empty($comment->id) &&
-                                                  $this->id === $comment->id);
+            $this->assertTrue(!empty($comment->id) && $this->id === $comment->id);
         } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
         }
@@ -93,9 +92,9 @@ class Comment_TaskTest extends TestCase
                     'body' => 'Comment, Comment, Blaa',
                     'notify' => false,
                     'isprivate' => false,
-                    'pending_file_attachments' => null
-                ]
-            ]
+                    'pending_file_attachments' => null,
+                ],
+            ],
         ];
     }
 }

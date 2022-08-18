@@ -5,7 +5,6 @@ namespace TeamWorkPm;
 final class Rest
 {
     /**
-     *
      * @var string api format request an response
      */
     private static $FORMAT = 'json';
@@ -16,18 +15,17 @@ final class Rest
     private $key = null;
 
     /**
-     * @var string this your company name path
+     * @var string your company name path
      */
     private $url = null;
 
     /**
-     * @var TeamWorkPm\Request\Model
+     * @var \TeamWorkPm\Request\Model
      */
     private $request = null;
 
     /**
-     *
-     * @param string $company
+     * @param string $url
      * @param string $key
      * @throws \TeamWorkPm\Exception
      */
@@ -35,13 +33,13 @@ final class Rest
     {
         if (empty($url) || empty($key)) {
             throw new Exception('Set your url and api key');
-        } else {
-            $this->key = $key;
-            $this->url = $url;
         }
-        $format          = strtoupper(self::$FORMAT);
-        $request         = '\TeamWorkPm\Request\\' . $format;
-        $this->request  = new $request;
+
+        $this->key = $key;
+        $this->url = $url;
+        $format = strtoupper(self::$FORMAT);
+        $request = '\TeamWorkPm\Request\\' . $format;
+        $this->request = new $request();
     }
 
     /**
@@ -55,25 +53,22 @@ final class Rest
      */
     private function execute($method, $action, $request = null)
     {
-        $url =  "{$this->url}$action." . self::$FORMAT;
-        $headers = ['Authorization: BASIC '. base64_encode(
-            $this->key . ':xxx'
-        )];
+        $url = "{$this->url}$action." . self::$FORMAT;
+        $headers = [
+            'Authorization: BASIC ' . base64_encode($this->key . ':xxx'),
+        ];
         $request = $this->request
-                        ->setAction($action)
-                        ->getParameters($method, $request);
+            ->setAction($action)
+            ->getParameters($method, $request);
         $ch = static::initCurl($method, $url, $request, $headers);
         $i = 0;
         while ($i < 5) {
-            $data        = curl_exec($ch);
-            $status      = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $data = curl_exec($ch);
+            $status = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-            $headers     = $this->parseHeaders(substr($data, 0, $header_size));
-            if (
-              $status === 400 &&
-              (int) $headers['x-ratelimit-remaining'] === 0
-            ) {
-                $i ++;
+            $headers = $this->parseHeaders(substr($data, 0, $header_size));
+            if ($status === 400 && (int)$headers['x-ratelimit-remaining'] === 0) {
+                $i++;
                 $reset = $headers['x-ratelimit-reset'];
                 sleep($reset);
             } else {
@@ -81,9 +76,9 @@ final class Rest
             }
         }
         // echo $data, PHP_EOL, PHP_EOL;
-        $body        = substr($data, $header_size);
-        $errorInfo   = curl_error($ch);
-        $error       = curl_errno($ch);
+        $body = substr($data, $header_size);
+        $errorInfo = curl_error($ch);
+        $error = curl_errno($ch);
         curl_close($ch);
         if ($error) {
             throw new Exception($errorInfo);
@@ -91,17 +86,25 @@ final class Rest
 
         $headers['Status'] = $status;
         $headers['Method'] = $method;
-        $headers['X-Url']  = $url;
+        $headers['X-Url'] = $url;
         $headers['X-Request'] = $request;
-        $headers['X-Action']  = $action;
+        $headers['X-Action'] = $action;
         // for chrome use
-        $headers['X-Authorization'] = 'BASIC '. base64_encode($this->key . ':xxx');
-        $response = '\\TeamWorkPm\\Response\\' . strtoupper(self::$FORMAT);
-        $response = new $response;
+        $headers['X-Authorization'] = 'BASIC ' . base64_encode($this->key . ':xxx');
+
+        $responseClass = '\\TeamWorkPm\\Response\\' . strtoupper(self::$FORMAT);
+        $response = new $responseClass();
 
         return $response->parse($body, $headers);
     }
 
+    /**
+     * @param string $method
+     * @param string $url
+     * @param string|null $params
+     * @param array $headers
+     * @return false|resource
+     */
     private static function initCurl($method, $url, $params, $headers)
     {
         $ch = curl_init();
@@ -113,8 +116,8 @@ final class Rest
                 break;
             case 'UPLOAD':
                 curl_setopt_array($ch, [
-                    CURLOPT_POST       => true,
-                    CURLOPT_POSTFIELDS => $params
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => $params,
                 ]);
                 break;
             case 'DELETE':
@@ -132,17 +135,17 @@ final class Rest
                 }
                 $headers = array_merge($headers, [
                     'Content-Type: application/' . self::$FORMAT,
-                    'Content-Length:' . strlen($params)
+                    'Content-Length:' . strlen($params),
                 ]);
                 break;
         }
         curl_setopt_array($ch, [
-            CURLOPT_HTTPHEADER     => $headers,
-            CURLOPT_URL            => $url,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER         => true,
+            CURLOPT_HEADER => true,
             CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_SSL_VERIFYPEER => false
+            CURLOPT_SSL_VERIFYPEER => false,
         ]);
 
         return $ch;
@@ -182,10 +185,14 @@ final class Rest
         return $this->execute('UPLOAD', $action, $request);
     }
 
+    /**
+     * @return \TeamWorkPm\Request\Model|null
+     */
     public function getRequest()
     {
         return $this->request;
     }
+
     /**
      * @codeCoverageIgnore
      */
@@ -209,7 +216,7 @@ final class Rest
                 if ($header && false !== strpos($header, ':')) {
                     list($name, $value) = explode(':', $header, 2);
                     $value = trim($value);
-                    $name  = trim($name);
+                    $name = trim($name);
                     if (isset($headers[$name])) {
                         if (is_array($headers[$name])) {
                             $headers[$name][] = $value;

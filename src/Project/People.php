@@ -10,132 +10,132 @@ class People extends Model
     protected function init()
     {
         $this->fields = [
-            'view_messages_and_files'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'view_messages_and_files' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'view_tasks_and_milestones'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'view_tasks_and_milestones' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'view_time'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'view_time' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'view_notebooks'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'view_notebooks' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'view_risk_register'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'view_risk_register' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'view_invoices'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'view_invoices' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'view_links'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'view_links' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'add_tasks'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'add_tasks' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'add_milestones'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'add_milestones' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'add_taskLists'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'add_taskLists' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'add_messages'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'add_messages' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'add_files'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'add_files' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'add_time'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'add_time' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'add_links'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'add_links' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'set_privacy'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'set_privacy' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'can_be_assigned_to_tasks_and_milestones'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'can_be_assigned_to_tasks_and_milestones' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'project_administrator'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
+            'project_administrator' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
             ],
-            'add_people_to_project'=>[
-                'require'=>false,
-                'attributes'=>[
-                    'type'=>'integer',
-                    'validate'=>[1, 0]
-                ]
-            ]
+            'add_people_to_project' => [
+                'require' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                    'validate' => [1, 0],
+                ],
+            ],
         ];
         $this->action = $this->parent = 'permissions';
     }
@@ -178,8 +178,8 @@ class People extends Model
      */
     public function update(array $data)
     {
-        $project_id = (int) (empty($data['project_id']) ? 0: $data['project_id']);
-        $person_id = (int) (empty($data['person_id']) ? 0: $data['person_id']);
+        $project_id = (int)(empty($data['project_id']) ? 0 : $data['project_id']);
+        $person_id = (int)(empty($data['person_id']) ? 0 : $data['person_id']);
         if ($project_id <= 0) {
             throw new Exception("Required field project_id");
         }
@@ -210,11 +210,11 @@ class People extends Model
      */
     private function validates($project_id, $person_id)
     {
-        $project_id = (int) $project_id;
+        $project_id = (int)$project_id;
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        $person_id = (int) $person_id;
+        $person_id = (int)$person_id;
         if ($person_id <= 0) {
             throw new Exception('Invalid param person_id');
         }

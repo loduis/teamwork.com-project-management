@@ -14,7 +14,7 @@ class ColumnTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('portfolio/column');
+        $this->model = \TeamWorkPm\Factory::build('portfolio/column');
         $this->boardId = get_first_portfolio_board_id();
         $this->id = get_first_portfolio_board_column_id($this->boardId);
     }
@@ -134,8 +134,8 @@ class ColumnTest extends TestCase
                 [
                     "name" => "test column",
                     "color" => "#eeeeee",
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

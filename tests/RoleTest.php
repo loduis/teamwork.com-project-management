@@ -8,7 +8,7 @@ class TagTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('role');
+        $this->model = \TeamWorkPm\Factory::build('role');
     }
 
     /**
@@ -27,7 +27,7 @@ class TagTest extends TestCase
     }
 
     /**
-     * @depends insert
+     * @depends      insert
      * @dataProvider provider
      * @test
      */
@@ -87,8 +87,8 @@ class TagTest extends TestCase
                     'description' => 'Test role for testing unit tests',
                     'project_id' => $project_id,
                     'users' => get_first_person_id($project_id),
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

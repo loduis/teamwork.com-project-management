@@ -8,41 +8,41 @@ class Link extends Model
     {
         $this->fields = [
             // {link name}
-            'name'          =>true,
+            'name' => true,
             // {link display code: Embed code, Iframe code, URL}
-            'code'          => true,
+            'code' => true,
             // {link description}
-            'description'   =>false,
+            'description' => false,
             // {1|0}
-            'private'       =>[
-                'required'=> false,
-                'type'=>'integer',
-                'validate'=> [0, 1]
+            'private' => [
+                'required' => false,
+                'type' => 'integer',
+                'validate' => [0, 1],
             ],
             // {width of window in Teamwork (integer)}
-            'width'         => [
-                'required'=> false,
-                'type'=>'integer'
+            'width' => [
+                'required' => false,
+                'type' => 'integer',
             ],
             // {height of window in Teamwork (integer)}
-            'height'        => [
-                'required'=> false,
-                'type'=>'integer'
+            'height' => [
+                'required' => false,
+                'type' => 'integer',
             ],
             // {link category id}
-            'category_id'   => [
-                'required'=> false,
-                'type'=>'integer'
+            'category_id' => [
+                'required' => false,
+                'type' => 'integer',
             ],
             // {New link category name. category-id must be passed as 0}
             'category_name' => false,
             // {Comma separated list of users to notify OR (YES|NO|ALL)}
-            'notify'        => false,
+            'notify' => false,
             // {Force link to open in new window (boolean)}
             'open_in_new_window' => [
-                'required'=> false,
-                'type'=>'boolean'
-            ]
+                'required' => false,
+                'type' => 'boolean',
+            ],
         ];
     }
 
@@ -72,7 +72,7 @@ class Link extends Model
      */
     public function getByProject($project_id)
     {
-        $project_id = (int) $project_id;
+        $project_id = (int)$project_id;
         if ($project_id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param project_id');
         }
@@ -93,7 +93,7 @@ class Link extends Model
      */
     public function insert(array $data)
     {
-        $project_id = empty($data['project_id']) ? 0: (int) $data['project_id'];
+        $project_id = empty($data['project_id']) ? 0 : (int)$data['project_id'];
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }

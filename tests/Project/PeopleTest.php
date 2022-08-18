@@ -4,18 +4,18 @@ class Project_PeopleTest extends TestCase
 {
     private $model;
     private static $personId;
-    private static$projectId;
+    private static $projectId;
 
 
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('project/people');
+        $this->model = \TeamWorkPm\Factory::build('project/people');
         if (!self::$personId) {
-            $people = TeamWorkPm\Factory::build('people');
+            $people = \TeamWorkPm\Factory::build('people');
             foreach ($people->getAll() as $p) {
                 if (!$p->siteOwner) {
-                    self::$personId = (int) $p->id;
+                    self::$personId = (int)$p->id;
                     break;
                 }
             }
@@ -55,7 +55,7 @@ class Project_PeopleTest extends TestCase
     }
 
     /**
-     * @depends add
+     * @depends      add
      * @dataProvider provider
      * @test
      */
@@ -119,9 +119,9 @@ class Project_PeopleTest extends TestCase
                     'add_messages' => 0,
                     'add_files' => 0,
                     'add_time' => 0,
-                    'add_links' => 0
-                ]
-            ]
+                    'add_links' => 0,
+                ],
+            ],
         ];
     }
 }

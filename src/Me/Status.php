@@ -11,8 +11,8 @@ class Status extends Model
         $this->parent = 'userstatus';
         $this->action = 'status';
         $this->fields = [
-          'status'=>true,
-          'notify'=>false
+            'status' => true,
+            'notify' => false,
         ];
     }
 
@@ -60,7 +60,7 @@ class Status extends Model
      */
     public function update(array $data)
     {
-        $id = empty($data['id']) ? 0  : (int) $data['id'];
+        $id = empty($data['id']) ? 0 : (int)$data['id'];
         if ($id <= 0) {
             throw new \TeamWorkPm\Exception('Required field id');
         }
@@ -82,7 +82,7 @@ class Status extends Model
      */
     public function delete($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param id');
         }
@@ -97,8 +97,8 @@ class Status extends Model
      */
     final public function save(array $data)
     {
-        return array_key_exists('id', $data) ?
-            $this->update($data):
-            $this->insert($data);
+        return array_key_exists('id', $data)
+            ? $this->update($data)
+            : $this->insert($data);
     }
 }

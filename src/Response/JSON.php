@@ -3,12 +3,12 @@
 namespace TeamWorkPm\Response;
 
 use ArrayObject;
+use stdClass;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Helper\Str;
 
 class JSON extends Model
 {
-
     /**
      * @param $data
      * @param array $headers
@@ -23,28 +23,29 @@ class JSON extends Model
         $this->string = $data;
         if (!$errors) {
             if (!(
-                $headers['Status'] === 201 ||
-                $headers['Status'] === 200 ||
-                $headers['Status'] === 409 ||
-                $headers['Status'] === 422 ||
-                $headers['Status'] === 400
+                $headers['Status'] === 201
+                || $headers['Status'] === 200
+                || $headers['Status'] === 409
+                || $headers['Status'] === 422
+                || $headers['Status'] === 400
             )) {
                 throw new Exception([
                     'Message' => $errors,
                     'Response' => $data,
-                    'Headers' => $headers
+                    'Headers' => $headers,
                 ]);
             }
             if ($headers['Status'] === 201 || $headers['Status'] === 200) {
                 switch ($headers['Method']) {
                     case 'UPLOAD':
-                        return empty($source->pendingFile->ref) ? null : (string) $source->pendingFile->ref;
+                        return empty($source->pendingFile->ref) ? null : (string)$source->pendingFile->ref;
                     case 'POST':
-                        // print_r($headers);
                         if (!empty($headers['id'])) {
-                            return (int) $headers['id'];
-                        } elseif (!empty($source->fileId)) {
-                            return (int) $source->fileId;
+                            return (int)$headers['id'];
+                        }
+
+                        if (!empty($source->fileId)) {
+                            return (int)$source->fileId;
                         }
                         // no break
                     case 'PUT':
@@ -63,23 +64,23 @@ class JSON extends Model
                         } elseif (!empty($source->project->links)) {
                             $source = $source->project->links;
                         } elseif (
-                            !empty($source->messageReplies) &&
-                            preg_match('!messageReplies/(\d+)!', $headers['X-Action'])
+                            !empty($source->messageReplies)
+                            && preg_match('!messageReplies/(\d+)!', $headers['X-Action'])
                         ) {
                             $source = current($source->messageReplies);
                         } elseif (
-                            !empty($source->people) &&
-                            preg_match('!projects/(\d+)/people/(\d+)!', $headers['X-Action'])
+                            !empty($source->people)
+                            && preg_match('!projects/(\d+)/people/(\d+)!', $headers['X-Action'])
                         ) {
                             $source = current($source->people);
                         } elseif (
-                            !empty($source->project) &&
-                            preg_match('!projects/(\d+)/notebooks!', $headers['X-Action'])
+                            !empty($source->project)
+                            && preg_match('!projects/(\d+)/notebooks!', $headers['X-Action'])
                         ) {
                             $source = [];
                         } elseif (
-                            isset($source->cards) &&
-                            preg_match('!portfolio/columns/(\d+)/cards!', $headers['X-Action'])
+                            isset($source->cards)
+                            && preg_match('!portfolio/columns/(\d+)/cards!', $headers['X-Action'])
                         ) {
                             $source = $source->cards;
                         } else {
@@ -100,10 +101,10 @@ class JSON extends Model
                         $this->headers = $headers;
                         $this->string = json_encode($source);
 
-                        $this->data   = is_object($source) ? self::camelizeObject($source) : $source;
+                        $this->data = is_object($source) ? self::camelizeObject($source) : $source;
 
                         if (!empty($this->data->id)) {
-                            $this->data->id = (int) $this->data->id;
+                            $this->data->id = (int)$this->data->id;
                         }
 
                         return $this;
@@ -116,9 +117,9 @@ class JSON extends Model
         }
 
         throw new Exception([
-            'Message'  => $errors,
+            'Message' => $errors,
             'Response' => $data,
-            'Headers'  => $headers
+            'Headers' => $headers,
         ]);
     }
 
@@ -133,7 +134,7 @@ class JSON extends Model
     }
 
     /**
-     * @param array $source
+     * @param array|stdClass $source
      *
      * @return ArrayObject
      */
@@ -161,7 +162,7 @@ class JSON extends Model
     {
         $errorCode = json_last_error();
         if (!$errorCode) {
-            return;
+            return null;
         }
 
         if (function_exists('json_last_error_msg')) {
@@ -171,19 +172,15 @@ class JSON extends Model
         switch ($errorCode) {
             case JSON_ERROR_DEPTH:
                 return 'Maximum stack depth exceeded';
-            break;
             case JSON_ERROR_STATE_MISMATCH:
                 return 'Underflow or the modes mismatch';
-            break;
             case JSON_ERROR_CTRL_CHAR:
                 return 'Unexpected control character found';
-            break;
             case JSON_ERROR_SYNTAX:
                 return 'Syntax error, malformed JSON';
-            break;
             case JSON_ERROR_UTF8:
                 return 'Malformed UTF-8 characters, possibly incorrectly encoded';
-            break;
         }
+        return null;
     }
 }

@@ -9,9 +9,9 @@ class MilestoneTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model     = TeamWorkPm\Factory::build('milestone');
+        $this->model = \TeamWorkPm\Factory::build('milestone');
         $this->projectId = get_first_project_id();
-        $this->id        = get_first_milestone_id($this->projectId);
+        $this->id = get_first_milestone_id($this->projectId);
     }
 
     /**
@@ -250,9 +250,9 @@ class MilestoneTest extends TestCase
                     'deadline' => date('Ymd', strtotime('+10 day')),
                     'notify' => false,
                     'reminder' => false,
-                    'private' => false
-                ]
-            ]
+                    'private' => false,
+                ],
+            ],
         ];
     }
 }

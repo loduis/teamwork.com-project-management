@@ -9,20 +9,20 @@ class People extends Model
         $this->fields = [
             'first_name' => true,
             'last_name' => true,
-            'email_address'=>true,
+            'email_address' => true,
             'user_name' => true,
             'password' => false,
             'company_id' => false,
             'title' => false,
-            'phone_number_mobile'=>false,
-            'phone_number_office'=>false,
-            'phone_number_office_ext'=>false,
-            'phone_number_fax'=>false,
-            'phone_number_home'=>false,
-            'im_handle'=>false,
-            'im_service'=>[
-                'required'=>false,
-                'validate'=>[
+            'phone_number_mobile' => false,
+            'phone_number_office' => false,
+            'phone_number_office_ext' => false,
+            'phone_number_fax' => false,
+            'phone_number_home' => false,
+            'im_handle' => false,
+            'im_service' => [
+                'required' => false,
+                'validate' => [
                     'GTalk',
                     'AOL',
                     'ICQ',
@@ -30,41 +30,41 @@ class People extends Model
                     'Jabber',
                     'Yahoo',
                     'Skype',
-                    'Twitter'
-                ]
+                    'Twitter',
+                ],
             ],
-            'date_format'=>[
-                'required'=>false,
-                'validate'=>[
+            'date_format' => [
+                'required' => false,
+                'validate' => [
                     'dd.mm.yyyy',
                     'dd/mm/yyyy',
                     'mm.dd.yyyy',
                     'mm/dd/yyyy',
                     'yyyy-mm-dd',
-                    'yyyy.mm.dd'
-                ]
+                    'yyyy.mm.dd',
+                ],
             ],
-            'send_welcome_email'=>[
-                'required'=>false,
-                'type'=>'boolean'
+            'send_welcome_email' => [
+                'required' => false,
+                'type' => 'boolean',
             ],
-            'receive_daily_reports'=>[
-                'required'=>false,
-                'type'=>'boolean'
+            'receive_daily_reports' => [
+                'required' => false,
+                'type' => 'boolean',
             ],
-            'welcome_email_message'=>false,
-            'auto_give_project_access'=>[
-                'required'=>false,
-                'type'=>'boolean'
+            'welcome_email_message' => false,
+            'auto_give_project_access' => [
+                'required' => false,
+                'type' => 'boolean',
             ],
-            'open_id'=>false,
-            'notes'=>[
-                'required'=>false,
-                'type'=>'boolean'
+            'open_id' => false,
+            'notes' => [
+                'required' => false,
+                'type' => 'boolean',
             ],
-            'user_language'=>[
-                'required'=>false,
-                'validate'=>[
+            'user_language' => [
+                'required' => false,
+                'validate' => [
                     'EN',
                     'FR',
                     'AR',
@@ -88,14 +88,14 @@ class People extends Model
                     'RO',
                     'RU',
                     'ES',
-                    'SV'
-                ]
+                    'SV',
+                ],
             ],
-            'administrator'=>false,
-            'can_add_projects'=>[
-                'required'=>false,
-                'type'=>'boolean'
-            ]
+            'administrator' => false,
+            'can_add_projects' => [
+                'required' => false,
+                'type' => 'boolean',
+            ],
         ];
         $this->parent = 'person';
         $this->action = 'people';
@@ -110,11 +110,11 @@ class People extends Model
      */
     public function get($id, $project_id = null)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        $project_id = (int) $project_id;
+        $project_id = (int)$project_id;
         $action = "$this->action/$id";
         if ($project_id) {
             $action = "projects/$project_id/$action";
@@ -137,7 +137,7 @@ class People extends Model
     {
         return $this->rest->get($this->action, [
             'pageSize' => $pageSize,
-            'page' => $page
+            'page' => $page,
         ]);
     }
 
@@ -153,7 +153,7 @@ class People extends Model
      */
     public function getByProject($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         return $this->rest->get("projects/$id/$this->action");
     }
 
@@ -170,7 +170,7 @@ class People extends Model
      */
     public function getByCompany($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         return $this->rest->get("companies/$id/$this->action");
     }
 
@@ -186,9 +186,9 @@ class People extends Model
      */
     public function getByEmail($emailaddress)
     {
-        $emailaddress = (string) $emailaddress;
+        $emailaddress = (string)$emailaddress;
         return $this->rest->get($this->action, [
-            'emailaddress' => $emailaddress
+            'emailaddress' => $emailaddress,
         ]);
     }
 
@@ -205,15 +205,16 @@ class People extends Model
     public function insert(array $data)
     {
         // validate email address
-        if (!empty($data['email_address']) &&
-                !filter_var($data['email_address'], FILTER_VALIDATE_EMAIL)) {
+        if (!empty($data['email_address'])
+            && !filter_var($data['email_address'], FILTER_VALIDATE_EMAIL)) {
             throw new Exception(
                 'Invalid value for field email_address'
             );
         }
         $project_id = empty($data['project_id']) ? 0 : $data['project_id'];
-        $permissions = empty($data['permissions']) ? null :
-                                                (array) $data['permissions'];
+        $permissions = empty($data['permissions'])
+            ? null
+            : (array)$data['permissions'];
         unset($data['project_id'], $data['permissions']);
         $id = parent::insert($data);
         // add permission to project
@@ -221,7 +222,7 @@ class People extends Model
             $permission = \TeamWorkPm\Factory::build('project/people');
             $permission->add($project_id, $id);
             if ($permissions) {
-                $permissions['person_id']  = $id;
+                $permissions['person_id'] = $id;
                 $permissions['project_id'] = $project_id;
                 $permission->update($permissions);
             }
@@ -239,15 +240,15 @@ class People extends Model
     public function update(array $data)
     {
         // validate email address
-        if (!empty($data['email_address']) &&
-                !filter_var($data['email_address'], FILTER_VALIDATE_EMAIL)) {
+        if (!empty($data['email_address']) && !filter_var($data['email_address'], FILTER_VALIDATE_EMAIL)) {
             throw new Exception(
                 'Invalid value for field email_address'
             );
         }
         $project_id = empty($data['project_id']) ? 0 : $data['project_id'];
-        $permissions = empty($data['permissions']) ? null :
-                                                (array) $data['permissions'];
+        $permissions = empty($data['permissions'])
+            ? null
+            : (array)$data['permissions'];
         unset($data['project_id'], $data['permissions']);
         $save = false;
         if (!empty($data)) {
@@ -263,7 +264,7 @@ class People extends Model
             }
             $save = $save && $add;
             if ($add && $permissions) {
-                $permissions['person_id']  = $data['id'];
+                $permissions['person_id'] = $data['id'];
                 $permissions['project_id'] = $project_id;
                 $save = $permission->update($permissions);
             }
@@ -280,11 +281,11 @@ class People extends Model
      */
     public function delete($id, $project_id = null)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        $project_id = (int) $project_id;
+        $project_id = (int)$project_id;
         $action = "$this->action/$id";
         if ($project_id) {
             $action = "projects/$project_id/$action";

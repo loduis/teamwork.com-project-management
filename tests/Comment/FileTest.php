@@ -10,10 +10,10 @@ class Comment_FileTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model      = TeamWorkPm\Factory::build('comment/file');
-        $this->projectId  = get_first_project_id();
+        $this->model = \TeamWorkPm\Factory::build('comment/file');
+        $this->projectId = get_first_project_id();
         $this->resourceId = get_first_file_id($this->projectId);
-        $this->id         = get_first_file_comment_id($this->resourceId);
+        $this->id = get_first_file_comment_id($this->resourceId);
     }
 
     /**
@@ -30,8 +30,8 @@ class Comment_FileTest extends TestCase
         }
         try {
             $data['files'] = dirname(__DIR__) . '/uploads/teamworkpm.jpg';
-            $file                = TeamWorkPm\Factory::build('file');
-            $file                = $file->get($this->resourceId);
+            $file = \TeamWorkPm\Factory::build('file');
+            $file = $file->get($this->resourceId);
             $data['resource_id'] = $file->versionId;
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
@@ -41,7 +41,7 @@ class Comment_FileTest extends TestCase
     }
 
     /**
-     * @depends insert
+     * @depends      insert
      * @dataProvider provider
      * @test
      */
@@ -63,8 +63,7 @@ class Comment_FileTest extends TestCase
     {
         try {
             $comment = $this->model->get($this->id);
-            $this->assertTrue(!empty($comment->id) &&
-                                                  $this->id === $comment->id);
+            $this->assertTrue(!empty($comment->id) && $this->id === $comment->id);
         } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
         }
@@ -98,9 +97,9 @@ class Comment_FileTest extends TestCase
                     'body' => 'Comment, Comment, Blaa',
                     'notify' => false,
                     'isprivate' => false,
-                    'pending_file_attachments' => null
-                ]
-            ]
+                    'pending_file_attachments' => null,
+                ],
+            ],
         ];
     }
 }

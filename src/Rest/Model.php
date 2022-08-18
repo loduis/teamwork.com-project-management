@@ -7,64 +7,68 @@ use TeamWorkPm\Rest;
 abstract class Model
 {
     /**
-     * Maneja las instancias de clases
-     * creanda en el projecto
+     * Manages the instances of classes created in the project
+     *
      * @var array
      */
     private static $instances = [];
 
     /**
-     * Es una instancia a la clase que maneja
-     * las conexiones del api con curl
+     * It is an instance of the class that handles api connections with curl
+     *
      * @var \TeamWorkPm\Rest
      */
     protected $rest = null;
+
     /**
-     * Es el elemento padre que contiene
-     * los demas elementos xml o json de los paramentros
-     * del put y del post
+     * It is the parent element that contains the other xml or json elements of the put and post parameters
+     *
      * @var string
      */
     protected $parent = null;
+
     /**
-     * Es el comnun recurso que se debe ejecutar
+     * It is the common resource to be executed
+     *
      * @var string
      */
     protected $action = null;
+
     /**
-     * Almacena los campos del objeto
+     * Stores the object fields
+     *
      * @var array
      */
     protected $fields = [];
+
     /**
-     *
      * @var string
      */
     private $hash = null;
 
     /**
-     * Model constructor.
-     *
-     * @param $url
-     * @param $key
-     * @param $class
-     * @param $hash
+     * @param string $url
+     * @param string $key
+     * @param string $class
+     * @param string $hash
      *
      * @throws \TeamWorkPm\Exception
      */
     final private function __construct($url, $key, $class, $hash)
     {
-        $this->rest   = new Rest($url, $key);
-        $this->hash   = $hash;
-        $this->parent = strtolower(str_replace(
-          ['TeamWorkPm\\', '\\'],
-          ['', '-'],
-          $class
-        ));
+        $this->rest = new Rest($url, $key);
+        $this->hash = $hash;
+        $this->parent = strtolower(
+            str_replace(
+                ['TeamWorkPm\\', '\\'],
+                ['', '-'],
+                $class
+            )
+        );
         if (method_exists($this, 'init')) {
             $this->init();
         }
-        if (null === $this->action) {
+        if ($this->action === null) {
             $this->action = str_replace('-', '_', $this->parent);
             // pluralize
             if (substr($this->action, -1) === 'y') {
@@ -73,10 +77,10 @@ abstract class Model
                 $this->action .= 's';
             }
         }
-        //configure request para put y post fields
+        // configure request for put and post fields
         $this->rest->getRequest()
-                    ->setParent($this->parent)
-                    ->setFields($this->fields);
+            ->setParent($this->parent)
+            ->setFields($this->fields);
     }
 
     /**
@@ -95,7 +99,7 @@ abstract class Model
     }
 
     /**
-     * @param $url
+     * @param string $url
      * @param string $key
      *
      * @return \TeamWorkPm\Model

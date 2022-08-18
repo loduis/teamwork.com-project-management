@@ -9,7 +9,7 @@ class ActivityTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model     = TeamWorkPm\Factory::build('activity');
+        $this->model = \TeamWorkPm\Factory::build('activity');
         $this->projectId = get_first_project_id();
     }
 
@@ -27,7 +27,7 @@ class ActivityTest extends TestCase
         }
         // stared
         try {
-            $project = TeamWorkPm\Factory::build('project');
+            $project = \TeamWorkPm\Factory::build('project');
             $project->star($this->projectId);
             $activity = $this->model->getAll(5, true);
             $this->assertGreaterThan(0, count($activity));

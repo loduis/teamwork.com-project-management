@@ -10,7 +10,7 @@ class TimeTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model     = TeamWorkPm\Factory::build('time');
+        $this->model     = \TeamWorkPm\Factory::build('time');
         $this->projectId = get_first_project_id();
         $task_list_id    = get_first_task_list_id($this->projectId);
         $this->taskId    = get_first_task_id($task_list_id);

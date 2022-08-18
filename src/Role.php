@@ -12,9 +12,9 @@ class Role extends Model
             'users' => [
                 'required' => false,
                 'attributes' => [
-                    'type' => 'string'
-                ]
-            ]
+                    'type' => 'string',
+                ],
+            ],
         ];
         $this->action = 'roles';
     }
@@ -39,7 +39,7 @@ class Role extends Model
     /**
      * Get all Roles (within a Project)
      * GET /projects/#{project_id}/roles
-     * Retrieves all of the roles in a given project
+     * Retrieves all the roles in a given project
      *
      * @param int $id
      *

@@ -9,9 +9,9 @@ class Category_NotebookTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model     = TeamWorkPm\Factory::build('category/notebook');
+        $this->model = \TeamWorkPm\Factory::build('category/notebook');
         $this->projectId = get_first_project_id();
-        $this->id        = get_first_notebook_category_id($this->projectId);
+        $this->id = get_first_notebook_category_id($this->projectId);
     }
 
     /**
@@ -27,7 +27,7 @@ class Category_NotebookTest extends TestCase
             $this->assertEquals('Required field project_id', $e->getMessage());
         }
         try {
-            $data['project_id']  = $this->projectId;
+            $data['project_id'] = $this->projectId;
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
         } catch (\TeamWorkPm\Exception $e) {
@@ -56,8 +56,7 @@ class Category_NotebookTest extends TestCase
     {
         try {
             $category = $this->model->get($this->id);
-            $this->assertTrue(!empty($category->id) &&
-                                                  $this->id === $category->id);
+            $this->assertTrue(!empty($category->id) && $this->id === $category->id);
         } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
         }
@@ -88,9 +87,9 @@ class Category_NotebookTest extends TestCase
             [
                 [
                     'name' => 'Test category',
-                    'parent' => 0
-                ]
-            ]
+                    'parent' => 0,
+                ],
+            ],
         ];
     }
 }

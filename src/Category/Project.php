@@ -10,8 +10,8 @@ class Project extends \TeamWorkPm\Model
         $this->parent = $parent;
         $this->action = $type . 'Categories';
         $this->fields = [
-            'name'=>true,
-            'parent'=> false
+            'name' => true,
+            'parent' => false,
         ];
     }
 

@@ -8,7 +8,7 @@ class Auth
 
     private static $config = [
         'url' => null,
-        'key' => null
+        'key' => null,
     ];
 
     private static $is_subdomain = false;
@@ -26,7 +26,7 @@ class Auth
             if (self::$is_subdomain) {
                 self::$config['url'] = self::$url;
             }
-            self::$config['key']  = func_get_arg(1);
+            self::$config['key'] = func_get_arg(1);
             if (self::$is_subdomain) {
                 $test = Factory::build('account')->authenticate();
                 $url = $test->url;

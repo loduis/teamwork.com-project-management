@@ -86,7 +86,7 @@ class Column extends Model
      */
     public function getAllForBoard($boardId)
     {
-        $boardId = (int) $boardId;
+        $boardId = (int)$boardId;
         if ($boardId <= 0) {
             throw new Exception('Invalid param boardId');
         }
@@ -101,7 +101,7 @@ class Column extends Model
      */
     public function insert(array $data)
     {
-        $boardId = empty($data['board_id']) ? 0 : (int) $data['board_id'];
+        $boardId = empty($data['board_id']) ? 0 : (int)$data['board_id'];
         if ($boardId <= 0) {
             throw new Exception('Required field board_id');
         }

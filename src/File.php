@@ -8,27 +8,27 @@ class File extends Rest\Model
     {
         $this->fields = [
             'pending_file_ref' => true,
-            'description'=>false,
-            'category_id'=>[
-                'required'=>false,
-                'attributes'=>[
-                    'type'=>'integer'
-                ]
+            'description' => false,
+            'category_id' => [
+                'required' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                ],
             ],
-            'category_name'=> false,
-            'private'=>false
+            'category_name' => false,
+            'private' => false,
         ];
     }
 
     /**
-     * @param $id
+     * @param int $id
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
     public function get($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
@@ -49,7 +49,7 @@ class File extends Rest\Model
      */
     public function getByProject($project_id)
     {
-        $project_id = (int) $project_id;
+        $project_id = (int)$project_id;
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
@@ -73,7 +73,7 @@ class File extends Rest\Model
      */
     public function upload($files)
     {
-        $files = (array) $files;
+        $files = (array)$files;
         $pending_file_attachments = [];
         foreach ($files as $filename) {
             if (!is_file($filename)) {
@@ -81,7 +81,7 @@ class File extends Rest\Model
             }
         }
         foreach ($files as $filename) {
-            $params = ['file'=> self::getFileParam($filename)];
+            $params = ['file' => self::getFileParam($filename)];
             $pending_file_attachments[] = $this->rest->upload(
                 'pendingfiles',
                 $params
@@ -112,7 +112,7 @@ class File extends Rest\Model
      */
     public function save(array $data)
     {
-        $project_id = empty($data['project_id']) ? 0: (int) $data['project_id'];
+        $project_id = empty($data['project_id']) ? 0 : (int)$data['project_id'];
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }
@@ -134,7 +134,7 @@ class File extends Rest\Model
      */
     public function delete($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }

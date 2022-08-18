@@ -9,9 +9,9 @@ class NotebookTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model     = TeamWorkPm\Factory::build('notebook');
+        $this->model = \TeamWorkPm\Factory::build('notebook');
         $this->projectId = get_first_project_id();
-        $this->id        = get_first_notebook_id($this->projectId);
+        $this->id = get_first_notebook_id($this->projectId);
     }
 
     /**
@@ -132,16 +132,16 @@ class NotebookTest extends TestCase
     {
         return [
             [
-              [
-                'name'          => 'Test notebook',
-                'description'   => 'Bla, Bla, Bla',
-                'content'       => '<b>Nada</b>, <i>nada</i>, nada',
-                'notify'        => false,
-                'category_id'   => 0,
-                'category_name' => 'New Notebook category.',
-                'private'       => false
-              ]
-            ]
+                [
+                    'name' => 'Test notebook',
+                    'description' => 'Bla, Bla, Bla',
+                    'content' => '<b>Nada</b>, <i>nada</i>, nada',
+                    'notify' => false,
+                    'category_id' => 0,
+                    'category_name' => 'New Notebook category.',
+                    'private' => false,
+                ],
+            ],
         ];
     }
 }

@@ -9,16 +9,16 @@ abstract class Model extends \TeamWorkPm\Model
         $this->parent = 'comment';
         $this->action = $this->parent . 's';
         $this->fields = [
-            'body'                     => true,
-            'notify'                   => [
-                'required'=>false,
-                'attributes'=>[
-                    'type'=>'array'
-                ]
+            'body' => true,
+            'notify' => [
+                'required' => false,
+                'attributes' => [
+                    'type' => 'array',
+                ],
             ],
-            'isprivate'                => false,
-            'author_id'                => false,
-            'pending_file_attachments' => false
+            'isprivate' => false,
+            'author_id' => false,
+            'pending_file_attachments' => false,
         ];
     }
 
@@ -37,8 +37,7 @@ abstract class Model extends \TeamWorkPm\Model
      */
     public function insert(array $data)
     {
-        $resource_id = empty($data['resource_id']) ? 0 :
-                                (int) $data['resource_id'];
+        $resource_id = empty($data['resource_id']) ? 0 : (int)$data['resource_id'];
         if ($resource_id <= 0) {
             throw new \TeamWorkPm\Exception('Required field resource_id');
         }
@@ -63,17 +62,17 @@ abstract class Model extends \TeamWorkPm\Model
      */
     public function getRecent($resource_id, $page_size = 20, $page = 1)
     {
-        $resource_id = (int) $resource_id;
+        $resource_id = (int)$resource_id;
         if ($resource_id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param resource_id');
         }
 
-        $page_size = abs((int) $page_size);
-        $page      = abs((int) $page);
+        $page_size = abs((int)$page_size);
+        $page = abs((int)$page);
 
         $params = [
             'page' => $page,
-            'pageSize'=> $page_size
+            'pageSize' => $page_size,
         ];
 
         return $this->rest->get(

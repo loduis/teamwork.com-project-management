@@ -9,9 +9,9 @@ class FileTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model     = TeamWorkPm\Factory::build('file');
+        $this->model = \TeamWorkPm\Factory::build('file');
         $this->projectId = get_first_project_id();
-        $this->id        = get_first_file_id($this->projectId);
+        $this->id = get_first_file_id($this->projectId);
     }
 
     /**
@@ -40,7 +40,7 @@ class FileTest extends TestCase
     public function save()
     {
         $data = [
-            'description'=> 'Bla, Bla, Bla'
+            'description' => 'Bla, Bla, Bla',
         ];
         try {
             $this->model->save($data);

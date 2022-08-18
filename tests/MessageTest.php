@@ -9,9 +9,9 @@ class MessageTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model     = TeamWorkPm\Factory::build('message');
+        $this->model = \TeamWorkPm\Factory::build('message');
         $this->projectId = get_first_project_id();
-        $this->id        = get_first_message_id($this->projectId);
+        $this->id = get_first_message_id($this->projectId);
     }
 
     /**
@@ -31,7 +31,7 @@ class MessageTest extends TestCase
             // upload file to the server
             $data['files'] = [
                 __DIR__ . '/uploads/teamworkpm.jpg',
-                __DIR__ . '/uploads/person.png'
+                __DIR__ . '/uploads/person.png',
             ];
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
@@ -41,14 +41,14 @@ class MessageTest extends TestCase
     }
 
     /**
-     * @depends insert
+     * @depends      insert
      * @dataProvider provider
      * @test
      */
     public function update($data)
     {
         try {
-            $data['id']          = $this->id;
+            $data['id'] = $this->id;
             $data['category_id'] = get_first_message_category_id($this->projectId);
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {
@@ -159,9 +159,9 @@ class MessageTest extends TestCase
                     'private' => false,
                     'category_id' => 0,
                     'attachments' => null,
-                    'pending_file_attachments' => null
-                ]
-            ]
+                    'pending_file_attachments' => null,
+                ],
+            ],
         ];
     }
 }

@@ -9,7 +9,7 @@ class ProjectTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('project');
+        $this->model = \TeamWorkPm\Factory::build('project');
         $this->id = get_first_project_id();
     }
 
@@ -20,11 +20,11 @@ class ProjectTest extends TestCase
     public function insert($data)
     {
         try {
-          $data['category_id'] = get_first_project_category_id();
-          $id = $this->model->save($data);
-          $this->assertGreaterThan(0, $id);
-          $project = $this->model->get($id);
-          $this->assertEquals((int) $project->category->id, $data['category_id']);
+            $data['category_id'] = get_first_project_category_id();
+            $id = $this->model->save($data);
+            $this->assertGreaterThan(0, $id);
+            $project = $this->model->get($id);
+            $this->assertEquals((int)$project->category->id, $data['category_id']);
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertEquals('Project name taken', $e->getMessage());
         }
@@ -41,7 +41,7 @@ class ProjectTest extends TestCase
             $data['category_id'] = 0;
             $this->assertTrue($this->model->save($data));
             $project = $this->model->get($this->id);
-            $this->assertEquals((int) $project->category->id, $data['category_id']);
+            $this->assertEquals((int)$project->category->id, $data['category_id']);
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertEquals('Project name taken', $e->getMessage());
         }
@@ -194,7 +194,7 @@ class ProjectTest extends TestCase
     public function get()
     {
         try {
-            $project     = $this->model->get($this->id);
+            $project = $this->model->get($this->id);
             $this->assertEquals($project->id, $this->id);
         } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
@@ -235,9 +235,9 @@ class ProjectTest extends TestCase
                     "description" => "bla, bla, bla",
                     "start_date" => 20121110,
                     "end_date" => 20121210,
-                    "new_company" => "Test Company"
-                ]
-            ]
+                    "new_company" => "Test Company",
+                ],
+            ],
         ];
     }
 }

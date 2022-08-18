@@ -23,9 +23,9 @@ class Activity extends Rest\Model
      */
     public function getAll($maxItems = null, $onlyStarred = null)
     {
-        $params      = [];
-        $onlyStarred = (bool) $onlyStarred;
-        $maxItems    = (int) $maxItems;
+        $params = [];
+        $onlyStarred = (bool)$onlyStarred;
+        $maxItems = (int)$maxItems;
         if ($onlyStarred) {
             $params['onlyStarred'] = $onlyStarred;
         }
@@ -48,12 +48,12 @@ class Activity extends Rest\Model
      */
     public function getByProject($project_id, $maxItems = null)
     {
-        $project_id = (int) $project_id;
+        $project_id = (int)$project_id;
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        $params      = [];
-        $maxItems    = (int) $maxItems;
+        $params = [];
+        $maxItems = (int)$maxItems;
         if ($maxItems) {
             $params['maxItems'] = $maxItems;
         }

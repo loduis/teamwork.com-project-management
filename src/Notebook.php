@@ -8,30 +8,30 @@ class Notebook extends Rest\Model
     {
         $this->fields = [
             'name' => true,
-            'description'=>true,
-            'content'=>true,
+            'description' => true,
+            'content' => true,
             'project_id' => [
                 'required' => true,
                 'attributes' => [
-                    'type' => 'integer'
-                ]
+                    'type' => 'integer',
+                ],
             ],
-            'notify'=>false,
-            'category_id'=>[
-                'required'=>false,
-                'attributes'=>[
-                    'type'=>'integer'
-                ]
+            'notify' => false,
+            'category_id' => [
+                'required' => false,
+                'attributes' => [
+                    'type' => 'integer',
+                ],
             ],
-            'category_name'=> false,
+            'category_name' => false,
             'grant-access-to' => false,
             'version' => false,
-            'private'=>[
-                'required'=>false,
-                'attributes'=>[
-                    'type'=>'boolean'
-                ]
-            ]
+            'private' => [
+                'required' => false,
+                'attributes' => [
+                    'type' => 'boolean',
+                ],
+            ],
         ];
     }
 
@@ -44,7 +44,7 @@ class Notebook extends Rest\Model
      */
     public function get($id, array $params = [])
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
@@ -67,9 +67,9 @@ class Notebook extends Rest\Model
      */
     public function getAll($includeContent = false)
     {
-        $includeContent = (bool) $includeContent;
+        $includeContent = (bool)$includeContent;
         return $this->rest->get("$this->action", [
-          'includeContent'=>$includeContent ? 'true' : 'false'
+            'includeContent' => $includeContent ? 'true' : 'false',
         ]);
     }
 
@@ -91,13 +91,13 @@ class Notebook extends Rest\Model
      */
     public function getByProject($projectId, $includeContent = false)
     {
-        $projectId = (int) $projectId;
+        $projectId = (int)$projectId;
         if ($projectId <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        $includeContent = (bool) $includeContent;
+        $includeContent = (bool)$includeContent;
         return $this->rest->get("projects/$projectId/$this->action", [
-          'includeContent'=>$includeContent ? 'true' : 'false'
+            'includeContent' => $includeContent ? 'true' : 'false',
         ]);
     }
 
@@ -115,7 +115,7 @@ class Notebook extends Rest\Model
      */
     public function lock($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
@@ -136,7 +136,7 @@ class Notebook extends Rest\Model
      */
     public function unlock($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
@@ -155,7 +155,7 @@ class Notebook extends Rest\Model
      */
     public function insert(array $data)
     {
-        $projectId = empty($data['project_id']) ? 0: (int) $data['project_id'];
+        $projectId = empty($data['project_id']) ? 0 : (int)$data['project_id'];
         if ($projectId <= 0) {
             throw new \TeamWorkPm\Exception('Required field project_id');
         }
@@ -183,7 +183,6 @@ class Notebook extends Rest\Model
     }
 
     /**
-     *
      * @param array $data
      *
      * @return bool
@@ -191,9 +190,9 @@ class Notebook extends Rest\Model
      */
     final public function save(array $data)
     {
-        return array_key_exists('id', $data) ?
-            $this->update($data):
-            $this->insert($data);
+        return array_key_exists('id', $data)
+            ? $this->update($data)
+            : $this->insert($data);
     }
 
     /**
@@ -204,7 +203,7 @@ class Notebook extends Rest\Model
      */
     public function delete($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }

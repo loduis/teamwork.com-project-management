@@ -1,10 +1,7 @@
-.env
-composer.lock
-.php_cs.cache
-
-
-/tests/data
-/tests/build
-/vendor
-composer.lock
 /.idea/
+/tests/data/
+/tests/build/
+/vendor/
+.env
+.php_cs.cache
+composer.lock

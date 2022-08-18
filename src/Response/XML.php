@@ -29,25 +29,25 @@ class XML extends Model
                 switch ($headers['Method']) {
                     case 'UPLOAD':
                         if (!empty($source->ref)) {
-                            return (string) $source->ref;
+                            return (string)$source->ref;
                         }
                         break;
                     case 'POST':
                         if (!empty($headers['id'])) {
                             return $headers['id'];
-                        } else {
-                            $property = 0;
-                            $value = (int) $source->$property;
-                            // this case the fileid
-                            if ($value > 0) {
-                                return $value;
-                            }
+                        }
+
+                        $property = 0;
+                        $value = (int)$source->$property;
+                        // this case the fileid
+                        if ($value > 0) {
+                            return $value;
                         }
                         break;
-                     case 'PUT':
-                     case 'DELETE':
+                    case 'PUT':
+                    case 'DELETE':
                         return true;
-                     default:
+                    default:
                         if (!empty($source->files->file)) {
                             $source = $source->files->file;
                             $isArray = true;
@@ -59,14 +59,13 @@ class XML extends Model
                             $isArray = true;
                         } else {
                             $attrs = $source->attributes();
-                            $isArray = !empty($attrs->type) &&
-                                            (string) $attrs->type === 'array';
+                            $isArray = !empty($attrs->type) && (string)$attrs->type === 'array';
                         }
                         $this->headers = $headers;
 
                         $_this = self::toStdClass($source, $isArray);
 
-                        foreach ($_this as $key=>$value) {
+                        foreach ($_this as $key => $value) {
                             $this->$key = $value;
                         }
                         return $this;
@@ -74,7 +73,7 @@ class XML extends Model
             } else {
                 if (!empty($source->error)) {
                     foreach ($source as $error) {
-                        $errors .= $error ."\n";
+                        $errors .= $error . "\n";
                     }
                 } else {
                     $property = 0;
@@ -83,9 +82,9 @@ class XML extends Model
             }
         }
         throw new Exception([
-            'Message'=> $errors,
-            'Response'=> $data,
-            'Headers'=> $headers
+            'Message' => $errors,
+            'Response' => $data,
+            'Headers' => $headers,
         ]);
     }
 
@@ -116,18 +115,18 @@ class XML extends Model
         $isArray = false
     ) {
         $destination = $isArray ? [] : new stdClass();
-        foreach ($source as $key=>$value) {
+        foreach ($source as $key => $value) {
             $key = Str::camel($key);
             $attrs = $value->attributes();
             if (!empty($attrs->type)) {
-                $type = (string) $attrs->type;
+                $type = (string)$attrs->type;
                 switch ($type) {
                     case 'integer':
-                        $destination->$key = (int) $value;
+                        $destination->$key = (int)$value;
                         break;
                     case 'boolean':
-                        $value = (string) $value;
-                        $destination->$key = (bool) $value === 'true';
+                        $value = (string)$value;
+                        $destination->$key = (bool)$value === 'true';
                         break;
                     case 'array':
                         if (is_array($destination)) {
@@ -137,20 +136,20 @@ class XML extends Model
                         }
                         break;
                     default:
-                        $destination->$key = (string) $value;
+                        $destination->$key = (string)$value;
                         break;
                 }
             } else {
                 $children = $value->children();
                 if (!empty($children)) {
                     if ($isArray) {
-                        $i               = count($destination);
+                        $i = count($destination);
                         $destination[$i] = self::toStdClass($value);
                     } else {
                         $destination->$key = self::toStdClass($value);
                     }
                 } else {
-                    $destination->$key = (string) $value;
+                    $destination->$key = (string)$value;
                 }
             }
         }
@@ -170,14 +169,14 @@ class XML extends Model
 
     private function getXmlError($error, $xml)
     {
-        $return  = $xml[$error->line - 1] . "\n";
+        $return = $xml[$error->line - 1] . "\n";
         $return .= str_repeat('-', $error->column) . "^\n";
 
         switch ($error->level) {
             case LIBXML_ERR_WARNING:
                 $return .= "Warning $error->code: ";
                 break;
-             case LIBXML_ERR_ERROR:
+            case LIBXML_ERR_ERROR:
                 $return .= "Error $error->code: ";
                 break;
             case LIBXML_ERR_FATAL:
@@ -186,8 +185,8 @@ class XML extends Model
         }
 
         $return .= trim($error->message) .
-                   "\n  Line: $error->line" .
-                   "\n  Column: $error->column";
+            "\n  Line: $error->line" .
+            "\n  Column: $error->column";
 
         if ($error->file) {
             $return .= "\n  File: $error->file";

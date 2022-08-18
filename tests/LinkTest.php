@@ -9,9 +9,9 @@ class LinkTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model     = TeamWorkPm\Factory::build('link');
+        $this->model = \TeamWorkPm\Factory::build('link');
         $this->projectId = get_first_project_id();
-        $this->id        = get_first_link_id();
+        $this->id = get_first_link_id();
     }
 
     /**
@@ -38,7 +38,7 @@ class LinkTest extends TestCase
     }
 
     /**
-     * @depends insert
+     * @depends      insert
      * @dataProvider provider
      * @test
      */
@@ -49,7 +49,7 @@ class LinkTest extends TestCase
             $data['category_id'] = 0;
             $this->assertTrue($this->model->save($data));
             $link = $this->model->get($this->id);
-            $this->assertEquals((int) $link->categoryId, 0);
+            $this->assertEquals((int)$link->categoryId, 0);
         } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
         }
@@ -119,9 +119,9 @@ class LinkTest extends TestCase
                     'width' => 300,
                     'private' => false,
                     'notify' => null,
-                    'open_in_new_window' => true
-                ]
-            ]
+                    'open_in_new_window' => true,
+                ],
+            ],
         ];
     }
 }

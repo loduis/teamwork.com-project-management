@@ -8,7 +8,7 @@ class PeopleTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('people');
+        $this->model = \TeamWorkPm\Factory::build('people');
     }
 
     /**
@@ -25,7 +25,7 @@ class PeopleTest extends TestCase
             $this->fail('An expected exception has not been raised.');
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertEquals(
-                'Invalid value for field email_address' ,
+                'Invalid value for field email_address',
                 $e->getMessage()
             );
         }
@@ -57,7 +57,7 @@ class PeopleTest extends TestCase
             $this->fail('An expected exception has not been raised.');
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertEquals(
-                'Invalid value for field im_service' ,
+                'Invalid value for field im_service',
                 $e->getMessage()
             );
         }
@@ -70,7 +70,7 @@ class PeopleTest extends TestCase
             $this->fail('An expected exception has not been raised.');
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertEquals(
-                'Invalid value for field user_language' ,
+                'Invalid value for field user_language',
                 $e->getMessage()
             );
         }
@@ -84,7 +84,7 @@ class PeopleTest extends TestCase
             $this->fail('An expected exception has not been raised.');
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertEquals(
-                'Invalid value for field date_format' ,
+                'Invalid value for field date_format',
                 $e->getMessage()
             );
         }
@@ -110,7 +110,7 @@ class PeopleTest extends TestCase
         // =========== Login already taken ========= //
         try {
             $fail['email_address'] = $data['email_address'];
-            $fail['user_name']     = $person->userName;
+            $fail['user_name'] = $person->userName;
             $this->model->save($fail);
             $this->fail('An expected exception has not been raised.');
         } catch (\TeamWorkPm\Exception $e) {
@@ -127,8 +127,8 @@ class PeopleTest extends TestCase
             $data['project_id'] = get_first_project_id();
             // change this permissions on insert
             $data['permissions'] = [
-                'view_risk_register'=> 0,
-                'view_invoices'     => 0
+                'view_risk_register' => 0,
+                'view_invoices' => 0,
             ];
             self::$id = $this->model->save($data);
             $this->assertGreaterThan(0, self::$id);
@@ -138,7 +138,7 @@ class PeopleTest extends TestCase
     }
 
     /**
-     * @depends insert
+     * @depends      insert
      * @dataProvider provider
      * @test
      */
@@ -159,7 +159,7 @@ class PeopleTest extends TestCase
             $this->fail('An expected exception has not been raised.');
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertEquals(
-                'Invalid value for field email_address' ,
+                'Invalid value for field email_address',
                 $e->getMessage()
             );
         }
@@ -169,8 +169,8 @@ class PeopleTest extends TestCase
             $data['project_id'] = get_first_project_id();
             // change this permissions on insert
             $data['permissions'] = [
-                'view_risk_register'=> 1,
-                'view_invoices'     => 1
+                'view_risk_register' => 1,
+                'view_invoices' => 1,
             ];
             $this->assertTrue($this->model->save($data));
         } catch (\TeamWorkPm\Exception $e) {
@@ -213,12 +213,12 @@ class PeopleTest extends TestCase
      */
     public function getAll()
     {
-         try {
-            $people  = $this->model->getAll();
+        try {
+            $people = $this->model->getAll();
             $this->assertGreaterThan(1, count($people));
-         } catch (\TeamWorkPm\Exception $e) {
+        } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
-         }
+        }
     }
 
     /**
@@ -227,15 +227,15 @@ class PeopleTest extends TestCase
      */
     public function getByProject()
     {
-         try {
+        try {
             $project_id = get_first_project_id();
             if ($project_id) {
-                $people  = $this->model->getByProject($project_id);
+                $people = $this->model->getByProject($project_id);
                 $this->assertGreaterThan(0, count($people));
             }
-         } catch (\TeamWorkPm\Exception $e) {
+        } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
-         }
+        }
     }
 
     /**
@@ -244,13 +244,13 @@ class PeopleTest extends TestCase
      */
     public function getByCompany()
     {
-         try {
+        try {
             $company_id = get_first_company_id();
-            $people  = $this->model->getByCompany($company_id);
+            $people = $this->model->getByCompany($company_id);
             $this->assertGreaterThan(1, count($people));
-         } catch (\TeamWorkPm\Exception $e) {
+        } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
-         }
+        }
     }
 
     public function provider()
@@ -264,9 +264,9 @@ class PeopleTest extends TestCase
                     'email_address' => 'loduis@hotmail.com',
                     'password' => 'El loco de la calle',
                     'address_one' => 'Cra 45 # 40-10',
-                    'send_welcome_email' => false
-                ]
-            ]
+                    'send_welcome_email' => false,
+                ],
+            ],
         ];
     }
 }

@@ -8,27 +8,27 @@ class Time extends Model
     {
         $this->fields = [
             'description' => true,
-            'person_id'   => true,
-            'date'=>[
+            'person_id' => true,
+            'date' => [
                 'required' => true,
-                'type'     => 'integer',
-                'length'   => 6
+                'type' => 'integer',
+                'length' => 6,
             ],
             'hours' => [
                 'required' => true,
-                'type'     => 'integer',
-                'length'   => 3
+                'type' => 'integer',
+                'length' => 3,
             ],
-            'minutes'=>[
+            'minutes' => [
                 'required' => false,
-                'type'     => 'integer',
-                'length'   => 2
+                'type' => 'integer',
+                'length' => 2,
             ],
-            'time'=>true,
-            'isbillable'=>false,
-            'tags'=> [
-              'required' => false,
-              'type'     => 'string',
+            'time' => true,
+            'isbillable' => false,
+            'tags' => [
+                'required' => false,
+                'type' => 'string',
             ],
         ];
         $this->parent = 'time-entry';
@@ -47,10 +47,10 @@ class Time extends Model
     {
         $id = 0;
         if (!empty($data['task_id'])) {
-            $id = (int) $data['task_id'];
+            $id = (int)$data['task_id'];
             $resource = 'todo_items';
         } elseif (!empty($data['project_id'])) {
-            $id = (int) $data['project_id'];
+            $id = (int)$data['project_id'];
             $resource = 'projects';
         }
         if ($id <= 0) {
@@ -97,7 +97,7 @@ class Time extends Model
      */
     public function getByProject($project_id, array $params = [])
     {
-        $project_id = (int) $project_id;
+        $project_id = (int)$project_id;
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
@@ -119,7 +119,7 @@ class Time extends Model
      */
     public function getByTask($task_id, array $params = [])
     {
-        $task_id = (int) $task_id;
+        $task_id = (int)$task_id;
         if ($task_id <= 0) {
             throw new Exception('Invalid param task_id');
         }

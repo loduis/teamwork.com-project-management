@@ -8,44 +8,44 @@ class Milestone extends Model
     {
         // this is the list of fields that can send the api
         $this->fields = [
-            'title'       => true,
+            'title' => true,
             'description' => false,
-            'deadline'    => [
-                'required'=>true,
-                'attributes'=>[
-                    'type'=>'integer'
-                ]
+            'deadline' => [
+                'required' => true,
+                'attributes' => [
+                    'type' => 'integer',
+                ],
             ],//format YYYYMMDD
-            'notify'      => [
-                'required'=>false,
-                'attributes'=>[
-                    'type'=>'boolean'
-                ]
+            'notify' => [
+                'required' => false,
+                'attributes' => [
+                    'type' => 'boolean',
+                ],
             ],
-            'reminder'=>[
-                'required'=>false,
-                'attributes'=>[
-                    'type'=>'boolean'
-                ]
+            'reminder' => [
+                'required' => false,
+                'attributes' => [
+                    'type' => 'boolean',
+                ],
             ],
-            'private'=>[
-                'required'=>false,
-                'attributes'=>[
-                    'type'=>'boolean'
-                ]
+            'private' => [
+                'required' => false,
+                'attributes' => [
+                    'type' => 'boolean',
+                ],
             ],
             'responsible_party_ids' => true,
             # USE ONLY FOR UPDATE OR PUT METHOD
-            'move_upcoming_milestones'=>[
-              'sibling'=>true,
-              'required'=>false,
-              'attributes'=>['type'=>'boolean']
+            'move_upcoming_milestones' => [
+                'sibling' => true,
+                'required' => false,
+                'attributes' => ['type' => 'boolean'],
             ],
-            'move_upcoming_milestones_off_weekends'=>[
-              'sibling'=>true,
-              'required'=>false,
-              'attributes'=>['type'=>'boolean']
-            ]
+            'move_upcoming_milestones_off_weekends' => [
+                'sibling' => true,
+                'required' => false,
+                'attributes' => ['type' => 'boolean'],
+            ],
         ];
     }
 
@@ -63,7 +63,7 @@ class Milestone extends Model
      */
     public function complete($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
@@ -84,7 +84,7 @@ class Milestone extends Model
      */
     public function uncomplete($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
@@ -115,7 +115,7 @@ class Milestone extends Model
      */
     public function getByProject($project_id, $filter = 'all')
     {
-        $project_id = (int) $project_id;
+        $project_id = (int)$project_id;
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
@@ -135,7 +135,7 @@ class Milestone extends Model
     {
         $params = [];
         if ($filter) {
-            $filter = (string) $filter;
+            $filter = (string)$filter;
             $filter = strtolower($filter);
             if ($filter !== 'all') {
                 $validate = ['completed', 'incomplete', 'late', 'upcoming'];
@@ -156,7 +156,7 @@ class Milestone extends Model
      */
     public function insert(array $data)
     {
-        $project_id = empty($data['project_id']) ? 0: $data['project_id'];
+        $project_id = empty($data['project_id']) ? 0 : $data['project_id'];
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }

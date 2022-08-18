@@ -20,7 +20,7 @@ class CardTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('portfolio/card');
+        $this->model = \TeamWorkPm\Factory::build('portfolio/card');
         $this->projectId = get_first_project_id();
         $this->boardId = get_first_portfolio_board_id();
         $this->columnId = get_first_portfolio_board_column_id($this->boardId);

@@ -8,7 +8,7 @@ class TagTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('tag');
+        $this->model = \TeamWorkPm\Factory::build('tag');
     }
 
     /**
@@ -27,7 +27,7 @@ class TagTest extends TestCase
     }
 
     /**
-     * @depends insert
+     * @depends      insert
      * @dataProvider provider
      * @test
      */
@@ -85,9 +85,9 @@ class TagTest extends TestCase
             [
                 [
                     'name' => "Test Tag",
-                    'color' => '#ae00da'
-                ]
-            ]
+                    'color' => '#ae00da',
+                ],
+            ],
         ];
     }
 }

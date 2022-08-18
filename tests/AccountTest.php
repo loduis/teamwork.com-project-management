@@ -2,15 +2,13 @@
 
 class AccountTest extends TestCase
 {
-
     private $model;
 
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('account');
+        $this->model = \TeamWorkPm\Factory::build('account');
     }
-
 
     /**
      * @test
@@ -22,7 +20,7 @@ class AccountTest extends TestCase
             /*
             $this->assertEquals($account->url, 'https://' . API_COMPANY
                 . '.teamworkpm.net/');*/
-            $this->assertEquals($account->code, API_COMPANY);
+            $this->assertEquals(API_COMPANY, $account->code);
             // $this->assertEquals($project->id, $this->id);
         } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
@@ -40,7 +38,7 @@ class AccountTest extends TestCase
             $this->assertEquals($authenticate->url, 'https://' . API_COMPANY
                 . '.teamworkpm.net/');*/
 
-            $this->assertEquals($authenticate->code, API_COMPANY);
+            $this->assertEquals(API_COMPANY, $authenticate->code);
         } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
         }

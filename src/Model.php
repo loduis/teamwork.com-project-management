@@ -4,11 +4,6 @@ namespace TeamWorkPm;
 
 abstract class Model extends Rest\Model
 {
-
-    /*------------------------------
-            PUBLIC METHOD
-     ------------------------------*/
-
     /**
      * @param $id
      * @param null $params
@@ -18,7 +13,7 @@ abstract class Model extends Rest\Model
      */
     public function get($id, $params = null)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
@@ -42,7 +37,7 @@ abstract class Model extends Rest\Model
      */
     public function update(array $data)
     {
-        $id = empty($data['id']) ? 0: (int) $data['id'];
+        $id = empty($data['id']) ? 0 : (int)$data['id'];
         if ($id <= 0) {
             throw new Exception('Required field id');
         }
@@ -57,9 +52,9 @@ abstract class Model extends Rest\Model
      */
     final public function save(array $data)
     {
-        return array_key_exists('id', $data) ?
-            $this->update($data):
-            $this->insert($data);
+        return array_key_exists('id', $data)
+            ? $this->update($data)
+            : $this->insert($data);
     }
 
     /**
@@ -70,7 +65,7 @@ abstract class Model extends Rest\Model
      */
     public function delete($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }

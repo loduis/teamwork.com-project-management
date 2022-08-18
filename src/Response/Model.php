@@ -25,11 +25,11 @@ abstract class Model implements IteratorAggregate, Countable, ArrayAccess
     {
         if (strpos($filename, '.') === false) {
             $class = get_called_class();
-            $ext   = strtolower(substr($class, strrpos($class, '\\') + 1));
+            $ext = strtolower(substr($class, strrpos($class, '\\') + 1));
             $filename .= '.' . $ext;
         }
         $dirname = dirname($filename);
-        // creamos el directorio en caso de que no exista
+        // create the directory if it does not exist
         if ($dirname && !is_dir($dirname)) {
             mkdir($dirname, 0777, true);
         }

@@ -9,9 +9,9 @@ class CompanyTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model     = TeamWorkPm\Factory::build('company');
+        $this->model = \TeamWorkPm\Factory::build('company');
         $this->projectId = get_first_project_id();
-        $this->id        = get_first_company_id();
+        $this->id = get_first_company_id();
     }
 
     /**
@@ -42,7 +42,7 @@ class CompanyTest extends TestCase
     }
 
     /**
-     * @depends insert
+     * @depends      insert
      * @dataProvider provider
      * @test
      */
@@ -123,9 +123,9 @@ class CompanyTest extends TestCase
                     'countrycode' => 'CO',
                     'phone' => '25034030',
                     'fax' => 'No tengo',
-                    'web_address' => 'No tengo'
-                ]
-            ]
+                    'web_address' => 'No tengo',
+                ],
+            ],
         ];
     }
 }

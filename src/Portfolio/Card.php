@@ -56,7 +56,7 @@ class Card extends Model
      */
     public function getAllForColumn($columnId)
     {
-        $columnId = (int) $columnId;
+        $columnId = (int)$columnId;
         if ($columnId <= 0) {
             throw new Exception('Invalid param columnId');
         }
@@ -73,7 +73,7 @@ class Card extends Model
      */
     public function insert(array $data)
     {
-        $columnId = empty($data['columnId']) ? 0 : (int) $data['columnId'];
+        $columnId = empty($data['columnId']) ? 0 : (int)$data['columnId'];
         if ($columnId <= 0) {
             throw new Exception('Required field columnId');
         }
@@ -96,7 +96,7 @@ class Card extends Model
      */
     public function update(array $data)
     {
-        $cardId = empty($data['id']) ? 0: (int) $data['id'];
+        $cardId = empty($data['id']) ? 0 : (int)$data['id'];
         if ($cardId <= 0) {
             throw new Exception('Required field id');
         }

@@ -8,7 +8,7 @@ class Category_ProjectTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = TeamWorkPm\Factory::build('category/project');
+        $this->model = \TeamWorkPm\Factory::build('category/project');
         $this->id = get_first_project_category_id();
     }
 
@@ -47,8 +47,7 @@ class Category_ProjectTest extends TestCase
     {
         try {
             $category = $this->model->get($this->id);
-            $this->assertTrue(!empty($category->id) &&
-                                                  $this->id === $category->id);
+            $this->assertTrue(!empty($category->id) && $this->id === $category->id);
         } catch (\TeamWorkPm\Exception $e) {
             $this->fail($e->getMessage());
         }
@@ -73,9 +72,9 @@ class Category_ProjectTest extends TestCase
             [
                 [
                     'name' => 'Test category',
-                    'parent' => 0
-                ]
-            ]
+                    'parent' => 0,
+                ],
+            ],
         ];
     }
 }

@@ -7,15 +7,15 @@ class Company extends Model
     protected function init()
     {
         $this->fields = [
-            'name'=>true,
-            'address_one'=>false,
-            'address_two'=>false,
-            'zip'=>false,
-            'city'=>false,
-            'state'=>false,
-            'countrycode'=>[
-                'required'=> false,
-                'validate'=> [
+            'name' => true,
+            'address_one' => false,
+            'address_two' => false,
+            'zip' => false,
+            'city' => false,
+            'state' => false,
+            'countrycode' => [
+                'required' => false,
+                'validate' => [
                     'A2',
                     'AD',
                     'AE',
@@ -245,12 +245,12 @@ class Company extends Model
                     'YU',
                     'ZA',
                     'ZM',
-                    'ZW'
-                ]
+                    'ZW',
+                ],
             ],
-            'phone'=>false,
-            'fax'=>false,
-            'web_address'=>false
+            'phone' => false,
+            'fax' => false,
+            'web_address' => false,
         ];
     }
 
@@ -262,7 +262,7 @@ class Company extends Model
      * The requesting user is returned a list of companies available to them.
      *
      * @param array $params
-     * 
+     *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
@@ -285,7 +285,7 @@ class Company extends Model
      */
     public function getByProject($project_id)
     {
-        $project_id = (int) $project_id;
+        $project_id = (int)$project_id;
         if ($project_id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param project_id');
         }

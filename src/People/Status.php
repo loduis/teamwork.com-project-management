@@ -12,8 +12,8 @@ class Status extends Model
         $this->parent = 'userstatus';
         $this->action = 'status';
         $this->fields = [
-          'status'=>true,
-          'notify'=>false
+            'status' => true,
+            'notify' => false,
         ];
     }
 
@@ -30,7 +30,7 @@ class Status extends Model
      */
     public function get($person_id)
     {
-        $person_id = (int) $person_id;
+        $person_id = (int)$person_id;
         return $this->rest->get("people/$person_id/$this->action");
     }
 
@@ -59,7 +59,7 @@ class Status extends Model
      */
     public function insert(array $data)
     {
-        $person_id = empty($data['person_id']) ? 0 : (int) $data['person_id'];
+        $person_id = empty($data['person_id']) ? 0 : (int)$data['person_id'];
         if ($person_id <= 0) {
             throw new Exception('Required field person_id');
         }
@@ -81,14 +81,13 @@ class Status extends Model
      */
     public function update(array $data)
     {
-        $id = (int) empty($data['id']) ? 0 : $data['id'];
+        $id = (int)empty($data['id']) ? 0 : $data['id'];
         if ($id <= 0) {
             throw new Exception('Required field id');
         }
-        $person_id = empty($data['person_id']) ? 0 : (int) $data['person_id'];
+        $person_id = empty($data['person_id']) ? 0 : (int)$data['person_id'];
         unset($data['id'], $data['person_id']);
-        return $this->rest->put('people/' .
-           ($person_id ? $person_id . '/' : '') .  "$this->action/$id", $data);
+        return $this->rest->put('people/' . ($person_id ? $person_id . '/' : '') . "$this->action/$id", $data);
     }
 
     /**
@@ -108,12 +107,11 @@ class Status extends Model
      */
     public function delete($id, $person_id = null)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->delete('people/' .
-            ($person_id ? $person_id . '/' : '') .  "$this->action/$id");
+        return $this->rest->delete('people/' . ($person_id ? $person_id . '/' : '') . "$this->action/$id");
     }
 
     /**
@@ -124,8 +122,8 @@ class Status extends Model
      */
     final public function save(array $data)
     {
-        return array_key_exists('id', $data) ?
-            $this->update($data) :
-            $this->insert($data);
+        return array_key_exists('id', $data)
+            ? $this->update($data)
+            : $this->insert($data);
     }
 }
