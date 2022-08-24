@@ -71,10 +71,10 @@ final class Rest
             $headers     = $this->parseHeaders(substr($data, 0, $header_size));
             if (
               $status === 400 &&
-              (int) $headers['x-ratelimit-remaining'] === 0) {
+              (int) $headers['x-ratelimit-remaining'] === 0
+            ) {
                 $i ++;
                 $reset = $headers['x-ratelimit-reset'];
-                echo "Rate limit hit. Sleeping for: " . $reset . PHP_EOL;
                 sleep($reset);
             } else {
                 break;
