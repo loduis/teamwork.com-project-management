@@ -53,6 +53,12 @@ class Task extends Model
                     'type'=>'array'
                 ]
             ],
+            'ticketId'=>[
+                'required'=>false,
+                'attributes'=>[
+                    'type'=>'integer'
+                ]
+            ],
             'responsible_party_id'     => false,
             'attachments'              => false,
             'pending_file_attachments' => false
