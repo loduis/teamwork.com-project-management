@@ -7,7 +7,7 @@ class Task_List extends Model
     protected function init()
     {
         $this->fields = [
-            'name'   => true,
+            'name'   => false,
             'private' => [
                 'required'=>false,
                 'attributes'=>[
@@ -33,7 +33,8 @@ class Task_List extends Model
                     'type'=>'integer'
                 ]
             ],
-            'todo_list_template_id' => false
+            'todo_list_template_id' => false,
+            'todo-list-template-assignments' => false
         ];
         $this->parent = 'todo-list';
         $this->action = 'todo_lists';
@@ -143,5 +144,10 @@ class Task_List extends Model
             throw new Exception('Required field project_id');
         }
         return $this->rest->post("projects/$project_id/$this->action", $data);
+    }
+
+    public function getTemplates() 
+    {
+        return $this->rest->get("tasklists/templates.json", []);
     }
 }
