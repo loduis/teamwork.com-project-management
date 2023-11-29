@@ -45,7 +45,11 @@ class Project extends Model
                     'type'=>'boolean'
                 ]
             ],
-            'status'         => false
+            'status'         => false,
+            'customFields' => [
+                'required' => false,
+                'type' => 'array'
+            ]
         ];
     }
 
