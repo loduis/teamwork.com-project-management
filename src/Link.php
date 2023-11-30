@@ -51,7 +51,7 @@ class Link extends Model
      * GET /links
      * Lists all links on projects that the authenticated user is associated with.
      *
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getAll()
     {
@@ -68,13 +68,13 @@ class Link extends Model
      * @param $project_id
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByProject($project_id)
     {
         $project_id = (int)$project_id;
         if ($project_id <= 0) {
-            throw new \TeamWorkPm\Exception('Invalid param project_id');
+            throw new Exception('Invalid param project_id');
         }
         return $this->rest->get("/projects/$project_id/$this->action");
     }
@@ -89,7 +89,7 @@ class Link extends Model
      * @param array $data
      *
      * @return int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {
