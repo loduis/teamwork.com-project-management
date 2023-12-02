@@ -6,13 +6,13 @@ use TeamWorkPm\Project;
 
 class ProjectTest extends TestCase
 {
-    public function testAll()
+    public function testAll(): void
     {
         $projects = Project::all();
         $this->assertCount(2, $projects);
     }
 
-    public function testOne()
+    public function testOne(): void
     {
         $project = Project::get(967518);
         $this->assertEquals('2023-11-29T13:10:22Z', $project->createdOn);

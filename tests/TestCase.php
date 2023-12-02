@@ -15,14 +15,14 @@ abstract class TestCase extends BaseTestCase
 {
     protected function setUp(): void
     {
-        $apiUser = getenv('API_USER');
-        $apiKey = getenv('API_KEY');
-        $mode = getenv('API_ENV');
+        $apiUser = (string) getenv('API_USER');
+        $apiKey = (string) getenv('API_KEY');
+        $mode = (string) getenv('API_ENV');
         $this->createHandler($mode);
         Api::auth($apiUser, $apiKey);
     }
 
-    protected function createHandler($mode)
+    protected function createHandler(string $mode): void
     {
         static $handler;
 

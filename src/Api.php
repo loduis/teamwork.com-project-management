@@ -19,10 +19,11 @@ final class Api
      * The base path of api
      *
      * @var string
+     * @return void
      */
     public const BASE_URI = 'https://{COMPANY}.teamwork.com/';
 
-    public static function auth($company, $api)
+    public static function auth(string $company, string $api): void
     {
         HttpApi::auth($api, 'xxx');
         $baseUri = str_replace('{COMPANY}', $company, self::BASE_URI);
@@ -38,8 +39,8 @@ final class Api
      * @param  array  $options
      * @return void
      */
-    public static function clientOptions(array $options)
+    public static function clientOptions(array $options): void
     {
-        self::$clientOptions = $options;
+        static::$clientOptions = $options;
     }
 }

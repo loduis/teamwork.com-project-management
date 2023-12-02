@@ -16,7 +16,7 @@ abstract class Resource extends ApiResource
     /**
      * The primary key for the model.
      *
-     * @var string
+     * @var array
      */
     protected $primaryKey = [
         'id' => 'string',
@@ -53,7 +53,7 @@ abstract class Resource extends ApiResource
     /**
      * Get the value for a given offset.
      *
-     * @param  mixed  $offset
+     * @param  string|mixed  $offset
      * @return mixed
      */
     public function offsetGet($offset)
@@ -79,7 +79,7 @@ abstract class Resource extends ApiResource
         return $this->$offset;
     }
 
-    private static function camelLastUpper(string $value)
+    private static function camelLastUpper(string $value): string
     {
         $parts = explode('_', $value);
         $index = array_key_last($parts);

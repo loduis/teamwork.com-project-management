@@ -6,5 +6,8 @@ namespace TeamWorkPm\Project;
 
 final class Category extends \TeamWorkPm\Resource
 {
+    /**
+     * @var string
+     */
     protected static $path = 'projectCategories';
 }

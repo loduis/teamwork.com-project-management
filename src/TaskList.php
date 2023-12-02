@@ -6,5 +6,8 @@ namespace TeamWorkPm;
 
 final class TaskList extends Resource
 {
+    /**
+     * @var string
+     */
     protected static $path = 'tasklists';
 }

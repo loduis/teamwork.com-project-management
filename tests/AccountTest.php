@@ -6,12 +6,12 @@ use TeamWorkPm\Account;
 
 class AccountTest extends TestCase
 {
-    public function testResolvePath()
+    public function testResolvePath(): void
     {
         $this->assertEquals('account', Account::resolvePath());
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $account = Account::get();
         $this->assertArrayHasKey('name', $account);

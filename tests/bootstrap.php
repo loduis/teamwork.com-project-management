@@ -1,6 +1,6 @@
 <?php
 
-ini_set('error_reporting', -1);
+ini_set('error_reporting', '-1');
 
 set_error_handler(function ($errno, $errstr, $errfile, $errline) {
     throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);

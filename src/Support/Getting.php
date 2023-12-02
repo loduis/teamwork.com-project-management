@@ -6,16 +6,18 @@ namespace TeamWorkPm\Support;
 
 use GuzzleHttp\Psr7\Utils;
 use Illuminate\Support\Arr;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\MessageInterface;
 
 trait Getting
 {
     /**
      * This is not and normal rest api need fixed response
      *
-     * @param  [type] $response
-     * @return [type]
+     * @param  ResponseInterface $response
+     * @return MessageInterface
      */
-    final public static function onGettingResource($response)
+    final public static function onGettingResource(ResponseInterface $response): MessageInterface
     {
         $data = (array) json_decode((string) $response->getBody(), true);
 
@@ -23,8 +25,7 @@ trait Getting
             Arr::forget($data, 'STATUS');
             $data = current($data); // get the actual object
         }
-        $data = json_encode($data);
 
-        return $response->withBody(Utils::streamFor($data));
+        return $response->withBody(Utils::streamFor(json_encode($data)));
     }
 }

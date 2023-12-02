@@ -5,7 +5,7 @@ use Psy\Shell;
 use Psy\Configuration;
 use Illuminate\Support\Collection;
 use Illuminate\Api\Resource\Model;
-use Illuminate\Api\Resource\Parameter;
+use Illuminate\Api\Resource\Filter;
 use Symfony\Component\VarDumper\Caster\Caster;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -25,7 +25,7 @@ spl_autoload_register(function ($className) {
 
 TeamWorkPm\Api::auth($_ENV['API_USER'], $_ENV['API_KEY']);
 
-$casterToArray = function ($model) {
+$casterToArray = function (Model $model): array {
     $results = [];
     foreach ($model->getAttributes() as $key => $value) {
         $results[Caster::PREFIX_VIRTUAL . $key] = $value;
@@ -33,7 +33,7 @@ $casterToArray = function ($model) {
     return $results;
 };
 
-$casterCollection = function (Collection $collection) {
+$casterCollection = function (Collection $collection): array {
     return [
         Caster::PREFIX_VIRTUAL.'all' => $collection->all(),
     ];
