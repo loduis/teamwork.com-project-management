@@ -2,7 +2,7 @@
 
 namespace TeamWorkPm\Support;
 
-use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\Utils;
 use Illuminate\Support\Arr;
 
 trait Getting
@@ -23,6 +23,6 @@ trait Getting
         }
         $data = json_encode($data);
 
-        return $response->withBody(Psr7\stream_for($data));
+        return $response->withBody(Utils::streamFor($data));
     }
 }

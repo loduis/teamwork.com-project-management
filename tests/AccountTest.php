@@ -17,5 +17,7 @@ class AccountTest extends TestCase
         $this->assertArrayHasKey('name', $account);
         $this->assertArrayHasKey('URL', $account);
         $this->assertInstanceOf(Account::class, $account);
+        $this->assertEquals("Php's Company", $account->name);
+        $this->assertEquals('https://phpscompany.teamwork.com/', $account->URL);
     }
 }

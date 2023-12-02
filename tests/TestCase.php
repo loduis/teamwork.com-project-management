@@ -13,10 +13,8 @@ use Illuminate\Api\Testing\TestCase as BaseTestCase;
  */
 abstract class TestCase extends BaseTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
-        static $handle;
-
         $apiUser = getenv('API_USER');
         $apiKey = getenv('API_KEY');
         $mode = getenv('API_ENV');
