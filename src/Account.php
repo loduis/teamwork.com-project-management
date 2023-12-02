@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TeamWorkPm;
 
 final class Account extends \Illuminate\Api\Http\Resource
@@ -20,6 +22,6 @@ final class Account extends \Illuminate\Api\Http\Resource
      */
     public static function get()
     {
-        return static::instanceGetRequest();
+        return self::instanceGetRequest();
     }
 }

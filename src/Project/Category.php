@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TeamWorkPm\Project;
 
-class Category extends \TeamWorkPm\Resource
+final class Category extends \TeamWorkPm\Resource
 {
     protected static $path = 'projectCategories';
 }

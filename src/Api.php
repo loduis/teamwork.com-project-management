@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TeamWorkPm;
 
 use Illuminate\Api\Http\Api as HttpApi;
 
-class Api
+final class Api
 {
     /**
      * Custom options of http client
@@ -18,14 +20,14 @@ class Api
      *
      * @var string
      */
-    const BASE_URI = 'https://{COMPANY}.teamwork.com/';
+    public const BASE_URI = 'https://{COMPANY}.teamwork.com/';
 
     public static function auth($company, $api)
     {
         HttpApi::auth($api, 'xxx');
-        $baseUri = str_replace('{COMPANY}', $company, static::BASE_URI);
+        $baseUri = str_replace('{COMPANY}', $company, self::BASE_URI);
         HttpApi::baseUri($baseUri);
-        $options = static::$clientOptions;
+        $options = self::$clientOptions;
         $options['extension'] = 'json';
         HttpApi::createClient($options);
     }
@@ -38,7 +40,6 @@ class Api
      */
     public static function clientOptions(array $options)
     {
-        static::$clientOptions = $options;
+        self::$clientOptions = $options;
     }
 }
-

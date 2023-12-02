@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TeamWorkPm;
 
-use Illuminate\Support\Str;
-use Illuminate\Api\Http\Restable;
 use Illuminate\Api\Http\Resource as ApiResource;
+use Illuminate\Api\Http\Restable;
+use Illuminate\Support\Str;
 
 /**
  * Base resource
@@ -17,7 +19,7 @@ abstract class Resource extends ApiResource
      * @var string
      */
     protected $primaryKey = [
-        'id' => 'string'
+        'id' => 'string',
     ];
 
     use Restable;

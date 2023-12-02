@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TeamWorkPm\Support;
 
 use GuzzleHttp\Psr7\Utils;
@@ -15,7 +17,7 @@ trait Getting
      */
     final public static function onGettingResource($response)
     {
-        $data = (array) json_decode($response->getBody(), true);
+        $data = (array) json_decode((string) $response->getBody(), true);
 
         if (Arr::has($data, 'STATUS')) {
             Arr::forget($data, 'STATUS');
