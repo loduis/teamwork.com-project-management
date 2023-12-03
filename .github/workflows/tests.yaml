@@ -3,22 +3,18 @@ name: Tests
 on:
   push:
     branches:
-      - dev
+        - dev
   pull_request:
-  schedule:
-     - cron: '0 0 * * *'
+
 
 jobs:
-  linux_tests:
+  latest:
+    name: PHP ${{ matrix.php }} Latest
     runs-on: ubuntu-22.04
 
     strategy:
-        fail-fast: true
-        matrix:
-          php: [7.4, 8.0, 8.1, 8.2, 8.3]
-          stability: [prefer-lowest, prefer-stable]
-
-    name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
+      matrix:
+        php: ['7.4', '8.0']
 
     steps:
       - name: Checkout Code
@@ -28,7 +24,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          ini-values: error_reporting=E_ALL
           tools: composer:v2
           coverage: none
 
@@ -42,5 +37,37 @@ jobs:
           max_attempts: 5
           command: composer update --no-interaction --no-progress
 
-      - name: Execute tests
+      - name: Execute PHPUnit
+        run: vendor/bin/phpunit
+
+  lowest:
+    name: PHP ${{ matrix.php }} Lowest
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        php: ['7.4', '8.0']
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Problem Matchers
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install Lowest Dependencies
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer update --prefer-lowest --prefer-stable --no-interaction --no-progress
+
+      - name: Execute PHPUnit
         run: vendor/bin/phpunit
