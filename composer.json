@@ -20,11 +20,11 @@
         }
     },
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^7.4 || ^8.0",
         "loduis/illuminate-api": "2.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.0",
+        "phpunit/phpunit":"^9.6.13 || ^10.4.2",
         "psy/psysh": "@stable",
         "symplify/easy-coding-standard": "^12.0",
         "vimeo/psalm": "^5.16",
