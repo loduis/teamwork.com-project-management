@@ -38,7 +38,7 @@ jobs:
           command: composer update --no-interaction --no-progress
 
       - name: Copy env
-        run: php -r "copy('./tests/.env.dist', './tests/.env')"
+        run: php -r 'copy("./tests/.env.dist", "./tests/.env");'
 
       - name: Execute PHPUnit
         run: vendor/bin/phpunit
@@ -73,7 +73,7 @@ jobs:
           command: composer update --prefer-lowest --prefer-stable --no-interaction --no-progress
 
       - name: Copy env
-        run: php -r "copy('./tests/.env.dist', './tests/.env')"
+        run: php -r 'copy("./tests/.env.dist", "./tests/.env");'
 
       - name: Execute PHPUnit
         run: vendor/bin/phpunit
