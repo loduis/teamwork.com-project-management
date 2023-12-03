@@ -41,6 +41,6 @@ final class Api
      */
     public static function clientOptions(array $options): void
     {
-        static::$clientOptions = $options;
+        self::$clientOptions = $options;
     }
 }

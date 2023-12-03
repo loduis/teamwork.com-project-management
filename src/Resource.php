@@ -40,9 +40,13 @@ abstract class Resource extends ApiResource
                 $key = $key2;
             } else {
                 $key2 = Str::snake($key);
-                $key2 = static::camelLastUpper($key2);
                 if ($this->hasAttribute($key2)) {
                     $key = $key2;
+                } else {
+                    $key2 = static::camelLastUpper($key2);
+                    if ($this->hasAttribute($key2)) {
+                        $key = $key2;
+                    }
                 }
             }
         }

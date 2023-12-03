@@ -28,7 +28,9 @@ abstract class TestCase extends BaseTestCase
 
         if ($mode !== 'live') {
             if (!$handler) {
-                $handler = ApiHandler::create(__DIR__ . '/schemas');
+                $handler = ApiHandler::create(__DIR__ . '/schemas')
+                    ->request('GET /projects/967518/companies.json', Handlers\GetCompaniesByProjectHandler::class);
+                    ;
             }
             $stack = HandlerStack::create($handler);
             Api::clientOptions([

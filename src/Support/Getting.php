@@ -6,8 +6,8 @@ namespace TeamWorkPm\Support;
 
 use GuzzleHttp\Psr7\Utils;
 use Illuminate\Support\Arr;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\MessageInterface;
+use Psr\Http\Message\ResponseInterface;
 
 trait Getting
 {
