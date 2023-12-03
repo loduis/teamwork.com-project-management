@@ -43,4 +43,4 @@ jobs:
           command: composer update --no-interaction --no-progress
 
       - name: Execute tests
-        run: vendor/bin/phpunit --display-deprecation
+        run: vendor/bin/phpunit
