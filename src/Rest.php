@@ -56,12 +56,12 @@ final class Rest
     private function execute($method, $action, $request = null)
     {
         $url =  "{$this->url}$action." . self::$FORMAT;
-        $headers = ['Authorization: BASIC '. base64_encode(
+        $headers = ['Authorization: BASIC ' . base64_encode(
             $this->key . ':xxx'
         )];
         $request = $this->request
-                        ->setAction($action)
-                        ->getParameters($method, $request);
+            ->setAction($action)
+            ->getParameters($method, $request);
         $ch = static::initCurl($method, $url, $request, $headers);
         $i = 0;
         while ($i < 5) {
@@ -69,18 +69,14 @@ final class Rest
             $status      = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
             $headers     = $this->parseHeaders(substr($data, 0, $header_size));
-            if (
-              $status === 400 &&
-              (int) $headers['x-ratelimit-remaining'] === 0
-            ) {
-                $i ++;
-                $reset = $headers['x-ratelimit-reset'];
+            if ($headers['x-ratelimit-remaining'][0] < 2) {
+                $i++;
+                $reset = $headers['x-ratelimit-reset'][0] ? $headers['x-ratelimit-reset'][0] : '60';
                 sleep($reset);
             } else {
                 break;
             }
         }
-        // echo $data, PHP_EOL, PHP_EOL;
         $body        = substr($data, $header_size);
         $errorInfo   = curl_error($ch);
         $error       = curl_errno($ch);
@@ -89,13 +85,70 @@ final class Rest
             throw new Exception($errorInfo);
         }
 
+        // There are more results, fetch them.
+        if (isset($headers['x-pages']) && $headers['x-pages'] > 1) {
+            $page = 2;
+            $response_bodies = [$body];
+            while ($page <= $headers['x-pages']) {
+                $headers = ['Authorization: BASIC ' . base64_encode(
+                    $this->key . ':xxx'
+                )];
+                $request = $this->request
+                    ->setAction($action)
+                    ->getParameters($method, $request);
+
+                $paged_url = $url . '?page=' . $page;
+                $ch = static::initCurl($method, $paged_url, $request, $headers);
+                $i = 0;
+                while ($i < 5) {
+                    $data        = curl_exec($ch);
+                    $status      = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+                    $headers     = $this->parseHeaders(substr($data, 0, $header_size));
+                    if ($headers['x-ratelimit-remaining'][0] < 2) {
+                        $i++;
+                        $reset = $headers['x-ratelimit-reset'][0] ? $headers['x-ratelimit-reset'][0] : '60';
+                        sleep($reset);
+                    } else {
+                        break;
+                    }
+                }
+                $response_bodies[] = substr($data, $header_size);
+                $errorInfo   = curl_error($ch);
+                $error       = curl_errno($ch);
+                curl_close($ch);
+                if ($error) {
+                    throw new Exception($errorInfo);
+                }
+                $page++;
+            }
+
+            // Merge all the data back together.
+            $merged_data_array = [];
+            foreach ($response_bodies as $body) {
+                $body_decoded = (array) json_decode($body);
+                $teamwork_type = array_keys($body_decoded)[1];
+                $merged_data_array = array_merge($merged_data_array, $body_decoded[$teamwork_type]);
+            }
+
+            // Recreate format
+            $merged_data = [
+                'STATUS' => $body_decoded['STATUS'],
+                $teamwork_type => $merged_data_array,
+            ];
+
+            // Convert back to json string.
+            $merged_data_object = (object) $merged_data;
+            $body = json_encode($merged_data_object);
+        }
+
         $headers['Status'] = $status;
         $headers['Method'] = $method;
         $headers['X-Url']  = $url;
         $headers['X-Request'] = $request;
         $headers['X-Action']  = $action;
         // for chrome use
-        $headers['X-Authorization'] = 'BASIC '. base64_encode($this->key . ':xxx');
+        $headers['X-Authorization'] = 'BASIC ' . base64_encode($this->key . ':xxx');
         $response = '\\TeamWorkPm\\Response\\' . strtoupper(self::$FORMAT);
         $response = new $response;
 
