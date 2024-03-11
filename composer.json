@@ -14,6 +14,7 @@
     "require-dev": {
         "phpunit/phpunit": "^5.7"
     },
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "TeamWorkPm\\": "src/"
@@ -27,13 +28,12 @@
             "tests/functions.php"
         ]
     },
+    "config": {
+        "preferred-install": "dist"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.6-dev"
         }
-    },
-    "config": {
-        "preferred-install": "dist"
-    },
-    "minimum-stability": "dev"
+    }
 }
