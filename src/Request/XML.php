@@ -32,7 +32,7 @@ class XML extends Model
                     $element = $this->doc->createElement($field);
                     if (isset($options['attributes'])) {
                         foreach ($options['attributes'] as $name => $type) {
-                            if (null !== $value) {
+                            if ($value !== null) {
                                 $element->setAttribute($name, $type);
                                 if ($name == 'type') {
                                     if ($type == 'array') {
@@ -48,7 +48,7 @@ class XML extends Model
                             }
                         }
                     }
-                    if (null !== $value) {
+                    if ($value !== null) {
                         if (is_bool($value)) {
                             $value = var_export($value, true);
                         }

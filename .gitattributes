@@ -1,4 +1,8 @@
-.gitattributes export-ignore
-.php_cs export-ignore
-/tests export-ignore
 /examples export-ignore
+/tests export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.php-cs-fixer.php export-ignore
+/phpunit.xml export-ignore
+/.phpstorm.meta.php export-ignore
+/rector.php export-ignore

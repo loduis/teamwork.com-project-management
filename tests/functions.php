@@ -4,7 +4,7 @@ use TeamWorkPm\Factory;
 
 function rand_string($string, $length = 10)
 {
-    $source = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $source = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     return $string . ' - ' . substr(str_shuffle($source), 0, $length);
 }
 
@@ -95,7 +95,6 @@ function get_first_message_category_id($project_id)
     return (int)$id;
 }
 
-
 function get_first_person_id($project_id = null)
 {
     static $id = null;
@@ -135,7 +134,6 @@ function get_first_message_id($project_id)
     }
     return (int)$id;
 }
-
 
 function get_first_file_id($project_id)
 {
@@ -269,7 +267,6 @@ function get_first_file_comment_id($file_id)
     }
     return (int)$id;
 }
-
 
 function get_first_notebook_comment_id($notebook_id)
 {

@@ -274,7 +274,7 @@ class People extends Model
 
     /**
      * @param int $id
-     * @param null $project_id
+     * @param int|null $project_id
      *
      * @return bool
      * @throws \TeamWorkPm\Exception

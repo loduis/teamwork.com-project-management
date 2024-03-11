@@ -79,7 +79,7 @@ abstract class Model
         if (!is_array($options)) {
             $options = ['required' => $options, 'attributes' => []];
         }
-        $isNull = null === $value;
+        $isNull = $value === null;
         if ($this->method === 'POST' && $options['required']) {
             if ($isNull) {
                 throw new Exception('Required field ' . $field);
@@ -118,7 +118,7 @@ abstract class Model
 
     protected function actionInclude($value)
     {
-        return false !== strrpos($this->action, $value);
+        return strrpos($this->action, (string)$value) !== false;
     }
 
     protected function getParent()

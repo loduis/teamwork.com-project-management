@@ -113,5 +113,4 @@ class Card extends Model
 
         return $this->rest->put("$this->action/$cardId/move", $data);
     }
-
 }

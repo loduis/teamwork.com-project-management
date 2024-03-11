@@ -139,8 +139,8 @@ class ColumnTest extends TestCase
         return [
             [
                 [
-                    "name" => "test column",
-                    "color" => "#eeeeee",
+                    'name' => 'test column',
+                    'color' => '#eeeeee',
                 ],
             ],
         ];

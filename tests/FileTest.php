@@ -38,7 +38,6 @@ class FileTest extends TestCase
         }
     }
 
-
     /**
      * @test
      */

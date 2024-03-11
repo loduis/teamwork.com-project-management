@@ -2,12 +2,7 @@
 
 namespace TeamWorkPm\Response;
 
-use ArrayAccess;
-use ArrayIterator;
-use Countable;
-use IteratorAggregate;
-
-abstract class Model implements IteratorAggregate, Countable, ArrayAccess
+abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
 {
     protected $string = null;
 
@@ -56,7 +51,7 @@ abstract class Model implements IteratorAggregate, Countable, ArrayAccess
 
     public function getIterator()
     {
-        return new ArrayIterator($this->data);
+        return new \ArrayIterator($this->data);
     }
 
     public function count()

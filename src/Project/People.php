@@ -181,10 +181,10 @@ class People extends Model
         $project_id = (int)(empty($data['project_id']) ? 0 : $data['project_id']);
         $person_id = (int)(empty($data['person_id']) ? 0 : $data['person_id']);
         if ($project_id <= 0) {
-            throw new Exception("Required field project_id");
+            throw new Exception('Required field project_id');
         }
         if ($person_id <= 0) {
-            throw new Exception("Required field person_id");
+            throw new Exception('Required field person_id');
         }
         return $this->rest->put("projects/$project_id/people/$person_id", $data);
     }

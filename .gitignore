@@ -2,6 +2,6 @@
 /tests/data/
 /tests/build/
 /vendor/
-.env
-.php_cs.cache
-composer.lock
+/.env
+/.php-cs-fixer.cache
+/composer.lock

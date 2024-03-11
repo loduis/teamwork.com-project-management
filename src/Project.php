@@ -48,8 +48,8 @@ class Project extends Model
             'status' => false,
             'customFields' => [
                 'required' => false,
-                'type' => 'array'
-            ]
+                'type' => 'array',
+            ],
         ];
     }
 

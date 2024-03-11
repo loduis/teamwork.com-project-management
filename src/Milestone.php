@@ -15,7 +15,7 @@ class Milestone extends Model
                 'attributes' => [
                     'type' => 'integer',
                 ],
-            ],//format YYYYMMDD
+            ], //format YYYYMMDD
             'notify' => [
                 'required' => false,
                 'attributes' => [
@@ -35,7 +35,7 @@ class Milestone extends Model
                 ],
             ],
             'responsible_party_ids' => true,
-            # USE ONLY FOR UPDATE OR PUT METHOD
+            // USE ONLY FOR UPDATE OR PUT METHOD
             'move_upcoming_milestones' => [
                 'sibling' => true,
                 'required' => false,

@@ -2,8 +2,6 @@
 
 namespace TeamWorkPm\Response;
 
-use ArrayObject;
-use stdClass;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Helper\Str;
 
@@ -134,9 +132,9 @@ class JSON extends Model
     }
 
     /**
-     * @param array|stdClass $source
+     * @param array|\stdClass $source
      *
-     * @return ArrayObject
+     * @return \ArrayObject
      */
     protected static function camelizeObject($source)
     {
@@ -144,7 +142,7 @@ class JSON extends Model
             return $source;
         }
 
-        $destination = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+        $destination = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
         foreach ($source as $key => $value) {
             if (ctype_upper($key)) {
                 $key = strtolower($key);

@@ -7,7 +7,6 @@ use TeamWorkPm\Factory;
 
 class DestroyTest extends TestCase
 {
-
     /**
      * @test
      */
@@ -61,7 +60,6 @@ class DestroyTest extends TestCase
      */
     public function deleteMessageReply()
     {
-
         try {
             $reply = Factory::build('message/reply');
             $reply->delete(0);
@@ -83,7 +81,6 @@ class DestroyTest extends TestCase
             $this->fail($e->getMessage());
         }
     }
-
 
     /**
      * @test
@@ -153,7 +150,6 @@ class DestroyTest extends TestCase
      */
     public function deleteCompany()
     {
-
         $company = Factory::build('company');
         $fail = false;
         try {
@@ -198,10 +194,9 @@ class DestroyTest extends TestCase
                         // delete from project
                         $this->assertTrue($people->delete($p->id, $project_id));
                     } catch (Exception $e) {
-                        $message = $e->getMessage();
                         $this->assertContains($e->getMessage(), [
                             'User is not on this project',
-                            "This user is the only user on the " .
+                            'This user is the only user on the ' .
                             "project and can't be removed",
                         ]);
                     }
@@ -213,7 +208,7 @@ class DestroyTest extends TestCase
                     $this->assertTrue($people->delete($p->id));
                 } catch (Exception $e) {
                     $this->assertEquals(
-                        "Site owner can not be deleted",
+                        'Site owner can not be deleted',
                         $e->getMessage()
                     );
                     $fail = true;
@@ -278,7 +273,6 @@ class DestroyTest extends TestCase
         }
     }
 
-
     /**
      * @test
      */
@@ -317,7 +311,6 @@ class DestroyTest extends TestCase
             $this->fail($e->getMessage());
         }
     }
-
 
     /**
      * @test

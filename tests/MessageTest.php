@@ -81,7 +81,6 @@ class MessageTest extends TestCase
         }
     }
 
-
     /**
      * @depends insert
      * @test
@@ -109,7 +108,6 @@ class MessageTest extends TestCase
             $this->fail($e->getMessage());
         }
         // get with content
-
     }
 
     /**

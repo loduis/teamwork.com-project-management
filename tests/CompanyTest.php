@@ -32,7 +32,7 @@ class CompanyTest extends TestCase
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
             $this->assertEquals(
-                "Invalid value for field countrycode",
+                'Invalid value for field countrycode',
                 $e->getMessage()
             );
         }

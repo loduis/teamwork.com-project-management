@@ -18,7 +18,6 @@ class ListTest extends TestCase
         $this->model = Factory::build('task/list');
         $this->projectId = get_first_project_id();
         $this->id = get_first_task_list_id($this->projectId);
-
     }
 
     /**

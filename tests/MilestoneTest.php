@@ -92,7 +92,6 @@ class MilestoneTest extends TestCase
         }
     }
 
-
     /**
      * @test
      */

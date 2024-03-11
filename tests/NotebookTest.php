@@ -72,7 +72,6 @@ class NotebookTest extends TestCase
         }
 
         // get with content
-
     }
 
     /**
@@ -93,9 +92,7 @@ class NotebookTest extends TestCase
             $this->fail($e->getMessage());
         }
         // get with content
-
     }
-
 
     /**
      * @test

@@ -20,7 +20,6 @@ class TimeTest extends TestCase
         $task_list_id = get_first_task_list_id($this->projectId);
         $this->taskId = get_first_task_id($task_list_id);
         $this->id = get_first_time_id($this->taskId);
-
     }
 
     /**
@@ -147,7 +146,6 @@ class TimeTest extends TestCase
             $this->fail($e->getMessage());
         }
     }
-
 
     public function provider()
     {

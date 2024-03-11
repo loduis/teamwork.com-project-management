@@ -84,7 +84,6 @@ class ProjectTest extends TestCase
         $this->model->star(0);
     }
 
-
     /**
      * @depends star
      * @test
@@ -221,7 +220,6 @@ class ProjectTest extends TestCase
         }
     }
 
-
     /**
      * @expectedException Exception
      * @test
@@ -236,11 +234,11 @@ class ProjectTest extends TestCase
         return [
             [
                 [
-                    "name" => "test project",
-                    "description" => "bla, bla, bla",
-                    "start_date" => 20121110,
-                    "end_date" => 20121210,
-                    "new_company" => "Test Company",
+                    'name' => 'test project',
+                    'description' => 'bla, bla, bla',
+                    'start_date' => 20121110,
+                    'end_date' => 20121210,
+                    'new_company' => 'Test Company',
                 ],
             ],
         ];

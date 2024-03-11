@@ -2,11 +2,9 @@
 
 namespace TeamWorkPm\Response;
 
+use SimpleXMLElement;
 use TeamWorkPm\Exception;
-use \TeamWorkPm\Helper\Str;
-use \stdClass;
-use \SimpleXMLElement;
-use \DOMDocument;
+use TeamWorkPm\Helper\Str;
 
 class XML extends Model
 {
@@ -95,7 +93,7 @@ class XML extends Model
      */
     protected function getContent()
     {
-        $dom = new DOMDocument('1.0');
+        $dom = new \DOMDocument('1.0');
         $dom->loadXML($this->string);
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
@@ -106,15 +104,15 @@ class XML extends Model
     /**
      * Convierte un objecto SimpleXMLElement a stdClass
      *
-     * @param SimpleXMLElement $source
+     * @param \SimpleXMLElement $source
      * @param bool $isArray
-     * @return stdClass
+     * @return \stdClass
      */
     private static function toStdClass(
-        SimpleXMLElement $source,
+        \SimpleXMLElement $source,
         $isArray = false
     ) {
-        $destination = $isArray ? [] : new stdClass();
+        $destination = $isArray ? [] : new \stdClass();
         foreach ($source as $key => $value) {
             $key = Str::camel($key);
             $attrs = $value->attributes();

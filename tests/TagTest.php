@@ -89,7 +89,7 @@ class TagTest extends TestCase
         return [
             [
                 [
-                    'name' => "Test Tag",
+                    'name' => 'Test Tag',
                     'color' => '#ae00da',
                 ],
             ],

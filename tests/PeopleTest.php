@@ -125,7 +125,6 @@ class PeopleTest extends TestCase
             );
         }
 
-
         // =========== insert now ========= //
         try {
             // and add to this project
@@ -263,7 +262,7 @@ class PeopleTest extends TestCase
         return [
             [
                 [
-                    'first_name' => "Test",
+                    'first_name' => 'Test',
                     'last_name' => 'User',
                     'user_name' => 'test',
                     'email_address' => 'loduis@hotmail.com',
