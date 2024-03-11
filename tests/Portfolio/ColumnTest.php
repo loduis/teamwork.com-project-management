@@ -100,20 +100,20 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
     public function getAllForBoardInvalidId()
     {
+        $this->expectException(\Exception::class);
         $this->model->getAllForBoard(0);
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
     public function deleteInvalidId()
     {
+        $this->expectException(\Exception::class);
         $this->model->delete(0);
     }
 

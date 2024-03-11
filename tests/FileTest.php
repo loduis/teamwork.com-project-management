@@ -34,7 +34,7 @@ class FileTest extends TestCase
             $filename = __DIR__ . '/uploads/teamworkpm.jpg';
             $this->assertNotEmpty($this->model->upload($filename));
         } catch (Exception $e) {
-            $this->assertTrue(false, $filename, $e->getMessage());
+            $this->assertTrue(false, $filename);
         }
     }
 

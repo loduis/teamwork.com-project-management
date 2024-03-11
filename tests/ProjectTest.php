@@ -53,12 +53,12 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException        Exception
      * @dataProvider provider
      * @test
      */
     public function updateWithoutId($data)
     {
+        $this->expectException(\Exception::class);
         $this->model->update($data);
     }
 
@@ -75,12 +75,12 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException        Exception
-     * @expectedExceptionMessage Invalid param id
      * @test
      */
     public function starInvalidProjectId()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid param id');
         $this->model->star(0);
     }
 
@@ -99,12 +99,12 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException        Exception
-     * @expectedExceptionMessage Invalid param id
      * @test
      */
     public function unStarInvalidProjectId()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid param id');
         $this->model->unStar(0);
     }
 
@@ -121,12 +121,12 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException        Exception
-     * @expectedExceptionMessage Invalid param id
      * @test
      */
     public function archiveInvalidProjectId()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid param id');
         $this->model->archive(0);
     }
 
@@ -157,12 +157,12 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException        Exception
-     * @expectedExceptionMessage Invalid param id
      * @test
      */
     public function activateInvalidProjectId()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid param id');
         $this->model->activate(0);
     }
 
@@ -221,11 +221,11 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
     public function deleteInvalidId()
     {
+        $this->expectException(\Exception::class);
         $this->model->delete(0);
     }
 

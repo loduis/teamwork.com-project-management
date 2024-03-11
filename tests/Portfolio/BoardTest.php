@@ -94,11 +94,11 @@ class BoardTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
     public function deleteInvalidId()
     {
+        $this->expectException(\Exception::class);
         $this->model->delete(0);
     }
 

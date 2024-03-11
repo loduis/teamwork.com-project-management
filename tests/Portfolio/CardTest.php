@@ -50,11 +50,11 @@ class CardTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
     public function insertInvalidColumnId()
     {
+        $this->expectException(\Exception::class);
         $data['columnId'] = 0;
         $data['projectId'] = $this->projectId;
 
@@ -62,11 +62,11 @@ class CardTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
     public function insertInvalidProjectId()
     {
+        $this->expectException(\Exception::class);
         $data['columnId'] = $this->columnId;
         $data['projectId'] = 0;
 
@@ -94,11 +94,11 @@ class CardTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
     public function updateInvalidId()
     {
+        $this->expectException(\Exception::class);
         $data['id'] = 0;
         $data['oldColumnId'] = $this->columnId;
         $data['columnId'] = $this->columnId;
@@ -107,11 +107,11 @@ class CardTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
     public function updateInvalidColumnId()
     {
+        $this->expectException(\Exception::class);
         $data['id'] = $this->id;
         $data['oldColumnId'] = 0;
         $data['columnId'] = $this->columnId;
@@ -120,11 +120,11 @@ class CardTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
     public function updateInvalidOldColumnId()
     {
+        $this->expectException(\Exception::class);
         $data['id'] = $this->id;
         $data['oldColumnId'] = $this->columnId;
         $data['columnId'] = 0;
@@ -160,20 +160,20 @@ class CardTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
     public function getAllForColumnInvalidId()
     {
+        $this->expectException(\Exception::class);
         $this->model->getAllForColumn(0);
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
     public function deleteInvalidId()
     {
+        $this->expectException(\Exception::class);
         $this->model->delete(0);
     }
 
