@@ -22,7 +22,7 @@ class AccountTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $account = $this->model->get();
@@ -37,7 +37,7 @@ class AccountTest extends TestCase
     /**
      * @test
      */
-    public function authenticate()
+    public function authenticate(): void
     {
         try {
             $authenticate = $this->model->authenticate();

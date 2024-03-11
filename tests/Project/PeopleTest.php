@@ -33,7 +33,7 @@ class PeopleTest extends TestCase
     /**
      * @test
      */
-    public function add()
+    public function add(): void
     {
         try {
             $add = $this->model->add(self::$projectId, self::$personId);
@@ -53,7 +53,7 @@ class PeopleTest extends TestCase
      * @depends add
      * @test
      */
-    public function get()
+    public function get(): void
     {
         $people = $this->model->get(self::$projectId, self::$personId);
         $this->assertTrue(isset($people->permissions));
@@ -64,7 +64,7 @@ class PeopleTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $this->model->update($data);
@@ -87,7 +87,7 @@ class PeopleTest extends TestCase
      * @depends add
      * @test
      */
-    public function delete()
+    public function delete(): void
     {
         try {
             $this->model->delete(0, self::$personId);

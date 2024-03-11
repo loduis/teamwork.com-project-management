@@ -18,7 +18,7 @@ class MeTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $me = $this->model->get();

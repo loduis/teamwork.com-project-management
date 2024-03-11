@@ -20,7 +20,7 @@ class PeopleTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         $fail = [];
         // =========== validate email address ========= //
@@ -146,7 +146,7 @@ class PeopleTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = null;
@@ -186,7 +186,7 @@ class PeopleTest extends TestCase
      * @depends insert
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $this->model->get(0);
@@ -215,7 +215,7 @@ class PeopleTest extends TestCase
      * @depends insert
      * @test
      */
-    public function getAll()
+    public function getAll(): void
     {
         try {
             $people = $this->model->getAll();
@@ -229,7 +229,7 @@ class PeopleTest extends TestCase
      * @depends insert
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $project_id = get_first_project_id();
@@ -246,7 +246,7 @@ class PeopleTest extends TestCase
      * @depends insert
      * @test
      */
-    public function getByCompany()
+    public function getByCompany(): void
     {
         try {
             $company_id = get_first_company_id();

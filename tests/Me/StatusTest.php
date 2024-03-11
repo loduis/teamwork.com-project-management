@@ -21,7 +21,7 @@ class StatusTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             self::$id = $this->model->save($data);
@@ -34,7 +34,7 @@ class StatusTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $status = $this->model->get();
@@ -48,7 +48,7 @@ class StatusTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = null;

@@ -26,7 +26,7 @@ class TimeTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insertInProject($data)
+    public function insertInProject($data): void
     {
         try {
             $this->model->save($data);
@@ -48,7 +48,7 @@ class TimeTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insertInTask($data)
+    public function insertInTask($data): void
     {
         try {
             $data['task_id'] = $this->taskId;
@@ -64,7 +64,7 @@ class TimeTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -79,7 +79,7 @@ class TimeTest extends TestCase
     /**
      * @test
      */
-    public function getAll()
+    public function getAll(): void
     {
         try {
             $times = $this->model->getAll();
@@ -92,7 +92,7 @@ class TimeTest extends TestCase
     /**
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $times = $this->model->getByProject(0);
@@ -111,7 +111,7 @@ class TimeTest extends TestCase
     /**
      * @test
      */
-    public function getByTask()
+    public function getByTask(): void
     {
         try {
             $times = $this->model->getByTask(0);
@@ -131,7 +131,7 @@ class TimeTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function get($data)
+    public function get($data): void
     {
         try {
             $times = $this->model->get(0);

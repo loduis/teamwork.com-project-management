@@ -37,7 +37,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function insert()
+    public function insert(): void
     {
         try {
             $data['columnId'] = $this->columnId;
@@ -52,7 +52,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function insertInvalidColumnId()
+    public function insertInvalidColumnId(): void
     {
         $this->expectException(\Exception::class);
         $data['columnId'] = 0;
@@ -64,7 +64,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function insertInvalidProjectId()
+    public function insertInvalidProjectId(): void
     {
         $this->expectException(\Exception::class);
         $data['columnId'] = $this->columnId;
@@ -76,7 +76,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function update()
+    public function update(): void
     {
         try {
             $data['id'] = $this->id;
@@ -96,7 +96,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function updateInvalidId()
+    public function updateInvalidId(): void
     {
         $this->expectException(\Exception::class);
         $data['id'] = 0;
@@ -109,7 +109,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function updateInvalidColumnId()
+    public function updateInvalidColumnId(): void
     {
         $this->expectException(\Exception::class);
         $data['id'] = $this->id;
@@ -122,7 +122,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function updateInvalidOldColumnId()
+    public function updateInvalidOldColumnId(): void
     {
         $this->expectException(\Exception::class);
         $data['id'] = $this->id;
@@ -135,7 +135,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $portfolioCard = $this->model->get($this->id);
@@ -148,7 +148,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function getAllForColumn()
+    public function getAllForColumn(): void
     {
         try {
             $portfolioCards = $this->model->getAllForColumn($this->columnId);
@@ -162,7 +162,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function getAllForColumnInvalidId()
+    public function getAllForColumnInvalidId(): void
     {
         $this->expectException(\Exception::class);
         $this->model->getAllForColumn(0);
@@ -171,7 +171,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function deleteInvalidId()
+    public function deleteInvalidId(): void
     {
         $this->expectException(\Exception::class);
         $this->model->delete(0);
@@ -180,7 +180,7 @@ class CardTest extends TestCase
     /**
      * @test
      */
-    public function delete()
+    public function delete(): void
     {
         try {
             $this->assertTrue($this->model->delete($this->id));

@@ -23,7 +23,7 @@ class CompanyTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $countrycode = $data['countrycode'];
@@ -51,7 +51,7 @@ class CompanyTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['name'] = rand_string($data['name']);
@@ -66,7 +66,7 @@ class CompanyTest extends TestCase
      * @depends insert
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $times = $this->model->get(0);
@@ -85,7 +85,7 @@ class CompanyTest extends TestCase
     /**
      * @test
      */
-    public function getAll()
+    public function getAll(): void
     {
         try {
             $companies = $this->model->getAll();
@@ -98,7 +98,7 @@ class CompanyTest extends TestCase
     /**
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $this->model->getByProject(0);

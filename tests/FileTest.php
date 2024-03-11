@@ -22,7 +22,7 @@ class FileTest extends TestCase
     /**
      * @test
      */
-    public function upload()
+    public function upload(): void
     {
         try {
             $filename = 'back_file_path';
@@ -41,7 +41,7 @@ class FileTest extends TestCase
     /**
      * @test
      */
-    public function save()
+    public function save(): void
     {
         $data = [
             'description' => 'Bla, Bla, Bla',
@@ -75,7 +75,7 @@ class FileTest extends TestCase
      * @depends save
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $this->model->get(0);
@@ -95,7 +95,7 @@ class FileTest extends TestCase
      * @depends save
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $this->model->getByProject(0);

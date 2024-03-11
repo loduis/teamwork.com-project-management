@@ -19,7 +19,7 @@ class RoleTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         // =========== insert now ========= //
         try {
@@ -35,7 +35,7 @@ class RoleTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = null;
@@ -56,7 +56,7 @@ class RoleTest extends TestCase
      * @depends insert
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $this->model->get(0);

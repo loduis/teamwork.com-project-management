@@ -23,7 +23,7 @@ class MessageTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $this->model->save($data);
@@ -50,7 +50,7 @@ class MessageTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -65,7 +65,7 @@ class MessageTest extends TestCase
      * @depends insert
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $this->model->get(0);
@@ -85,7 +85,7 @@ class MessageTest extends TestCase
      * @depends insert
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $this->model->getByProject(0);
@@ -114,7 +114,7 @@ class MessageTest extends TestCase
      * @depends insert
      * @test
      */
-    public function getByProjectAndCategory()
+    public function getByProjectAndCategory(): void
     {
         try {
             $this->model->getByProjectAndCategory(0, 0);

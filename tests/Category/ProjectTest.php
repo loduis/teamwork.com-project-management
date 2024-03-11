@@ -22,7 +22,7 @@ class ProjectTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $id = $this->model->save($data);
@@ -36,7 +36,7 @@ class ProjectTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -49,7 +49,7 @@ class ProjectTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $category = $this->model->get($this->id);
@@ -62,7 +62,7 @@ class ProjectTest extends TestCase
     /**
      * @test
      */
-    public function getAll()
+    public function getAll(): void
     {
         try {
             $categories = $this->model->getAll();

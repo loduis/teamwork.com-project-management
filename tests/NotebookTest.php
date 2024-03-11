@@ -23,7 +23,7 @@ class NotebookTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $this->model->save($data);
@@ -43,7 +43,7 @@ class NotebookTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $this->model->get(0);
@@ -62,7 +62,7 @@ class NotebookTest extends TestCase
     /**
      * @test
      */
-    public function getAll()
+    public function getAll(): void
     {
         try {
             $notebooks = $this->model->getAll();
@@ -77,7 +77,7 @@ class NotebookTest extends TestCase
     /**
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $this->model->getByProject(0);
@@ -97,7 +97,7 @@ class NotebookTest extends TestCase
     /**
      * @test
      */
-    public function lock()
+    public function lock(): void
     {
         try {
             $this->model->lock(0);
@@ -115,7 +115,7 @@ class NotebookTest extends TestCase
     /**
      * @test
      */
-    public function unlook()
+    public function unlook(): void
     {
         try {
             $this->model->unlock(0);

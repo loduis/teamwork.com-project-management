@@ -28,7 +28,7 @@ class FileTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $this->model->save($data);
@@ -50,7 +50,7 @@ class FileTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -64,7 +64,7 @@ class FileTest extends TestCase
      * @depends insert
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $category = $this->model->get($this->id);
@@ -78,7 +78,7 @@ class FileTest extends TestCase
      * @depends insert
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $times = $this->model->getByProject(0);

@@ -22,7 +22,7 @@ class MilestoneTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $this->model->save($data);
@@ -44,7 +44,7 @@ class MilestoneTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -57,7 +57,7 @@ class MilestoneTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $this->model->get(0);
@@ -76,7 +76,7 @@ class MilestoneTest extends TestCase
     /**
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $this->model->getByProject(0);
@@ -95,7 +95,7 @@ class MilestoneTest extends TestCase
     /**
      * @test
      */
-    public function getAll()
+    public function getAll(): void
     {
         try {
             $times = $this->model->getAll('backfilter');
@@ -114,7 +114,7 @@ class MilestoneTest extends TestCase
     /**
      * @test
      */
-    public function complete()
+    public function complete(): void
     {
         try {
             $this->model->complete(0);
@@ -132,7 +132,7 @@ class MilestoneTest extends TestCase
     /**
      * @test
      */
-    public function getCompleted()
+    public function getCompleted(): void
     {
         try {
             $milestones = $this->model->getByProject(
@@ -148,7 +148,7 @@ class MilestoneTest extends TestCase
     /**
      * @test
      */
-    public function uncomplete()
+    public function uncomplete(): void
     {
         try {
             $this->model->uncomplete(0);
@@ -166,7 +166,7 @@ class MilestoneTest extends TestCase
     /**
      * @test
      */
-    public function getIncomplete()
+    public function getIncomplete(): void
     {
         try {
             $milestones = $this->model->getByProject(
@@ -183,7 +183,7 @@ class MilestoneTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function markAsLate($data)
+    public function markAsLate($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -198,7 +198,7 @@ class MilestoneTest extends TestCase
      * @depends markAsLate
      * @test
      */
-    public function getLate()
+    public function getLate(): void
     {
         try {
             $milestones = $this->model->getByProject(
@@ -215,7 +215,7 @@ class MilestoneTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function markAsUpcoming($data)
+    public function markAsUpcoming($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -230,7 +230,7 @@ class MilestoneTest extends TestCase
      * @depends markAsLate
      * @test
      */
-    public function getUpcoming()
+    public function getUpcoming(): void
     {
         try {
             $milestones = $this->model->getByProject(

@@ -10,7 +10,7 @@ class KeyTest extends TestCase
     /**
      * @test
      */
-    public function setYourApiKey()
+    public function setYourApiKey(): void
     {
         try {
             $project = Factory::build('project');

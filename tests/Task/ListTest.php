@@ -24,7 +24,7 @@ class ListTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $this->model->save($data);
@@ -47,7 +47,7 @@ class ListTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -61,7 +61,7 @@ class ListTest extends TestCase
      * @depends insert
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $this->model->get(0);
@@ -88,7 +88,7 @@ class ListTest extends TestCase
      * @depends insert
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $this->model->getByProject(0);
@@ -108,7 +108,7 @@ class ListTest extends TestCase
      * @depends insert
      * @test
      */
-    public function getActiveByProject()
+    public function getActiveByProject(): void
     {
         try {
             $list = $this->model->getByProject($this->projectId, 'active');
@@ -122,7 +122,7 @@ class ListTest extends TestCase
      * @depends insert
      * @test
      */
-    public function getUpcomingByProject()
+    public function getUpcomingByProject(): void
     {
         try {
             $list = $this->model->getByProject($this->projectId, 'upcoming');
@@ -137,7 +137,7 @@ class ListTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function reorder($data)
+    public function reorder($data): void
     {
         try {
             $data['project_id'] = $this->projectId;

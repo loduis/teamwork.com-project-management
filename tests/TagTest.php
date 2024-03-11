@@ -20,7 +20,7 @@ class TagTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         // =========== insert now ========= //
         try {
@@ -36,7 +36,7 @@ class TagTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = null;
@@ -59,7 +59,7 @@ class TagTest extends TestCase
      * @depends insert
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $this->model->get(0);

@@ -24,7 +24,7 @@ class ActivityTest extends TestCase
     /**
      * @test
      */
-    public function getAll()
+    public function getAll(): void
     {
         try {
             $activity = $this->model->getAll();
@@ -46,7 +46,7 @@ class ActivityTest extends TestCase
     /**
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $times = $this->model->getByProject(0);

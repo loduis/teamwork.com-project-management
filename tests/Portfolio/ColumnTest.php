@@ -32,7 +32,7 @@ class ColumnTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $data['board_id'] = $this->boardId;
@@ -57,7 +57,7 @@ class ColumnTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -75,7 +75,7 @@ class ColumnTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $portfolioColumn = $this->model->get($this->id);
@@ -88,7 +88,7 @@ class ColumnTest extends TestCase
     /**
      * @test
      */
-    public function getAllForBoard()
+    public function getAllForBoard(): void
     {
         try {
             $portfolioColumns = $this->model->getAllForBoard($this->boardId);
@@ -102,7 +102,7 @@ class ColumnTest extends TestCase
     /**
      * @test
      */
-    public function getAllForBoardInvalidId()
+    public function getAllForBoardInvalidId(): void
     {
         $this->expectException(\Exception::class);
         $this->model->getAllForBoard(0);
@@ -111,7 +111,7 @@ class ColumnTest extends TestCase
     /**
      * @test
      */
-    public function deleteInvalidId()
+    public function deleteInvalidId(): void
     {
         $this->expectException(\Exception::class);
         $this->model->delete(0);
@@ -120,7 +120,7 @@ class ColumnTest extends TestCase
     /**
      * @test
      */
-    public function delete()
+    public function delete(): void
     {
         try {
             $this->assertTrue($this->model->delete($this->id));
