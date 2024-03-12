@@ -9,7 +9,7 @@ class RoleTest extends TestCase
     private $model;
     private static $id;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('role');

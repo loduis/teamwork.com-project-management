@@ -12,7 +12,7 @@ class TimeTest extends TestCase
     private $projectId;
     private $id;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('time');

@@ -12,7 +12,7 @@ class ReplyTest extends TestCase
     private static $id;
     private $messageId;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('message/reply');

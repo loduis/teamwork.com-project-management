@@ -12,7 +12,7 @@ class NotebookTest extends TestCase
     private $resourceId;
     private $id;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('comment/notebook');

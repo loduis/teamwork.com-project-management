@@ -10,7 +10,7 @@ class MilestoneTest extends TestCase
     private $id;
     private $projectId;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('milestone');

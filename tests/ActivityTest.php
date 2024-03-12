@@ -14,7 +14,7 @@ class ActivityTest extends TestCase
      */
     private $model;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('activity');

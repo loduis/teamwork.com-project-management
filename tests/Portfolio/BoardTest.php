@@ -15,7 +15,7 @@ class BoardTest extends TestCase
     /** @var int */
     private $id;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('portfolio/board');
