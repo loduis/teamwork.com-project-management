@@ -4,7 +4,7 @@ namespace TeamWorkPm\Tests;
 
 use TeamWorkPm\Factory;
 
-class RoleTest extends TestCase
+final class RoleTest extends TestCase
 {
     private $model;
     private static $id;

@@ -5,7 +5,7 @@ namespace TeamWorkPm\Tests;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
-class TimeTest extends TestCase
+final class TimeTest extends TestCase
 {
     private $model;
     private $taskId;

@@ -6,7 +6,7 @@ use TeamWorkPm\Account;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
-class AccountTest extends TestCase
+final class AccountTest extends TestCase
 {
     /**
      * @var Account

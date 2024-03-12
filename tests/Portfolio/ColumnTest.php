@@ -7,7 +7,7 @@ use TeamWorkPm\Factory;
 use TeamWorkPm\Portfolio\Column;
 use TeamWorkPm\Tests\TestCase;
 
-class ColumnTest extends TestCase
+final class ColumnTest extends TestCase
 {
     /** @var Column */
     private $model;

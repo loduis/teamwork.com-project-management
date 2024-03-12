@@ -7,7 +7,7 @@ use TeamWorkPm\Factory;
 use TeamWorkPm\Portfolio\Card;
 use TeamWorkPm\Tests\TestCase;
 
-class CardTest extends TestCase
+final class CardTest extends TestCase
 {
     /** @var Card */
     private $model;

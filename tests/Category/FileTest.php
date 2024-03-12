@@ -7,7 +7,7 @@ use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
-class FileTest extends TestCase
+final class FileTest extends TestCase
 {
     /**
      * @var File

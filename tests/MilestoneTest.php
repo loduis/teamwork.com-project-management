@@ -4,7 +4,7 @@ namespace TeamWorkPm\Tests;
 
 use TeamWorkPm\Factory;
 
-class MilestoneTest extends TestCase
+final class MilestoneTest extends TestCase
 {
     private $model;
     private $id;

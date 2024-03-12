@@ -7,7 +7,7 @@ use TeamWorkPm\Factory;
 use TeamWorkPm\Portfolio\Board;
 use TeamWorkPm\Tests\TestCase;
 
-class BoardTest extends TestCase
+final class BoardTest extends TestCase
 {
     /** @var Board */
     private $model;

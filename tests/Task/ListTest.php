@@ -6,7 +6,7 @@ use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
-class ListTest extends TestCase
+final class ListTest extends TestCase
 {
     private $model;
     private $projectId;

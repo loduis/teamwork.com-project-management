@@ -6,7 +6,7 @@ use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
-class NotebookTest extends TestCase
+final class NotebookTest extends TestCase
 {
     private $model;
     private $resourceId;

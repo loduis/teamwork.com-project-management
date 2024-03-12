@@ -5,7 +5,7 @@ namespace TeamWorkPm\Tests;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
-class NotebookTest extends TestCase
+final class NotebookTest extends TestCase
 {
     private $model;
     private $id;

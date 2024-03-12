@@ -5,7 +5,7 @@ namespace TeamWorkPm\Tests;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
-class MessageTest extends TestCase
+final class MessageTest extends TestCase
 {
     private $model;
     private $id;

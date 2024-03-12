@@ -5,7 +5,7 @@ namespace TeamWorkPm\Tests;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
-class DestroyTest extends TestCase
+final class DestroyTest extends TestCase
 {
     /**
      * @test
