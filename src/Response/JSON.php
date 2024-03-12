@@ -47,7 +47,7 @@ class JSON extends Model
                         }
                         // no break
                     case 'PUT':
-                        return isset($source->id) ? $source->id : true;
+                        return $source->id ?? true;
                     case 'DELETE':
                         return true;
 

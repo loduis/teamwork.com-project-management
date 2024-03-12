@@ -75,7 +75,7 @@ abstract class Model
             'address_one' => true,
             'address_two' => true,
         ];
-        $value = isset($parameters[$field]) ? $parameters[$field] : null;
+        $value = $parameters[$field] ?? null;
         if (!is_array($options)) {
             $options = ['required' => $options, 'attributes' => []];
         }

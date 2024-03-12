@@ -109,7 +109,7 @@ abstract class Model
      */
     final public static function getInstance($url, $key)
     {
-        $class = get_called_class();
+        $class = static::class;
         $hash = md5($class . '-' . $url . '-' . $key);
         if (!isset(self::$instances[$hash])) {
             self::$instances[$hash] = new $class($url, $key, $class, $hash);

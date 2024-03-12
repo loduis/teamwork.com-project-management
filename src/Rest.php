@@ -216,7 +216,7 @@ final class Rest
             foreach ($parts as $header) {
                 $header = trim($header);
                 if ($header && false !== strpos($header, ':')) {
-                    list($name, $value) = explode(':', $header, 2);
+                    [$name, $value] = explode(':', $header, 2);
                     $value = trim($value);
                     $name = trim($name);
                     if (isset($headers[$name])) {
