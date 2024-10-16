@@ -32,7 +32,7 @@ final class TagTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */

@@ -142,7 +142,7 @@ final class PeopleTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */

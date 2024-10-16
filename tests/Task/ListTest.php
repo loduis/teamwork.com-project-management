@@ -43,7 +43,7 @@ final class ListTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */
@@ -133,7 +133,7 @@ final class ListTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */

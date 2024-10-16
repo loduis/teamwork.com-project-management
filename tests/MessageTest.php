@@ -46,7 +46,7 @@ final class MessageTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */

@@ -43,7 +43,7 @@ final class LinkTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */
