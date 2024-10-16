@@ -12,7 +12,7 @@ class JSON extends Model
      * @param array $headers
      *
      * @return $this
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function parse($data, array $headers)
     {

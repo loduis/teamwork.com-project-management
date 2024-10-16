@@ -37,7 +37,7 @@ class Client
     /**
      * @param string $url
      * @param string $key
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function __construct($url, $key)
     {
@@ -61,7 +61,7 @@ class Client
      * @param string $path
      * @param mixed $parameters
      * @return mixed
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     private function request(string $method, string $path, $parameters = null)
     {
@@ -172,7 +172,7 @@ class Client
      * @param string|null $parameters
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get(string $path, $parameters = null)
     {
@@ -206,7 +206,7 @@ class Client
     }
 
     /**
-     * @return \TeamWorkPm\Request\Model|null
+     * @return Model|null
      */
     public function getRequest()
     {

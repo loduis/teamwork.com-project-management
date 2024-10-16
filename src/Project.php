@@ -143,7 +143,7 @@ class Project extends Model
      *
      * @param array $params Optional query parameters
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function all(array $params = [])
     {
@@ -155,7 +155,7 @@ class Project extends Model
      *
      * @param array $params Optional query parameters
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getActive(array $params = [])
     {
@@ -167,7 +167,7 @@ class Project extends Model
      *
      * @param array $params Optional query parameters
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getArchived(array $params = [])
     {
@@ -178,7 +178,7 @@ class Project extends Model
      * Retrieves all starred projects.
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getStarred()
     {
@@ -189,7 +189,7 @@ class Project extends Model
      * Get Project Rates
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getRates(int $id, array $params = [])
     {
@@ -200,7 +200,7 @@ class Project extends Model
      * set Project Rates
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function setRates(int $id, iterable $data = [])
     {
@@ -211,7 +211,7 @@ class Project extends Model
      * Get Project Stats
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getStats(int $id, iterable $params = [])
     {
@@ -225,7 +225,7 @@ class Project extends Model
      * @param array $params
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByCompany(int $id, array $params = [])
     {
@@ -237,7 +237,7 @@ class Project extends Model
      *
      * @param int $id Project ID
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function star(int $id)
     {
@@ -251,7 +251,7 @@ class Project extends Model
      *
      * @param int $id Project ID
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function unStar(int $id)
     {
@@ -265,7 +265,7 @@ class Project extends Model
      *
      * @param int $id Project ID
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function activate(int $id)
     {
@@ -279,7 +279,7 @@ class Project extends Model
      *
      * @param int $id Project ID
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function archive(int $id)
     {
@@ -294,7 +294,7 @@ class Project extends Model
      * @param string $status Project status
      * @param array $params Optional query parameters
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     private function getByStatus(string $status, array $params = [])
     {

@@ -26,7 +26,7 @@ class Status extends Resource
      * @param $person_id
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get($person_id)
     {
@@ -40,7 +40,7 @@ class Status extends Resource
      * All of the latest status posts are returned for all users in the parent company.
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getAll()
     {
@@ -55,7 +55,7 @@ class Status extends Resource
      * @param array $data
      *
      * @return int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {
@@ -77,7 +77,7 @@ class Status extends Resource
      * @param array $data
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function update(array $data)
     {
@@ -103,7 +103,7 @@ class Status extends Resource
      * @param int $person_id optional
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function delete($id, $person_id = null)
     {
@@ -118,7 +118,7 @@ class Status extends Resource
      * @param array $data
      *
      * @return bool|int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     final public function save(array $data)
     {

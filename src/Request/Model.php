@@ -51,7 +51,7 @@ abstract class Model
      * @param array $parameters
      *
      * @return mixed|null
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     protected function getValue(string &$field, bool|array &$options, array $parameters)
     {

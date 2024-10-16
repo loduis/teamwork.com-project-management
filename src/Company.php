@@ -308,7 +308,7 @@ class Company extends Model
      * @param array $params
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function all(array $params = [])
     {
@@ -325,13 +325,13 @@ class Company extends Model
      * @param $project_id
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByProject($project_id)
     {
         $project_id = (int)$project_id;
         if ($project_id <= 0) {
-            throw new \TeamWorkPm\Exception('Invalid param project_id');
+            throw new Exception('Invalid param project_id');
         }
         return $this->rest->get("projects/$project_id/$this->action");
     }

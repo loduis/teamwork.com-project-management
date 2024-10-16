@@ -20,7 +20,7 @@ class Tag extends Model
      * @param null $params
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get($id, $params = null)
     {
@@ -79,7 +79,7 @@ class Tag extends Model
      * @param array $data
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function update(array $data, $resource = '', $resource_id = 0)
     {

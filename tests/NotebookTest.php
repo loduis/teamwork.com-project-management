@@ -36,7 +36,7 @@ final class NotebookTest extends TestCase
             $data['project_id'] = $this->projectId;
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -56,7 +56,7 @@ final class NotebookTest extends TestCase
         try {
             $notebook = $this->model->get($this->id);
             $this->assertEquals($this->id, $notebook->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -69,7 +69,7 @@ final class NotebookTest extends TestCase
         try {
             $notebooks = $this->model->getAll();
             $this->assertGreaterThan(0, count($notebooks));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
 
@@ -91,7 +91,7 @@ final class NotebookTest extends TestCase
         try {
             $notebooks = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($notebooks));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
         // get with content
@@ -111,7 +111,7 @@ final class NotebookTest extends TestCase
 
         try {
             $this->assertTrue($this->model->lock($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -130,7 +130,7 @@ final class NotebookTest extends TestCase
 
         try {
             $this->assertTrue($this->model->unlock($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

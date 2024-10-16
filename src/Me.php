@@ -2,11 +2,13 @@
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Response\Model;
+
 class Me extends Rest\Resource
 {
     /**
-     * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @return Model
+     * @throws Exception
      */
     public function get()
     {

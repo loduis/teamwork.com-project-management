@@ -2,6 +2,8 @@
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Response\Model;
+
 class Notebook extends Rest\Resource
 {
     protected function init()
@@ -31,8 +33,8 @@ class Notebook extends Rest\Resource
      * @param $id
      * @param array $params
      *
-     * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @return Model
+     * @throws Exception
      */
     public function get($id, array $params = [])
     {
@@ -54,8 +56,8 @@ class Notebook extends Rest\Resource
      *
      * @param bool $includeContent
      *
-     * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @return Model
+     * @throws Exception
      */
     public function getAll($includeContent = false)
     {
@@ -78,8 +80,8 @@ class Notebook extends Rest\Resource
      *
      * @param bool $includeContent
      *
-     * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @return Model
+     * @throws Exception
      */
     public function getByProject($projectId, $includeContent = false)
     {
@@ -103,7 +105,7 @@ class Notebook extends Rest\Resource
      * @param int $id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function lock($id)
     {
@@ -124,7 +126,7 @@ class Notebook extends Rest\Resource
      * @param int $id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function unlock($id)
     {
@@ -143,13 +145,13 @@ class Notebook extends Rest\Resource
      * Content must be valid XHMTL
      * You not not need to include <html>, <head> or <body> tags
      *
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {
         $projectId = empty($data['project_id']) ? 0 : (int)$data['project_id'];
         if ($projectId <= 0) {
-            throw new \TeamWorkPm\Exception('Required field project_id');
+            throw new Exception('Required field project_id');
         }
         return $this->rest->post("projects/$projectId/$this->action", $data);
     }
@@ -169,7 +171,7 @@ class Notebook extends Rest\Resource
     {
         $id = empty($data['id']) ? 0 : (int)$data['id'];
         if ($id <= 0) {
-            throw new \TeamWorkPm\Exception('Required field id');
+            throw new Exception('Required field id');
         }
         return $this->rest->put("$this->action/$id", $data);
     }
@@ -178,7 +180,7 @@ class Notebook extends Rest\Resource
      * @param array $data
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     final public function save(array $data)
     {
@@ -191,7 +193,7 @@ class Notebook extends Rest\Resource
      * @param int $id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function delete($id)
     {

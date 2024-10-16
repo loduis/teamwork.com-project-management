@@ -38,7 +38,7 @@ class Reply extends Model
      * @param array $params
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByMessage($message_id, array $params = [])
     {
@@ -66,7 +66,7 @@ class Reply extends Model
      * @param array $data
      *
      * @return int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {

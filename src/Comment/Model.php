@@ -2,6 +2,9 @@
 
 namespace TeamWorkPm\Comment;
 
+use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/comments
  */
@@ -35,16 +38,16 @@ abstract class Model extends \TeamWorkPm\Model
      * @param array $data
      *
      * @return int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {
         $resource_id = empty($data['resource_id']) ? 0 : (int)$data['resource_id'];
         if ($resource_id <= 0) {
-            throw new \TeamWorkPm\Exception('Required field resource_id');
+            throw new Exception('Required field resource_id');
         }
         if (!empty($data['files'])) {
-            $file = \TeamWorkPm\Factory::build('file');
+            $file = Factory::build('file');
             $data['pending_file_attachments'] = $file->upload($data['files']);
             unset($data['files']);
         }
@@ -60,13 +63,13 @@ abstract class Model extends \TeamWorkPm\Model
      * @param int $page
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getRecent($resource_id, $page_size = 20, $page = 1)
     {
         $resource_id = (int)$resource_id;
         if ($resource_id <= 0) {
-            throw new \TeamWorkPm\Exception('Invalid param resource_id');
+            throw new Exception('Invalid param resource_id');
         }
 
         $page_size = abs((int)$page_size);

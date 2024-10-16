@@ -2,6 +2,8 @@
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Response\Model;
+
 class File extends Rest\Resource
 {
     protected function init()
@@ -21,7 +23,7 @@ class File extends Rest\Resource
      * @param int $id
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get($id)
     {
@@ -41,8 +43,8 @@ class File extends Rest\Resource
      *
      * @param int $project_id
      *
-     * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @return Model
+     * @throws Exception
      */
     public function getByProject($project_id)
     {
@@ -66,7 +68,7 @@ class File extends Rest\Resource
      *
      * @param array $files
      * @return string
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function upload($files)
     {
@@ -105,7 +107,7 @@ class File extends Rest\Resource
      * @param array $data
      *
      * @return int File id
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function save(array $data)
     {
@@ -127,7 +129,7 @@ class File extends Rest\Resource
      * @param int $id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function delete($id)
     {

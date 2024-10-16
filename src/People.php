@@ -106,7 +106,7 @@ class People extends Model
      * @param null $project_id
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get($id, $project_id = null)
     {
@@ -131,7 +131,7 @@ class People extends Model
      * @param $page int
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getAll($pageSize = 200, $page = 1)
     {
@@ -149,7 +149,7 @@ class People extends Model
      * @param int $id
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByProject($id)
     {
@@ -166,7 +166,7 @@ class People extends Model
      * @param int $id
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByCompany($id)
     {
@@ -182,7 +182,7 @@ class People extends Model
      * @param string $emailaddress
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByEmail($emailaddress)
     {
@@ -200,7 +200,7 @@ class People extends Model
      * @param array $data
      *
      * @return int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {
@@ -219,7 +219,7 @@ class People extends Model
         $id = parent::insert($data);
         // add permission to project
         if ($project_id) {
-            $permission = \TeamWorkPm\Factory::build('project/people');
+            $permission = Factory::build('project/people');
             $permission->add($project_id, $id);
             if ($permissions) {
                 $permissions['person_id'] = $id;
@@ -235,7 +235,7 @@ class People extends Model
      * @param array $data
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function update(array $data)
     {
@@ -256,7 +256,7 @@ class People extends Model
         }
         // add permission to project
         if ($project_id) {
-            $permission = \TeamWorkPm\Factory::build('project/people');
+            $permission = Factory::build('project/people');
             try {
                 $add = $permission->add($project_id, $data['id']);
             } catch (Exception $e) {
@@ -277,7 +277,7 @@ class People extends Model
      * @param int|null $project_id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function delete($id, $project_id = null)
     {

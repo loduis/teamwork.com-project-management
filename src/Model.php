@@ -9,7 +9,7 @@ abstract class Model extends Rest\Resource
      * @param string $params
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get(int $id, $params = null)
     {
@@ -31,7 +31,7 @@ abstract class Model extends Rest\Resource
      * @param array $data
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function update(array $data)
     {
@@ -46,7 +46,7 @@ abstract class Model extends Rest\Resource
      * @param array $data
      *
      * @return [bool|int]
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     final public function save(array $data)
     {
@@ -59,7 +59,7 @@ abstract class Model extends Rest\Resource
      * @param int $id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function delete(int $id)
     {
