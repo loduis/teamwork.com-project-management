@@ -33,6 +33,7 @@ final class TaskTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field task_list_id', $e->getMessage());
         }
+
         try {
             $data['task_list_id'] = $this->taskListId;
             $id = $this->model->save($data);
@@ -67,12 +68,14 @@ final class TaskTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $task = $this->model->get($this->id);
             $this->assertEquals($this->id, $task->id);
         } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
+
         try {
             $task = $this->model->get($this->id, true);
             $this->assertTrue(isset($task->timeIsLogged));
@@ -92,6 +95,7 @@ final class TaskTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param task_list_id', $e->getMessage());
         }
+
         try {
             $tasks = $this->model->getByTaskList($this->taskListId);
             $this->assertGreaterThan(0, count($tasks));
@@ -111,6 +115,7 @@ final class TaskTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $this->assertTrue($this->model->complete($this->id));
         } catch (Exception $e) {
@@ -145,6 +150,7 @@ final class TaskTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $this->assertTrue($this->model->unComplete($this->id));
         } catch (Exception $e) {
@@ -180,6 +186,7 @@ final class TaskTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param task_list_id', $e->getMessage());
         }
+
         try {
             $data['task_list_id'] = $this->taskListId;
             $id = $this->model->save($data);

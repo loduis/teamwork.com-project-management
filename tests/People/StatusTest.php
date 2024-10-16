@@ -39,6 +39,7 @@ final class StatusTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field person_id', $e->getMessage());
         }
+
         try {
             $data['person_id'] = self::$userId;
             self::$id = $this->model->insert($data);

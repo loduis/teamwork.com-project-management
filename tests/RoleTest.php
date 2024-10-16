@@ -44,6 +44,7 @@ final class RoleTest extends TestCase
         } catch (\TeamWorkPm\Exception $e) {
             $this->assertEquals('Required field id', $e->getMessage());
         }
+
         try {
             // and add to this project
             $data['id'] = self::$id;
@@ -65,6 +66,7 @@ final class RoleTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $tag = $this->model->get(self::$id);
             $this->assertEquals(self::$id, $tag->id);
