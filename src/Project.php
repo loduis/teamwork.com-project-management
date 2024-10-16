@@ -2,6 +2,9 @@
 
 namespace TeamWorkPm;
 
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/projects/get-projects-json
+ */
 class Project extends Model
 {
     protected function init()

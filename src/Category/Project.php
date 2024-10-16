@@ -2,7 +2,12 @@
 
 namespace TeamWorkPm\Category;
 
-class Project extends \TeamWorkPm\Model
+use TeamWorkPm\Model;
+
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/project-categories
+ */
+class Project extends Model
 {
     protected function init()
     {
