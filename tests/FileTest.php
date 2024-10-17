@@ -11,7 +11,7 @@ class FileTest extends TestCase
     private $id;
     private $projectId;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('file');

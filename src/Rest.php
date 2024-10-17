@@ -2,6 +2,8 @@
 
 namespace TeamWorkPm;
 
+use CurlHandle;
+
 final class Rest
 {
     /**
@@ -103,7 +105,7 @@ final class Rest
      * @param string $url
      * @param string|null $params
      * @param array $headers
-     * @return false|resource
+     * @return CurlHandle|false
      */
     private static function initCurl($method, $url, $params, $headers)
     {

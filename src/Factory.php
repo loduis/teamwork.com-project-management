@@ -6,7 +6,7 @@ class Factory
 {
     /**
      * @param string $class_name
-     * @return Model
+     * @return Model | People | Project\People
      */
     public static function build($class_name)
     {

@@ -13,7 +13,7 @@ class AccountTest extends TestCase
      */
     private $model;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('account');

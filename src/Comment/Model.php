@@ -4,6 +4,8 @@ namespace TeamWorkPm\Comment;
 
 abstract class Model extends \TeamWorkPm\Model
 {
+    protected $resource;
+
     protected function init()
     {
         $this->parent = 'comment';

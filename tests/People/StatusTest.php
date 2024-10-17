@@ -12,7 +12,7 @@ class StatusTest extends TestCase
     private static $id;
     private static $userId = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('people/status');

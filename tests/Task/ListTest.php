@@ -12,7 +12,7 @@ class ListTest extends TestCase
     private $projectId;
     private $id;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('task/list');

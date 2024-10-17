@@ -10,7 +10,7 @@ class TagTest extends TestCase
     private $model;
     private static $id;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('tag');

@@ -4,6 +4,9 @@ namespace TeamWorkPm\Rest;
 
 use TeamWorkPm\Rest;
 
+/**
+ * @method void init()
+ */
 abstract class Model
 {
     /**

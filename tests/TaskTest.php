@@ -11,7 +11,7 @@ class TaskTest extends TestCase
     private $taskListId;
     private $id;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('task');

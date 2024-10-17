@@ -17,27 +17,27 @@ class Auth
     {
         $num_args = func_num_args();
         if ($num_args === 1) {
-            self::$config['url'] = self::$url;
-            self::$config['key'] = func_get_arg(0);
-            self::$config['url'] = Factory::build('account')->authenticate()->url;
+            static::$config['url'] = static::$url;
+            static::$config['key'] = func_get_arg(0);
+            static::$config['url'] = Factory::build('account')->authenticate()->url;
         } elseif ($num_args === 2) {
-            self::$config['url'] = $url = func_get_arg(0);
-            self::checkSubDomain($url);
-            if (self::$is_subdomain) {
-                self::$config['url'] = self::$url;
+            static::$config['url'] = $url = func_get_arg(0);
+            static::checkSubDomain($url);
+            if (static::$is_subdomain) {
+                static::$config['url'] = static::$url;
             }
-            self::$config['key'] = func_get_arg(1);
-            if (self::$is_subdomain) {
+            static::$config['key'] = func_get_arg(1);
+            if (static::$is_subdomain) {
                 $test = Factory::build('account')->authenticate();
                 $url = $test->url;
             }
-            self::$config['url'] = $url;
+            static::$config['url'] = $url;
         }
     }
 
     public static function get()
     {
-        return array_values(self::$config);
+        return array_values(static::$config);
     }
 
     private static function checkSubDomain($url)
@@ -45,11 +45,11 @@ class Auth
         $eu_domain = strpos($url, '.eu');
 
         if ($eu_domain !== false) {
-            self::$url = 'https://authenticate.eu.teamwork.com/';
+            static::$url = 'https://authenticate.eu.teamwork.com/';
             $url = substr($url, 0, $eu_domain);
         }
         if (strpos($url, '.') === false) {
-            self::$is_subdomain = true;
+            static::$is_subdomain = true;
         }
     }
 }

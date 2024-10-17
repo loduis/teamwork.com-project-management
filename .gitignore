@@ -1,7 +1,10 @@
 /.idea/
 /tests/data/
 /tests/build/
+/tests/.phpunit.cache/
 /vendor/
 /.env
 /.php-cs-fixer.cache
 /composer.lock
+phpunit.xml
+.phpunit.result.cache
