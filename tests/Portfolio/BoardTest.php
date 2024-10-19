@@ -7,7 +7,7 @@ use TeamWorkPm\Factory;
 use TeamWorkPm\Portfolio\Board;
 use TeamWorkPm\Tests\TestCase;
 
-class BoardTest extends TestCase
+final class BoardTest extends TestCase
 {
     /** @var Board */
     private $model;
@@ -15,7 +15,7 @@ class BoardTest extends TestCase
     /** @var int */
     private $id;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('portfolio/board');
@@ -28,7 +28,7 @@ class BoardTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $id = $this->model->save($data);
@@ -51,7 +51,7 @@ class BoardTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -69,7 +69,7 @@ class BoardTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $portfolioBoard = $this->model->get($this->id);
@@ -82,7 +82,7 @@ class BoardTest extends TestCase
     /**
      * @test
      */
-    public function getAll()
+    public function getAll(): void
     {
         try {
             $portfolioBoards = $this->model->getAll();
@@ -94,18 +94,18 @@ class BoardTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
-    public function deleteInvalidId()
+    public function deleteInvalidId(): void
     {
+        $this->expectException(\Exception::class);
         $this->model->delete(0);
     }
 
     /**
      * @test
      */
-    public function delete()
+    public function delete(): void
     {
         try {
             $this->assertTrue($this->model->delete($this->id));

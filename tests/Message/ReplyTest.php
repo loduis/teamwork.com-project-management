@@ -6,13 +6,13 @@ use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
-class ReplyTest extends TestCase
+final class ReplyTest extends TestCase
 {
     private $model;
     private static $id;
     private $messageId;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('message/reply');
@@ -24,7 +24,7 @@ class ReplyTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $this->model->save($data);
@@ -53,7 +53,7 @@ class ReplyTest extends TestCase
     /**
      * @test
      */
-    public function getByMessage()
+    public function getByMessage(): void
     {
         try {
             $this->model->getByMessage(0);
@@ -75,7 +75,7 @@ class ReplyTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $reply = $this->model->get(self::$id);
@@ -89,7 +89,7 @@ class ReplyTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = null;

@@ -5,13 +5,13 @@ namespace TeamWorkPm\Tests;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
-class ProjectTest extends TestCase
+final class ProjectTest extends TestCase
 {
     private $id;
 
     private $model;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('project');
@@ -22,7 +22,7 @@ class ProjectTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $data['category_id'] = get_first_project_category_id();
@@ -39,7 +39,7 @@ class ProjectTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -53,19 +53,19 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException        Exception
      * @dataProvider provider
      * @test
      */
-    public function updateWithoutId($data)
+    public function updateWithoutId($data): void
     {
+        $this->expectException(\Exception::class);
         $this->model->update($data);
     }
 
     /**
      * @test
      */
-    public function star()
+    public function star(): void
     {
         try {
             $this->assertTrue($this->model->star($this->id));
@@ -75,12 +75,12 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException        Exception
-     * @expectedExceptionMessage Invalid param id
      * @test
      */
-    public function starInvalidProjectId()
+    public function starInvalidProjectId(): void
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid param id');
         $this->model->star(0);
     }
 
@@ -88,7 +88,7 @@ class ProjectTest extends TestCase
      * @depends star
      * @test
      */
-    public function getStarred()
+    public function getStarred(): void
     {
         try {
             $projects = $this->model->getStarred();
@@ -99,19 +99,19 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException        Exception
-     * @expectedExceptionMessage Invalid param id
      * @test
      */
-    public function unStarInvalidProjectId()
+    public function unStarInvalidProjectId(): void
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid param id');
         $this->model->unStar(0);
     }
 
     /**
      * @test
      */
-    public function unStar()
+    public function unStar(): void
     {
         try {
             $this->assertTrue($this->model->unStar($this->id));
@@ -121,19 +121,19 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException        Exception
-     * @expectedExceptionMessage Invalid param id
      * @test
      */
-    public function archiveInvalidProjectId()
+    public function archiveInvalidProjectId(): void
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid param id');
         $this->model->archive(0);
     }
 
     /**
      * @test
      */
-    public function archive()
+    public function archive(): void
     {
         try {
             $this->assertTrue($this->model->archive($this->id));
@@ -146,7 +146,7 @@ class ProjectTest extends TestCase
      * @depends archive
      * @test
      */
-    public function getArchived()
+    public function getArchived(): void
     {
         try {
             $projects = $this->model->getArchived();
@@ -157,19 +157,19 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException        Exception
-     * @expectedExceptionMessage Invalid param id
      * @test
      */
-    public function activateInvalidProjectId()
+    public function activateInvalidProjectId(): void
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid param id');
         $this->model->activate(0);
     }
 
     /**
      * @test
      */
-    public function activate()
+    public function activate(): void
     {
         try {
             $this->assertTrue($this->model->activate($this->id));
@@ -182,7 +182,7 @@ class ProjectTest extends TestCase
      * @depends activate
      * @test
      */
-    public function getActive()
+    public function getActive(): void
     {
         try {
             $projects = $this->model->getActive();
@@ -195,7 +195,7 @@ class ProjectTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $project = $this->model->get($this->id);
@@ -208,7 +208,7 @@ class ProjectTest extends TestCase
     /**
      * @test
      */
-    public function getAll()
+    public function getAll(): void
     {
         try {
             $projects = $this->model->getAll();
@@ -221,11 +221,11 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
-    public function deleteInvalidId()
+    public function deleteInvalidId(): void
     {
+        $this->expectException(\Exception::class);
         $this->model->delete(0);
     }
 

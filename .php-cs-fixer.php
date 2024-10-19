@@ -41,6 +41,7 @@ return (new \PhpCsFixer\Config())
         'no_useless_else' => true,
         'no_whitespace_in_blank_line' => true,
         'ordered_imports' => true,
+        'php_unit_set_up_tear_down_visibility' => true,
         'phpdoc_no_access' => true,
         'phpdoc_no_empty_return' => true,
         'phpdoc_no_package' => true,

@@ -5,12 +5,12 @@ namespace TeamWorkPm\Tests;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
-class KeyTest extends TestCase
+final class KeyTest extends TestCase
 {
     /**
      * @test
      */
-    public function setYourApiKey()
+    public function setYourApiKey(): void
     {
         try {
             $project = Factory::build('project');

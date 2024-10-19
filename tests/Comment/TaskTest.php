@@ -6,13 +6,13 @@ use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
-class TaskTest extends TestCase
+final class TaskTest extends TestCase
 {
     private $model;
     private $resourceId;
     private $id;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('comment/task');
@@ -26,7 +26,7 @@ class TaskTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $this->model->save($data);
@@ -48,7 +48,7 @@ class TaskTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -61,7 +61,7 @@ class TaskTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $comment = $this->model->get($this->id);
@@ -74,7 +74,7 @@ class TaskTest extends TestCase
     /**
      * @test
      */
-    public function getRecent()
+    public function getRecent(): void
     {
         try {
             $times = $this->model->getRecent(0);

@@ -4,7 +4,7 @@ namespace TeamWorkPm\Tests\Category;
 
 use TeamWorkPm\Tests\TestCase;
 
-class MessageTest extends TestCase
+final class MessageTest extends TestCase
 {
     /**
      * @test
@@ -19,7 +19,7 @@ class MessageTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         $category = $this->tpm('category.message')->get(698387);
         $this->assertEquals('category test', $category->name);

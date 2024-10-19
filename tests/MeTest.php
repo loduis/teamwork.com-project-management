@@ -5,11 +5,11 @@ namespace TeamWorkPm\Tests;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
-class MeTest extends TestCase
+final class MeTest extends TestCase
 {
     private $model;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('me');
@@ -18,7 +18,7 @@ class MeTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $me = $this->model->get();

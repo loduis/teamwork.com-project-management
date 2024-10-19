@@ -7,7 +7,7 @@ use TeamWorkPm\Factory;
 use TeamWorkPm\Portfolio\Column;
 use TeamWorkPm\Tests\TestCase;
 
-class ColumnTest extends TestCase
+final class ColumnTest extends TestCase
 {
     /** @var Column */
     private $model;
@@ -18,7 +18,7 @@ class ColumnTest extends TestCase
     /** @var int */
     private $id;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('portfolio/column');
@@ -32,7 +32,7 @@ class ColumnTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $data['board_id'] = $this->boardId;
@@ -57,7 +57,7 @@ class ColumnTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -75,7 +75,7 @@ class ColumnTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $portfolioColumn = $this->model->get($this->id);
@@ -88,7 +88,7 @@ class ColumnTest extends TestCase
     /**
      * @test
      */
-    public function getAllForBoard()
+    public function getAllForBoard(): void
     {
         try {
             $portfolioColumns = $this->model->getAllForBoard($this->boardId);
@@ -100,27 +100,27 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
-    public function getAllForBoardInvalidId()
+    public function getAllForBoardInvalidId(): void
     {
+        $this->expectException(\Exception::class);
         $this->model->getAllForBoard(0);
     }
 
     /**
-     * @expectedException Exception
      * @test
      */
-    public function deleteInvalidId()
+    public function deleteInvalidId(): void
     {
+        $this->expectException(\Exception::class);
         $this->model->delete(0);
     }
 
     /**
      * @test
      */
-    public function delete()
+    public function delete(): void
     {
         try {
             $this->assertTrue($this->model->delete($this->id));

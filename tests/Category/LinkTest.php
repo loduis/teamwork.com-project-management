@@ -4,7 +4,7 @@ namespace TeamWorkPm\Tests\Category;
 
 use TeamWorkPm\Tests\TestCase;
 
-class LinkTest extends TestCase
+final class LinkTest extends TestCase
 {
     /**
      * @test
@@ -19,7 +19,7 @@ class LinkTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         $category = $this->tpm('category.link')->get(337016);
         $this->assertEquals('category test', $category->name);

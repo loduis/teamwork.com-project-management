@@ -5,12 +5,12 @@ namespace TeamWorkPm\Tests;
 use Exception;
 use TeamWorkPm\Factory;
 
-class RoleTest extends TestCase
+final class RoleTest extends TestCase
 {
     private $model;
     private static $id;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('role');
@@ -20,7 +20,7 @@ class RoleTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         // =========== insert now ========= //
         try {
@@ -36,7 +36,7 @@ class RoleTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = null;
@@ -57,7 +57,7 @@ class RoleTest extends TestCase
      * @depends insert
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $this->model->get(0);

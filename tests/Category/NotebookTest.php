@@ -6,7 +6,7 @@ use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
-class NotebookTest extends TestCase
+final class NotebookTest extends TestCase
 {
     /**
      * @test
@@ -21,7 +21,7 @@ class NotebookTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         $category = $this->tpm('category.notebook')->get(1037083);
         $this->assertEquals('category test', $category->name);

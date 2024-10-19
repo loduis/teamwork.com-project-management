@@ -7,7 +7,7 @@ use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
-class FileTest extends TestCase
+final class FileTest extends TestCase
 {
     /**
      * @test
@@ -22,7 +22,7 @@ class FileTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         $category = $this->tpm('category.file')->get(1634602);
         $this->assertEquals('category test', $category->name);

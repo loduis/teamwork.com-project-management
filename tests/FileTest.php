@@ -5,13 +5,13 @@ namespace TeamWorkPm\Tests;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
-class FileTest extends TestCase
+final class FileTest extends TestCase
 {
     private $model;
     private $id;
     private $projectId;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('file');
@@ -22,7 +22,7 @@ class FileTest extends TestCase
     /**
      * @test
      */
-    public function upload()
+    public function upload(): void
     {
         try {
             $filename = 'back_file_path';
@@ -34,14 +34,14 @@ class FileTest extends TestCase
             $filename = __DIR__ . '/uploads/teamworkpm.jpg';
             $this->assertNotEmpty($this->model->upload($filename));
         } catch (Exception $e) {
-            $this->assertTrue(false, $filename, $e->getMessage());
+            $this->assertTrue(false, $filename);
         }
     }
 
     /**
      * @test
      */
-    public function save()
+    public function save(): void
     {
         $data = [
             'description' => 'Bla, Bla, Bla',
@@ -75,7 +75,7 @@ class FileTest extends TestCase
      * @depends save
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $this->model->get(0);
@@ -95,7 +95,7 @@ class FileTest extends TestCase
      * @depends save
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $this->model->getByProject(0);

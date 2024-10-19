@@ -5,13 +5,13 @@ namespace TeamWorkPm\Tests;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
-class TaskTest extends TestCase
+final class TaskTest extends TestCase
 {
     private $model;
     private $taskListId;
     private $id;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('task');
@@ -24,7 +24,7 @@ class TaskTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $data['files'] = __DIR__ . '/uploads/teamworkpm.jpg';
@@ -46,7 +46,7 @@ class TaskTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -59,7 +59,7 @@ class TaskTest extends TestCase
     /**
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $times = $this->model->get(0);
@@ -84,7 +84,7 @@ class TaskTest extends TestCase
     /**
      * @test
      */
-    public function getByTaskList()
+    public function getByTaskList(): void
     {
         try {
             $times = $this->model->getByTaskList(0);
@@ -103,7 +103,7 @@ class TaskTest extends TestCase
     /**
      * @test
      */
-    public function complete()
+    public function complete(): void
     {
         try {
             $times = $this->model->complete(0);
@@ -121,7 +121,7 @@ class TaskTest extends TestCase
     /**
      * @test
      */
-    public function getFinishedByTaskList()
+    public function getFinishedByTaskList(): void
     {
         try {
             $tasks = $this->model->getByTaskList($this->taskListId, 'finished');
@@ -137,7 +137,7 @@ class TaskTest extends TestCase
     /**
      * @test
      */
-    public function unComplete()
+    public function unComplete(): void
     {
         try {
             $times = $this->model->uncomplete(0);
@@ -155,7 +155,7 @@ class TaskTest extends TestCase
     /**
      * @test
      */
-    public function getPendingByTaskList()
+    public function getPendingByTaskList(): void
     {
         try {
             $tasks = $this->model->getByTaskList($this->taskListId, 'pending');
@@ -172,7 +172,7 @@ class TaskTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function reorder($data)
+    public function reorder($data): void
     {
         try {
             $this->model->reorder(0, []);

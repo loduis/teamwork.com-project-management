@@ -24,7 +24,7 @@ abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
     public function save(string $filename)
     {
         if (strpos($filename, '.') === false) {
-            $class = get_called_class();
+            $class = static::class;
             $ext = strtolower(substr($class, strrpos($class, '\\') + 1));
             $filename .= '.' . $ext;
         }
@@ -87,12 +87,12 @@ abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
 
     public function offsetGet($offset): mixed
     {
-        return isset($this->data[$offset]) ? $this->data[$offset] : null;
+        return $this->data[$offset] ?? null;
     }
 
     public function __get($name)
     {
-        return isset($this->data[$name]) ? $this->data[$name] : null;
+        return $this->data[$name] ?? null;
     }
 
     public function __set($name, $value)

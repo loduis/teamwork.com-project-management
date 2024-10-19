@@ -5,13 +5,13 @@ namespace TeamWorkPm\Tests;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
-class LinkTest extends TestCase
+final class LinkTest extends TestCase
 {
     private $model;
     private $id;
     private $projectId;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = Factory::build('link');
@@ -23,7 +23,7 @@ class LinkTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function insert($data): void
     {
         try {
             $this->model->save($data);
@@ -47,7 +47,7 @@ class LinkTest extends TestCase
      * @dataProvider provider
      * @test
      */
-    public function update($data)
+    public function update($data): void
     {
         try {
             $data['id'] = $this->id;
@@ -64,7 +64,7 @@ class LinkTest extends TestCase
      * @depends insert
      * @test
      */
-    public function get()
+    public function get(): void
     {
         try {
             $times = $this->model->get(0);
@@ -83,7 +83,7 @@ class LinkTest extends TestCase
     /**
      * @test
      */
-    public function getAll()
+    public function getAll(): void
     {
         try {
             $links = $this->model->getAll();
@@ -96,7 +96,7 @@ class LinkTest extends TestCase
     /**
      * @test
      */
-    public function getByProject()
+    public function getByProject(): void
     {
         try {
             $this->model->getByProject(0);
