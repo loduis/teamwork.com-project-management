@@ -2,7 +2,7 @@
 
 namespace TeamWorkPm;
 
-class Account extends Rest\Model
+class Account extends Rest\Resource
 {
     /**
      * Get Account Details

@@ -1,17 +1,22 @@
-# Teamwork.com PHP Api
+# Teamwork.com PHP API
 
 [![Latest Stable Version](https://poser.pugx.org/myabakus/teamworkpm/v/stable)](https://packagist.org/packages/myabakus/teamworkpm)
 [![Total Downloads](https://poser.pugx.org/myabakus/teamworkpm/downloads)](https://packagist.org/packages/myabakus/teamworkpm)
 
-## Installation
+This library allows you to interact with the Teamwork.com API for managing projects, tasks, milestones, people, and more. It’s designed for developers looking to automate or integrate project management processes within their PHP applications.
 
+## Installation
+To install the package, run the following command in your terminal:
 ```bash
 composer require myabakus/teamworkpm
 ```
 
 ## Using the Api
+In the following example, you will see how to use the API to create a project, add a person, define a milestone, create a task list, and assign a task with time tracking:
 
 ```php
+require __DIR__ . '/vendor/autoload.php';
+
 // START configuration
 const API_KEY = 'horse48street';
 const API_URL = 'https://yourcustomdomain.com'; // only required if you have a custom domain
@@ -19,20 +24,22 @@ const API_URL = 'https://yourcustomdomain.com'; // only required if you have a c
 try {
     // set your keys
     // if you do not have a custom domain:
-    \TeamWorkPm\Auth::set(API_KEY);
+    Tpm::auth(API_KEY);
+
     // if you do have a custom domain:
-    // TeamWorkPm\Auth::set(API_URL, API_KEY);
+    // Tpm::auth(API_URL, API_KEY);
+
+    // if you do have a need use different format:
+    // Tpm::auth(API_URL, API_KEY, API_FORMAT);
 
     // create a project
-    $project = \TeamWorkPm\Factory::build('project');
-    $project_id = $project->save([
+    $project_id = Tpm::project()->save([
         'name' => 'This is a test project',
         'description' => 'Bla, Bla, Bla',
     ]);
 
     // create one people and add to project
-    $people = \TeamWorkPm\Factory::build('people');
-    $person_id = $people->save([
+    $person_id = Tpm::people()->save([
         'first_name' => 'Test',
         'last_name' => 'User',
         'user_name' => 'test',
@@ -42,8 +49,7 @@ try {
     ]);
 
     // create a milestone
-    $milestone = \TeamWorkPm\Factory::build('milestone');
-    $milestone_id = $milestone->save([
+    $milestone_id = Tpm::milestone()->save([
         'project_id' => $project_id,
         'responsible_party_ids' => $person_id,
         'title' => 'Test milestone',
@@ -52,8 +58,7 @@ try {
     ]);
 
     // create a task list
-    $taskList = \TeamWorkPm\Factory::build('task.list');
-    $task_list_id = $taskList->save([
+    $task_list_id = Tpm::taskList()->save([
         'project_id' => $project_id,
         'milestone_id' => $milestone_id,
         'name' => 'My first task list',
@@ -61,8 +66,7 @@ try {
     ]);
 
     // create a task
-    $task = \TeamWorkPm\Factory::build('task');
-    $task_id = $task->save([
+    $task_id = Tpm::task()->save([
         'task_list_id' => $task_list_id,
         'content' => 'Test Task',
         'notify' => false,
@@ -76,8 +80,7 @@ try {
     ]);
 
     // add time to task
-    $time = \TeamWorkPm\Factory::build('time');
-    $time_id = $time->save([
+    $time_id = Tpm::time()->save([
         'task_id' => $task_id,
         'person_id' => $person_id,
         'description' => 'Test Time',
@@ -100,3 +103,14 @@ try {
 ```
 
 View the tests folder for more details
+
+## Console
+The console provides a visual interface for interacting with the API and viewing responses or debugging.
+
+![console](https://github.com/user-attachments/assets/041dd784-fa3d-46eb-81a7-76a1b334ebf0)
+
+Save your tests fixtures
+
+```bash
+  > stf(Tpm::me()->get())
+```

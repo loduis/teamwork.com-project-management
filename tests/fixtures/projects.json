@@ -1,0 +1,143 @@
+{
+    "STATUS": "OK",
+    "projects": [
+        {
+            "announcement": "",
+            "announcementHTML": "",
+            "boardData": {},
+            "category": {
+                "color": "",
+                "id": "",
+                "name": ""
+            },
+            "company": {
+                "id": "1370007",
+                "is-owner": "1",
+                "name": "Php's Company"
+            },
+            "created-on": "2023-11-29T11:56:05Z",
+            "defaultPrivacy": "open",
+            "defaults": {
+                "privacy": ""
+            },
+            "description": "",
+            "endDate": "",
+            "filesAutoNewVersion": false,
+            "harvest-timers-enabled": false,
+            "id": "967489",
+            "integrations": {
+                "onedrivebusiness": {
+                    "account": "",
+                    "enabled": false,
+                    "folder": "root",
+                    "foldername": "root"
+                },
+                "sharepoint": {
+                    "account": "",
+                    "enabled": false,
+                    "folder": "root",
+                    "foldername": "root"
+                },
+                "xero": {
+                    "basecurrency": "",
+                    "connected": "NO",
+                    "countrycode": "",
+                    "enabled": false,
+                    "organisation": ""
+                }
+            },
+            "isBillable": true,
+            "isOnBoardingProject": false,
+            "isProjectAdmin": true,
+            "isSampleProject": false,
+            "last-changed-on": "2023-11-29T11:56:05Z",
+            "lastWorkedOn": "2023-11-29T11:56:05Z",
+            "logo": "",
+            "logoColor": "",
+            "logoIcon": null,
+            "name": "Colombia",
+            "notifyeveryone": false,
+            "overview-start-page": "default",
+            "portfolioBoards": [],
+            "privacyEnabled": false,
+            "replyByEmailEnabled": true,
+            "show-announcement": false,
+            "starred": false,
+            "startDate": "",
+            "start-page": "list",
+            "status": "active",
+            "subStatus": "current",
+            "tags": [],
+            "tasks-start-page": "list"
+        },
+        {
+            "announcement": "",
+            "announcementHTML": "",
+            "boardData": {},
+            "category": {
+                "color": "",
+                "id": "",
+                "name": ""
+            },
+            "company": {
+                "id": "1370007",
+                "is-owner": "1",
+                "name": "Php's Company"
+            },
+            "created-on": "2023-11-29T13:10:22Z",
+            "defaultPrivacy": "open",
+            "defaults": {
+                "privacy": ""
+            },
+            "description": "bla, bla, bla",
+            "endDate": "",
+            "filesAutoNewVersion": false,
+            "harvest-timers-enabled": false,
+            "id": "967518",
+            "integrations": {
+                "onedrivebusiness": {
+                    "account": "",
+                    "enabled": false,
+                    "folder": "root",
+                    "foldername": "root"
+                },
+                "sharepoint": {
+                    "account": "",
+                    "enabled": false,
+                    "folder": "root",
+                    "foldername": "root"
+                },
+                "xero": {
+                    "basecurrency": "",
+                    "connected": "NO",
+                    "countrycode": "",
+                    "enabled": false,
+                    "organisation": ""
+                }
+            },
+            "isBillable": true,
+            "isOnBoardingProject": false,
+            "isProjectAdmin": true,
+            "isSampleProject": false,
+            "last-changed-on": "2023-11-29T13:10:22Z",
+            "lastWorkedOn": "2023-11-29T13:10:22Z",
+            "logo": "",
+            "logoColor": "",
+            "logoIcon": null,
+            "name": "test project",
+            "notifyeveryone": false,
+            "overview-start-page": "default",
+            "portfolioBoards": [],
+            "privacyEnabled": false,
+            "replyByEmailEnabled": true,
+            "show-announcement": false,
+            "starred": false,
+            "startDate": "",
+            "start-page": "list",
+            "status": "active",
+            "subStatus": "current",
+            "tags": [],
+            "tasks-start-page": "list"
+        }
+    ]
+}

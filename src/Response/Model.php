@@ -2,14 +2,17 @@
 
 namespace TeamWorkPm\Response;
 
-use Traversable;
-
 abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
 {
     protected $string = null;
 
+    protected $originalString = null;
+
     protected $headers = [];
 
+    /**
+     * @var object|array
+     */
     protected $data = [];
 
     final public function __construct()
@@ -18,7 +21,7 @@ abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
 
     abstract public function parse($data, array $headers);
 
-    public function save($filename)
+    public function save(string $filename)
     {
         if (strpos($filename, '.') === false) {
             $class = get_called_class();
@@ -36,6 +39,8 @@ abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
 
     abstract protected function getContent();
 
+    abstract public function getOriginalContent();
+
     public function __toString()
     {
         return $this->getContent();
@@ -51,7 +56,7 @@ abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
         return $this->headers;
     }
 
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->data);
     }

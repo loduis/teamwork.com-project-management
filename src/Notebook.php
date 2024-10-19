@@ -2,7 +2,7 @@
 
 namespace TeamWorkPm;
 
-class Notebook extends Rest\Model
+class Notebook extends Rest\Resource
 {
     protected function init()
     {

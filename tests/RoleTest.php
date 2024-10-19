@@ -2,6 +2,7 @@
 
 namespace TeamWorkPm\Tests;
 
+use Exception;
 use TeamWorkPm\Factory;
 
 class RoleTest extends TestCase

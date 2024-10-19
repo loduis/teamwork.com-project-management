@@ -2,7 +2,7 @@
 
 namespace TeamWorkPm;
 
-abstract class Model extends Rest\Model
+abstract class Model extends Rest\Resource
 {
     /**
      * @param int $id

@@ -24,11 +24,4 @@
             <directory suffix=".php">src</directory>
         </include>
     </coverage>
-    <!-- For live test
-    <php>
-        <env name="API_COMPANY" value="yourcompany" />
-        <env name="API_KEY" value="yourkey" />
-        <env name="API_FORMAT" value="json" />
-    </php>
-    -->
 </phpunit>

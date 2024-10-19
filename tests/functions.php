@@ -1,6 +1,7 @@
 <?php
 
 use TeamWorkPm\Factory;
+use TeamWorkPm\Response\Model;
 
 function rand_string($string, $length = 10)
 {
@@ -350,4 +351,18 @@ function get_first_portfolio_card_id($columnId)
         }
     }
     return (int)$id;
+}
+
+
+function stf(Model $resource)
+{
+    $headers = $resource->getHeaders();
+    $filename = __DIR__ . '/fixtures/' . $headers['X-Action'] . '.json';
+    $dirname = dirname($filename);
+    // create the directory if it does not exist
+    if ($dirname && !is_dir($dirname)) {
+        mkdir($dirname, 0777, true);
+    }
+
+    file_put_contents($filename, (string) $resource->getOriginalContent());
 }

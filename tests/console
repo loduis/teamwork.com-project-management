@@ -1,0 +1,44 @@
+#!/usr/bin/env php
+<?php
+
+use Psy\Shell;
+use Psy\Configuration;
+use Symfony\Component\VarDumper\Caster\Caster;
+use TeamWorkPm\Response\JSON;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+
+Dotenv\Dotenv::createImmutable(__DIR__)->load();
+
+Tpm::auth($_ENV['API_COMPANY'], $_ENV['API_KEY'], $_ENV['API_FORMAT']);
+
+$casterToArray = function ($model) {
+    $results = [];
+    foreach ($model as $key => $value) {
+        if ($value instanceof ArrayAccess) {
+            $processArrayAccess = function($value) use (&$processArrayAccess) {
+                $array = [];
+                foreach ($value->getArrayCopy() as $key => $val) {
+                    $array[$key] = $val instanceof ArrayAccess ? $processArrayAccess($val) : $val;
+                }
+                return $array;
+            };
+            $value = $processArrayAccess($value);
+        }
+        $results[Caster::PREFIX_VIRTUAL . $key] = $value;
+    }
+    return $results;
+};
+
+$config = new Configuration([
+    'colorMode' => \Psy\Configuration::COLOR_MODE_FORCED,
+    'updateCheck' => \Psy\VersionUpdater\Checker::NEVER
+]);
+
+$config->getPresenter()->addCasters([
+    JSON::class => $casterToArray
+
+]);
+$shell = new Shell($config);
+$shell->run();

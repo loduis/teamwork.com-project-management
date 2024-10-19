@@ -2,7 +2,7 @@
 
 namespace TeamWorkPm;
 
-class Activity extends Rest\Model
+class Activity extends Rest\Resource
 {
     protected function init()
     {
@@ -59,5 +59,19 @@ class Activity extends Rest\Model
         }
 
         return $this->rest->get("projects/$project_id/$this->action", $params);
+    }
+
+    /**
+     * Get Task Activity
+     *
+     * @param string $taskId
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
+    public function getByTask(string $taskId)
+    {
+        return $this->rest->get("tasks/$taskId/activity", [
+            'taskId' => $taskId
+        ]);
     }
 }

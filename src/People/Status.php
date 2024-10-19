@@ -3,9 +3,9 @@
 namespace TeamWorkPm\People;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Rest\Model;
+use TeamWorkPm\Rest\Resource;
 
-class Status extends Model
+class Status extends Resource
 {
     protected function init()
     {

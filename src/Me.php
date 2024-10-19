@@ -2,7 +2,7 @@
 
 namespace TeamWorkPm;
 
-class Me extends Rest\Model
+class Me extends Rest\Resource
 {
     /**
      * @return \TeamWorkPm\Response\Model

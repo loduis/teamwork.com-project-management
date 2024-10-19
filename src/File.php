@@ -2,7 +2,7 @@
 
 namespace TeamWorkPm;
 
-class File extends Rest\Model
+class File extends Rest\Resource
 {
     protected function init()
     {

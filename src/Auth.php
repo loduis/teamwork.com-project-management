@@ -13,23 +13,22 @@ class Auth
 
     private static $is_subdomain = false;
 
-    public static function set()
+    public static function set(...$args)
     {
-        $num_args = func_num_args();
-        if ($num_args === 1) {
+        $numArgs = count($args);
+        if ($numArgs === 1) {
             static::$config['url'] = static::$url;
-            static::$config['key'] = func_get_arg(0);
-            static::$config['url'] = Factory::build('account')->authenticate()->url;
-        } elseif ($num_args === 2) {
-            static::$config['url'] = $url = func_get_arg(0);
+            static::$config['key'] = $args[0];
+            static::$config['url'] = Factory::account()->authenticate()->url;
+        } elseif ($numArgs === 2) {
+            static::$config['url'] = $url = $args[0];
             static::checkSubDomain($url);
             if (static::$is_subdomain) {
                 static::$config['url'] = static::$url;
             }
-            static::$config['key'] = func_get_arg(1);
+            static::$config['key'] = $args[1];
             if (static::$is_subdomain) {
-                $test = Factory::build('account')->authenticate();
-                $url = $test->url;
+                $url = Factory::account()->authenticate()->url;
             }
             static::$config['url'] = $url;
         }
@@ -48,7 +47,7 @@ class Auth
             static::$url = 'https://authenticate.eu.teamwork.com/';
             $url = substr($url, 0, $eu_domain);
         }
-        if (strpos($url, '.') === false) {
+        if (!str_contains($url, '.')) {
             static::$is_subdomain = true;
         }
     }

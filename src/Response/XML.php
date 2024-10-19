@@ -19,7 +19,7 @@ class XML extends Model
     public function parse($data, array $headers)
     {
         libxml_use_internal_errors(true);
-        $this->string = $data;
+        $this->originalString = $this->string = $data;
         $source = simplexml_load_string($data);
         $errors = $this->getXmlErrors($source);
         if ($source) {
@@ -95,6 +95,21 @@ class XML extends Model
     {
         $dom = new \DOMDocument('1.0');
         $dom->loadXML($this->string);
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+
+        return $dom->saveXML();
+    }
+
+    /**
+     * Devuelve un xml formateado
+     *
+     * @return string
+     */
+    public function getOriginalContent()
+    {
+        $dom = new \DOMDocument('1.0');
+        $dom->loadXML($this->originalString);
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
 

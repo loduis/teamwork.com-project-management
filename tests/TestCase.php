@@ -2,18 +2,39 @@
 
 namespace TeamWorkPm\Tests;
 
-class TestCase extends \PHPUnit\Framework\TestCase
+use Closure;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Request\JSON as Request;
+use TeamWorkPm\Response\JSON as Response;
+use TeamWorkPm\Rest\Client as HttpClient;
+
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    /*
-    public static function setUpBeforeClass(): void
+    protected function tpm(string $className, string $method = 'get', ?Closure $callback = null)
     {
-        static $auth = false;
-        if (!$auth) {
-            \TeamWorkPm\Auth::set(API_COMPANY, API_KEY);
-            \TeamWorkPm\Rest::setFormat(API_FORMAT);
-            $auth = true;
-            echo 'AUTH..', PHP_EOL;
+        [$className, $key, $url] = Factory::resolve($className);
+        $http = $this->getMockBuilder(HttpClient::class)
+            ->setConstructorArgs([$url, $key])
+            ->getMock();
+        $http->expects($this->once())
+            ->method('getRequest')
+            ->willReturnCallback(function () {
+                return new Request();
+            });
+        if ($callback === null) {
+            $callback = function (string $path) use ($method) {
+                $body = file_get_contents(__DIR__ . '/fixtures/' . $path . '.json');
+                $headers = [
+                    'Status' => 200,
+                    'Method' => strtoupper($method),
+                    'X-Action' => $path
+                ];
+                return (new Response())->parse($body, $headers);
+            };
         }
+        $http->method($method)
+        ->willReturnCallback($callback);
+
+        return new $className($http);
     }
-    */
 }

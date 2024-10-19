@@ -18,7 +18,7 @@ class JSON extends Model
     {
         $source = json_decode($data);
         $errors = $this->getJsonErrors();
-        $this->string = $data;
+        $this->originalString = $this->string = $data;
         if (!$errors) {
             if (!(
                 $headers['Status'] === 201
@@ -98,9 +98,7 @@ class JSON extends Model
                         }
                         $this->headers = $headers;
                         $this->string = json_encode($source);
-
-                        $this->data = is_object($source) ? self::camelizeObject($source) : $source;
-
+                        $this->data = is_object($source) || is_array($source) ? self::camelizeObject($source) : $source;
                         if (!empty($this->data->id)) {
                             $this->data->id = (int)$this->data->id;
                         }
@@ -127,6 +125,16 @@ class JSON extends Model
     protected function getContent()
     {
         $object = json_decode($this->string);
+
+        return json_encode($object, JSON_PRETTY_PRINT);
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalContent()
+    {
+        $object = json_decode($this->originalString);
 
         return json_encode($object, JSON_PRETTY_PRINT);
     }

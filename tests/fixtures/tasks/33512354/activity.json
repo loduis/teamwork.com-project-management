@@ -1,0 +1,26 @@
+{
+    "STATUS": "OK",
+    "activity": [
+        {
+            "publicinfo": "task",
+            "fromusername": "Php A.",
+            "isprivate": "0",
+            "activitytype": "new",
+            "for-user-avatar-url": "https:\/\/s3.amazonaws.com\/TWFiles\/1046798\/userAvatar\/twia_64eabaf88e756b704ccd0bda0b0e7523.png",
+            "itemlink": "tasklists\/2952529",
+            "project-id": "967489",
+            "forusername": "Php A.",
+            "extradescription": "My List",
+            "datetime": "2023-11-29T11:56:05Z",
+            "description": "Prueba",
+            "userid": "391604",
+            "link": "tasks\/33512354",
+            "id": "7311073",
+            "from-user-avatar-url": "https:\/\/s3.amazonaws.com\/TWFiles\/1046798\/userAvatar\/twia_64eabaf88e756b704ccd0bda0b0e7523.png",
+            "itemid": "33512354",
+            "type": "task",
+            "due-date": "20231129",
+            "foruserid": "391604"
+        }
+    ]
+}

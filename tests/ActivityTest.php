@@ -2,45 +2,17 @@
 
 namespace TeamWorkPm\Tests;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
-
 class ActivityTest extends TestCase
 {
-    private $projectId;
-
-    /**
-     * @var \TeamWorkPm\Activity
-     */
-    private $model;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->model = Factory::build('activity');
-        $this->projectId = get_first_project_id();
-    }
 
     /**
      * @test
      */
     public function getAll()
     {
-        try {
-            $activity = $this->model->getAll();
-            $this->assertGreaterThan(0, count($activity));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-        // stared
-        try {
-            $project = Factory::build('project');
-            $project->star($this->projectId);
-            $activity = $this->model->getAll(5, true);
-            $this->assertGreaterThan(0, count($activity));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $activities = $this->tpm('activity')->all();
+        $this->assertCount(4, $activities);
+        $this->assertEquals('test project', $activities[0]->projectName);
     }
 
     /**
@@ -48,17 +20,18 @@ class ActivityTest extends TestCase
      */
     public function getByProject()
     {
-        try {
-            $times = $this->model->getByProject(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param project_id', $e->getMessage());
-        }
-        try {
-            $activity = $this->model->getByProject($this->projectId, 5);
-            $this->assertGreaterThan(0, count($activity));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $activities = $this->tpm('activity')->getByProject(967489);
+        $this->assertCount(3, $activities);
+        $this->assertEquals('new', $activities[0]->activitytype);
+    }
+
+    /**
+     * @test
+     */
+    public function getByTask()
+    {
+        $activities = $this->tpm('activity')->getByTask(33512354);
+        $this->assertCount(1, $activities);
+        $this->assertEquals('391604', $activities[0]->userid);
     }
 }

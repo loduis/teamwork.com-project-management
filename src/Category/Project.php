@@ -6,7 +6,7 @@ class Project extends \TeamWorkPm\Model
 {
     protected function init()
     {
-        list($parent, $type) = explode('-', $this->parent);
+        [$parent, $type] = explode('-', $this->parent);
         $this->parent = $parent;
         $this->action = $type . 'Categories';
         $this->fields = [
@@ -17,7 +17,7 @@ class Project extends \TeamWorkPm\Model
 
     /**
      * Retrieve all Project Categories
-     * GET /projectCategories.xml
+     * GET /projectCategories
      * Will return all project categories
      */
     public function getAll()

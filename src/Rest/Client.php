@@ -1,10 +1,11 @@
 <?php
 
-namespace TeamWorkPm;
+namespace TeamWorkPm\Rest;
 
 use CurlHandle;
+use Exception;
 
-final class Rest
+class Client
 {
     /**
      * @var string api format request an response

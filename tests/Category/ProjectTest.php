@@ -2,48 +2,19 @@
 
 namespace TeamWorkPm\Tests\Category;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
 class ProjectTest extends TestCase
 {
-    private $model;
-    private $id;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->model = Factory::build('category/project');
-        $this->id = get_first_project_category_id();
-    }
 
     /**
-     * @dataProvider provider
      * @test
      */
-    public function insert($data)
+    public function getAll()
     {
-        try {
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->assertEquals('Already exists', $e->getMessage());
-        }
-    }
-
-    /**
-     * @dataProvider provider
-     * @test
-     */
-    public function update($data)
-    {
-        try {
-            $data['id'] = $this->id;
-            $this->assertTrue($this->model->save($data));
-        } catch (Exception $e) {
-            $this->assertEquals('Already exists', $e->getMessage());
-        }
+        $categories = $this->tpm('category.project')->all();
+        $this->assertCount(1, $categories);
+        $this->assertEquals('category test', $categories[0]->name);
     }
 
     /**
@@ -51,36 +22,7 @@ class ProjectTest extends TestCase
      */
     public function get()
     {
-        try {
-            $category = $this->model->get($this->id);
-            $this->assertTrue(!empty($category->id) && $this->id === $category->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function getAll()
-    {
-        try {
-            $categories = $this->model->getAll();
-            $this->assertGreaterThan(0, count($categories));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    public function provider()
-    {
-        return [
-            [
-                [
-                    'name' => 'Test category',
-                    'parent' => 0,
-                ],
-            ],
-        ];
+        $category = $this->tpm('category.project')->get(47766);
+        $this->assertEquals('category test', $category->name);
     }
 }
