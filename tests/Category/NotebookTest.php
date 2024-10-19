@@ -13,7 +13,7 @@ final class NotebookTest extends TestCase
      */
     public function getByProject()
     {
-        $categories = $this->tpm('category.notebook')->getByProject(967489);
+        $categories = $this->getTpm('category.notebook')->getByProject(967489);
         $this->assertCount(1, $categories);
         $this->assertEquals('category test', $categories[0]->name);
     }
@@ -23,7 +23,7 @@ final class NotebookTest extends TestCase
      */
     public function get(): void
     {
-        $category = $this->tpm('category.notebook')->get(1037083);
+        $category = $this->getTpm('category.notebook')->get(1037083);
         $this->assertEquals('category test', $category->name);
     }
 }

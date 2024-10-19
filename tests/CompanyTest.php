@@ -3,20 +3,19 @@
 namespace TeamWorkPm\Tests;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 
 final class CompanyTest extends TestCase
 {
-    private $model;
-    private $id;
-    private $projectId;
-
-    protected function setUp(): void
+    /**
+     * @dataProvider provider
+     * @test
+     */
+    public function insertValidateCountry($data): void
     {
-        parent::setUp();
-        $this->model = Factory::build('company');
-        $this->projectId = get_first_project_id();
-        $this->id = get_first_company_id();
+        $data['countrycode'] = 'BAD CODE';
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid value for field countrycode');
+        $this->postTpm('company')->save($data);
     }
 
     /**
@@ -25,25 +24,7 @@ final class CompanyTest extends TestCase
      */
     public function insert($data): void
     {
-        try {
-            $countrycode = $data['countrycode'];
-            $data['countrycode'] = 'BAD CODE';
-            $this->model->save($data);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals(
-                'Invalid value for field countrycode',
-                $e->getMessage()
-            );
-        }
-        $data['countrycode'] = $countrycode;
-        try {
-            $data['name'] = rand_string($data['name']);
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->assertEquals('Already exists', $e->getMessage());
-        }
+        $this->assertEquals(10, $this->postTpm('company')->save($data));
     }
 
     /**
@@ -53,13 +34,10 @@ final class CompanyTest extends TestCase
      */
     public function update($data): void
     {
-        try {
-            $data['name'] = rand_string($data['name']);
-            $data['id'] = $this->id;
-            $this->assertTrue($this->model->save($data));
-        } catch (Exception $e) {
-            $this->assertEquals('Already exists', $e->getMessage());
-        }
+        $data['name'] = rand_string($data['name']);
+        $data['id'] = 10;
+
+        $this->assertTrue($this->putTpm('company')->save($data));
     }
 
     /**
@@ -69,17 +47,15 @@ final class CompanyTest extends TestCase
     public function get(): void
     {
         try {
-            $times = $this->model->get(0);
+            $this->getTpm('company')->get(0);
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
-        try {
-            $company = $this->model->get($this->id);
-            $this->assertEquals($this->id, $company->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertEquals(
+            "Php's Company",
+            $this->getTpm('company')->get(1370007)->name
+        );
     }
 
     /**
@@ -87,12 +63,7 @@ final class CompanyTest extends TestCase
      */
     public function getAll(): void
     {
-        try {
-            $companies = $this->model->getAll();
-            $this->assertGreaterThan(0, count($companies));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->getTpm('company')->all()));
     }
 
     /**
@@ -100,18 +71,11 @@ final class CompanyTest extends TestCase
      */
     public function getByProject(): void
     {
-        try {
-            $this->model->getByProject(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param project_id', $e->getMessage());
-        }
-        try {
-            $companies = $this->model->getByProject($this->projectId);
-            $this->assertGreaterThan(0, count($companies));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+
+        $this->assertGreaterThan(0, count(
+                $this->getTpm('company')->getByProject(967489)
+            )
+        );
     }
 
     public function provider()

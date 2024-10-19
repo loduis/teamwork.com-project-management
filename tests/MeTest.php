@@ -9,7 +9,7 @@ final class MeTest extends TestCase
      */
     public function get(): void
     {
-        $me = $this->tpm('me')->get();
+        $me = $this->getTpm('me')->get();
 
         $this->assertEquals('test@gmail.com', $me->userName);
     }

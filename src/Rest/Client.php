@@ -188,6 +188,12 @@ class Client
         return $this->execute('UPLOAD', $action, $parameters);
     }
 
+    public function configRequest(string $parent, $fields = [])
+    {
+        $this->request->setParent($parent)
+            ->setFields($fields);
+    }
+
     /**
      * @return \TeamWorkPm\Request\Model|null
      */

@@ -9,7 +9,7 @@ class AccountTest extends TestCase
      */
     public function get()
     {
-        $account = $this->tpm('account')->get();
+        $account = $this->getTpm('account')->get();
         $this->assertEquals($account->id, '1046798');
         $this->assertEquals($account->companyname, "Php's Company");
     }
@@ -19,7 +19,7 @@ class AccountTest extends TestCase
      */
     public function authenticate()
     {
-        $account = $this->tpm('account')->authenticate();
+        $account = $this->getTpm('account')->authenticate();
         $this->assertEquals($account->url, 'https://phpscompany.teamwork.com/');
         $this->assertEquals($account->code, 'phpscompany');
     }

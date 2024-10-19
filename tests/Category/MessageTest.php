@@ -11,7 +11,7 @@ final class MessageTest extends TestCase
      */
     public function getByProject()
     {
-        $categories = $this->tpm('category.message')->getByProject(967489);
+        $categories = $this->getTpm('category.message')->getByProject(967489);
         $this->assertCount(1, $categories);
         $this->assertEquals('category test', $categories[0]->name);
     }
@@ -21,7 +21,7 @@ final class MessageTest extends TestCase
      */
     public function get(): void
     {
-        $category = $this->tpm('category.message')->get(698387);
+        $category = $this->getTpm('category.message')->get(698387);
         $this->assertEquals('category test', $category->name);
     }
 }

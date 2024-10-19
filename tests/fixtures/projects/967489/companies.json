@@ -1,0 +1,36 @@
+{
+    "STATUS": "OK",
+    "companies": [
+        {
+            "zip": "",
+            "contacts": "0",
+            "last-changed-on": "",
+            "phone": "",
+            "state": "",
+            "created-on": "2023-11-29T11:54:33Z",
+            "industryId": "",
+            "email_one": "",
+            "company_name_url": "1370007-php-s-company",
+            "address_two": "",
+            "logo-URL": "",
+            "country": "",
+            "address_one": "",
+            "id": "1370007",
+            "can_see_private": true,
+            "cid": "",
+            "isowner": "1",
+            "industry": "",
+            "accounts": "1",
+            "email_two": "",
+            "name": "Php's Company",
+            "email_three": "",
+            "city": "",
+            "countrycode": "",
+            "fax": "",
+            "website": "",
+            "tags": [],
+            "clients": "0",
+            "collaborators": "0"
+        }
+    ]
+}

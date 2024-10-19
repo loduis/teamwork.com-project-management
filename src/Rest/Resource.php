@@ -65,9 +65,10 @@ abstract class Resource
             }
         }
         // configure request for put and post fields
-        $this->rest->getRequest()
-            ->setParent($this->parent)
-            ->setFields($this->fields);
+        $this->rest->configRequest(
+            $this->parent,
+            $this->fields
+        );
     }
 
     /**
