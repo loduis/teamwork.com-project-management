@@ -263,27 +263,27 @@ class Company extends Model
         'website' => false,
         'industry_cat_id' => [
             'required' => false,
-            'method' => 'PUT'
+            'on_update' => true
         ],
         'tag_ids' => [
             'required' => false,
-            'method' => 'PUT'
+            'on_update' => true
         ],
         'logo_pending_file_ref' => [
             'required' => false,
-            'method' => 'PUT'
+            'on_update' => true
         ],
         'remove_logo' => [
             'required' => false,
-            'method' => 'PUT'
+            'on_update' => true
         ],
         'profile' => [
             'required' => false,
-            'method' => 'PUT'
+            'on_update' => true
         ],
         'private_notes' => [
             'required' => false,
-            'method' => 'PUT'
+            'on_update' => true
         ]
     ];
 

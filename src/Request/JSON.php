@@ -19,11 +19,11 @@ class JSON extends Model
                     $parent->{$this->parent}[] = $item;
                 }
             } else {
+                $noUpdate = $this->method !== 'PUT';
                 foreach ($this->fields as $field => $options) {
                     $value = $this->getValue($field, $options, $parameters);
-                    if ($value &&
-                        ($method = ($options['method'] ?? null)) &&
-                        strtoupper($method) !== $this->method
+                    if ($value && $noUpdate &&
+                        ($options['on_update'] ?? false)
                     ) {
                         continue;
                     }
