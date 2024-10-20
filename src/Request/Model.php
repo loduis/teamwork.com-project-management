@@ -7,16 +7,19 @@ use TeamWorkPm\Helper\Str;
 
 abstract class Model
 {
-    protected $method = null;
-    protected $action = null;
-    protected $parent = null;
-    protected $fields = [];
+    protected ?string $method = null;
+
+    protected ?string $action = null;
+
+    protected ?string $parent = null;
+
+    protected array $fields = [];
 
     /**
      * @param string $parent
      * @return $this
      */
-    public function setParent($parent)
+    public function setParent(string $parent)
     {
         $this->parent = $parent;
         return $this;
@@ -26,7 +29,7 @@ abstract class Model
      * @param string $action
      * @return $this
      */
-    public function setAction($action)
+    public function setAction(string $action)
     {
         $this->action = $action;
         return $this;
@@ -63,6 +66,11 @@ abstract class Model
             'user_language' => true,
             'pending_file_ref' => true,
             'new_company' => true,
+            'industry_cat_id' => true,
+            'tag_ids' => true,
+            'logo_pending_file_ref' => true,
+            'remove_logo' => true,
+            'private_notes' => true
         ],
         $yes_no_boolean = [
             'welcome_email_message',
@@ -74,6 +82,9 @@ abstract class Model
         $preserve = [
             'address_one' => true,
             'address_two' => true,
+            'email_one' => true,
+            'email_two' => true,
+            'email_three' => true
         ];
         $value = $parameters[$field] ?? null;
         if (!is_array($options)) {
@@ -86,10 +97,10 @@ abstract class Model
             }
         }
         // checking fields that must meet certain values
-        if (!$isNull
-            && isset($options['validate'])
-            && !in_array($value, $options['validate'])
-        ) {
+        if (!$isNull   && isset($options['validate']) && (
+            (is_array($options['validate']) &&
+            !in_array($value, $options['validate'])) || ($options['validate'] === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL))
+        )) {
             throw new Exception(
                 'Invalid value for field ' .
                 $field

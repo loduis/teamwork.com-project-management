@@ -21,6 +21,12 @@ class JSON extends Model
             } else {
                 foreach ($this->fields as $field => $options) {
                     $value = $this->getValue($field, $options, $parameters);
+                    if ($value &&
+                        ($method = ($options['method'] ?? null)) &&
+                        strtoupper($method) !== $this->method
+                    ) {
+                        continue;
+                    }
                     if (isset($options['attributes'])) {
                         foreach ($options['attributes'] as $name => $type) {
                             if ($value !== null) {

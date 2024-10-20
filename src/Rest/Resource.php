@@ -6,7 +6,6 @@ use BadMethodCallException;
 
 /**
  * @method void init()
- * @method void init()
  */
 abstract class Resource
 {
@@ -22,21 +21,21 @@ abstract class Resource
      *
      * @var string
      */
-    protected $parent = null;
+    protected ?string $parent = null;
 
     /**
      * It is the common resource to be executed
      *
      * @var string
      */
-    protected $action = null;
+    protected ?string $action = null;
 
     /**
      * Stores the object fields
      *
      * @var array
      */
-    protected $fields = [];
+    protected array $fields = [];
 
     /**
      * @param string $url
