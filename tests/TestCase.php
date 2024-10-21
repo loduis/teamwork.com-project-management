@@ -48,7 +48,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             });
         $http->method(strtolower($method))
         ->willReturnCallback(function (string $path, $parameters) use ($method, $callback, $mockData) {
-            (new Request())
+            $request = (new Request())
             ->setParent($mockData->parent)
             ->setFields($mockData->fields)
             ->setAction($path)
@@ -63,13 +63,15 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     default => 200,
                 },
                 'Method' => $method,
-                'X-Action' => $path
+                'X-Action' => $path,
+                'X-Request' => $request,
+                'X-Params' => json_decode($request)
             ];
             if ($method === 'POST') {
                 $headers['id'] = 10;
             }
             if ($callback !== null) {
-                $callback($body, $headers);
+                $callback->call($this, $headers, $body);
             }
             return (new Response)->parse($body, $headers);
         });

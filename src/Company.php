@@ -11,7 +11,7 @@ class Company extends Model
         'zip' => false,
         'city' => false,
         'state' => false,
-        'countrycode' => [
+        'country_code' => [
             'required' => false,
             'validate' => [
                 'A2',
@@ -245,6 +245,7 @@ class Company extends Model
                 'ZM',
                 'ZW',
             ],
+            'transform' => 'countrycode'
         ],
         'phone' => false,
         'fax' => false,
@@ -263,27 +264,34 @@ class Company extends Model
         'website' => false,
         'industry_cat_id' => [
             'required' => false,
-            'on_update' => true
+            'on_update' => true,
+            'transform' => 'camel'
         ],
         'tag_ids' => [
             'required' => false,
-            'on_update' => true
+            'on_update' => true,
+            'transform' => 'camel'
         ],
         'logo_pending_file_ref' => [
             'required' => false,
-            'on_update' => true
+            'on_update' => true,
+            'transform' => 'camel'
         ],
         'remove_logo' => [
+            'type' => 'bool',
             'required' => false,
-            'on_update' => true
+            'on_update' => true,
+            'transform' => 'camel'
         ],
         'profile' => [
             'required' => false,
-            'on_update' => true
+            'on_update' => true,
+            'transform' => 'camel'
         ],
         'private_notes' => [
             'required' => false,
-            'on_update' => true
+            'on_update' => true,
+            'transform' => 'camel'
         ]
     ];
 

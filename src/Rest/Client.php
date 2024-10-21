@@ -4,6 +4,8 @@ namespace TeamWorkPm\Rest;
 
 use CurlHandle;
 use Exception;
+use TeamWorkPm\Request\Model as Request;
+use TeamWorkPm\Response\Model as Response;
 
 class Client
 {
@@ -23,9 +25,14 @@ class Client
     private $url = null;
 
     /**
-     * @var \TeamWorkPm\Request\Model
+     * @var Request
      */
-    private $request = null;
+    private Request $request;
+
+    /**
+     * @var Response
+     */
+    private Response $response;
 
     /**
      * @param string $url
@@ -42,26 +49,28 @@ class Client
         $this->url = $url;
         $format = strtoupper(self::$FORMAT);
         $request = '\TeamWorkPm\Request\\' . $format;
+        $response = '\\TeamWorkPm\\Response\\' . strtoupper(self::$FORMAT);
         $this->request = new $request();
+        $this->response = new $response();
     }
 
     /**
      * Call to api
      *
      * @param string $method
-     * @param string $action
+     * @param string $path
      * @param mixed $parameters
      * @return mixed
      * @throws \TeamWorkPm\Exception
      */
-    private function execute($method, $action, $parameters = null)
+    private function request(string $method, string $path, $parameters = null)
     {
-        $url = "{$this->url}$action." . self::$FORMAT;
+        $url = "{$this->url}$path." . self::$FORMAT;
         $headers = [
             'Authorization: BASIC ' . base64_encode($this->key . ':xxx'),
         ];
         $request = $this->request
-            ->setAction($action)
+            ->setAction($path)
             ->getParameters($method, $parameters);
         $ch = static::initCurl($method, $url, $request, $headers);
         $i = 0;
@@ -91,14 +100,11 @@ class Client
         $headers['Method'] = $method;
         $headers['X-Url'] = $url;
         $headers['X-Request'] = $request;
-        $headers['X-Action'] = $action;
+        $headers['X-Action'] = $path;
         // for chrome use
         $headers['X-Authorization'] = 'BASIC ' . base64_encode($this->key . ':xxx');
 
-        $responseClass = '\\TeamWorkPm\\Response\\' . strtoupper(self::$FORMAT);
-        $response = new $responseClass();
-
-        return $response->parse($body, $headers);
+        return $this->response->parse($body, $headers);
     }
 
     /**
@@ -157,35 +163,35 @@ class Client
     /**
      * Shortcut call get method to api
      *
-     * @param string $action
+     * @param string $path
      * @param string|null $parameters
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function get($action, $parameters = null)
+    public function get(string $path, $parameters = null)
     {
-        return $this->execute('GET', $action, $parameters);
+        return $this->request('GET', $path, $parameters);
     }
 
-    public function put($action, $parameters = null)
+    public function put(string $path, $parameters = null)
     {
-        return $this->execute('PUT', $action, $parameters);
+        return $this->request('PUT', $path, $parameters);
     }
 
-    public function post($action, $parameters = null)
+    public function post(string $path, $parameters = null)
     {
-        return $this->execute('POST', $action, $parameters);
+        return $this->request('POST', $path, $parameters);
     }
 
-    public function delete($action)
+    public function delete(string $path)
     {
-        return $this->execute('DELETE', $action, null);
+        return $this->request('DELETE', $path, null);
     }
 
-    public function upload($action, $parameters = null)
+    public function upload($path, $parameters = null)
     {
-        return $this->execute('UPLOAD', $action, $parameters);
+        return $this->request('UPLOAD', $path, $parameters);
     }
 
     public function configRequest(string $parent, $fields = [])
@@ -210,7 +216,7 @@ class Client
         static $format = ['json', 'xml'];
         $value = strtolower($value);
         if (in_array($value, $format)) {
-            self::$FORMAT = $value;
+            static::$FORMAT = $value;
         }
     }
 

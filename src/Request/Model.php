@@ -47,13 +47,59 @@ abstract class Model
 
     /**
      * @param string $field
-     * @param array $options
+     * @param bool|array $options
      * @param array $parameters
      *
      * @return mixed|null
      * @throws \TeamWorkPm\Exception
      */
-    protected function getValue(&$field, &$options, array $parameters)
+    protected function getValue(string &$field, bool|array &$options, array $parameters)
+    {
+        $transform = $options['transform'] ?? null;
+        $originalField = $field;
+        $value = $parameters[$field] ?? null;
+        if ($hasTransform = ($transform !== null)) {
+            $checkValue = !array_key_exists($field, $parameters);
+            $field = in_array($transform, ['camel', 'dash']) ? Str::{$transform}($field) :
+                $transform;
+            if ($checkValue) {
+                $value = $parameters[$field] ?? null;
+            }
+        }
+        if (!is_array($options)) {
+            $options = ['required' => $options, 'attributes' => []];
+        }
+
+        $this->validate($originalField, $value, $options);
+
+        if (!$hasTransform) {
+            $this->transform($field);
+        }
+
+        return $value;
+    }
+
+    protected function validate($field, $value, $options)
+    {
+        $isNull = $value === null;
+        if ($this->method === 'POST' && $options['required']) {
+            if ($isNull) {
+                throw new Exception('Required field ' . $field);
+            }
+        }
+        // checking fields that must meet certain values
+        if (!$isNull   && isset($options['validate']) && (
+            (is_array($options['validate']) &&
+            !in_array($value, $options['validate'])) || ($options['validate'] === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL))
+        )) {
+            throw new Exception(
+                'Invalid value for field ' .
+                $field
+            );
+        }
+    }
+
+    protected function transform(&$field)
     {
         static $camelize = [
             'pending_file_attachments' => true,
@@ -86,26 +132,7 @@ abstract class Model
             'email_two' => true,
             'email_three' => true
         ];
-        $value = $parameters[$field] ?? null;
-        if (!is_array($options)) {
-            $options = ['required' => $options, 'attributes' => []];
-        }
-        $isNull = $value === null;
-        if ($this->method === 'POST' && $options['required']) {
-            if ($isNull) {
-                throw new Exception('Required field ' . $field);
-            }
-        }
-        // checking fields that must meet certain values
-        if (!$isNull   && isset($options['validate']) && (
-            (is_array($options['validate']) &&
-            !in_array($value, $options['validate'])) || ($options['validate'] === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL))
-        )) {
-            throw new Exception(
-                'Invalid value for field ' .
-                $field
-            );
-        }
+
         // @todo Note that the people at team work do not constantly maintain the name-other format.
         if (isset($camelize[$field])) {
             if ($field === 'open_id') {
@@ -124,12 +151,11 @@ abstract class Model
                 $field = Str::dash($field);
             }
         }
-        return $value;
     }
 
     protected function actionInclude($value)
     {
-        return strrpos($this->action, (string)$value) !== false;
+        return str_contains($this->action, (string)$value);
     }
 
     protected function getParent()
