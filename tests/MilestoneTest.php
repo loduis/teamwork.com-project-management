@@ -30,6 +30,7 @@ final class MilestoneTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field project_id', $e->getMessage());
         }
+
         try {
             $data['project_id'] = $this->projectId;
             $data['responsible_party_ids'] = get_first_person_id($this->projectId);
@@ -65,6 +66,7 @@ final class MilestoneTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $milestone = $this->model->get($this->id);
             $this->assertEquals($this->id, $milestone->id);
@@ -84,6 +86,7 @@ final class MilestoneTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param project_id', $e->getMessage());
         }
+
         try {
             $milestones = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($milestones));
@@ -103,6 +106,7 @@ final class MilestoneTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid value for param filter', $e->getMessage());
         }
+
         try {
             $milestones = $this->model->getAll();
             $this->assertGreaterThan(0, count($milestones));
@@ -122,6 +126,7 @@ final class MilestoneTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $this->assertTrue($this->model->complete($this->id));
         } catch (\TeamWorkPm\Exception $e) {
@@ -156,6 +161,7 @@ final class MilestoneTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $this->assertTrue($this->model->uncomplete($this->id));
         } catch (\TeamWorkPm\Exception $e) {

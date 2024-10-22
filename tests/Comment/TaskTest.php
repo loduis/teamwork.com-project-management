@@ -34,6 +34,7 @@ final class TaskTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field resource_id', $e->getMessage());
         }
+
         try {
             $data['files'] = dirname(__DIR__) . '/uploads/teamworkpm.jpg';
             $data['resource_id'] = $this->resourceId;
@@ -82,6 +83,7 @@ final class TaskTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param resource_id', $e->getMessage());
         }
+
         try {
             $comments = $this->model->getRecent($this->resourceId);
             $this->assertGreaterThan(0, count($comments));

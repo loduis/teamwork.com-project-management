@@ -32,7 +32,7 @@ final class TagTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */
@@ -67,6 +67,7 @@ final class TagTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $tag = $this->model->get(self::$id);
             $this->assertEquals(self::$id, $tag->id);

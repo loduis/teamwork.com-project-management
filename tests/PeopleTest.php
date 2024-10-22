@@ -142,7 +142,7 @@ final class PeopleTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */
@@ -167,6 +167,7 @@ final class PeopleTest extends TestCase
                 $e->getMessage()
             );
         }
+
         try {
             $data['id'] = self::$id;
             // and add to this project
@@ -194,6 +195,7 @@ final class PeopleTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $people = $this->model->get(self::$id);
             $this->assertEquals(self::$id, $people->id);

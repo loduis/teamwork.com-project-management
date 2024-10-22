@@ -41,6 +41,7 @@ final class PeopleTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('User is already on project', $e->getMessage());
         }
+
         try {
             $this->model->add(self::$projectId, self::$personId);
             $this->fail('An expected exception has not been raised.');
@@ -95,6 +96,7 @@ final class PeopleTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param project_id', $e->getMessage());
         }
+
         try {
             $this->model->delete(self::$projectId, 0);
             $this->fail('An expected exception has not been raised.');

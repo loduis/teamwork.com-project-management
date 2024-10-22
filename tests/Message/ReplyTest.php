@@ -32,6 +32,7 @@ final class ReplyTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field message_id', $e->getMessage());
         }
+
         try {
             $_data = [
                 'message_id' => 10,
@@ -41,6 +42,7 @@ final class ReplyTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field body', $e->getMessage());
         }
+
         try {
             $data['message_id'] = $this->messageId;
             self::$id = $this->model->save($data);
@@ -61,6 +63,7 @@ final class ReplyTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param message_id', $e->getMessage());
         }
+
         try {
             $replies = $this->model->getByMessage($this->messageId, [
                 'pageSize' => 10,
@@ -98,6 +101,7 @@ final class ReplyTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field id', $e->getMessage());
         }
+
         try {
             $data['id'] = self::$id;
             $data['body'] = rand_string($data['body']);

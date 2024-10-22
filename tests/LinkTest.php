@@ -31,6 +31,7 @@ final class LinkTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field project_id', $e->getMessage());
         }
+
         try {
             $data['project_id'] = $this->projectId;
             // no required
@@ -43,7 +44,7 @@ final class LinkTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */
@@ -72,6 +73,7 @@ final class LinkTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $link = $this->model->get($this->id);
             $this->assertEquals($this->id, $link->id);
@@ -104,6 +106,7 @@ final class LinkTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param project_id', $e->getMessage());
         }
+
         try {
             $links = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($links));

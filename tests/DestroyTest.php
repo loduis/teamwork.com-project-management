@@ -67,6 +67,7 @@ final class DestroyTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $message = Factory::build('message');
             $project = Factory::build('project');
@@ -98,6 +99,7 @@ final class DestroyTest extends TestCase
         } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
+
         try {
             $message = Factory::build('message');
             $project = Factory::build('project');
@@ -264,6 +266,7 @@ final class DestroyTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             foreach ($notebook->getAll() as $n) {
                 $this->assertTrue($notebook->delete($n->id));
@@ -363,6 +366,7 @@ final class DestroyTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $project = Factory::build('project');
             foreach ($project->getAll() as $p) {
@@ -405,6 +409,7 @@ final class DestroyTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $object = $status->get();
             if (isset($object->id)) {
@@ -429,6 +434,7 @@ final class DestroyTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             foreach ($status->getAll() as $s) {
                 $this->assertTrue($status->delete($s->id));

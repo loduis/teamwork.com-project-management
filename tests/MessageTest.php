@@ -31,6 +31,7 @@ final class MessageTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field project_id', $e->getMessage());
         }
+
         try {
             $data['project_id'] = $this->projectId;
             // upload file to the server
@@ -46,7 +47,7 @@ final class MessageTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */
@@ -73,6 +74,7 @@ final class MessageTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $message = $this->model->get($this->id);
             $this->assertEquals($this->id, $message->id);
@@ -93,6 +95,7 @@ final class MessageTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param project_id', $e->getMessage());
         }
+
         try {
             $messages = $this->model->getByProject($this->projectId);
             //print_r($messages);
@@ -100,6 +103,7 @@ final class MessageTest extends TestCase
         } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
+
         // get archive
         try {
             $messages = $this->model->getByProject($this->projectId, true);
@@ -107,7 +111,6 @@ final class MessageTest extends TestCase
         } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
-        // get with content
     }
 
     /**
@@ -122,12 +125,14 @@ final class MessageTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param project_id', $e->getMessage());
         }
+
         try {
             $this->model->getByProjectAndCategory(1, 0);
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
             $this->assertEquals('Invalid param category_id', $e->getMessage());
         }
+
         try {
             $category_id = get_first_message_category_id($this->projectId);
             $messages = $this->model->getByProjectAndCategory(
@@ -138,6 +143,7 @@ final class MessageTest extends TestCase
         } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
+
         // get archive
         try {
             $messages = $this->model->getByProjectAndCategory(

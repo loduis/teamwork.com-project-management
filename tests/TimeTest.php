@@ -34,6 +34,7 @@ final class TimeTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field project_id or task_id', $e->getMessage());
         }
+
         try {
             $data['project_id'] = $this->projectId;
             $data['person_id'] = get_first_person_id($this->projectId);
@@ -100,6 +101,7 @@ final class TimeTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param project_id', $e->getMessage());
         }
+
         try {
             $times = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($times));
@@ -119,6 +121,7 @@ final class TimeTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param task_id', $e->getMessage());
         }
+
         try {
             $times = $this->model->getByTask($this->taskId);
             $this->assertGreaterThan(0, count($times));
@@ -139,6 +142,7 @@ final class TimeTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $time = $this->model->get($this->id);
             $this->assertEquals($this->id, $time->id);

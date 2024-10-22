@@ -32,6 +32,7 @@ final class ListTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field project_id', $e->getMessage());
         }
+
         try {
             $data['project_id'] = $this->projectId;
             $data['milestone_id'] = get_first_milestone_id($this->projectId);
@@ -43,7 +44,7 @@ final class ListTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */
@@ -69,12 +70,14 @@ final class ListTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $list = $this->model->get($this->id);
             $this->assertEquals($this->id, $list->id);
         } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
+
         // task list without tasks
         try {
             $list = $this->model->get($this->id, false);
@@ -96,6 +99,7 @@ final class ListTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param project_id', $e->getMessage());
         }
+
         try {
             $list = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($list));
@@ -133,7 +137,7 @@ final class ListTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */

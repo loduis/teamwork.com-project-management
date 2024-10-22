@@ -31,6 +31,7 @@ final class NotebookTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field project_id', $e->getMessage());
         }
+
         try {
             $data['project_id'] = $this->projectId;
             $id = $this->model->save($data);
@@ -51,6 +52,7 @@ final class NotebookTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $notebook = $this->model->get($this->id);
             $this->assertEquals($this->id, $notebook->id);
@@ -85,6 +87,7 @@ final class NotebookTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param project_id', $e->getMessage());
         }
+
         try {
             $notebooks = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($notebooks));
@@ -105,6 +108,7 @@ final class NotebookTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $this->assertTrue($this->model->lock($this->id));
         } catch (\TeamWorkPm\Exception $e) {
@@ -123,6 +127,7 @@ final class NotebookTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $this->assertTrue($this->model->unlock($this->id));
         } catch (\TeamWorkPm\Exception $e) {

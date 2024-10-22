@@ -30,6 +30,7 @@ final class FileTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Not file exist ' . $filename, $e->getMessage());
         }
+
         try {
             $filename = __DIR__ . '/uploads/teamworkpm.jpg';
             $this->assertNotEmpty($this->model->upload($filename));
@@ -52,6 +53,7 @@ final class FileTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field project_id', $e->getMessage());
         }
+
         try {
             $data['project_id'] = $this->projectId;
             $this->model->save($data);
@@ -62,6 +64,7 @@ final class FileTest extends TestCase
                 $e->getMessage()
             );
         }
+
         try {
             $data['filename'] = __DIR__ . '/uploads/teamworkpm.jpg';
             $id = $this->model->save($data);
@@ -83,6 +86,7 @@ final class FileTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
+
         try {
             $file = $this->model->get($this->id);
             $this->assertEquals($this->id, $file->id);
@@ -103,6 +107,7 @@ final class FileTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param project_id', $e->getMessage());
         }
+
         try {
             $files = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($files));

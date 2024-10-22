@@ -7,6 +7,8 @@ namespace TeamWorkPm;
 /**
  * Class Project
  *
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/projects/get-projects-json
+ *
  * This class represents a project in the TeamWorkPm system. It contains the fields and methods
  * necessary to interact with the project API, including creating, retrieving, and managing projects
  * and their states (active, archived, starred, etc.).

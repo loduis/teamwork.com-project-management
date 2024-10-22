@@ -34,6 +34,7 @@ final class FileTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field resource_id', $e->getMessage());
         }
+
         try {
             $data['files'] = dirname(__DIR__) . '/uploads/teamworkpm.jpg';
             $file = Factory::build('file');
@@ -47,7 +48,7 @@ final class FileTest extends TestCase
     }
 
     /**
-     * @depends      insert
+     * @depends insert
      * @dataProvider provider
      * @test
      */
@@ -87,6 +88,7 @@ final class FileTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Invalid param resource_id', $e->getMessage());
         }
+
         try {
             $comments = $this->model->getRecent($this->resourceId);
             $this->assertGreaterThan(0, count($comments));

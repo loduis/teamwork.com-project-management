@@ -57,6 +57,7 @@ final class StatusTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Required field id', $e->getMessage());
         }
+
         try {
             $data['id'] = self::$id;
             $data['status'] = rand_string($data['status']);
