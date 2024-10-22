@@ -278,10 +278,10 @@ class Company extends Model
             'transform' => 'camel'
         ],
         'remove_logo' => [
-            'type' => 'bool',
+            'type' => 'boolean',
             'required' => false,
             'on_update' => true,
-            'transform' => 'camel'
+            'transform' => 'camel',
         ],
         'profile' => [
             'required' => false,

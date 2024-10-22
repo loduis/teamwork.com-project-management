@@ -23,7 +23,7 @@ class XML extends Model
         $source = simplexml_load_string($data);
         $errors = $this->getXmlErrors($source);
         if ($source) {
-            if ($headers['Status'] === 201 || $headers['Status'] === 200) {
+            if (in_array($headers['Status'], [201, 200, 204])) {
                 switch ($headers['Method']) {
                     case 'UPLOAD':
                         if (!empty($source->ref)) {

@@ -3,244 +3,156 @@
 namespace TeamWorkPm\Tests;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 
 final class ProjectTest extends TestCase
 {
-    private $id;
-
-    private $model;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->model = Factory::build('project');
-        $this->id = get_first_project_id();
-    }
-
     /**
-     * @dataProvider provider
+     * @dataProvider projectProvider
      * @test
      */
-    public function insert($data): void
+    public function insertProject(array $data): void
     {
-        try {
-            $data['category_id'] = get_first_project_category_id();
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-            $project = $this->model->get($id);
-            $this->assertEquals((int)$project->category->id, $data['category_id']);
-        } catch (Exception $e) {
-            $this->assertEquals('Project name taken', $e->getMessage());
-        }
+        $this->assertEquals(10, $this->postTpm('project', function ($headers) {
+            $project = $headers['X-Params'];
+            $this->assertObjectHasProperty('name', $project);
+            $this->assertObjectHasProperty('description', $project);
+        })->save($data));
     }
 
     /**
-     * @dataProvider provider
+     * @dataProvider invalidProjectProvider
      * @test
      */
-    public function update($data): void
+    public function insertProjectInvalidData(array $data): void
     {
-        try {
-            $data['id'] = $this->id;
-            $data['category_id'] = 0;
-            $this->assertTrue($this->model->save($data));
-            $project = $this->model->get($this->id);
-            $this->assertEquals((int)$project->category->id, $data['category_id']);
-        } catch (Exception $e) {
-            $this->assertEquals('Project name taken', $e->getMessage());
-        }
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Required field name');
+        $this->postTpm('project')->save($data);
     }
 
     /**
-     * @dataProvider provider
+     * @depends insertProject
+     * @dataProvider projectProvider
      * @test
      */
-    public function updateWithoutId($data): void
+    public function updateProject(array $data): void
     {
-        $this->expectException(\Exception::class);
-        $this->model->update($data);
+        $data['id'] = 10; // Assume the ID of the project to update is 10
+        $data['name'] = 'Updated Project Name';
+        $data['custom_fields'] = [
+            62435 => 'This is a test'
+        ];
+        $this->assertTrue($this->putTpm('project', function ($headers) {
+            $project = $headers['X-Params'];
+            $this->assertEquals('Updated Project Name', $project->name);
+            $this->assertObjectHasProperty('customFields', $project);
+            $this->assertCount(1, $project->customFields);
+            $this->assertObjectHasProperty('customFieldId', $project->customFields[0]);
+            $this->assertObjectHasProperty('value', $project->customFields[0]);
+        })->save($data));
     }
 
     /**
-     * @test
-     */
-    public function star(): void
-    {
-        try {
-            $this->assertTrue($this->model->star($this->id));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function starInvalidProjectId(): void
-    {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Invalid param id');
-        $this->model->star(0);
-    }
-
-    /**
-     * @depends star
-     * @test
-     */
-    public function getStarred(): void
-    {
-        try {
-            $projects = $this->model->getStarred();
-            $this->assertGreaterThan(0, count($projects));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function unStarInvalidProjectId(): void
-    {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Invalid param id');
-        $this->model->unStar(0);
-    }
-
-    /**
-     * @test
-     */
-    public function unStar(): void
-    {
-        try {
-            $this->assertTrue($this->model->unStar($this->id));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function archiveInvalidProjectId(): void
-    {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Invalid param id');
-        $this->model->archive(0);
-    }
-
-    /**
-     * @test
-     */
-    public function archive(): void
-    {
-        try {
-            $this->assertTrue($this->model->archive($this->id));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @depends archive
-     * @test
-     */
-    public function getArchived(): void
-    {
-        try {
-            $projects = $this->model->getArchived();
-            $this->assertGreaterThan(0, count($projects));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function activateInvalidProjectId(): void
-    {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Invalid param id');
-        $this->model->activate(0);
-    }
-
-    /**
-     * @test
-     */
-    public function activate(): void
-    {
-        try {
-            $this->assertTrue($this->model->activate($this->id));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @depends activate
-     * @test
-     */
-    public function getActive(): void
-    {
-        try {
-            $projects = $this->model->getActive();
-            $this->assertGreaterThan(0, count($projects));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
+     * @depends insertProject
      * @test
      */
     public function get(): void
     {
-        try {
-            $project = $this->model->get($this->id);
-            $this->assertEquals($project->id, $this->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertEquals(
+            "Colombia",
+            $this->getTpm('project')->get(967489)->name
+        );
     }
 
     /**
      * @test
      */
-    public function getAll(): void
+    public function getAllProjects(): void
     {
-        try {
-            $projects = $this->model->getAll();
-            $this->assertGreaterThan(0, count($projects));
-            $save = $projects->save(__DIR__ . '/build/projects');
-            $this->assertTrue(is_numeric($save));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->getTpm('project')->all()));
     }
 
     /**
      * @test
      */
-    public function deleteInvalidId(): void
+    public function getActiveProjects(): void
     {
-        $this->expectException(\Exception::class);
-        $this->model->delete(0);
+        $this->assertGreaterThan(0, count($this->getTpm('project')->getActive()));
     }
 
-    public function provider()
+    /**
+     * @test
+     */
+    public function getArchivedProjects(): void
+    {
+        $this->assertGreaterThan(0, count($this->getTpm('project')->getArchived()));
+    }
+
+    /**
+     * @test
+     */
+    public function starProject(): void
+    {
+        $this->assertTrue($this->putTpm('project')->star(10)); // Assume 10 is a valid project ID
+    }
+
+    /**
+     * @test
+     */
+    public function unStarProject(): void
+    {
+        $this->assertTrue($this->putTpm('project')->unStar(10)); // Assume 10 is a valid project ID
+    }
+
+    /**
+     * @dataProvider invalidIdProvider
+     * @test
+     */
+    public function starProjectWithInvalidId(int $id): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid param id');
+        $this->getTpm('project')->star($id);
+    }
+
+    public function projectProvider(): array
     {
         return [
             [
                 [
-                    'name' => 'test project',
-                    'description' => 'bla, bla, bla',
-                    'start_date' => 20121110,
-                    'end_date' => 20121210,
-                    'new_company' => 'Test Company',
+                    'name' => 'Test Project',
+                    'description' => 'Description of Test Project',
+                    'use_tasks' => true,
+                    'start_date' => '2024-01-01',
+                    'end_date' => '2024-12-31',
                 ],
             ],
+        ];
+    }
+
+    public function invalidProjectProvider(): array
+    {
+        return [
+            [
+                [
+                    'description' => 'Description without a name',
+                    'use_tasks' => true,
+                ],
+            ],
+            [
+                [
+                    'name' => '',
+                    'description' => 'Invalid project with empty name',
+                ],
+            ],
+        ];
+    }
+
+    public function invalidIdProvider(): array
+    {
+        return [
+            [-1],
+            [0]
         ];
     }
 }

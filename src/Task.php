@@ -9,32 +9,19 @@ class Task extends Model
         $this->fields = [
             'content' => true,
             'notify' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'boolean',
-                ],
+                'type' => 'boolean',
             ],
             'description' => false,
             'due_date' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                ],
+                'type' => 'integer'
             ],
             'start_date' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                ],
+                'type' => 'integer'
             ],
             'private' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'boolean',
-                ],
+                'type' => 'boolean',
             ],
             'priority' => [
-                'required' => false,
                 'validate' => [
                     'low',
                     'medium',
@@ -42,22 +29,13 @@ class Task extends Model
                 ],
             ],
             'estimated_minutes' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                ],
+                            'type' => 'integer'
             ],
             'predecessors' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'array',
-                ],
+                'type' => 'array',
             ],
             'ticketId' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                ],
+                'type' => 'integer'
             ],
             'responsible_party_id' => false,
             'attachments' => false,

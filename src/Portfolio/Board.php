@@ -13,48 +13,31 @@ class Board extends Model
 
         $this->fields = [
             'canEdit' => [
-                'required' => false,
-                'attributes' => ['type' => 'boolean'],
+                'type' => 'boolean'
             ],
-
             'name' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
-
             'displayOrder' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
-
             'description' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
-
             'deletedDate' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
-
             'id' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
-
             'dateCreated' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
-
             'color' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
-
             'deleted' => [
-                'required' => false,
-                'attributes' => ['type' => 'boolean'],
+                'type' => 'boolean'
             ],
         ];
     }
@@ -66,7 +49,7 @@ class Board extends Model
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function getAll()
+    public function all()
     {
         return $this->rest->get("$this->action");
     }

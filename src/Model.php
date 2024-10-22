@@ -11,12 +11,10 @@ abstract class Model extends Rest\Resource
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function get($id, $params = null)
+    public function get(int $id, $params = null)
     {
-        $id = (int)$id;
-        if ($id <= 0) {
-            throw new Exception('Invalid param id');
-        }
+        $this->validateId($id);
+
         return $this->rest->get("$this->action/$id", $params);
     }
 
@@ -63,12 +61,17 @@ abstract class Model extends Rest\Resource
      * @return bool
      * @throws \TeamWorkPm\Exception
      */
-    public function delete($id)
+    public function delete(int $id)
     {
-        $id = (int)$id;
+        $this->validateId($id);
+
+        return $this->rest->delete("$this->action/$id");
+    }
+
+    protected function validateId(int $id): void
+    {
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->delete("$this->action/$id");
     }
 }

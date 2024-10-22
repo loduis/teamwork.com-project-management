@@ -48,11 +48,13 @@ abstract class Resource
     public function __construct($httpClient)
     {
         $this->rest   = $httpClient;
-        $this->parent = strtolower(str_replace(
-          ['TeamWorkPm\\', '\\'],
-          ['', '-'],
-          static::class
-        ));
+        if ($this->parent === null) {
+            $this->parent = strtolower(str_replace(
+                ['TeamWorkPm\\', '\\'],
+                ['', '-'],
+                static::class
+            ));
+        }
         $this->init();
         if (null === $this->action) {
             $this->action = str_replace('-', '_', $this->parent);
@@ -85,6 +87,9 @@ abstract class Resource
     {
         if ($name === 'all' && method_exists($this, 'getAll')) {
             return $this->getAll(...$arguments);
+        }
+        if ($name === 'getAll' && method_exists($this, 'all')) {
+            return $this->all(...$arguments);
         }
 
         throw new BadMethodCallException("No exists method: $name");

@@ -11,40 +11,32 @@ class Milestone extends Model
             'title' => true,
             'description' => false,
             'deadline' => [
+                'type' => 'integer',
                 'required' => true,
-                'attributes' => [
-                    'type' => 'integer',
-                ],
-            ], //format YYYYMMDD
+            ],
             'notify' => [
+                'type' => 'boolean',
                 'required' => false,
-                'attributes' => [
-                    'type' => 'boolean',
-                ],
             ],
             'reminder' => [
+                'type' => 'boolean',
                 'required' => false,
-                'attributes' => [
-                    'type' => 'boolean',
-                ],
             ],
             'private' => [
+                'type' => 'boolean',
                 'required' => false,
-                'attributes' => [
-                    'type' => 'boolean',
-                ],
             ],
             'responsible_party_ids' => true,
-            // USE ONLY FOR UPDATE OR PUT METHOD
             'move_upcoming_milestones' => [
+                'type' => 'boolean',
                 'sibling' => true,
                 'required' => false,
-                'attributes' => ['type' => 'boolean'],
+                'on_update' => true
             ],
             'move_upcoming_milestones_off_weekends' => [
+                'type' => 'boolean',
                 'sibling' => true,
                 'required' => false,
-                'attributes' => ['type' => 'boolean'],
             ],
         ];
     }

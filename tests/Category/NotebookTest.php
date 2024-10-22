@@ -2,8 +2,6 @@
 
 namespace TeamWorkPm\Tests\Category;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
 final class NotebookTest extends TestCase

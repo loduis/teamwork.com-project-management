@@ -1,0 +1,80 @@
+{
+    "project": {
+        "startDate": "",
+        "last-changed-on": "2023-11-29T11:56:05Z",
+        "logo": "",
+        "active-pages": {
+            "board": "1",
+            "proofs": "1",
+            "billing": "1",
+            "links": "1",
+            "comments": "1",
+            "milestones": "1",
+            "time": "1",
+            "files": "1",
+            "riskRegister": "0",
+            "tasks": "1",
+            "table": "1",
+            "forms": "1",
+            "gantt": "1",
+            "finance": "1",
+            "messages": "1",
+            "tickets": "1",
+            "list": "1",
+            "notebooks": "1"
+        },
+        "created-on": "2023-11-29T11:56:05Z",
+        "privacyEnabled": false,
+        "replyByEmailEnabled": true,
+        "boardData": {},
+        "status": "active",
+        "harvest-timers-enabled": false,
+        "description": "",
+        "category": {
+            "parentId": "",
+            "color": "",
+            "id": "",
+            "name": ""
+        },
+        "portfolioBoards": [],
+        "isBillable": true,
+        "id": "967489",
+        "overview-start-page": "default",
+        "start-page": "list",
+        "type": "normal",
+        "integrations": {
+            "xero": {
+                "basecurrency": "",
+                "countrycode": "",
+                "enabled": false,
+                "connected": "NO",
+                "organisation": ""
+            },
+            "sharepoint": {},
+            "onedrivebusiness": {
+                "enabled": false
+            }
+        },
+        "notifyeveryone": false,
+        "filesAutoNewVersion": false,
+        "defaultPrivacy": "open",
+        "starred": false,
+        "directFileUploadsEnabled": true,
+        "tasks-start-page": "list",
+        "skipWeekends": false,
+        "announcementHTML": "",
+        "logoIcon": "",
+        "name": "Colombia",
+        "company": {
+            "id": "1370007",
+            "name": "Php's Company"
+        },
+        "endDate": "",
+        "announcement": "",
+        "logoColor": "",
+        "show-announcement": false,
+        "subStatus": "current",
+        "tags": []
+    },
+    "STATUS": "OK"
+}

@@ -51,12 +51,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $request = (new Request())
             ->setParent($mockData->parent)
             ->setFields($mockData->fields)
-            ->setAction($path)
-            ->getParameters($method, $parameters);
+            ->setAction($path);
+            $parent = $request->getParent();
+            $request = $request->getParameters($method, $parameters);
             $body = match($method) {
                 'GET' => file_get_contents(__DIR__ . '/fixtures/' . $path . '.json'),
                 default => '{}'
             };
+            $params = json_decode($request);
             $headers = [
                 'Status' => match ($method) {
                     'POST' => 201,
@@ -64,8 +66,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 },
                 'Method' => $method,
                 'X-Action' => $path,
-                'X-Request' => $request,
-                'X-Params' => json_decode($request)
+                'X-Request' => json_encode($params, JSON_PRETTY_PRINT),
+                'X-Params' => match ($method) {
+                    'POST' => $params->$parent ?? null,
+                    'PUT' => $params->$parent ?? null,
+                    default => $params,
+                }
             ];
             if ($method === 'POST') {
                 $headers['id'] = 10;

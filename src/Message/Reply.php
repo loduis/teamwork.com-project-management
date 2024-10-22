@@ -12,8 +12,7 @@ class Reply extends Model
         $this->fields = [
             'body' => true,
             'notify' => [
-                'required' => false,
-                'attributes' => ['type' => 'array'],
+                'type' => 'array',
                 'element' => 'person',
             ],
         ];

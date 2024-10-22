@@ -9,29 +9,17 @@ class Task_List extends Model
         $this->fields = [
             'name' => true,
             'private' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'boolean',
-                ],
+                'type' => 'boolean',
             ],
             'pinned' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'boolean',
-                ],
+                'type' => 'boolean',
             ],
             'tracked' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'boolean',
-                ],
+                'type' => 'boolean',
             ],
             'description' => false,
             'milestone_id' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                ],
+                'type' => 'integer'
             ],
             'todo_list_template_id' => false,
         ];

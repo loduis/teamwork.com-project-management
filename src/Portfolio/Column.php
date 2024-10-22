@@ -14,63 +14,51 @@ class Column extends Model
 
         $this->fields = [
             'name' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
 
             'displayOrder' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
 
             'sortOrder' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
 
             'deletedDate' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
 
             'dateUpdated' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
 
             'hasTriggers' => [
-                'required' => false,
-                'attributes' => ['type' => 'boolean'],
+                'type' => 'boolean'
             ],
 
             'sort' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
 
             'canEdit' => [
-                'required' => false,
-                'attributes' => ['type' => 'boolean'],
+                'type' => 'boolean'
             ],
 
             'id' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
 
             'dateCreated' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
 
             'color' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
 
             'deleted' => [
-                'required' => false,
-                'attributes' => ['type' => 'boolean'],
+                'type' => 'boolean'
             ],
         ];
     }

@@ -2,9 +2,6 @@
 
 namespace TeamWorkPm\Tests\Category;
 
-use TeamWorkPm\Category\File;
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
 final class FileTest extends TestCase

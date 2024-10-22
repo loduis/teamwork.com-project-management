@@ -23,6 +23,7 @@ class JSON extends Model
             if (!(
                 $headers['Status'] === 201
                 || $headers['Status'] === 200
+                || $headers['Status'] === 204
                 || $headers['Status'] === 409
                 || $headers['Status'] === 422
                 || $headers['Status'] === 400
@@ -33,7 +34,7 @@ class JSON extends Model
                     'Headers' => $headers,
                 ]);
             }
-            if ($headers['Status'] === 201 || $headers['Status'] === 200) {
+            if (in_array($headers['Status'], [201, 200, 204])) {
                 switch ($headers['Method']) {
                     case 'UPLOAD':
                         return empty($source->pendingFile->ref) ? null : (string)$source->pendingFile->ref;
@@ -44,6 +45,10 @@ class JSON extends Model
 
                         if (!empty($source->fileId)) {
                             return (int)$source->fileId;
+                        }
+                        $wrapper = $headers['X-Parent'];
+                        if (isset($source->$wrapper)) {
+                            $source = $source->$wrapper;
                         }
                         // no break
                     case 'PUT':

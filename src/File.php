@@ -10,10 +10,7 @@ class File extends Rest\Resource
             'pending_file_ref' => true,
             'description' => false,
             'category_id' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                ],
+                'type' => 'integer'
             ],
             'category_name' => false,
             'private' => false,

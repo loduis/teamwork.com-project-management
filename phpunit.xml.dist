@@ -9,12 +9,25 @@
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
          convertDeprecationsToExceptions="true"
+         stopOnFailure="true"
          failOnRisky="true"
          failOnWarning="true"
          verbose="true">
     <testsuites>
         <testsuite name="default">
+            <file>tests/ProjectTest.php</file>
+            <file>tests/CompanyTest.php</file>
+            <file>tests/MeTest.php</file>
+            <file>tests/AccountTest.php</file>
+            <file>tests/ActivityTest.php</file>
+            <file>tests/Category/FileTest.php</file>
+            <file>tests/Category/LinkTest.php</file>
+            <file>tests/Category/MessageTest.php</file>
+            <file>tests/Category/NotebookTest.php</file>
+            <file>tests/Custom/FieldTest.php</file>
+            <!--
             <directory>tests</directory>
+            -->
         </testsuite>
     </testsuites>
 

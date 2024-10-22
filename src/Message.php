@@ -10,20 +10,14 @@ class Message extends Model
             'title' => true,
             'category_id' => [
                 'required' => true,
-                'attributes' => [
-                    'type' => 'integer',
-                ],
+                'type' => 'integer'
             ],
             'notify' => [
-                'required' => false,
-                'attributes' => ['type' => 'array'],
+                'type' => 'array',
                 'element' => 'person',
             ],
             'private' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'boolean',
-                ],
+                'type' => 'boolean'
             ],
             'body' => true,
             'attachments' => false,

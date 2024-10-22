@@ -12,25 +12,17 @@ class Notebook extends Rest\Resource
             'content' => true,
             'project_id' => [
                 'required' => true,
-                'attributes' => [
-                    'type' => 'integer',
-                ],
+                'type' => 'integer'
             ],
             'notify' => false,
             'category_id' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                ],
+                'type' => 'integer'
             ],
             'category_name' => false,
             'grant-access-to' => false,
             'version' => false,
             'private' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'boolean',
-                ],
+                'type' => 'boolean'
             ],
         ];
     }

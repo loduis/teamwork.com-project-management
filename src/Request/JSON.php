@@ -27,19 +27,14 @@ class JSON extends Model
                     ) {
                         continue;
                     }
-                    if (isset($options['attributes'])) {
-                        foreach ($options['attributes'] as $name => $type) {
-                            if ($value !== null) {
-                                if ($name === 'type') {
-                                    if ($type === 'array') {
-                                        if (is_string($value) || is_numeric($value)) {
-                                            $value = (array)$value;
-                                        }
-                                    } else {
-                                        settype($value, $type);
-                                    }
-                                }
+                    if (isset($options['type']) && $value !== null) {
+                        $type = $options['type'];
+                        if ($type === 'array') {
+                            if (is_string($value) || is_numeric($value)) {
+                                $value = (array) $value;
                             }
+                        } else {
+                            settype($value, $type);
                         }
                     }
                     if ($value !== null) {

@@ -1,0 +1,65 @@
+{
+    "customfields": [
+        {
+            "id": 62427,
+            "projectId": null,
+            "project": null,
+            "entity": "task",
+            "name": "Field task",
+            "description": "",
+            "type": "text-short",
+            "options": null,
+            "formula": null,
+            "visibilities": [],
+            "isPrivate": false,
+            "required": false,
+            "createdAt": "2024-10-22T09:28:01Z",
+            "createdByUserId": 391604,
+            "createdBy": 391604,
+            "updatedAt": "2024-10-22T09:28:01Z",
+            "updatedByUserId": 391604,
+            "updatedBy": 391604,
+            "deleted": false,
+            "deletedAt": null,
+            "deletedByUserId": null,
+            "deletedBy": null,
+            "groupId": null,
+            "unitId": null
+        },
+        {
+            "id": 62426,
+            "projectId": null,
+            "project": null,
+            "entity": "project",
+            "name": "test",
+            "description": "",
+            "type": "text-short",
+            "options": null,
+            "formula": null,
+            "visibilities": [],
+            "isPrivate": false,
+            "required": false,
+            "createdAt": "2024-10-22T09:27:38Z",
+            "createdByUserId": 391604,
+            "createdBy": 391604,
+            "updatedAt": "2024-10-22T09:27:38Z",
+            "updatedByUserId": 391604,
+            "updatedBy": 391604,
+            "deleted": false,
+            "deletedAt": null,
+            "deletedByUserId": null,
+            "deletedBy": null,
+            "groupId": null,
+            "unitId": null
+        }
+    ],
+    "meta": {
+        "page": {
+            "pageOffset": 0,
+            "pageSize": 50,
+            "count": 2,
+            "hasMore": false
+        }
+    },
+    "included": {}
+}

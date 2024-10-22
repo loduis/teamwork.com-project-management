@@ -59,11 +59,22 @@ abstract class Model
         $originalField = $field;
         $value = $parameters[$field] ?? null;
         if ($hasTransform = ($transform !== null)) {
+            $fieldTransform = $transform;
+            $valueTransform = null;
+            if (is_array($transform)) {
+                [$fieldTransform, $valueTransform] = $transform;
+            }
             $checkValue = !array_key_exists($field, $parameters);
-            $field = in_array($transform, ['camel', 'dash']) ? Str::{$transform}($field) :
-                $transform;
+            if ($fieldTransform !== null) {
+                $field = in_array($fieldTransform, ['camel', 'dash']) ?
+                    Str::{$fieldTransform}($field) :
+                    $fieldTransform;
+            }
             if ($checkValue) {
                 $value = $parameters[$field] ?? null;
+            }
+            if ($valueTransform !== null && $value !== null) {
+                $value = $valueTransform($value);
             }
         }
         if (!is_array($options)) {
@@ -81,11 +92,9 @@ abstract class Model
 
     protected function validate($field, $value, $options)
     {
-        $isNull = $value === null;
-        if ($this->method === 'POST' && $options['required']) {
-            if ($isNull) {
-                throw new Exception('Required field ' . $field);
-            }
+        $isNull = $value === null || $value === '';
+        if ($this->method === 'POST' && ($options['required'] ?? false) && $isNull) {
+            throw new Exception('Required field ' . $field);
         }
         // checking fields that must meet certain values
         if (!$isNull   && isset($options['validate']) && (
@@ -158,7 +167,7 @@ abstract class Model
         return str_contains($this->action, (string)$value);
     }
 
-    protected function getParent()
+    public function getParent()
     {
         return $this->parent . ($this->actionInclude('/reorder') ? 's' : '');
     }

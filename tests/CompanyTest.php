@@ -27,7 +27,7 @@ final class CompanyTest extends TestCase
         $data['remove_logo'] = true;
 
         $this->assertEquals(10, $this->postTpm('company', function ($headers) {
-            $company = $headers['X-Params']->company;
+            $company = $headers['X-Params'];
             $this->assertObjectHasProperty('countrycode', $company);
             $this->assertObjectNotHasProperty('removeLogo', $company);
         })->save($data));
@@ -48,7 +48,7 @@ final class CompanyTest extends TestCase
         $data['id'] = 10;
 
         $this->assertTrue($this->putTpm('company', function ($headers) {
-            $company = $headers['X-Params']->company;
+            $company = $headers['X-Params'];
             $this->assertEquals('CO', $company->countrycode);
             $this->assertTrue($company->removeLogo);
             $this->assertEquals('Private notes', $company->privateNotes);

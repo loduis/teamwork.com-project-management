@@ -10,10 +10,7 @@ class Role extends Model
             'name' => true,
             'description' => false,
             'users' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'string',
-                ],
+                'type' => 'string',
             ],
         ];
         $this->action = 'roles';

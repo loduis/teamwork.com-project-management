@@ -21,7 +21,10 @@ use RuntimeException;
  * @method static Portfolio\Card portfolioCard()
  * @method static Portfolio\Column portfolioColumn()
  * @method static Project\People projectPeople()
+ * @method static Project\CustomField projectCustomField()
+ * @method static Task\CustomField taskCustomField()
  * @method static Account account()
+ * @method static CustomField customField()
  * @method static Activity activity()
  * @method static Auth auth()
  * @method static Company company()
@@ -43,7 +46,7 @@ class Factory
 
     /**
      * @param string $className
-     * @return Model | People | Project\People
+     * @return Model|People|Project\People
      */
     public static function build(string $className)
     {

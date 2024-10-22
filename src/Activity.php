@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm;
 
 class Activity extends Rest\Resource
 {
-    protected function init()
-    {
-        $this->action = 'latestActivity';
-    }
+    protected ?string $action = 'latestActivity';
 
     /**
      * List Latest Activity (across all projects)
@@ -21,57 +20,56 @@ class Activity extends Rest\Resource
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function getAll($maxItems = null, $onlyStarred = null)
+    public function all(array $params = [])
     {
-        $params = [];
-        $onlyStarred = (bool)$onlyStarred;
-        $maxItems = (int)$maxItems;
-        if ($onlyStarred) {
-            $params['onlyStarred'] = $onlyStarred;
-        }
-        if ($maxItems) {
-            $params['maxItems'] = $maxItems;
-        }
         return $this->rest->get("$this->action", $params);
     }
 
     /**
      * List Latest Activity (for a project)
-     * GET /projects/#{project_id}/activity.xml
+     * GET /projects/#{project_id}/activity
      * Lists the latest activity list new tasks etc. for a given project.
      *
-     * @param int $project_id
-     * @param int $maxItems
+     * @param int $id
+     * @param array $params
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function getByProject($project_id, $maxItems = null)
+    public function getByProject(int $id, array $params = [])
     {
-        $project_id = (int)$project_id;
-        if ($project_id <= 0) {
-            throw new Exception('Invalid param project_id');
-        }
-        $params = [];
-        $maxItems = (int)$maxItems;
-        if ($maxItems) {
-            $params['maxItems'] = $maxItems;
+        $id = (int)$id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
         }
 
-        return $this->rest->get("projects/$project_id/$this->action", $params);
+        return $this->rest->get("projects/$id/$this->action", $params);
     }
 
     /**
      * Get Task Activity
      *
-     * @param string $taskId
+     * @param int $id
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function getByTask(string $taskId)
+    public function getByTask(int $id)
     {
-        return $this->rest->get("tasks/$taskId/activity", [
-            'taskId' => $taskId
-        ]);
+        return $this->rest->get("tasks/$id/activity");
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return bool
+     * @throws \TeamWorkPm\Exception
+     */
+    public function delete(int $id)
+    {
+        $id = (int)$id;
+        if ($id <= 0) {
+            throw new Exception('Invalid param id');
+        }
+        return $this->rest->delete("activity/$id");
     }
 }

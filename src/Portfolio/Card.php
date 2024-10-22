@@ -14,33 +14,28 @@ class Card extends Model
 
         $this->fields = [
             'projectId' => [
-                'required' => false,
-                'attributes' => ['type' => 'string'],
+                'type' => 'string'
             ],
 
             // These are only used by the update method
             'cardId' => [
-                'required' => false,
+                'type' => 'string',
                 'sibling' => true,
-                'attributes' => ['type' => 'string'],
             ],
 
             'columnId' => [
-                'required' => false,
-                'sibling' => true, // Dont nest under 'Card'
-                'attributes' => ['type' => 'string'],
+                'type' => 'string',
+                'sibling' => true,
             ],
 
             'oldColumnId' => [
-                'required' => false,
-                'sibling' => true, // Dont nest under 'Card'
-                'attributes' => ['type' => 'string'],
+                'type' => 'string',
+                'sibling' => true,
             ],
 
             'positionAfterId' => [
-                'required' => false,
-                'sibling' => true, // Dont nest under 'Card'
-                'attributes' => ['type' => 'integer'],
+                'type' => 'integer',
+                'sibling' => true,
             ],
         ];
     }

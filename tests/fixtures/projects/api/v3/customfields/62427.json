@@ -1,0 +1,28 @@
+{
+    "customfield": {
+        "id": 62427,
+        "projectId": null,
+        "project": null,
+        "entity": "task",
+        "name": "Test Field",
+        "description": "",
+        "type": "text-short",
+        "options": null,
+        "formula": null,
+        "visibilities": [],
+        "isPrivate": false,
+        "required": false,
+        "createdAt": "2024-10-22T09:28:01Z",
+        "createdByUserId": 391604,
+        "createdBy": 391604,
+        "updatedAt": "2024-10-22T09:28:01Z",
+        "updatedByUserId": 391604,
+        "updatedBy": 391604,
+        "deleted": false,
+        "deletedAt": null,
+        "deletedByUserId": null,
+        "deletedBy": null,
+        "groupId": null,
+        "unitId": null
+    }
+}

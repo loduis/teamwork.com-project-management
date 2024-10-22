@@ -13,10 +13,7 @@ abstract class Model extends \TeamWorkPm\Model
         $this->fields = [
             'body' => true,
             'notify' => [
-                'required' => false,
-                'attributes' => [
-                    'type' => 'array',
-                ],
+                'type' => 'array',
             ],
             'isprivate' => false,
             'author_id' => false,

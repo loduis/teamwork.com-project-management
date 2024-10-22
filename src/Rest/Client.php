@@ -96,13 +96,18 @@ class Client
             throw new Exception($errorInfo);
         }
 
+        if ($method == 'DELETE' && $status === 204) {
+            $body = '{}';
+        }
+
         $headers['Status'] = $status;
         $headers['Method'] = $method;
         $headers['X-Url'] = $url;
         $headers['X-Request'] = $request;
         $headers['X-Action'] = $path;
+        $headers['X-Parent'] = $this->request->getParent();
         // for chrome use
-        $headers['X-Authorization'] = 'BASIC ' . base64_encode($this->key . ':xxx');
+        // $headers['X-Authorization'] = 'BASIC ' . base64_encode($this->key . ':xxx');
 
         return $this->response->parse($body, $headers);
     }

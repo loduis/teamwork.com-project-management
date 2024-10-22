@@ -11,130 +11,76 @@ class People extends Resource
     {
         $this->fields = [
             'view_messages_and_files' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'view_tasks_and_milestones' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'view_time' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'view_notebooks' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'view_risk_register' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'view_invoices' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'view_links' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'add_tasks' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'add_milestones' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'add_taskLists' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'add_messages' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'add_files' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'add_time' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'add_links' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'set_privacy' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'can_be_assigned_to_tasks_and_milestones' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'project_administrator' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
             'add_people_to_project' => [
-                'require' => false,
-                'attributes' => [
-                    'type' => 'integer',
-                    'validate' => [1, 0],
-                ],
+                'type' => 'integer',
+                'validate' => [1, 0],
             ],
         ];
         $this->action = $this->parent = 'permissions';
