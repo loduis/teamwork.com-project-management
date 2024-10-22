@@ -188,6 +188,17 @@ class Project extends Model
     }
 
     /**
+     * Get Project Rates
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
+    public function getRates(int $id, array $params = [])
+    {
+        return $this->rest->get("$this->action/$id/rates", $params);
+    }
+
+    /**
      * Marks a project as starred.
      *
      * @param int $id Project ID

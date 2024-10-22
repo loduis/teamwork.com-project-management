@@ -91,6 +91,16 @@ final class ProjectTest extends TestCase
     /**
      * @test
      */
+    public function getRates(): void
+    {
+        $rates = $this->getTpm('project')->getRates(967489);
+        $this->assertTrue(isset($rates->users));
+    }
+
+
+    /**
+     * @test
+     */
     public function starProject(): void
     {
         $this->assertTrue($this->putTpm('project')->star(10)); // Assume 10 is a valid project ID

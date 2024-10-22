@@ -1,0 +1,14 @@
+{
+    "rates": {
+        "account-default": "0.00",
+        "project-default": "0.00",
+        "users": {
+            "391604": {
+                "defaultRate": "0.00",
+                "rate": "0.00",
+                "source": "direct"
+            }
+        }
+    },
+    "STATUS": "OK"
+}

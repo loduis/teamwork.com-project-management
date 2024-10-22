@@ -92,6 +92,21 @@ abstract class Resource
             return $this->all(...$arguments);
         }
 
+        if ($name === 'first') {
+            $entries = [];
+            if (method_exists($this, 'getAll')) {
+                $entries = $this->getAll(...$arguments);
+            } elseif (method_exists($this, 'all')) {
+                $entries = $this->all(...$arguments);
+            }
+
+            if (count($entries) > 0) {
+                return $entries[0];
+            }
+
+            return $entries;
+        }
+
         throw new BadMethodCallException("No exists method: $name");
     }
 }
