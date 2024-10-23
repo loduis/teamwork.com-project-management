@@ -66,6 +66,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 },
                 'Method' => $method,
                 'X-Action' => $path,
+                'X-Parent' => $parent,
                 'X-Request' => json_encode($params, JSON_PRETTY_PRINT),
                 'X-Params' => match ($method) {
                     'POST' => $params->$parent ?? null,
@@ -73,7 +74,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     default => $params,
                 }
             ];
-            if ($method === 'POST') {
+            if ($method === 'POST' && !in_array($parent, ['rates'])) {
                 $headers['id'] = 10;
             }
             if ($callback !== null) {

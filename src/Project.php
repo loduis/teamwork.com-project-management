@@ -195,7 +195,32 @@ class Project extends Model
      */
     public function getRates(int $id, array $params = [])
     {
-        return $this->rest->get("$this->action/$id/rates", $params);
+        return Factory::build('project.rate')->get($id, $params);
+    }
+
+    /**
+     * set Project Rates
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
+    public function setRates(int $id, iterable $data = [])
+    {
+        return Factory::build('project.rate')->set($id, $data);
+    }
+
+    /**
+     * Retrieve Projects assigned to a specific Company
+     *
+     * @param int $id
+     * @param array $params
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
+    public function getByCompany(int $id, array $params = [])
+    {
+        return $this->rest->get("companies/$id/$this->action", $params);
     }
 
     /**

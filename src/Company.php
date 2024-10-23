@@ -2,6 +2,9 @@
 
 namespace TeamWorkPm;
 
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/companies/get-companies-json
+ */
 class Company extends Model
 {
     protected array $fields = [
@@ -307,7 +310,7 @@ class Company extends Model
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function getAll(array $params = [])
+    public function all(array $params = [])
     {
         return $this->rest->get($this->action, $params);
     }

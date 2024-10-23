@@ -6,12 +6,7 @@ use Psy\Configuration;
 use Symfony\Component\VarDumper\Caster\Caster;
 use TeamWorkPm\Response\JSON;
 
-require __DIR__ . '/../vendor/autoload.php';
-
-
-Dotenv\Dotenv::createImmutable(__DIR__)->load();
-
-Tpm::auth($_ENV['API_COMPANY'], $_ENV['API_KEY'], $_ENV['API_FORMAT']);
+require __DIR__ . '/bootstrap.php';
 
 $casterToArray = function ($model) {
     $results = [];
@@ -37,8 +32,12 @@ $config = new Configuration([
 ]);
 
 $config->getPresenter()->addCasters([
-    JSON::class => $casterToArray
-
+    JSON::class => $casterToArray,
+    TeamWorkPm\Exception::class => function ($err) {
+        $results = [];
+        $results[Caster::PREFIX_VIRTUAL . 'message'] = $err->getMessage();
+        return $results;
+    }
 ]);
 $shell = new Shell($config);
 $shell->run();

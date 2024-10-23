@@ -60,7 +60,7 @@ final class ProjectTest extends TestCase
     {
         $this->assertEquals(
             "Colombia",
-            $this->getTpm('project')->get(967489)->name
+            $this->getTpm('project')->get(TPM_PROJECT_ID)->name
         );
     }
 
@@ -83,6 +83,17 @@ final class ProjectTest extends TestCase
     /**
      * @test
      */
+    public function getByCompany(): void
+    {
+        $this->assertGreaterThan(
+            0,
+            count($this->getTpm('project')->getByCompany(TPM_COMPANY_ID))
+        );
+    }
+
+    /**
+     * @test
+     */
     public function getArchivedProjects(): void
     {
         $this->assertGreaterThan(0, count($this->getTpm('project')->getArchived()));
@@ -93,8 +104,30 @@ final class ProjectTest extends TestCase
      */
     public function getRates(): void
     {
-        $rates = $this->getTpm('project')->getRates(967489);
-        $this->assertTrue(isset($rates->users));
+        $this->assertTrue(
+            isset($this->getTpm('project.rate')->get(TPM_PROJECT_ID)->users)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function setRates(): void
+    {
+        // TODO this method fail on live when users params is set
+        $this->assertTrue(
+            $this->postTpm('project.rate', function ($headers) {
+                $rates = $headers['X-Params'];
+                $this->assertObjectHasProperty('project-default', $rates);
+                $this->assertObjectHasProperty('users', $rates);
+                $this->assertObjectHasProperty(TPM_USER_ID, $rates->users);
+            })->set(TPM_PROJECT_ID, [
+                'project_default' => 1,
+                'users' => [
+                    TPM_USER_ID => 5
+                ]
+            ])
+        );
     }
 
 
