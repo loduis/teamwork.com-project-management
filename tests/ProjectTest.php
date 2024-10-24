@@ -109,6 +109,16 @@ final class ProjectTest extends TestCase
         );
     }
 
+        /**
+     * @test
+     */
+    public function getStats(): void
+    {
+        $this->assertTrue(
+            isset($this->getTpm('project')->getStats(TPM_PROJECT_ID)->tasks->active)
+        );
+    }
+
     /**
      * @test
      */

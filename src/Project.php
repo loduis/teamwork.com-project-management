@@ -210,6 +210,17 @@ class Project extends Model
     }
 
     /**
+     * Get Project Stats
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
+    public function getStats(int $id, iterable $params = [])
+    {
+        return $this->rest->get("$this->action/$id/stats", $params);
+    }
+
+    /**
      * Retrieve Projects assigned to a specific Company
      *
      * @param int $id

@@ -1,0 +1,32 @@
+{
+    "STATUS": "OK",
+    "stats": {
+        "tasks": {
+            "complete": "0",
+            "active": "1",
+            "upcoming": "0",
+            "late": "1",
+            "today": "0",
+            "nodate": "0"
+        },
+        "events": {
+            "today": "0",
+            "hasEvents": false,
+            "count": "0"
+        },
+        "billing": {
+            "completed": "0",
+            "active": "0"
+        },
+        "columns": {
+            "count": "3"
+        },
+        "milestones": {
+            "complete": "0",
+            "active": "0",
+            "upcoming": "0",
+            "late": "0",
+            "today": "0"
+        }
+    }
+}
