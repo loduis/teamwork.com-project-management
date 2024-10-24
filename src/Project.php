@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
@@ -12,8 +12,6 @@ namespace TeamWorkPm;
  * This class represents a project in the TeamWorkPm system. It contains the fields and methods
  * necessary to interact with the project API, including creating, retrieving, and managing projects
  * and their states (active, archived, starred, etc.).
- *
- * @package TeamWorkPm
  */
 class Project extends Model
 {
@@ -104,8 +102,8 @@ class Project extends Model
                 'transform' => ['camel', function ($value) {
                     return array_is_list($value) ? $value : array_reduce($value, function ($acc, $value, $key) {
                         $acc[] = [
-                            'customFieldId' => (int) $key,
-                            'value' => (string) $value
+                            'customFieldId' => (int)$key,
+                            'value' => (string)$value
                         ];
                         return $acc;
                     }, []);

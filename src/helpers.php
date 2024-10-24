@@ -29,7 +29,7 @@ namespace {
     /**
      * @param iterable $entries
      *
-     * @return ArrayObject | \stdClass
+     * @return ArrayObject|\stdClass
      */
     function arr_obj(iterable $entries = [], int $options = ArrayObject::ARRAY_AS_PROPS | ArrayObject::STD_PROP_LIST): ArrayObject
     {

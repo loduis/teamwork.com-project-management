@@ -2,9 +2,9 @@
 
 namespace TeamWorkPm\Project;
 
-use TeamWorkPm\Rest\Resource;
-
 use function TeamWorkPm\array_reduce;
+
+use TeamWorkPm\Rest\Resource;
 
 class Rate extends Resource
 {
@@ -27,7 +27,7 @@ class Rate extends Resource
                             $value = arr_obj($value)->rate;
                         }
                         $acc[$key] = [
-                            'rate' => (float) $value,
+                            'rate' => (float)$value,
                         ];
                         return $acc;
                     }, []);

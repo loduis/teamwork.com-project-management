@@ -31,7 +31,7 @@ class JSON extends Model
                         $type = $options['type'];
                         if ($type === 'array') {
                             if (is_string($value) || is_numeric($value)) {
-                                $value = (array) $value;
+                                $value = (array)$value;
                             }
                         } else {
                             settype($value, $type);
