@@ -2,6 +2,8 @@
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Response\Model;
+
 class Account extends Rest\Resource
 {
     /**
@@ -12,8 +14,8 @@ class Account extends Rest\Resource
      * which is a string that you can use to quickly determine if the application has been updated since you
      * last accessed it.
      *
-     * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @return Model
+     * @throws Exception
      */
     public function get()
     {
@@ -32,8 +34,8 @@ class Account extends Rest\Resource
      *
      * If it fails, you get a standard failure response.
      *
-     * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @return Model
+     * @throws Exception
      */
     public function authenticate()
     {

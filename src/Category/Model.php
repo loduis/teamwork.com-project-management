@@ -2,6 +2,8 @@
 
 namespace TeamWorkPm\Category;
 
+use TeamWorkPm\Exception;
+
 abstract class Model extends \TeamWorkPm\Model
 {
     protected function init()
@@ -28,7 +30,7 @@ abstract class Model extends \TeamWorkPm\Model
     public function getByProject(int $project_id)
     {
         if ($project_id <= 0) {
-            throw new \TeamWorkPm\Exception('Invalid param project_id');
+            throw new Exception('Invalid param project_id');
         }
         return $this->rest->get("projects/$project_id/$this->action");
     }
@@ -48,7 +50,7 @@ abstract class Model extends \TeamWorkPm\Model
         $data = arr_obj($data);
         $project_id = (int) ($data['project_id'] ?? 0);
         if ($project_id <= 0) {
-            throw new \TeamWorkPm\Exception('Required field project_id');
+            throw new Exception('Required field project_id');
         }
         /**
          * @var int

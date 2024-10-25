@@ -51,7 +51,7 @@ class Milestone extends Model
      * @param int $id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function complete($id)
     {
@@ -72,7 +72,7 @@ class Milestone extends Model
      * @param int $id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function uncomplete($id)
     {
@@ -89,7 +89,7 @@ class Milestone extends Model
      * @param string $filter
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getAll($filter = 'all')
     {
@@ -103,7 +103,7 @@ class Milestone extends Model
      * @param string $filter
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByProject($project_id, $filter = 'all')
     {
@@ -121,7 +121,7 @@ class Milestone extends Model
      * @param $filter
      *
      * @return array
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     private function getParams($filter)
     {
@@ -144,7 +144,7 @@ class Milestone extends Model
      * @param array $data
      *
      * @return int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {

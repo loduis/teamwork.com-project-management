@@ -70,7 +70,7 @@ class Column extends Model
      * @param int $boardId
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getAllForBoard($boardId)
     {

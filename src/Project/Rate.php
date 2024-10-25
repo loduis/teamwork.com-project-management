@@ -2,6 +2,7 @@
 
 namespace TeamWorkPm\Project;
 
+use TeamWorkPm\Exception;
 use function TeamWorkPm\array_reduce;
 
 use TeamWorkPm\Rest\Resource;
@@ -41,7 +42,7 @@ class Rate extends Resource
      * @param array $params
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get(int $projectId, array $params = [])
     {
@@ -53,7 +54,7 @@ class Rate extends Resource
      * @param array $data
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function set(int $projectId, array $data)
     {

@@ -47,7 +47,7 @@ class Card extends Model
      * @param int $columnId
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getAllForColumn($columnId)
     {
@@ -87,7 +87,7 @@ class Card extends Model
      * @param array $data
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function update(array $data)
     {

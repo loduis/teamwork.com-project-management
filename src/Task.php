@@ -50,7 +50,7 @@ class Task extends Model
      * @param bool $get_time
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get($id, $get_time = false)
     {
@@ -82,7 +82,7 @@ class Task extends Model
      * @param string $filter
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByTaskList($task_list_id, $filter = 'all')
     {
@@ -115,7 +115,7 @@ class Task extends Model
      * @param array $data
      *
      * @return int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {
@@ -141,7 +141,7 @@ class Task extends Model
      * @param int $id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function complete($id)
     {
@@ -162,7 +162,7 @@ class Task extends Model
      * @param int $id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function uncomplete($id)
     {
@@ -187,7 +187,7 @@ class Task extends Model
      * @param array $ids
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function reorder($task_list_id, array $ids)
     {

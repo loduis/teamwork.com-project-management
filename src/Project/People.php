@@ -91,7 +91,7 @@ class People extends Resource
      * @param $person_id
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get($project_id, $person_id)
     {
@@ -104,7 +104,7 @@ class People extends Resource
      * @param int $person_id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function add(int $project_id, int $person_id): bool
     {
@@ -121,7 +121,7 @@ class People extends Resource
      * @param array $data
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function update(object|array $data)
     {
@@ -143,7 +143,7 @@ class People extends Resource
      * @param $person_id
      *
      * @return mixed
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function delete(int $project_id, int $person_id)
     {
@@ -156,7 +156,7 @@ class People extends Resource
      * @param $project_id
      * @param $person_id
      *
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     private function validates($project_id, $person_id): void
     {

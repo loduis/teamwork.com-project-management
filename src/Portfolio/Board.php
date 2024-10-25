@@ -2,6 +2,7 @@
 
 namespace TeamWorkPm\Portfolio;
 
+use TeamWorkPm\Exception;
 use TeamWorkPm\Model;
 
 class Board extends Model
@@ -47,7 +48,7 @@ class Board extends Model
      * GET /portfolio/boards
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function all()
     {

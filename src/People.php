@@ -307,20 +307,6 @@ class People extends Model
         ];
     }
 
-    /**
-     * Get people
-     * GET /people
-     * All people visible to the user will be returned, including the user themselves
-     *
-     * @param array|object $params
-     *
-     * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
-     */
-    public function all(array|object $params = [])
-    {
-        return $this->rest->get((string) $this->action, $params);
-    }
 
     /**
      * Get all People (within a Project)
@@ -330,7 +316,7 @@ class People extends Model
      * @param int $id
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByProject(int $id)
     {
@@ -346,7 +332,7 @@ class People extends Model
      * @param int $id
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByCompany(int $id)
     {
@@ -361,7 +347,7 @@ class People extends Model
      * @param string $emailAddress
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByEmail(string $emailAddress)
     {
@@ -375,7 +361,7 @@ class People extends Model
      * @param int|null $projectId
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function delete(int $id, ?int $projectId = null): bool
     {

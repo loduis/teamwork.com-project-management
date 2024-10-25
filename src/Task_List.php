@@ -39,7 +39,7 @@ class Task_List extends Model
      * @param bool $show_tasks
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get($id, $show_tasks = true)
     {
@@ -80,7 +80,7 @@ class Task_List extends Model
      * @param [string | array] $params
      *
      * @return object
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByProject($id, $params = null)
     {
@@ -123,7 +123,7 @@ class Task_List extends Model
      * @param array $data
      *
      * @return int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {

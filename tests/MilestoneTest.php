@@ -2,6 +2,7 @@
 
 namespace TeamWorkPm\Tests;
 
+use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
 final class MilestoneTest extends TestCase
@@ -36,7 +37,7 @@ final class MilestoneTest extends TestCase
             $data['responsible_party_ids'] = get_first_person_id($this->projectId);
             $id = $this->model->save($data);
             $this->assertGreaterThan(0, $id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -50,7 +51,7 @@ final class MilestoneTest extends TestCase
         try {
             $data['id'] = $this->id;
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -70,7 +71,7 @@ final class MilestoneTest extends TestCase
         try {
             $milestone = $this->model->get($this->id);
             $this->assertEquals($this->id, $milestone->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -90,7 +91,7 @@ final class MilestoneTest extends TestCase
         try {
             $milestones = $this->model->getByProject($this->projectId);
             $this->assertGreaterThan(0, count($milestones));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -110,7 +111,7 @@ final class MilestoneTest extends TestCase
         try {
             $milestones = $this->model->getAll();
             $this->assertGreaterThan(0, count($milestones));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -129,7 +130,7 @@ final class MilestoneTest extends TestCase
 
         try {
             $this->assertTrue($this->model->complete($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -145,7 +146,7 @@ final class MilestoneTest extends TestCase
                 'completed'
             );
             $this->assertGreaterThan(0, count($milestones));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -164,7 +165,7 @@ final class MilestoneTest extends TestCase
 
         try {
             $this->assertTrue($this->model->uncomplete($this->id));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -180,7 +181,7 @@ final class MilestoneTest extends TestCase
                 'incomplete'
             );
             $this->assertGreaterThan(0, count($milestones));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -195,7 +196,7 @@ final class MilestoneTest extends TestCase
             $data['id'] = $this->id;
             $data['deadline'] = date('Ymd', strtotime('-10 days'));
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -212,7 +213,7 @@ final class MilestoneTest extends TestCase
                 'late'
             );
             $this->assertGreaterThan(0, count($milestones));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -227,7 +228,7 @@ final class MilestoneTest extends TestCase
             $data['id'] = $this->id;
             $data['deadline'] = date('Ymd', strtotime('+10 days'));
             $this->assertTrue($this->model->save($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -244,7 +245,7 @@ final class MilestoneTest extends TestCase
                 'upcoming'
             );
             $this->assertGreaterThan(0, count($milestones));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

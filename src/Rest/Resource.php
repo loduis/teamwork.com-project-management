@@ -3,6 +3,7 @@
 namespace TeamWorkPm\Rest;
 
 use BadMethodCallException;
+use TeamWorkPm\Exception;
 
 /**
  * @method void init()
@@ -43,7 +44,7 @@ abstract class Resource
      * @param string $class
      * @param string $hash
      *
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function __construct(Client $httpClient)
     {

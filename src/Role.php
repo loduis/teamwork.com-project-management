@@ -22,7 +22,7 @@ class Role extends Model
      * @param int $id
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function get($id, $params = null)
     {
@@ -56,7 +56,7 @@ class Role extends Model
      * @param array $data
      *
      * @return int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {
@@ -75,7 +75,7 @@ class Role extends Model
      * @param array $data
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function update(array $data)
     {

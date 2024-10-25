@@ -2,7 +2,7 @@
 
 namespace TeamWorkPm\Tests;
 
-use Exception;
+use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 
 final class RoleTest extends TestCase
@@ -26,7 +26,7 @@ final class RoleTest extends TestCase
         try {
             self::$id = $this->model->insert($data);
             $this->assertGreaterThan(0, self::$id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -41,7 +41,7 @@ final class RoleTest extends TestCase
         try {
             $data['id'] = null;
             $this->assertTrue($this->model->update($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('Required field id', $e->getMessage());
         }
 
@@ -49,7 +49,7 @@ final class RoleTest extends TestCase
             // and add to this project
             $data['id'] = self::$id;
             $this->assertTrue($this->model->update($data));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -70,7 +70,7 @@ final class RoleTest extends TestCase
         try {
             $tag = $this->model->get(self::$id);
             $this->assertEquals(self::$id, $tag->id);
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
         // get roles in project
@@ -79,7 +79,7 @@ final class RoleTest extends TestCase
             $roles = $this->model->getByProject($project_id);
 
             $this->assertGreaterThan(0, count($roles));
-        } catch (\TeamWorkPm\Exception $e) {
+        } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
     }

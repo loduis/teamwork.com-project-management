@@ -41,7 +41,7 @@ class Time extends Model
      * @param array $data
      *
      * @return int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {
@@ -72,7 +72,7 @@ class Time extends Model
      * @param array $params
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getAll(array $params = [])
     {
@@ -93,7 +93,7 @@ class Time extends Model
      * @param array $params
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByProject($project_id, array $params = [])
     {
@@ -115,7 +115,7 @@ class Time extends Model
      * @param array $params
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByTask($task_id, array $params = [])
     {

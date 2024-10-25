@@ -19,7 +19,7 @@ class XML extends Model
      * @param string $data
      * @param type $headers
      * @return mixed [bool, int, TeamWorkPm\Response\XML]
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function parse($data, array $headers)
     {

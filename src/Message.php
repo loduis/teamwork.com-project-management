@@ -43,7 +43,7 @@ class Message extends Model
      * @param bool $archive
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByProject($project_id, $archive = false)
     {
@@ -76,17 +76,17 @@ class Message extends Model
      * @param bool $archive
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByProjectAndCategory($project_id, $category_id, $archive = false)
     {
         $project_id = (int)$project_id;
         if ($project_id <= 0) {
-            throw new \TeamWorkPm\Exception('Invalid param project_id');
+            throw new Exception('Invalid param project_id');
         }
         $category_id = (int)$category_id;
         if ($category_id <= 0) {
-            throw new \TeamWorkPm\Exception('Invalid param category_id');
+            throw new Exception('Invalid param category_id');
         }
         $action = "projects/$project_id/cat/$category_id/$this->action";
         if ($archive) {
@@ -106,16 +106,16 @@ class Message extends Model
      * @param array $data
      *
      * @return int
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function insert(array $data)
     {
         $project_id = empty($data['project_id']) ? 0 : (int)$data['project_id'];
         if ($project_id <= 0) {
-            throw new \TeamWorkPm\Exception('Required field project_id');
+            throw new Exception('Required field project_id');
         }
         if (!empty($data['files'])) {
-            $file = \TeamWorkPm\Factory::build('file');
+            $file = Factory::build('file');
             $data['pending_file_attachments'] = $file->upload($data['files']);
             unset($data['files']);
         }

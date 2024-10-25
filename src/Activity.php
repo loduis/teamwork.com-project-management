@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Response\Model;
+
 class Activity extends Rest\Resource
 {
     protected ?string $action = 'latestActivity';
@@ -16,7 +18,7 @@ class Activity extends Rest\Resource
      * @param object|array $params
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function all(object|array $params = [])
     {
@@ -32,7 +34,7 @@ class Activity extends Rest\Resource
      * @param array $params
      *
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByProject(int $id, array $params = [])
     {
@@ -48,7 +50,7 @@ class Activity extends Rest\Resource
      *
      * @param int $id
      * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function getByTask(int $id)
     {
@@ -59,7 +61,7 @@ class Activity extends Rest\Resource
      * @param int $id
      *
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function delete(int $id)
     {
