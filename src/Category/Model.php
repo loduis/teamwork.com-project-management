@@ -6,7 +6,7 @@ abstract class Model extends \TeamWorkPm\Model
 {
     protected function init()
     {
-        [$parent, $type] = explode('-', $this->parent);
+        [$parent, $type] = explode('-', (string) $this->parent);
         $this->parent = $parent;
         $this->action = $type . 'Categories';
         $this->fields = [
@@ -25,9 +25,8 @@ abstract class Model extends \TeamWorkPm\Model
      * @param int $project_id
      * @return \TeamWorkPm\Response\Model
      */
-    public function getByProject($project_id)
+    public function getByProject(int $project_id)
     {
-        $project_id = (int)$project_id;
         if ($project_id <= 0) {
             throw new \TeamWorkPm\Exception('Invalid param project_id');
         }
@@ -41,15 +40,19 @@ abstract class Model extends \TeamWorkPm\Model
      *
      * A new category will be created and attached to your specified project ID.
      *
-     * @param array $data
+     * @param array|object $data
      * @return int
      */
-    public function insert(array $data)
+    public function insert(array|object $data): int
     {
-        $project_id = empty($data['project_id']) ? 0 : (int)$data['project_id'];
+        $data = arr_obj($data);
+        $project_id = (int) ($data['project_id'] ?? 0);
         if ($project_id <= 0) {
             throw new \TeamWorkPm\Exception('Required field project_id');
         }
+        /**
+         * @var int
+         */
         return $this->rest->post("projects/$project_id/$this->action", $data);
     }
 }

@@ -2,30 +2,42 @@
 
 namespace TeamWorkPm\Response;
 
+/**
+ * @template TKey of array-key
+ * @template TValue
+ * @implements \ArrayAccess<TKey,TValue>
+ * @implements \IteratorAggregate<TKey,TValue>
+*/
 abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
 {
-    protected $string = null;
+    protected ?string $string = null;
 
-    protected $originalString = null;
+    protected ?string $originalString = null;
 
-    protected $headers = [];
+    protected array $headers = [];
 
     /**
-     * @var object|array
+     * @var array|\ArrayObject
      */
-    protected $data = [];
+    protected array|\ArrayObject $data = [];
 
     final public function __construct()
     {
     }
 
-    abstract public function parse($data, array $headers);
+    /**
+     *
+     * @param string $data
+     * @param array $headers
+     * @return static|int|bool|null
+     */
+    abstract public function parse(string $data, array $headers): static|int|bool|null;
 
-    public function save(string $filename)
+    public function save(string $filename): bool
     {
         if (strpos($filename, '.') === false) {
             $class = static::class;
-            $ext = strtolower(substr($class, strrpos($class, '\\') + 1));
+            $ext = strtolower(substr($class, (int) strrpos($class, '\\') + 1));
             $filename .= '.' . $ext;
         }
         $dirname = dirname($filename);
@@ -34,78 +46,132 @@ abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
             mkdir($dirname, 0777, true);
         }
 
-        return file_put_contents($filename, $this->getContent());
+        return file_put_contents($filename, $this->getContent()) !== false;
     }
 
-    abstract protected function getContent();
+    /**
+     *
+     * @return string
+     */
+    abstract protected function getContent(): string ;
 
-    abstract public function getOriginalContent();
+    /**
+     *
+     * @return string
+     */
+    abstract public function getOriginalContent(): string;
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getContent();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
-        return $this->data;
+        return (array) $this->data;
     }
 
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
 
+    /**
+     *
+     * @return \Traversable<TKey,TValue>
+     */
     public function getIterator(): \Traversable
     {
-        return new \ArrayIterator($this->data);
+        return new \ArrayIterator((array) $this->data);
     }
 
     public function count(): int
     {
-        return count($this->data);
+        return count((array) $this->data);
     }
 
-    public function offsetSet($offset, $value): void
+    /**
+     *
+     * @param TKey|null $offset
+     * @param mixed $value
+     * @return void
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
     {
-        if (is_null($offset)) {
+        if ($offset === null) {
+            /** @psalm-suppress NullArgument */
             $this->data[] = $value;
         } else {
             $this->data[$offset] = $value;
         }
     }
 
-    public function offsetExists($offset): bool
+    /**
+     *
+     * @param TKey $offset
+     * @return boolean
+     */
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->data[$offset]);
     }
 
-    public function offsetUnset($offset): void
+    /**
+     *
+     * @param TKey $offset
+     * @return void
+     */
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->data[$offset]);
     }
 
-    public function offsetGet($offset): mixed
+    /**
+     *
+     * @param TKey $offset
+     * @return mixed
+     */
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->data[$offset] ?? null;
     }
 
-    public function __get($name)
+    /**
+     *
+     * @param TKey $name
+     * @return mixed
+     */
+    public function __get(mixed $name)
     {
         return $this->data[$name] ?? null;
     }
 
-    public function __set($name, $value)
+    /**
+     * Undocumented function
+     *
+     * @param TKey $name
+     * @param mixed $value
+     */
+    public function __set(mixed $name, mixed $value): void
     {
         $this->data[$name] = $value;
     }
 
-    public function __isset($name)
+    /**
+     *
+     * @param TKey $name
+     * @return boolean
+     */
+    public function __isset(mixed $name)
     {
         return isset($this->data[$name]);
     }
 
-    public function __unset($name)
+    /**
+     *
+     * @param TKey $name
+     */
+    public function __unset(mixed $name)
     {
         unset($this->data[$name]);
     }

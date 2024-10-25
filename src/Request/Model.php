@@ -90,16 +90,22 @@ abstract class Model
         return $value;
     }
 
-    protected function validate($field, $value, $options)
+    protected function validate(string $field, mixed $value, array $options): void
     {
         $isNull = $value === null || $value === '';
-        if ($this->method === 'POST' && ($options['required'] ?? false) && $isNull) {
+        if ($this->method === 'POST' && ($options['required'] ?? false) !== false && $isNull) {
             throw new Exception('Required field ' . $field);
         }
         // checking fields that must meet certain values
-        if (!$isNull   && isset($options['validate']) && (
-            (is_array($options['validate']) &&
-            !in_array($value, $options['validate'])) || ($options['validate'] === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL))
+        if (!$isNull   && (
+                (
+                    isset($options['validate']) &&
+                    is_array($options['validate']) &&
+                    !in_array($value, $options['validate'])
+                ) || (
+                    ($options['type'] ?? 'string') === 'email' &&
+                    !filter_var($value, FILTER_VALIDATE_EMAIL)
+                )
         )) {
             throw new Exception(
                 'Invalid value for field ' .
@@ -108,7 +114,7 @@ abstract class Model
         }
     }
 
-    protected function transform(&$field)
+    protected function transform(string &$field): void
     {
         static $camelize = [
             'pending_file_attachments' => true,
@@ -162,36 +168,45 @@ abstract class Model
         }
     }
 
-    protected function actionInclude($value)
+    protected function actionInclude(mixed $value): bool
     {
-        return str_contains($this->action, (string)$value);
+        return str_contains((string) $this->action, (string)$value);
     }
 
-    public function getParent()
+    public function getParent(): string
     {
-        return $this->parent . ($this->actionInclude('/reorder') ? 's' : '');
+        return (string)$this->parent . ($this->actionInclude('/reorder') ? 's' : '');
     }
 
     /**
+     * Return params
+     *
      * @param string $method
-     * @param string|array|null $parameters
+     * @param array|object|null $parameters
      * @return string|null
      */
-    public function getParameters($method, $parameters)
+    public function getParameters(string $method, object|array|null $parameters): ?string
     {
-        if ($parameters) {
-            $this->method = $method;
-            if ($method === 'GET') {
-                if (is_array($parameters)) {
-                    $parameters = http_build_query($parameters);
-                }
-            } elseif ($method === 'POST' || $method === 'PUT') {
-                $parameters = $this->parseParameters($parameters);
-            }
-        } else {
-            $parameters = null;
+        $result = null;
+
+        if ($parameters === null) {
+            return null;
         }
-        return $parameters;
+
+        $this->method = $method;
+        if ($isOA = is_arr_obj($parameters)) {
+            $parameters = arr_obj($parameters)->toArray();
+        }
+        if ($method === 'GET') {
+            if ($isOA) {
+                $result = http_build_query($parameters);
+            }
+        } elseif ($isOA) {
+            /** @psalm-suppress PossiblyInvalidArgument */
+            $result = $this->parseParameters($parameters);
+        }
+
+        return $result;
     }
 
     /**
@@ -200,5 +215,5 @@ abstract class Model
      * @param array $parameters
      * @return string
      */
-    abstract protected function parseParameters($parameters);
+    abstract protected function parseParameters(array $parameters): ?string;
 }

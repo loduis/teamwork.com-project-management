@@ -6,12 +6,12 @@ abstract class Model extends Rest\Resource
 {
     /**
      * @param int $id
-     * @param string $params
+     * @param object|array|null $params
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function get(int $id, $params = null)
+    public function get(int $id, object|array|null $params = null)
     {
         $this->validateId($id);
 
@@ -19,38 +19,44 @@ abstract class Model extends Rest\Resource
     }
 
     /**
-     * @param array $data
+     * @param array|object $data
      * @return int
      */
-    public function insert(array $data)
+    public function insert(array|object $data): int
     {
-        return $this->rest->post($this->action, $data);
+        /**
+         * @var int
+         */
+        return $this->rest->post((string) $this->action, $data);
     }
 
     /**
-     * @param array $data
+     * @param array|object $data
      *
      * @return bool
      * @throws \TeamWorkPm\Exception
      */
-    public function update(array $data)
+    public function update(array|object $data): bool
     {
-        $id = empty($data['id']) ? 0 : (int)$data['id'];
+        $data = arr_obj($data);
+        $id = (int) ($data['id'] ?? 0);
         if ($id <= 0) {
             throw new Exception('Required field id');
         }
-        return $this->rest->put("$this->action/$id", $data);
+        return $this->rest->put("$this->action/$id", $data) === true;
     }
 
     /**
-     * @param array $data
+     * @param array|object $data
      *
-     * @return [bool|int]
+     * @return bool|int
      * @throws \TeamWorkPm\Exception
      */
-    final public function save(array $data)
+    final public function save(array|object $data): int|bool
     {
-        return array_key_exists('id', $data)
+        $data = arr_obj($data);
+
+        return $data->offsetExists('id')
             ? $this->update($data)
             : $this->insert($data);
     }
@@ -61,7 +67,7 @@ abstract class Model extends Rest\Resource
      * @return bool
      * @throws \TeamWorkPm\Exception
      */
-    public function delete(int $id)
+    public function delete(int $id): bool
     {
         $this->validateId($id);
 

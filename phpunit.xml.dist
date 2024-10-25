@@ -16,6 +16,7 @@
     <testsuites>
         <testsuite name="default">
             <file>tests/ProjectTest.php</file>
+            <file>tests/PeopleTest.php</file>
             <file>tests/CompanyTest.php</file>
             <file>tests/MeTest.php</file>
             <file>tests/AccountTest.php</file>

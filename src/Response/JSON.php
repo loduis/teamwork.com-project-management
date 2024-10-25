@@ -5,21 +5,22 @@ namespace TeamWorkPm\Response;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Helper\Str;
 
+/**
+ * @template TKey of array-key
+ * @template TValue
+ * @extends Model<TKey,TValue>
+ */
 class JSON extends Model
 {
-    /**
-     * @param $data
-     * @param array $headers
-     *
-     * @return $this
-     * @throws \TeamWorkPm\Exception
-     */
-    public function parse($data, array $headers)
+    public function parse(string $data, array $headers): static | int | bool | null
     {
+        /**
+         * @var mixed
+         */
         $source = json_decode($data);
         $errors = $this->getJsonErrors();
         $this->originalString = $this->string = $data;
-        if (!$errors) {
+        if ($errors === null) {
             if (!(
                 $headers['Status'] === 201
                 || $headers['Status'] === 200
@@ -37,7 +38,10 @@ class JSON extends Model
             if (in_array($headers['Status'], [201, 200, 204])) {
                 switch ($headers['Method']) {
                     case 'UPLOAD':
-                        return empty($source->pendingFile->ref) ? null : (string)$source->pendingFile->ref;
+                        /**
+                         * @var string|null
+                         */
+                        return $source->pendingFile->ref ??  null;
                     case 'POST':
                         if (!empty($headers['id'])) {
                             return (int)$headers['id'];
@@ -46,8 +50,14 @@ class JSON extends Model
                         if (!empty($source->fileId)) {
                             return (int)$source->fileId;
                         }
+                        /**
+                         * @var  string
+                         */
                         $wrapper = $headers['X-Parent'];
                         if (isset($source->$wrapper)) {
+                            /**
+                             * @var mixed
+                             */
                             $source = $source->$wrapper;
                         }
                         // no break
@@ -57,6 +67,9 @@ class JSON extends Model
                         return true;
 
                     default:
+                        /**
+                         * @var object
+                         */
                         if (!empty($source->STATUS)) {
                             unset($source->STATUS);
                         }
@@ -98,14 +111,21 @@ class JSON extends Model
                                 }
                             }
                             $source = $_source;
-                        } elseif (strpos($headers['X-Action'], 'time_entries') !== false && !$source) {
+                        } elseif (strpos($headers['X-Action'], 'time_entries') !== false && $source !== null) {
                             $source = [];
                         }
                         $this->headers = $headers;
                         $this->string = json_encode($source);
-                        $this->data = is_object($source) || is_array($source) ? self::camelizeObject($source) : $source;
-                        if (!empty($this->data->id)) {
-                            $this->data->id = (int)$this->data->id;
+                        if (is_arr_obj($source)) {
+                            /**
+                             * @var \stdClass
+                             */
+                            $data = static::camelizeObject($source);
+                            if (!empty($data->id)) {
+                                $data->id = (int)$data->id;
+                            }
+                            /** @psalm-suppress InvalidPropertyAssignmentValue  */
+                            $this->data = $data;
                         }
 
                         return $this;
@@ -127,9 +147,12 @@ class JSON extends Model
     /**
      * @return string
      */
-    protected function getContent()
+    protected function getContent(): string
     {
-        $object = json_decode($this->string);
+        /**
+         * @var object
+         */
+        $object = json_decode((string) $this->string);
 
         return json_encode($object, JSON_PRETTY_PRINT);
     }
@@ -137,39 +160,43 @@ class JSON extends Model
     /**
      * @return string
      */
-    public function getOriginalContent()
+    public function getOriginalContent(): string
     {
-        $object = json_decode($this->originalString);
+        /**
+         * @var object
+         */
+        $object = json_decode((string) $this->originalString);
 
         return json_encode($object, JSON_PRETTY_PRINT);
     }
 
     /**
-     * @param array|\stdClass $source
+     * @param mixed $source
      *
-     * @return \ArrayObject
+     * @return \ArrayObject|mixed
      */
-    protected static function camelizeObject($source)
+    protected static function camelizeObject(mixed $source)
     {
-        if (!is_object($source) && !is_array($source)) {
+        if (!is_arr_obj($source)) {
             return $source;
         }
 
         $destination = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+        /**
+         * @var string $key
+         * @var mixed $value
+         */
         foreach ($source as $key => $value) {
             if (ctype_upper($key)) {
                 $key = strtolower($key);
             }
             $key = Str::camel($key);
-            $destination->$key = is_scalar($value) ? $value : self::camelizeObject($value);
+            $destination->$key = is_scalar($value) ? $value : static::camelizeObject($value);
         }
         return $destination;
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
-    private function getJsonErrors()
+    private function getJsonErrors(): ?string
     {
         $errorCode = json_last_error();
         if (!$errorCode) {

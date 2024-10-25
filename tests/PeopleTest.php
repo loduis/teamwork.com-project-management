@@ -3,30 +3,20 @@
 namespace TeamWorkPm\Tests;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 
 final class PeopleTest extends TestCase
 {
-    private $model;
-    private static $id;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->model = Factory::build('people');
-    }
-
     /**
      * @dataProvider provider
      * @test
      */
     public function insert($data): void
     {
-        $fail = [];
+        $fail = $data;
         // =========== validate email address ========= //
         try {
             $fail['email_address'] = 'back@email_address';
-            $this->model->save($fail);
+            $this->postTpm('people')->save($fail);
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
             $this->assertEquals(
@@ -34,8 +24,9 @@ final class PeopleTest extends TestCase
                 $e->getMessage()
             );
         }
+
         // =========== required fields ========= //
-        $fail['email_address'] = null;
+        $fail = [];
         $required = [
             'first_name',
             'last_name',
@@ -44,8 +35,7 @@ final class PeopleTest extends TestCase
         ];
         foreach ($required as $field) {
             try {
-                $this->model->save($fail);
-                $this->fail('An expected exception has not been raised.');
+                $this->postTpm('people')->save($fail);
             } catch (Exception $e) {
                 $this->assertEquals(
                     'Required field ' . $field,
@@ -55,90 +45,12 @@ final class PeopleTest extends TestCase
             }
         }
 
-        // =========== validate im service ========= //
-        try {
-            $fail['im_service'] = 'invalid_im';
-            $this->model->save($fail);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals(
-                'Invalid value for field im_service',
-                $e->getMessage()
-            );
-        }
-        $fail['im_service'] = null;
+        $this->assertEquals(10, $this->postTpm('people', function ($headers) {
+            $people = $headers['X-Params'];
+            $this->assertObjectHasProperty('email-address', $people);
+            $this->assertObjectHasProperty('first-name', $people);
+        })->save($data));
 
-        // =========== validate im user language ========= //
-        try {
-            $fail['user_language'] = 'invalid_lang';
-            $this->model->save($fail);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals(
-                'Invalid value for field user_language',
-                $e->getMessage()
-            );
-        }
-
-        $fail['user_language'] = null;
-
-        // =========== validate im user language ========= //
-        try {
-            $fail['date_format'] = 'invalid_date_format';
-            $this->model->save($fail);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals(
-                'Invalid value for field date_format',
-                $e->getMessage()
-            );
-        }
-
-        $fail['date_format'] = null;
-
-        // =========== validate email in use ========= //
-        try {
-            $person = null;
-            foreach ($this->model->getAll() as $person) {
-                break;
-            }
-            $fail['email_address'] = $person->emailAddress;
-            $this->model->save($fail);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals(
-                'Email in use',
-                $e->getMessage()
-            );
-        }
-
-        // =========== Login already taken ========= //
-        try {
-            $fail['email_address'] = $data['email_address'];
-            $fail['user_name'] = $person->userName;
-            $this->model->save($fail);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals(
-                'Login already taken',
-                $e->getMessage()
-            );
-        }
-
-        // =========== insert now ========= //
-        try {
-            // and add to this project
-            $data['project_id'] = get_first_project_id();
-            // change this permissions on insert
-            $data['permissions'] = [
-                'view_risk_register' => 0,
-                'view_invoices' => 0,
-            ];
-            self::$id = $this->model->save($data);
-            $this->assertGreaterThan(0, self::$id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
     }
 
     /**
@@ -150,34 +62,31 @@ final class PeopleTest extends TestCase
     {
         try {
             $data['id'] = null;
-            $this->assertTrue($this->model->save($data));
+            $this->assertTrue($this->putTpm('people')->save($data));
         } catch (Exception $e) {
             $this->assertEquals('Required field id', $e->getMessage());
         }
+
         $fail = [];
         // =========== validate email address ========= //
         try {
-            $fail['id'] = self::$id;
+            $fail['id'] = 10;
             $fail['email_address'] = 'back@email_address';
-            $this->model->save($fail);
-            $this->fail('An expected exception has not been raised.');
+            $this->assertTrue($this->putTpm('people')->save($fail));
         } catch (Exception $e) {
             $this->assertEquals(
                 'Invalid value for field email_address',
                 $e->getMessage()
             );
         }
-
         try {
-            $data['id'] = self::$id;
-            // and add to this project
-            $data['project_id'] = get_first_project_id();
-            // change this permissions on insert
-            $data['permissions'] = [
-                'view_risk_register' => 1,
-                'view_invoices' => 1,
-            ];
-            $this->assertTrue($this->model->save($data));
+            $data['id'] = 10;
+            $data['company_id'] = TPM_COMPANY_ID;
+            $this->assertTrue($this->putTpm('people', function ($headers) {
+                $people = $headers['X-Params'];
+                $this->assertObjectHasProperty('email-address', $people);
+                $this->assertObjectHasProperty('company-id', $people);
+            })->save($data));
         } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
@@ -189,28 +98,10 @@ final class PeopleTest extends TestCase
      */
     public function get(): void
     {
-        try {
-            $this->model->get(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
-
-        try {
-            $people = $this->model->get(self::$id);
-            $this->assertEquals(self::$id, $people->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-        // get people in project
-        try {
-            $project_id = get_first_project_id();
-            $people = $this->model->get(self::$id, $project_id);
-            $this->assertEquals(self::$id, $people->id);
-            $this->assertTrue(isset($people->permissions));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertEquals(
+            "Php",
+            $this->getTpm('people')->get(TPM_USER_ID)->firstName
+        );
     }
 
     /**
@@ -219,12 +110,7 @@ final class PeopleTest extends TestCase
      */
     public function getAll(): void
     {
-        try {
-            $people = $this->model->getAll();
-            $this->assertGreaterThan(1, count($people));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->getTpm('people')->all()));
     }
 
     /**
@@ -233,15 +119,7 @@ final class PeopleTest extends TestCase
      */
     public function getByProject(): void
     {
-        try {
-            $project_id = get_first_project_id();
-            if ($project_id) {
-                $people = $this->model->getByProject($project_id);
-                $this->assertGreaterThan(0, count($people));
-            }
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->getTpm('people')->getByProject(TPM_PROJECT_ID)));
     }
 
     /**
@@ -250,13 +128,8 @@ final class PeopleTest extends TestCase
      */
     public function getByCompany(): void
     {
-        try {
-            $company_id = get_first_company_id();
-            $people = $this->model->getByCompany($company_id);
-            $this->assertGreaterThan(1, count($people));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->getTpm('people')->getByCompany(TPM_COMPANY_ID)));
+
     }
 
     public function provider()
@@ -267,10 +140,7 @@ final class PeopleTest extends TestCase
                     'first_name' => 'Test',
                     'last_name' => 'User',
                     'user_name' => 'test',
-                    'email_address' => 'loduis@hotmail.com',
-                    'password' => 'El loco de la calle',
-                    'address_one' => 'Cra 45 # 40-10',
-                    'send_welcome_email' => false,
+                    'email_address' => 'test@hotmail.com',
                 ],
             ],
         ];

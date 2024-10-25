@@ -21,6 +21,7 @@ use RuntimeException;
  * @method static Portfolio\Card portfolioCard()
  * @method static Portfolio\Column portfolioColumn()
  * @method static Project\People projectPeople()
+ * @method static Project\Rate projectRate()
  * @method static Project\CustomField projectCustomField()
  * @method static Task\CustomField taskCustomField()
  * @method static Account account()

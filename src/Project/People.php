@@ -100,15 +100,16 @@ class People extends Resource
     }
 
     /**
-     * @param $project_id
-     * @param $person_id
+     * @param int $project_id
+     * @param int $person_id
      *
-     * @return mixed
+     * @return bool
      * @throws \TeamWorkPm\Exception
      */
-    public function add($project_id, $person_id)
+    public function add(int $project_id, int $person_id): bool
     {
         $this->validates($project_id, $person_id);
+
         return $this->rest->post("projects/$project_id/people/$person_id");
     }
 
@@ -119,20 +120,22 @@ class People extends Resource
      *
      * @param array $data
      *
-     * @return mixed
+     * @return bool
      * @throws \TeamWorkPm\Exception
      */
-    public function update(array $data)
+    public function update(object|array $data)
     {
-        $project_id = (int)(empty($data['project_id']) ? 0 : $data['project_id']);
-        $person_id = (int)(empty($data['person_id']) ? 0 : $data['person_id']);
+        $data = arr_obj($data);
+        $project_id = (int) ($data['project_id'] ?? 0);
+        $person_id = (int) ($data['person_id'] ?? 0);
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }
         if ($person_id <= 0) {
             throw new Exception('Required field person_id');
         }
-        return $this->rest->put("projects/$project_id/people/$person_id", $data);
+
+        return $this->rest->put("projects/$project_id/people/$person_id", $data) === true;
     }
 
     /**
@@ -142,9 +145,10 @@ class People extends Resource
      * @return mixed
      * @throws \TeamWorkPm\Exception
      */
-    public function delete($project_id, $person_id)
+    public function delete(int $project_id, int $person_id)
     {
         $this->validates($project_id, $person_id);
+
         return $this->rest->delete("/projects/$project_id/people/$person_id");
     }
 
@@ -154,7 +158,7 @@ class People extends Resource
      *
      * @throws \TeamWorkPm\Exception
      */
-    private function validates($project_id, $person_id)
+    private function validates($project_id, $person_id): void
     {
         $project_id = (int)$project_id;
         if ($project_id <= 0) {

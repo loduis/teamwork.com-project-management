@@ -21,8 +21,8 @@ class Rate extends Resource
             ],
             'users' => [
                 'type' => 'array',
-                'transform' => [null, function ($value) {
-                    return array_reduce($value, function ($acc, $value, $key) {
+                'transform' => [null, function (array|object $value): array {
+                    return array_reduce($value, function (array $acc, $value, $key) {
                         if (is_iterable($value)) {
                             $value = arr_obj($value)->rate;
                         }
@@ -50,7 +50,7 @@ class Rate extends Resource
 
     /**
      * @param int $projectId
-     * @param array $params
+     * @param array $data
      *
      * @return bool
      * @throws \TeamWorkPm\Exception

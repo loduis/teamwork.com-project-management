@@ -45,7 +45,7 @@ abstract class Resource
      *
      * @throws \TeamWorkPm\Exception
      */
-    public function __construct($httpClient)
+    public function __construct(Client $httpClient)
     {
         $this->rest   = $httpClient;
         if ($this->parent === null) {

@@ -13,14 +13,12 @@ class Activity extends Rest\Resource
      * GET /activity.xml
      * Lists the latest activity list new tasks etc. across all projects that the user has access to.
      *
-     * @param int $maxItems
-     *
-     * @param null $onlyStarred
+     * @param object|array $params
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function all(array $params = [])
+    public function all(object|array $params = [])
     {
         return $this->rest->get("$this->action", $params);
     }
@@ -38,7 +36,6 @@ class Activity extends Rest\Resource
      */
     public function getByProject(int $id, array $params = [])
     {
-        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
@@ -66,7 +63,6 @@ class Activity extends Rest\Resource
      */
     public function delete(int $id)
     {
-        $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }

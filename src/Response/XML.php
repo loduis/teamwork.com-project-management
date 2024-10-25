@@ -6,6 +6,11 @@ use SimpleXMLElement;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Helper\Str;
 
+/**
+ * @template TKey of array-key
+ * @template TValue
+ * @extends Model<TKey,TValue>
+ */
 class XML extends Model
 {
     /**
@@ -87,11 +92,10 @@ class XML extends Model
     }
 
     /**
-     * Devuelve un xml formateado
      *
      * @return string
      */
-    protected function getContent()
+    protected function getContent(): string
     {
         $dom = new \DOMDocument('1.0');
         $dom->loadXML($this->string);
@@ -102,11 +106,10 @@ class XML extends Model
     }
 
     /**
-     * Devuelve un xml formateado
      *
      * @return string
      */
-    public function getOriginalContent()
+    public function getOriginalContent(): string
     {
         $dom = new \DOMDocument('1.0');
         $dom->loadXML($this->originalString);
@@ -180,7 +183,7 @@ class XML extends Model
         return $errors;
     }
 
-    private function getXmlError($error, $xml)
+    private function getXmlError(object $error, array $xml): string
     {
         $return = $xml[$error->line - 1] . "\n";
         $return .= str_repeat('-', $error->column) . "^\n";

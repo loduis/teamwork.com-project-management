@@ -7,5 +7,6 @@
 /.php-cs-fixer.cache
 /composer.lock
 phpunit.xml
+psalm.xml
 .phpunit.result.cache
 .env

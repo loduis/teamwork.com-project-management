@@ -2,25 +2,30 @@
 
 namespace TeamWorkPm\Request;
 
+use DOMDocument;
+
 class XML extends Model
 {
-    private $doc;
+    /**
+     * @var DOMDocument
+     */
+    private DOMDocument $doc;
 
     public function __construct()
     {
-        $this->doc = new \DOMDocument();
+        $this->doc = new DOMDocument();
         $this->doc->formatOutput = true;
     }
 
-    protected function parseParameters($parameters)
+    protected function parseParameters(array $parameters): ?string
     {
-        if (!empty($parameters) && is_array($parameters)) {
+        if (!empty($parameters)) {
             $wrapper = $this->doc->createElement($this->getWrapper());
             $parent = $this->doc->createElement($this->getParent());
             if ($this->actionInclude('/reorder')) {
                 $parent->setAttribute('type', 'array');
                 foreach ($parameters as $id) {
-                    $element = $this->doc->createElement($this->parent);
+                    $element = $this->doc->createElement((string) $this->parent);
                     $item = $this->doc->createElement('id');
                     $item->appendChild($this->doc->createTextNode($id));
                     $element->appendChild($item);
@@ -30,8 +35,8 @@ class XML extends Model
                 $noUpdate = $this->method !== 'PUT';
                 foreach ($this->fields as $field => $options) {
                     $value = $this->getValue($field, $options, $parameters);
-                    if ($value && $noUpdate &&
-                        ($options['on_update'] ?? false)
+                    if ($value !== null && $noUpdate &&
+                        ($options['on_update'] ?? false) !== false
                     ) {
                         continue;
                     }
@@ -47,7 +52,7 @@ class XML extends Model
                                             $internal->appendChild($this->doc->createTextNode($v));
                                             $element->appendChild($internal);
                                         }
-                                    } else {
+                                    } elseif (!in_array($type, ['email'])) {
                                         settype($value, $type);
                                     }
                                 }
@@ -76,7 +81,7 @@ class XML extends Model
         return $parameters;
     }
 
-    protected function getWrapper()
+    protected function getWrapper(): string
     {
         return 'request';
     }

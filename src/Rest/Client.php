@@ -6,23 +6,24 @@ use CurlHandle;
 use Exception;
 use TeamWorkPm\Request\Model as Request;
 use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Response\Model;
 
 class Client
 {
     /**
      * @var string api format request an response
      */
-    private static $FORMAT = 'json';
+    private static string $FORMAT = 'json';
 
     /**
      * @var string this is the api key
      */
-    private $key = null;
+    private string $key;
 
     /**
      * @var string your company name path
      */
-    private $url = null;
+    private string $url;
 
     /**
      * @var Request
@@ -49,8 +50,10 @@ class Client
         $this->url = $url;
         $format = strtoupper(self::$FORMAT);
         $request = '\TeamWorkPm\Request\\' . $format;
-        $response = '\\TeamWorkPm\\Response\\' . strtoupper(self::$FORMAT);
+        $response = '\\TeamWorkPm\\Response\\' . $format;
+        /** @psalm-suppress PropertyTypeCoercion */
         $this->request = new $request();
+        /** @psalm-suppress PropertyTypeCoercion */
         $this->response = new $response();
     }
 
@@ -63,7 +66,7 @@ class Client
      * @return mixed
      * @throws \TeamWorkPm\Exception
      */
-    private function request(string $method, string $path, $parameters = null)
+    private function request(string $method, string $path, $parameters = null): bool | Model | int
     {
         $url = "{$this->url}$path." . self::$FORMAT;
         $headers = [
@@ -74,8 +77,12 @@ class Client
             ->getParameters($method, $parameters);
         $ch = static::initCurl($method, $url, $request, $headers);
         $i = 0;
+        $data = '';
+        $headers = [];
+        $header_size = 0;
+        $status = 0;
         while ($i < 5) {
-            $data = curl_exec($ch);
+            $data = (string) curl_exec($ch);
             $status = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
             $headers = $this->parseHeaders(substr($data, 0, $header_size));
@@ -115,16 +122,16 @@ class Client
     /**
      * @param string $method
      * @param string $url
-     * @param string|null $params
+     * @param string $params
      * @param array $headers
-     * @return CurlHandle|false
+     * @return CurlHandle
      */
-    private static function initCurl($method, $url, $params, $headers)
+    private static function initCurl(string $method, string $url, ?string $params, array $headers): CurlHandle
     {
         $ch = curl_init();
         switch ($method) {
             case 'GET':
-                if (!empty($params)) {
+                if ($params !== null && !empty($params)) {
                     $url .= '?' . $params;
                 }
                 break;
@@ -144,12 +151,12 @@ class Client
                 } else {
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
                 }
-                if ($params) {
+                if ($params !== null && !empty($params)) {
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
                 }
                 $headers = array_merge($headers, [
                     'Content-Type: application/' . self::$FORMAT,
-                    'Content-Length:' . strlen($params),
+                    'Content-Length:' . strlen((string) $params),
                 ]);
                 break;
         }
@@ -169,37 +176,37 @@ class Client
      * Shortcut call get method to api
      *
      * @param string $path
-     * @param string|null $parameters
+     * @param object|array|null $parameters
      *
      * @return \TeamWorkPm\Response\Model
      * @throws \TeamWorkPm\Exception
      */
-    public function get(string $path, $parameters = null)
+    public function get(string $path, object|array|null $parameters = null): Model
     {
         return $this->request('GET', $path, $parameters);
     }
 
-    public function put(string $path, $parameters = null)
+    public function put(string $path, object|array|null $parameters = null): bool | Model
     {
         return $this->request('PUT', $path, $parameters);
     }
 
-    public function post(string $path, $parameters = null)
+    public function post(string $path, object|array $parameters): bool | Model | int
     {
         return $this->request('POST', $path, $parameters);
     }
 
-    public function delete(string $path)
+    public function delete(string $path): bool
     {
-        return $this->request('DELETE', $path, null);
+        return $this->request('DELETE', $path);
     }
 
-    public function upload($path, $parameters = null)
+    public function upload(string $path, array|object $parameters): bool
     {
         return $this->request('UPLOAD', $path, $parameters);
     }
 
-    public function configRequest(string $parent, $fields = [])
+    public function configRequest(string $parent, array $fields = []): void
     {
         $this->request->setParent($parent)
             ->setFields($fields);
@@ -216,7 +223,7 @@ class Client
     /**
      * @codeCoverageIgnore
      */
-    public static function setFormat($value)
+    public static function setFormat(string $value): void
     {
         static $format = ['json', 'xml'];
         $value = strtolower($value);
@@ -225,7 +232,7 @@ class Client
         }
     }
 
-    private function parseHeaders($stringHeaders)
+    private function parseHeaders(string $stringHeaders): array
     {
         $headers = [];
         $stringHeaders = trim($stringHeaders);
@@ -233,7 +240,8 @@ class Client
             $parts = explode("\n", $stringHeaders);
             foreach ($parts as $header) {
                 $header = trim($header);
-                if ($header && false !== strpos($header, ':')) {
+                if ($header && str_contains($header, ':')) {
+                    /** @psalm-suppress PossiblyUndefinedArrayOffset */
                     [$name, $value] = explode(':', $header, 2);
                     $value = trim($value);
                     $name = trim($name);
