@@ -1,0 +1,45 @@
+{
+    "STATUS": "OK",
+    "stats": {
+        "tasks": {
+            "complete": "0",
+            "active": "1",
+            "upcoming": "0",
+            "late": "1",
+            "today": "0",
+            "nodate": "0"
+        },
+        "events": {
+            "today": "0",
+            "hasEvents": false,
+            "count": "0"
+        },
+        "projects": {
+            "completed": "0",
+            "upcoming": "0",
+            "late": "0",
+            "starred": "0",
+            "count": "2",
+            "archived": "0",
+            "current": "2"
+        },
+        "updates": {
+            "activity": "0",
+            "statuses": "0"
+        },
+        "milestones": {
+            "complete": "0",
+            "active": "0",
+            "upcoming": "0",
+            "late": "0",
+            "today": "0"
+        },
+        "personalTasks": {
+            "active": "0"
+        },
+        "users": {
+            "clockedIn": "0",
+            "count": "2"
+        }
+    }
+}

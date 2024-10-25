@@ -132,6 +132,26 @@ final class PeopleTest extends TestCase
 
     }
 
+    /**
+     * @test
+     */
+    public function getMe(): void
+    {
+        $me = $this->getTpm('people')->getMe();
+
+        $this->assertEquals('test@gmail.com', $me->userName);
+    }
+
+    /**
+     * @test
+     */
+    public function getStats(): void
+    {
+        $stats = $this->getTpm('people')->getStats();
+
+        $this->assertTrue(isset($stats->tasks));
+    }
+
     public function provider()
     {
         return [

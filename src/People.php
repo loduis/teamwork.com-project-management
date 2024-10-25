@@ -2,6 +2,9 @@
 
 namespace TeamWorkPm;
 
+
+use TeamWorkPm\Response\Model as ResponseModel;
+
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/people/get-people-json
  */
@@ -307,6 +310,41 @@ class People extends Model
         ];
     }
 
+    /**
+     * Get people
+     * GET /people
+     * All people visible to the user will be returned, including the user themselves
+     *
+     * @param array|object $params
+     *
+     * @return ResponseModel
+     * @throws Exception
+     */
+    public function all(array|object $params = [])
+    {
+        return $this->rest->get((string) $this->action, $params);
+    }
+
+    /**
+     * Current User Summary Stats
+     *
+     * @return ResponseModel
+     */
+    public function getStats(): ResponseModel
+    {
+        return $this->rest->get('stats');
+    }
+
+    /**
+     * Get Current User Details
+     *
+     * @return ResponseModel
+     * @throws Exception
+     */
+    public function getMe(): ResponseModel
+    {
+        return $this->rest->get('me');
+    }
 
     /**
      * Get all People (within a Project)
@@ -315,7 +353,7 @@ class People extends Model
      *
      * @param int $id
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return ResponseModel
      * @throws Exception
      */
     public function getByProject(int $id)
@@ -331,29 +369,12 @@ class People extends Model
      *
      * @param int $id
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return ResponseModel
      * @throws Exception
      */
     public function getByCompany(int $id)
     {
         return $this->rest->get("companies/$id/$this->action");
-    }
-
-    /**
-     * Get User by Email
-     * GET /people
-     * Retrieves user by email address
-     *
-     * @param string $emailAddress
-     *
-     * @return \TeamWorkPm\Response\Model
-     * @throws Exception
-     */
-    public function getByEmail(string $emailAddress)
-    {
-        return $this->rest->get((string) $this->action, [
-            'emailaddress' => $emailAddress,
-        ]);
     }
 
     /**

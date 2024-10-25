@@ -299,6 +299,23 @@ class Company extends Model
     ];
 
     /**
+     * Retrieve Companies
+     *
+     * GET /companies.xml
+     *
+     * The requesting user is returned a list of companies available to them.
+     *
+     * @param array|object $params
+     *
+     * @return \TeamWorkPm\Response\Model
+     * @throws \TeamWorkPm\Exception
+     */
+    public function all(array|object $params = [])
+    {
+        return $this->rest->get((string) $this->action, $params);
+    }
+
+    /**
      * Retrieving Companies within a Project
      *
      * GET /projects/#{project_id}/companies.xml
