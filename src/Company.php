@@ -2,6 +2,8 @@
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Response\Model as Response;
+
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/companies/get-companies-json
  */
@@ -301,16 +303,12 @@ class Company extends Model
     /**
      * Retrieve Companies
      *
-     * GET /companies.xml
-     *
-     * The requesting user is returned a list of companies available to them.
-     *
      * @param array|object $params
      *
-     * @return \TeamWorkPm\Response\Model
-     * @throws \TeamWorkPm\Exception
+     * @return Response
+     * @throws Exception
      */
-    public function all(array|object $params = [])
+    public function all(array|object $params = []): Response
     {
         return $this->rest->get((string) $this->action, $params);
     }
@@ -318,17 +316,13 @@ class Company extends Model
     /**
      * Retrieving Companies within a Project
      *
-     * GET /projects/#{project_id}/companies.xml
+     * @param int $id
      *
-     * All of the companies within the specified project are returned
-     *
-     * @param $project_id
-     *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
-    public function getByProject(int $project_id)
+    public function getByProject(int $id): Response
     {
-        return $this->rest->get("projects/$project_id/$this->action");
+        return $this->rest->get("projects/$id/$this->action");
     }
 }
