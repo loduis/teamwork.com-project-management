@@ -1,20 +1,20 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm;
 
-use TeamWorkPm\Response\Model;
+use TeamWorkPm\Response\Model as Response;
 
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/account/get-account-json
+ */
 class Account extends Rest\Resource
 {
     /**
      * Get Account Details
-     * GET /account.xml
      *
-     * Retrieves details about the Teamwork account. A nice about this is call is that it returns "cacheuuid"
-     * which is a string that you can use to quickly determine if the application has been updated since you
-     * last accessed it.
-     *
-     * @return Model
+     * @return Response
      * @throws Exception
      */
     public function get()
@@ -34,7 +34,7 @@ class Account extends Rest\Resource
      *
      * If it fails, you get a standard failure response.
      *
-     * @return Model
+     * @return Response
      * @throws Exception
      */
     public function authenticate()

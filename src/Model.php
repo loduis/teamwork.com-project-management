@@ -13,7 +13,7 @@ abstract class Model extends Rest\Resource
      */
     public function get(int $id, object|array|null $params = null)
     {
-        $this->validateId($id);
+        $this->validates(['id' => $id]);
 
         return $this->rest->get("$this->action/$id", $params);
     }
@@ -69,15 +69,8 @@ abstract class Model extends Rest\Resource
      */
     public function delete(int $id): bool
     {
-        $this->validateId($id);
+        $this->validates(['id' => $id]);
 
         return $this->rest->delete("$this->action/$id");
-    }
-
-    protected function validateId(int $id): void
-    {
-        if ($id <= 0) {
-            throw new Exception('Invalid param id');
-        }
     }
 }

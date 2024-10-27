@@ -10,7 +10,21 @@
     allowStringToStandInForClass="true"
 >
     <projectFiles>
+        <file name="src/Auth.php" />
+        <file name="src/People.php" />
+        <file name="src/Company.php" />
+        <file name="src/Project.php" />
+        <file name="src/Project/People.php" />
+        <file name="src/Account.php" />
+        <file name="src/Activity.php" />
+        <file name="src/Category/Project.php" />
+        <file name="src/Category/File.php" />
+        <file name="src/Category/Link.php" />
+        <file name="src/Category/Message.php" />
+        <file name="src/Category/Notebook.php" />
+        <!--
         <directory name="src" />
+        -->
         <ignoreFiles>
             <directory name="vendor" />
             <directory name="tests" />

@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Response\Model as Response;
+
 /**
  * Class Project
  *
@@ -145,7 +147,7 @@ class Project extends Model
      * You can optionally pass a date to get only recently updated projects, useful for caching purposes.
      *
      * @param object|array $params Optional query parameters
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
     public function all(object|array $params = [])
@@ -157,7 +159,7 @@ class Project extends Model
      * Retrieve all active projects.
      *
      * @param array $params Optional query parameters
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
     public function getActive(array $params = [])
@@ -169,7 +171,7 @@ class Project extends Model
      * Retrieve all archived projects.
      *
      * @param array $params Optional query parameters
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
     public function getArchived(array $params = [])
@@ -180,7 +182,7 @@ class Project extends Model
     /**
      * Retrieves all starred projects.
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
     public function getStarred()
@@ -191,21 +193,27 @@ class Project extends Model
     /**
      * Get Project Rates
      *
-     * @return \TeamWorkPm\Response\Model
+     * @param int $id
+     * @param object|array $params
+     *
+     * @return Response
      * @throws Exception
      */
-    public function getRates(int $id, array $params = [])
+    public function getRates(int $id, object|array $params = [])
     {
-        return Factory::build('project.rate')->get($id, $params);
+        return Factory::projectRate()->get($id, $params);
     }
 
     /**
-     * set Project Rates
+     * Set Project Rates
      *
+     * @param int $id
+     * @param object|array $data
+
      * @return bool
      * @throws \TeamWorkPm\Exception
      */
-    public function setRates(int $id, array $data = [])
+    public function setRates(int $id, object|array $data = [])
     {
         return Factory::projectRate()->set($id, $data);
     }
@@ -213,7 +221,7 @@ class Project extends Model
     /**
      * Get Project Stats
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
     public function getStats(int $id, object|array $params = [])
@@ -225,12 +233,12 @@ class Project extends Model
      * Retrieve Projects assigned to a specific Company
      *
      * @param int $id
-     * @param array $params
+     * @param object|array $params
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
-    public function getByCompany(int $id, array $params = [])
+    public function getByCompany(int $id, object|array $params = [])
     {
         return $this->rest->get("companies/$id/$this->action", $params);
     }
@@ -244,7 +252,7 @@ class Project extends Model
      */
     public function star(int $id)
     {
-        $this->validateId($id);
+        $this->validates(['id' => $id]);
 
         return $this->rest->put("$this->action/$id/star") !== false;
     }
@@ -258,7 +266,7 @@ class Project extends Model
      */
     public function unStar(int $id)
     {
-        $this->validateId($id);
+        $this->validates(['id' => $id]);
 
         return $this->rest->put("$this->action/$id/unstar") !== false;
     }
@@ -272,7 +280,7 @@ class Project extends Model
      */
     public function activate(int $id)
     {
-        $this->validateId($id);
+        $this->validates(['id' => $id]);
 
         return $this->update(['id' => $id, 'status' => 'active']);
     }
@@ -286,7 +294,7 @@ class Project extends Model
      */
     public function archive(int $id)
     {
-        $this->validateId($id);
+        $this->validates(['id' => $id]);
 
         return $this->update(['id' => $id, 'status' => 'archived']);
     }
@@ -294,9 +302,9 @@ class Project extends Model
     /**
      * Retrieves projects by their status (active, archived, all).
      *
-     * @param string $status Project status
-     * @param object|array $params Optional query parameters
-     * @return \TeamWorkPm\Response\Model
+     * @param string $status
+     * @param object|array $params
+     * @return Response
      * @throws Exception
      */
     private function getByStatus(string $status, object|array $params = [])

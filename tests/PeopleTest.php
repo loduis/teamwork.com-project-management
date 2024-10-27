@@ -90,6 +90,39 @@ final class PeopleTest extends TestCase
         } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
+
+        $this->assertTrue($this->putTpm('people', function ($headers) {
+            $person = $headers['X-Params'];
+            $address = $person->address;
+            $workingHours = $person->workingHours;
+            $this->assertObjectHasProperty('line1', $address);
+            $this->assertObjectHasProperty('countrycode', $address);
+            $this->assertObjectHasProperty('city', $address);
+            $this->assertObjectHasProperty('state', $address);
+            $this->assertObjectHasProperty('zipcode', $address);
+            $this->assertCount(2, $workingHours->entries);
+        })->save([
+            'id' => 10,
+            'address' => [
+                'line1' => 'Main',
+                'line2' => 'Second',
+                'country_code' => 'CO',
+                'city' => 'Manizales',
+                'state' => 'Bolivar',
+                'zip_code' => '01011'
+            ],
+            'working_hours' => [
+                [
+                    'weekday' => 'sunday',
+                    'task_hours' => 3
+                ],
+                [
+                    'weekday' => 'monday',
+                    'task_hours' => 3
+                ]
+            ]
+        ]));
+
     }
 
     /**
@@ -130,6 +163,48 @@ final class PeopleTest extends TestCase
     {
         $this->assertGreaterThan(0, count($this->getTpm('people')->getByCompany(TPM_COMPANY_ID)));
 
+    }
+
+    /**
+     * @depends insert
+     * @test
+     */
+    public function getApiKeys(): void
+    {
+        $this->assertGreaterThan(0, count($this->getTpm('people')->getApiKeys()));
+    }
+
+    /**
+     * @depends insert
+     * @test
+     */
+    public function getAvailableFor(): void
+    {
+        $this->assertGreaterThan(0, count($this->getTpm('people')
+            ->getAvailableFor('tasks', ['project_id' => TPM_PROJECT_ID])
+        ));
+
+        $this->assertGreaterThan(0, count($this->getTpm('people')
+            ->getAvailableFor('messages', ['project_id' => TPM_PROJECT_ID])
+        ));
+
+        $this->assertGreaterThan(0, count($this->getTpm('people')
+            ->getAvailableFor('milestones', ['project_id' => TPM_PROJECT_ID])
+        ));
+
+        $this->assertGreaterThan(0, count($this->getTpm('people')
+            ->getAvailableFor('files', ['project_id' => TPM_PROJECT_ID])
+        ));
+
+        $this->assertGreaterThan(0, count($this->getTpm('people')
+            ->getAvailableFor('links', ['project_id' => TPM_PROJECT_ID])
+        ));
+
+        $this->assertGreaterThan(0, count($this->getTpm('people')
+            ->getAvailableFor('notebooks', ['project_id' => TPM_PROJECT_ID])
+        ));
+
+        // TODO Add unit test for calendar_events
     }
 
     /**

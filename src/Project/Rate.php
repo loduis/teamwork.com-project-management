@@ -3,6 +3,7 @@
 namespace TeamWorkPm\Project;
 
 use TeamWorkPm\Exception;
+use TeamWorkPm\Response\Model as Response;
 use function TeamWorkPm\array_reduce;
 
 use TeamWorkPm\Rest\Resource;
@@ -24,7 +25,8 @@ class Rate extends Resource
                 'type' => 'array',
                 'transform' => [null, function (array|object $value): array {
                     return array_reduce($value, function (array $acc, $value, $key) {
-                        if (is_iterable($value)) {
+                        if (!is_scalar($value)) {
+                            /** @disregard P1013 */
                             $value = arr_obj($value)->rate;
                         }
                         $acc[$key] = [
@@ -39,24 +41,24 @@ class Rate extends Resource
 
     /**
      * @param int $projectId
-     * @param array $params
+     * @param object|array $params
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
-    public function get(int $projectId, array $params = [])
+    public function get(int $projectId, object|array $params = [])
     {
         return $this->rest->get("projects/$projectId/$this->actions", $params);
     }
 
     /**
      * @param int $projectId
-     * @param array $data
+     * @param object|array $data
      *
      * @return bool
      * @throws Exception
      */
-    public function set(int $projectId, array $data)
+    public function set(int $projectId, object|array $data)
     {
         return $this->rest->post("projects/$projectId/$this->actions", $data);
     }

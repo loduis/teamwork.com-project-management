@@ -110,4 +110,14 @@ abstract class Resource
 
         throw new BadMethodCallException("No exists method: $name");
     }
+
+    protected function validates(array $ids): void
+    {
+        foreach ($ids as $field => $id) {
+            $id = (int) $id;
+            if ($id <= 0) {
+                throw new Exception("Invalid param $field");
+            }
+        }
+    }
 }

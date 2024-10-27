@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm;
 
-
-use TeamWorkPm\Response\Model as ResponseModel;
+use TeamWorkPm\Response\Model as Response;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/people/get-people-json
+ * @todo Add/Remove People to existing Project
  */
 class People extends Model
 {
@@ -78,8 +80,8 @@ class People extends Model
                 'transform' => [null, function (object|array $address): ?array {
                     /**
                      * @var object{
-                     *     line_1?: string,
-                     *     line_2?: string,
+                     *     line1?: string,
+                     *     line2?: string,
                      *     city?: string,
                      *     state?: string,
                      *     zip_code?: string,
@@ -88,11 +90,11 @@ class People extends Model
                      */
                     $address = arr_obj($address);
                     $data = [];
-                    if (isset($address->line_1)) {
-                        $data['line1'] = $address->line_1;
+                    if (isset($address->line1)) {
+                        $data['line1'] = $address->line1;
                     }
                     if (isset($address->line_2)) {
-                        $data['line2'] = $address->line_2;
+                        $data['line2'] = $address->line2;
                     }
                     if (isset($address->city)) {
                         $data['city'] = $address->city;
@@ -148,10 +150,13 @@ class People extends Model
 
             'working_hours' => [
                 'type' => 'array',
-                'transform' => ['camel', function (array|object $entries): ?array {
+                'transform' => ['camel', function (array $entries): ?array {
                     /**
                      * @var array|null
                      */
+                    if (!array_is_list($entries)) {
+                        $entries = [$entries];
+                    }
                     $entries = arr_obj($entries)->reduce(function (array $acc, object|array $entry): array {
                         /**
                          * @var object {
@@ -297,7 +302,12 @@ class People extends Model
             ],
             'user_type' => [
                 'type' => 'string',
-                'transform' => 'dash'
+                'transform' => 'dash',
+                'validate' => [
+                    'contact',
+                    'collaborator',
+                    'account'
+                ]
             ],
             'private_notes' => [
                 'type' => 'string',
@@ -306,18 +316,26 @@ class People extends Model
             'get_user_details' => [
                 'type' => 'boolean',
                 'transform' => 'camel'
+            ],
+            'remove_from_projects' => [
+                'type' => 'boolean',
+                'transform' => 'camel',
+                'on_update'=> true
+            ],
+            'unassign_from_all' => [
+                'type' => 'boolean',
+                'transform' => 'camel',
+                'on_update'=> true
             ]
         ];
     }
 
     /**
-     * Get people
-     * GET /people
-     * All people visible to the user will be returned, including the user themselves
+     * Get All People
      *
      * @param array|object $params
      *
-     * @return ResponseModel
+     * @return Response
      * @throws Exception
      */
     public function all(array|object $params = [])
@@ -326,11 +344,25 @@ class People extends Model
     }
 
     /**
+     * Retrieve all API Keys for all People on account
+     *
+     * @param array|object $params
+     *
+     * @return Response
+     * @throws Exception
+     */
+
+    public function getApiKeys()
+    {
+        return $this->rest->get("$this->action/APIKeys");
+    }
+
+    /**
      * Current User Summary Stats
      *
-     * @return ResponseModel
+     * @return Response
      */
-    public function getStats(): ResponseModel
+    public function getStats(): Response
     {
         return $this->rest->get('stats');
     }
@@ -338,38 +370,114 @@ class People extends Model
     /**
      * Get Current User Details
      *
-     * @return ResponseModel
+     * @return Response
      * @throws Exception
      */
-    public function getMe(): ResponseModel
+    public function getMe(): Response
     {
         return $this->rest->get('me');
     }
 
     /**
-     * Get all People (within a Project)
-     * GET /projects/#{project_id}/people
-     * Retrieves all of the people in a given project
+     * Get available People for a Calendar Event
+     * Get available People for a Message
+     * Get available People for a Milestone
+     * Get available People for following a Notebook
+     * Get available People for a Task
+     * Get available People to notify when adding a File
+     * Get available People to notify when adding a Link
      *
-     * @param int $id
+     * @param string $resource
+     * @param object|array $params
      *
-     * @return ResponseModel
+     * @return Response
      * @throws Exception
      */
-    public function getByProject(int $id)
+    public function getAvailableFor(string $resource, object|array $params = []): Response
     {
-        return $this->rest->get("projects/$id/$this->action");
+        if (!in_array($resource, [
+                'calendar_events',
+                'messages',
+                'milestones',
+                'notebooks',
+                'tasks',
+                'files',
+                'links']
+        )) {
+            throw new Exception("Invalid resource for available: " . $resource);
+        }
+
+        $params = arr_obj($params);
+
+        [$path, $subpath, $id, $isCalendar] = match($resource) {
+            'calendar_events' => [
+                'calendarevents',
+                null,
+                (int) $params->pull('event_id'),
+                true
+            ],
+            default => [
+                'projects',
+                $resource,
+                (int) $params->pull('project_id'),
+                false
+            ]
+        };
+
+        if ($isCalendar) {
+            $this->validates(['event_id' => $id]);
+        } else {
+            $this->validates(['project_id' => $id]);
+        }
+
+        $path .= "/$id/";
+        if (!$isCalendar) {
+            $path .= "$subpath/";
+        }
+        $path .= 'availablepeople';
+
+        return $this->rest->get($path, $params);
+    }
+
+
+    /**
+     * Get all deleted People
+     *
+     * @return Response
+     * @throws Exception
+     */
+    public function getDeleted(object|array $params = []): Response
+    {
+        return $this->rest->get("$this->action/deleted", $params);
+    }
+
+    /**
+     * Get all People (within a Project)
+     * And
+     * Get a Users Permissions on a Project
+     *
+     * @param int $id
+     * @param ?int $personId
+     *
+     * @return Response
+     * @throws Exception
+     */
+    public function getByProject(int $id, ?int $personId = null)
+    {
+        $path = "projects/$id/$this->action";
+        if ($personId !== null) {
+            $path .= '/' . $personId;
+        }
+
+        return $this->rest->get($path);
     }
 
     /**
      * Get People (within a Company)
-     * GET /companies/#{company_id}/people
-     * Retreives the details for all the people from the submitted company
-     * (excluding those you don't have permission to see)
      *
      * @param int $id
      *
-     * @return ResponseModel
+     * @return Response
      * @throws Exception
      */
     public function getByCompany(int $id)
@@ -378,18 +486,62 @@ class People extends Model
     }
 
     /**
-     * @param int $id
-     * @param int|null $projectId
+     * Creates a new User Account
      *
-     * @return bool
-     * @throws Exception
+     * @param array|object $data
+     * @return integer
      */
-    public function delete(int $id, ?int $projectId = null): bool
+    public function insert(array|object $data): int
     {
-        $action = "$this->action/$id";
-        if ($projectId !== null) {
-            $action = "projects/$projectId/$action";
+        $data = arr_obj($data);
+        $projectId = (int) $data->pull('project_id');
+        $permissions = (array) $data->pull('permissions');
+        $id = parent::insert($data);
+        if ($projectId) {
+            $permission = Factory::projectPeople();
+            if ($permission->add($projectId, $id) && $permissions) {
+                $permissions['person_id'] = $id;
+                $permissions['project_id'] = $projectId;
+                $permission->update($permissions);
+            }
         }
-        return $this->rest->delete($action);
+
+        return $id;
+    }
+
+    /**
+     * Editing a User
+     *
+     * @param array|object $data
+     * @return boolean
+     */
+    public function update(array|object $data): bool
+    {
+        $data = arr_obj($data);
+        $projectId = (int) $data->pull('project_id');
+        $permissions = $data->pull('permissions');
+        $id = (int) $data->pull('id');
+        $save = true;
+        if ($data->has()) {
+            $data['id'] = $id;
+            $save = parent::update($data);
+        }
+        // add permission to project
+        if ($projectId) {
+            $permission = Factory::projectPeople();
+            try {
+                $add = $permission->add($projectId, $id);
+            } catch (Exception $e) {
+                $add = $e->getMessage() == 'User is already on project';
+            }
+            $save = $save && $add;
+            if ($add && $permissions !== null && $permissions->has()) {
+                $permissions['person_id'] = $id;
+                $permissions['project_id'] = $projectId;
+                $save = $permission->update($permissions);
+            }
+        }
+
+        return $save;
     }
 }

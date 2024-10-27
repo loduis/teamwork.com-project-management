@@ -3,7 +3,7 @@
 namespace TeamWorkPm\Category;
 
 use TeamWorkPm\Model;
-use TeamWorkPm\Response\Model as ResponseModel;
+use TeamWorkPm\Response\Model as Response;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/project-categories
@@ -26,7 +26,7 @@ class Project extends Model
      * GET /projectCategories
      * Will return all project categories
      */
-    public function all(): ResponseModel
+    public function all(): Response
     {
         return $this->rest->get((string) $this->action);
     }

@@ -306,7 +306,7 @@
         "customCSS": "",
         "projectsEnabled": true,
         "ssl-enabled": true,
-        "siteOwnerEmail": "madlodval@gmail.com",
+        "siteOwnerEmail": "test@gmail.com",
         "webhooksEnabled": false,
         "useClientView": false,
         "csrfEnabled": false,

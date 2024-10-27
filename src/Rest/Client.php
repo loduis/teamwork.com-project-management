@@ -6,7 +6,6 @@ use CurlHandle;
 use Exception;
 use TeamWorkPm\Request\Model as Request;
 use TeamWorkPm\Response\Model as Response;
-use TeamWorkPm\Response\Model;
 
 class Client
 {
@@ -66,7 +65,7 @@ class Client
      * @return mixed
      * @throws Exception
      */
-    private function request(string $method, string $path, $parameters = null): bool | Model | int
+    private function request(string $method, string $path, $parameters = null): bool | Response | int
     {
         $url = "{$this->url}$path." . self::$FORMAT;
         $headers = [
@@ -178,20 +177,20 @@ class Client
      * @param string $path
      * @param object|array|null $parameters
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
-    public function get(string $path, object|array|null $parameters = null): Model
+    public function get(string $path, object|array|null $parameters = null): Response
     {
         return $this->request('GET', $path, $parameters);
     }
 
-    public function put(string $path, object|array|null $parameters = null): bool | Model
+    public function put(string $path, object|array|null $parameters = null): bool | Response
     {
         return $this->request('PUT', $path, $parameters);
     }
 
-    public function post(string $path, object|array $parameters): bool | Model | int
+    public function post(string $path, object|array|null $parameters = null): bool | Response | int
     {
         return $this->request('POST', $path, $parameters);
     }
@@ -213,7 +212,7 @@ class Client
     }
 
     /**
-     * @return Model|null
+     * @return Request|null
      */
     public function getRequest()
     {

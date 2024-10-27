@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
-use TeamWorkPm\Response\Model;
+use TeamWorkPm\Response\Model as Response;
 
 class Activity extends Rest\Resource
 {
@@ -17,7 +17,7 @@ class Activity extends Rest\Resource
      *
      * @param object|array $params
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
     public function all(object|array $params = [])
@@ -33,7 +33,7 @@ class Activity extends Rest\Resource
      * @param int $id
      * @param array $params
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
     public function getByProject(int $id, array $params = [])
@@ -49,7 +49,7 @@ class Activity extends Rest\Resource
      * Get Task Activity
      *
      * @param int $id
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
     public function getByTask(int $id)

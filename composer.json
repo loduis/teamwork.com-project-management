@@ -1,6 +1,7 @@
 {
     "name": "myabakus/teamworkpm",
     "description": "PHP wrapper for Teamwork.com API",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
@@ -41,6 +42,7 @@
         }
     },
     "config": {
+        "sort-packages": true,
         "preferred-install": "dist",
         "platform-check": true
     }

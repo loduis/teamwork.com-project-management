@@ -1,0 +1,16 @@
+{
+    "STATUS": "OK",
+    "people": [
+        {
+            "company-name": "Php's Company",
+            "in-owner-company": true,
+            "userAPIKey": "ddddsssss",
+            "company-id": "1370007",
+            "email-address": "test@gmail.com",
+            "last-name": "Api",
+            "companyId": "1370007",
+            "id": "391604",
+            "first-name": "Php"
+        }
+    ]
+}

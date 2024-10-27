@@ -4,16 +4,16 @@ namespace TeamWorkPm;
 
 class Auth
 {
-    private static $url = 'https://authenticate.teamwork.com/';
+    private static string $url = 'https://authenticate.teamwork.com/';
 
-    private static $config = [
+    private static array $config = [
         'url' => null,
         'key' => null,
     ];
 
-    private static $is_subdomain = false;
+    private static bool $is_subdomain = false;
 
-    public static function set(...$args)
+    public static function set(string ...$args): void
     {
         $numArgs = count($args);
         if ($numArgs === 1) {
@@ -34,12 +34,12 @@ class Auth
         }
     }
 
-    public static function get()
+    public static function get(): array
     {
         return array_values(static::$config);
     }
 
-    private static function checkSubDomain($url)
+    private static function checkSubDomain(string $url): void
     {
         $eu_domain = strpos($url, '.eu');
 

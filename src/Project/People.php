@@ -1,116 +1,143 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm\Project;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Resource;
+use TeamWorkPm\Response\Model as Response;
 
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/permissions/put-projects-id-people-json
+ */
 class People extends Resource
 {
+    protected ?string $parent = 'permissions';
+
+    protected ?string $action = 'permissions';
+
     protected function init()
     {
         $this->fields = [
-            'view_messages_and_files' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
+            'can_view_project_update' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
             ],
             'view_tasks_and_milestones' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
+                'type'   => 'boolean',
+                'transform' => 'camel'
             ],
-            'view_time' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
+            'can_add_milestones' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
             ],
-            'view_notebooks' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
+            'can_add_task_lists' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
+            ],
+            'view_estimated_time' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
+            ],
+            'can_add_tasks' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
+            ],
+            'view_messages_and_files' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
+            ],
+            'can_add_messages' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
+            ],
+            'can_add_files' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
+            ],
+            'view_time_log' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
+            ],
+            'view_all_time_logs' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
+            ],
+            'can_log_time' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
+            ],
+            'can_view_project_budget' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
+            ],
+            'view_notebook' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
+            ],
+            'can_add_notebooks' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
             ],
             'view_risk_register' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
-            ],
-            'view_invoices' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
+                'type'   => 'boolean',
+                'transform' => 'camel'
             ],
             'view_links' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
+                'type'   => 'boolean',
+                'transform' => 'camel'
             ],
-            'add_tasks' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
+            'can_add_links' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
             ],
-            'add_milestones' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
+            'can_view_forms' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
             ],
-            'add_taskLists' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
+            'can_add_forms' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
             ],
-            'add_messages' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
-            ],
-            'add_files' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
-            ],
-            'add_time' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
-            ],
-            'add_links' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
-            ],
-            'set_privacy' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
-            ],
-            'can_be_assigned_to_tasks_and_milestones' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
+            'can_manage_custom_fields' => [
+                'type'   => 'boolean',
+                'transform' => 'camel'
             ],
             'project_administrator' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
-            ],
-            'add_people_to_project' => [
-                'type' => 'integer',
-                'validate' => [1, 0],
+                'type'   => 'boolean',
+                'transform' => 'camel'
             ],
         ];
-        $this->action = $this->parent = 'permissions';
     }
 
     /**
-     * @param $project_id
-     * @param $person_id
+     * @param int $projectId
+     * @param int $personId
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
-    public function get($project_id, $person_id)
+    public function get(int $projectId, int $personId)
     {
-        $this->validates($project_id, $person_id);
-        return $this->rest->get("/projects/$project_id/people/$person_id");
+        $this->validates(compact('projectId', 'personId'));
+
+        return $this->rest->get("/projects/$projectId/people/$personId");
     }
 
     /**
-     * @param int $project_id
-     * @param int $person_id
+     * @param int $projectId
+     * @param int $personId
      *
      * @return bool
      * @throws Exception
      */
-    public function add(int $project_id, int $person_id): bool
+    public function add(int $projectId, int $personId): bool
     {
-        $this->validates($project_id, $person_id);
+        $this->validates(compact('projectId', 'personId'));
 
-        return $this->rest->post("projects/$project_id/people/$person_id");
+        /** @var bool */
+        return $this->rest->post("projects/$projectId/people/$personId");
     }
 
     /**
@@ -126,47 +153,28 @@ class People extends Resource
     public function update(object|array $data)
     {
         $data = arr_obj($data);
-        $project_id = (int) ($data['project_id'] ?? 0);
-        $person_id = (int) ($data['person_id'] ?? 0);
-        if ($project_id <= 0) {
-            throw new Exception('Required field project_id');
-        }
-        if ($person_id <= 0) {
-            throw new Exception('Required field person_id');
-        }
+        $project_id = (int) $data->pull('project_id');
+        $person_id = (int) $data->pull('person_id');
+        $this->validates(compact('project_id', 'person_id'));
 
-        return $this->rest->put("projects/$project_id/people/$person_id", $data) === true;
+        /** @var bool */
+        return $this->rest->put(
+            "projects/$project_id/people/$person_id",
+            $data
+        );
     }
 
     /**
-     * @param $project_id
-     * @param $person_id
+     * @param int $projectId
+     * @param int $personId
      *
      * @return mixed
      * @throws Exception
      */
-    public function delete(int $project_id, int $person_id)
+    public function delete(int $projectId, int $personId)
     {
-        $this->validates($project_id, $person_id);
+        $this->validates(compact('projectId', 'personId'));
 
-        return $this->rest->delete("/projects/$project_id/people/$person_id");
-    }
-
-    /**
-     * @param $project_id
-     * @param $person_id
-     *
-     * @throws Exception
-     */
-    private function validates($project_id, $person_id): void
-    {
-        $project_id = (int)$project_id;
-        if ($project_id <= 0) {
-            throw new Exception('Invalid param project_id');
-        }
-        $person_id = (int)$person_id;
-        if ($person_id <= 0) {
-            throw new Exception('Invalid param person_id');
-        }
+        return $this->rest->delete("/projects/$projectId/people/$personId");
     }
 }

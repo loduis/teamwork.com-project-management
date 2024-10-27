@@ -43,7 +43,7 @@ class JSON extends Model
                          */
                         return $source->pendingFile->ref ??  null;
                     case 'POST':
-                        if (!empty($headers['id'])) {
+                        if (!empty($headers['id']) && $headers['Status'] === 201) {
                             return (int)$headers['id'];
                         }
 

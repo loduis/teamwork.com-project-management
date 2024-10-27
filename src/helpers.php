@@ -81,7 +81,7 @@ namespace TeamWorkPm {
         }
     }
 
-      /**
+    /**
      * @template TKey of array-key
      * @template TValue
      * @extends \ArrayObject<TKey,TValue>
@@ -159,6 +159,11 @@ namespace TeamWorkPm {
             $this->offsetUnset($key);
 
             return $value;
+        }
+
+        public function has(): bool
+        {
+            return count($this) > 0;
         }
     }
 }
