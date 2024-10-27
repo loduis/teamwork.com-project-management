@@ -34,4 +34,17 @@ class ActivityTest extends TestCase
         $this->assertCount(1, $activities);
         $this->assertEquals('391604', $activities[0]->userid);
     }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function delete()
+    {
+        $this->assertTrue($this->factory('activity', [
+            'DELETE /activity/391604' => function () {
+            }
+        ])->delete(391604));
+    }
 }
