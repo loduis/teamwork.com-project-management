@@ -338,7 +338,7 @@ class People extends Model
      * @return Response
      * @throws Exception
      */
-    public function all(array|object $params = [])
+    public function all(array|object $params = []): Response
     {
         return $this->rest->get((string) $this->action, $params);
     }
@@ -352,7 +352,7 @@ class People extends Model
      * @throws Exception
      */
 
-    public function getApiKeys()
+    public function getApiKeys(): Response
     {
         return $this->rest->get("$this->action/APIKeys");
     }
@@ -462,7 +462,7 @@ class People extends Model
      * @return Response
      * @throws Exception
      */
-    public function getByProject(int $id, ?int $personId = null)
+    public function getByProject(int $id, ?int $personId = null): Response
     {
         $path = "projects/$id/$this->action";
         if ($personId !== null) {
