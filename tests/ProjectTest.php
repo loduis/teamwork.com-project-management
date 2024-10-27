@@ -12,7 +12,7 @@ final class ProjectTest extends TestCase
      */
     public function insertProject(array $data): void
     {
-        $this->assertEquals(10, $this->postTpm('project', function ($headers) {
+        $this->assertEquals(10, $this->factory('project', function ($headers) {
             $project = $headers['X-Params'];
             $this->assertObjectHasProperty('name', $project);
             $this->assertObjectHasProperty('description', $project);
@@ -27,7 +27,7 @@ final class ProjectTest extends TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Required field name');
-        $this->postTpm('project')->save($data);
+        $this->factory('project')->save($data);
     }
 
     /**
@@ -42,7 +42,7 @@ final class ProjectTest extends TestCase
         $data['custom_fields'] = [
             62435 => 'This is a test'
         ];
-        $this->assertTrue($this->putTpm('project', function ($headers) {
+        $this->assertTrue($this->factory('project', function ($headers) {
             $project = $headers['X-Params'];
             $this->assertEquals('Updated Project Name', $project->name);
             $this->assertObjectHasProperty('customFields', $project);
@@ -60,7 +60,7 @@ final class ProjectTest extends TestCase
     {
         $this->assertEquals(
             "Colombia",
-            $this->getTpm('project')->get(TPM_PROJECT_ID)->name
+            $this->factory('project')->get(TPM_PROJECT_ID)->name
         );
     }
 
@@ -69,7 +69,7 @@ final class ProjectTest extends TestCase
      */
     public function getAllProjects(): void
     {
-        $this->assertGreaterThan(0, count($this->getTpm('project')->all()));
+        $this->assertGreaterThan(0, count($this->factory('project')->all()));
     }
 
     /**
@@ -77,7 +77,7 @@ final class ProjectTest extends TestCase
      */
     public function getActiveProjects(): void
     {
-        $this->assertGreaterThan(0, count($this->getTpm('project')->getActive()));
+        $this->assertGreaterThan(0, count($this->factory('project')->getActive()));
     }
 
     /**
@@ -87,7 +87,7 @@ final class ProjectTest extends TestCase
     {
         $this->assertGreaterThan(
             0,
-            count($this->getTpm('project')->getByCompany(TPM_COMPANY_ID))
+            count($this->factory('project')->getByCompany(TPM_COMPANY_ID))
         );
     }
 
@@ -96,7 +96,7 @@ final class ProjectTest extends TestCase
      */
     public function getArchivedProjects(): void
     {
-        $this->assertGreaterThan(0, count($this->getTpm('project')->getArchived()));
+        $this->assertGreaterThan(0, count($this->factory('project')->getArchived()));
     }
 
     /**
@@ -105,7 +105,7 @@ final class ProjectTest extends TestCase
     public function getRates(): void
     {
         $this->assertTrue(
-            isset($this->getTpm('project.rate')->get(TPM_PROJECT_ID)->users)
+            isset($this->factory('project.rate')->get(TPM_PROJECT_ID)->users)
         );
     }
 
@@ -115,7 +115,7 @@ final class ProjectTest extends TestCase
     public function getStats(): void
     {
         $this->assertTrue(
-            isset($this->getTpm('project')->getStats(TPM_PROJECT_ID)->tasks->active)
+            isset($this->factory('project')->getStats(TPM_PROJECT_ID)->tasks->active)
         );
     }
 
@@ -126,7 +126,7 @@ final class ProjectTest extends TestCase
     {
         // TODO this method fail on live when users params is set
         $this->assertTrue(
-            $this->postTpm('project.rate', function ($headers) {
+            $this->factory('project.rate', function ($headers) {
                 $rates = $headers['X-Params'];
                 $this->assertObjectHasProperty('project-default', $rates);
                 $this->assertObjectHasProperty('users', $rates);
@@ -146,7 +146,7 @@ final class ProjectTest extends TestCase
      */
     public function starProject(): void
     {
-        $this->assertTrue($this->putTpm('project')->star(10)); // Assume 10 is a valid project ID
+        $this->assertTrue($this->factory('project')->star(10)); // Assume 10 is a valid project ID
     }
 
     /**
@@ -154,7 +154,7 @@ final class ProjectTest extends TestCase
      */
     public function unStarProject(): void
     {
-        $this->assertTrue($this->putTpm('project')->unStar(10)); // Assume 10 is a valid project ID
+        $this->assertTrue($this->factory('project')->unStar(10)); // Assume 10 is a valid project ID
     }
 
     /**
@@ -165,7 +165,17 @@ final class ProjectTest extends TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Invalid param id');
-        $this->getTpm('project')->star($id);
+        $this->factory('project')->star($id);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function delete()
+    {
+        $this->assertTrue($this->factory('project')->delete(TPM_PROJECT_ID));
     }
 
     public function projectProvider(): array

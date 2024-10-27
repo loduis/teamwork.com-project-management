@@ -4,6 +4,8 @@ namespace TeamWorkPm;
 
 use RuntimeException;
 
+use TeamWorkPm\Rest\Client as HttpClient;
+
 /**
  * @method static Category\File categoryFile()
  * @method static Category\Link categoryLink()
@@ -58,11 +60,28 @@ class Factory
         $instance = static::$instances[$hash] ?? null;
 
         if ($instance === null) {
-            $instance = new $className(new Rest\Client($url, $key));
+            $_hash = md5($url . '-' . $key);
+            $httpClient = static::$instances[$_hash] ?? (
+                static::$instances[$_hash] = new HttpClient($url, $key)
+            );
+            $instance = new $className($httpClient);
             static::$instances[$hash] = $instance;
         }
 
         return $instance;
+    }
+
+    /**
+     *
+     * @param string $url
+     * @param string $key
+     * @param HttpClient $httpClient
+     * @return void
+     */
+    public static function shareHttpClient(string $url, string $key, HttpClient $httpClient): void
+    {
+        $hash = md5($url . '-' . $key);
+        static::$instances[$hash] = $httpClient;
     }
 
     public static function resolve(string $className)

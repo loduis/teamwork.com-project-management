@@ -257,6 +257,7 @@ class Client
                 }
             }
         }
+
         return $headers;
     }
 }

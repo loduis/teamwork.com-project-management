@@ -11,7 +11,7 @@ final class FileTest extends TestCase
      */
     public function getByProject()
     {
-        $categories = $this->getTpm('category.file')->getByProject(967489);
+        $categories = $this->factory('category.file')->getByProject(967489);
         $this->assertCount(1, $categories);
         $this->assertEquals('category test', $categories[0]->name);
     }
@@ -21,7 +21,7 @@ final class FileTest extends TestCase
      */
     public function get(): void
     {
-        $category = $this->getTpm('category.file')->get(1634602);
+        $category = $this->factory('category.file')->get(1634602);
         $this->assertEquals('category test', $category->name);
     }
 }

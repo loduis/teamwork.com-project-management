@@ -495,11 +495,11 @@ class People extends Model
     {
         $data = arr_obj($data);
         $projectId = (int) $data->pull('project_id');
-        $permissions = (array) $data->pull('permissions');
+        $permissions = $data->pull('permissions');
         $id = parent::insert($data);
         if ($projectId) {
             $permission = Factory::projectPeople();
-            if ($permission->add($projectId, $id) && $permissions) {
+            if ($permission->add($projectId, $id) && $permissions !== null) {
                 $permissions['person_id'] = $id;
                 $permissions['project_id'] = $projectId;
                 $permission->update($permissions);
@@ -535,7 +535,7 @@ class People extends Model
                 $add = $e->getMessage() == 'User is already on project';
             }
             $save = $save && $add;
-            if ($add && $permissions !== null && $permissions->has()) {
+            if ($add && $permissions !== null && $permissions) {
                 $permissions['person_id'] = $id;
                 $permissions['project_id'] = $projectId;
                 $save = $permission->update($permissions);

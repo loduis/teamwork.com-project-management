@@ -15,7 +15,7 @@ final class CompanyTest extends TestCase
         $data['country_code'] = 'BAD CODE';
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Invalid value for field country_code');
-        $this->postTpm('company')->save($data);
+        $this->factory('company')->save($data);
     }
 
     /**
@@ -26,7 +26,7 @@ final class CompanyTest extends TestCase
     {
         $data['remove_logo'] = true;
 
-        $this->assertEquals(10, $this->postTpm('company', function ($headers) {
+        $this->assertEquals(10, $this->factory('company', function ($headers) {
             $company = $headers['X-Params'];
             $this->assertObjectHasProperty('countrycode', $company);
             $this->assertObjectNotHasProperty('removeLogo', $company);
@@ -47,7 +47,7 @@ final class CompanyTest extends TestCase
         $data['private_notes'] = 'Private notes';
         $data['id'] = 10;
 
-        $this->assertTrue($this->putTpm('company', function ($headers) {
+        $this->assertTrue($this->factory('company', function ($headers) {
             $company = $headers['X-Params'];
             $this->assertEquals('CO', $company->countrycode);
             $this->assertTrue($company->removeLogo);
@@ -62,14 +62,14 @@ final class CompanyTest extends TestCase
     public function get(): void
     {
         try {
-            $this->getTpm('company')->get(0);
+            $this->factory('company')->get(0);
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
         }
         $this->assertEquals(
             "Php's Company",
-            $this->getTpm('company')->get(1370007)->name
+            $this->factory('company')->get(1370007)->name
         );
     }
 
@@ -78,7 +78,7 @@ final class CompanyTest extends TestCase
      */
     public function getAll(): void
     {
-        $this->assertGreaterThan(0, count($this->getTpm('company')->all()));
+        $this->assertGreaterThan(0, count($this->factory('company')->all()));
     }
 
     /**
@@ -88,7 +88,7 @@ final class CompanyTest extends TestCase
     {
 
         $this->assertGreaterThan(0, count(
-                $this->getTpm('company')->getByProject(967489)
+                $this->factory('company')->getByProject(967489)
             )
         );
     }

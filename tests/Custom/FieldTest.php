@@ -16,7 +16,7 @@ final class FieldTest extends TestCase
         $data['type'] = 'invalid-type';
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Invalid value for field type');
-        $this->postTpm('custom.field')->save($data);
+        $this->factory('custom.field')->save($data);
     }
 
     /**
@@ -27,7 +27,7 @@ final class FieldTest extends TestCase
     {
         $data['description'] = 'A custom field description';
 
-        $this->assertEquals(10, $this->postTpm('custom.field', function ($headers) {
+        $this->assertEquals(10, $this->factory('custom.field', function ($headers) {
             $customField = $headers['X-Params'];
             $this->assertObjectHasProperty('name', $customField);
             $this->assertObjectHasProperty('entity', $customField);
@@ -47,7 +47,7 @@ final class FieldTest extends TestCase
         $data['description'] = 'Updated description';
         $data['id'] = 10;
 
-        $this->assertTrue($this->putTpm('custom.field', function ($headers) {
+        $this->assertTrue($this->factory('custom.field', function ($headers) {
             $customField = $headers['X-Params'];
             $this->assertEquals('Updated description', $customField->description);
         })->save($data));
@@ -60,7 +60,7 @@ final class FieldTest extends TestCase
     public function get(): void
     {
         try {
-            $this->getTpm('custom.field')->get(0);
+            $this->factory('custom.field')->get(0);
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
             $this->assertEquals('Invalid param id', $e->getMessage());
@@ -68,7 +68,7 @@ final class FieldTest extends TestCase
 
         $this->assertEquals(
             'Test Field',
-            $this->getTpm('custom.field')->get(62427)->name
+            $this->factory('custom.field')->get(62427)->name
         );
     }
 
@@ -78,7 +78,7 @@ final class FieldTest extends TestCase
      */
     public function insertValidField($data): void
     {
-        $this->assertEquals(10, $this->postTpm('custom.field', function ($headers) {
+        $this->assertEquals(10, $this->factory('custom.field', function ($headers) {
             $customField = $headers['X-Params'];
             $this->assertObjectHasProperty('name', $customField);
             $this->assertObjectHasProperty('entity', $customField);
@@ -97,7 +97,7 @@ final class FieldTest extends TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage($expectedMessage);
-        $this->postTpm('custom.field')->save($data);
+        $this->factory('custom.field')->save($data);
     }
 
     /**
@@ -105,7 +105,7 @@ final class FieldTest extends TestCase
      */
     public function getAll(): void
     {
-        $this->assertGreaterThan(0, count($this->getTpm('custom.field')->all()));
+        $this->assertGreaterThan(0, count($this->factory('custom.field')->all()));
     }
 
     public function provider()

@@ -150,7 +150,7 @@ class Project extends Model
      * @return Response
      * @throws Exception
      */
-    public function all(object|array $params = [])
+    public function all(object|array $params = []): Response
     {
         return $this->getByStatus('all', $params);
     }
@@ -162,7 +162,7 @@ class Project extends Model
      * @return Response
      * @throws Exception
      */
-    public function getActive(array $params = [])
+    public function getActive(array $params = []): Response
     {
         return $this->getByStatus('active', $params);
     }
@@ -174,7 +174,7 @@ class Project extends Model
      * @return Response
      * @throws Exception
      */
-    public function getArchived(array $params = [])
+    public function getArchived(array $params = []): Response
     {
         return $this->getByStatus('archived', $params);
     }
@@ -185,7 +185,7 @@ class Project extends Model
      * @return Response
      * @throws Exception
      */
-    public function getStarred()
+    public function getStarred(): Response
     {
         return $this->rest->get("$this->action/starred");
     }
@@ -199,7 +199,7 @@ class Project extends Model
      * @return Response
      * @throws Exception
      */
-    public function getRates(int $id, object|array $params = [])
+    public function getRates(int $id, object|array $params = []): Response
     {
         return Factory::projectRate()->get($id, $params);
     }
@@ -213,7 +213,7 @@ class Project extends Model
      * @return bool
      * @throws \TeamWorkPm\Exception
      */
-    public function setRates(int $id, object|array $data = [])
+    public function setRates(int $id, object|array $data = []): bool
     {
         return Factory::projectRate()->set($id, $data);
     }
@@ -224,7 +224,7 @@ class Project extends Model
      * @return Response
      * @throws Exception
      */
-    public function getStats(int $id, object|array $params = [])
+    public function getStats(int $id, object|array $params = []): Response
     {
         return $this->rest->get("$this->action/$id/stats", $params);
     }
@@ -238,7 +238,7 @@ class Project extends Model
      * @return Response
      * @throws Exception
      */
-    public function getByCompany(int $id, object|array $params = [])
+    public function getByCompany(int $id, object|array $params = []): Response
     {
         return $this->rest->get("companies/$id/$this->action", $params);
     }
@@ -250,11 +250,11 @@ class Project extends Model
      * @return bool
      * @throws Exception
      */
-    public function star(int $id)
+    public function star(int $id): bool
     {
         $this->validates(['id' => $id]);
-
-        return $this->rest->put("$this->action/$id/star") !== false;
+        /** @var bool */
+        return $this->rest->put("$this->action/$id/star");
     }
 
     /**
@@ -264,11 +264,11 @@ class Project extends Model
      * @return bool
      * @throws Exception
      */
-    public function unStar(int $id)
+    public function unStar(int $id): bool
     {
         $this->validates(['id' => $id]);
-
-        return $this->rest->put("$this->action/$id/unstar") !== false;
+        /** @var bool */
+        return $this->rest->put("$this->action/$id/unstar");
     }
 
     /**
@@ -278,7 +278,7 @@ class Project extends Model
      * @return bool
      * @throws Exception
      */
-    public function activate(int $id)
+    public function activate(int $id): bool
     {
         $this->validates(['id' => $id]);
 
@@ -292,7 +292,7 @@ class Project extends Model
      * @return bool
      * @throws Exception
      */
-    public function archive(int $id)
+    public function archive(int $id): bool
     {
         $this->validates(['id' => $id]);
 
@@ -307,7 +307,7 @@ class Project extends Model
      * @return Response
      * @throws Exception
      */
-    private function getByStatus(string $status, object|array $params = [])
+    private function getByStatus(string $status, object|array $params = []): Response
     {
         $params = arr_obj($params);
         $params['status'] = strtoupper($status);

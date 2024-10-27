@@ -11,7 +11,7 @@ final class LinkTest extends TestCase
      */
     public function getByProject()
     {
-        $categories = $this->getTpm('category.link')->getByProject(967489);
+        $categories = $this->factory('category.link')->getByProject(967489);
         $this->assertCount(1, $categories);
         $this->assertEquals('category test', $categories[0]->name);
     }
@@ -21,7 +21,7 @@ final class LinkTest extends TestCase
      */
     public function get(): void
     {
-        $category = $this->getTpm('category.link')->get(337016);
+        $category = $this->factory('category.link')->get(337016);
         $this->assertEquals('category test', $category->name);
     }
 }
