@@ -12,7 +12,7 @@ class Column extends Model
         $this->parent = 'column';
         $this->action = 'portfolio/columns';
 
-        $this->fields = [
+        static::$fields = [
             'name' => [
                 'type' => 'string'
             ],
@@ -87,7 +87,7 @@ class Column extends Model
      *
      * @return int
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         $boardId = empty($data['board_id']) ? 0 : (int)$data['board_id'];
         if ($boardId <= 0) {

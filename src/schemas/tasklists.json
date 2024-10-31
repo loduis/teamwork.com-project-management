@@ -1,0 +1,166 @@
+{
+    "apply_defaults_to_existing_tasks": {
+        "type": "boolean",
+        "transform": "camel",
+        "sibling": true
+    },
+    "todo_list": {
+        "type": "object",
+        "transform": "dash",
+        "sibling": true,
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "description": {
+            "type": "string"
+        },
+        "private": {
+            "type": "boolean"
+        },
+        "pinned": {
+            "type": "boolean"
+        },
+        "is_billable": {
+            "type": "integer",
+            "transform": "camel"
+        },
+        "milestone_id": {
+            "type": "integer",
+            "transform": "milestone-Id"
+        },
+        "grant_access_to": {
+            "type": "string",
+            "transform": "dash"
+        },
+        "todo_list_template_id": {
+            "type": "integer",
+            "transform": "camel"
+        },
+        "new_task_defaults": {
+            "type": "object",
+            "transform": "dash",
+            "description": {
+                "type": "string"
+            },
+            "start_date_offset": {
+                "type": "string",
+                "transform": "dash"
+            },
+            "due_date_offset": {
+                "type": "string",
+                "transform": "dash"
+            },
+            "responsible_party_id": {
+                "type": "string",
+                "transform": "dash"
+            },
+            "priority": {
+                "type": "integer"
+            },
+            "priority_text": {
+                "type": "string",
+                "transform": "camel"
+            },
+            "estimated_minutes": {
+                "type": "integer",
+                "transform": "dash"
+            },
+            "tags": {
+                "type": "array<object>",
+                "fields": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "project_id": {
+                        "type": "integer",
+                        "transform": "camel"
+                    }
+                }
+            },
+            "column_id": {
+                "type": "integer",
+                "transform": "dash"
+            },
+            "reminders": {
+                "type": "array<object>",
+                "fields": {
+                    "user_id": {
+                        "type": "integer",
+                        "transform": "dash"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "note": {
+                        "type": "string"
+                    },
+                    "people_assigned": {
+                        "type": "boolean",
+                        "transform": "dash"
+                    },
+                    "is_relative": {
+                        "type": "boolean",
+                        "transform": "camel"
+                    },
+                    "relative_number_days": {
+                        "type": "integer",
+                        "transform": "dash"
+                    },
+                    "using_off_set_due_date": {
+                        "type": "boolean",
+                        "transform": "camel"
+                    },
+                    "time": {
+                        "type": "string"
+                    }
+                }
+            },
+            "remove_all_reminders": {
+                "type": "boolean",
+                "transform": "camel"
+            },
+            "comment_follower_ids": {
+                "type": "string",
+                "transform": "dash"
+            },
+            "change_follower_ids": {
+                "type": "string",
+                "transform": "dash"
+            },
+            "grant_access_to": {
+                "type": "string",
+                "transform": "dash"
+            },
+            "private": {
+                "type": "boolean"
+            },
+            "custom_fields": {
+                "type": "array<object>",
+                "transform": "camel",
+                "fields": {
+                    "custom_field_id": {
+                        "type": "integer",
+                        "transform": "camel"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                }
+            },
+            "pending_file_attachments": {
+                "type": "array<object>",
+                "transform": "camel",
+                "fields": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

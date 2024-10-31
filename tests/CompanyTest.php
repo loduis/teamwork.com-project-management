@@ -26,11 +26,9 @@ final class CompanyTest extends TestCase
     {
         $data['remove_logo'] = true;
 
-        $this->assertEquals(10, $this->factory('company', function ($headers) {
-            $company = $headers['X-Params'];
-            $this->assertObjectHasProperty('countrycode', $company);
-            $this->assertObjectNotHasProperty('removeLogo', $company);
-        })->save($data));
+        $this->assertEquals(10, $this->factory('company', [
+            'POST /companies' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->save($data));
     }
 
     /**
@@ -42,17 +40,13 @@ final class CompanyTest extends TestCase
     {
         $data['countrycode'] = $data['country_code'];
         unset($data['country_code']);
-        $data['name'] = rand_string($data['name']);
         $data['remove_logo'] = true;
         $data['private_notes'] = 'Private notes';
         $data['id'] = 10;
 
-        $this->assertTrue($this->factory('company', function ($headers) {
-            $company = $headers['X-Params'];
-            $this->assertEquals('CO', $company->countrycode);
-            $this->assertTrue($company->removeLogo);
-            $this->assertEquals('Private notes', $company->privateNotes);
-        })->save($data));
+        $this->assertTrue($this->factory('company', [
+            'PUT /companies/10' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->save($data));
     }
 
     /**
@@ -69,7 +63,7 @@ final class CompanyTest extends TestCase
         }
         $this->assertEquals(
             "Php's Company",
-            $this->factory('company')->get(1370007)->name
+            $this->factory('company')->get(TPM_COMPANY_ID)->name
         );
     }
 
@@ -88,7 +82,7 @@ final class CompanyTest extends TestCase
     {
 
         $this->assertGreaterThan(0, count(
-                $this->factory('company')->getByProject(967489)
+                $this->factory('company')->getByProject(TPM_PROJECT_ID)
             )
         );
     }
@@ -107,7 +101,7 @@ final class CompanyTest extends TestCase
                     'country_code' => 'CO',
                     'phone' => '25034030',
                     'fax' => 'No tengo',
-                    'website' => 'No tengo',
+                    'website' => 'https://test.com',
                 ],
             ],
         ];

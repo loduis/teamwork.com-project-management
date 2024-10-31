@@ -7,9 +7,12 @@ use TeamWorkPm\Factory;
 use TeamWorkPm\Request\JSON as Request;
 use TeamWorkPm\Response\JSON as Response;
 use TeamWorkPm\Rest\Client as HttpClient;
+use Spatie\Snapshots\MatchesSnapshots;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    use MatchesSnapshots;
+
     protected function factory(string $className, Closure | array $callback = null)
     {
         [$className, $url, $key] = Factory::resolve($className);
@@ -28,6 +31,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 $request->setParent($parent)
                 ->setFields($fields);
             });
+        $http->expects($this->any())
+            ->method('notUseFields')->willReturnCallback(function () use ($http, $request) {
+                $request->notUseFields();
+                return $http;
+            });
 
         foreach(['GET', 'POST', 'PUT', 'DELETE'] as $method) {
             $http
@@ -43,7 +51,17 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                         ),
                         default => '{"STATUS": "OK"}'
                     };
+                    if ($method === 'GET' && $request) {
+                        $path .= '?' . $request;
+                    }
                     $params = json_decode($request);
+                    $getRequest = function () use ($params, $parent) {
+                        $data = $params->$parent ?? $params;
+                        if ($data !== null && count((array)$params) > 1) {
+                            $data = $params;
+                        }
+                        return $data;
+                    };
                     $headers = [
                         'Status' => match ($method) {
                             'POST' => 201,
@@ -52,21 +70,33 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                         'Method' => $method,
                         'X-Action' => $path,
                         'X-Parent' => $parent,
-                        'X-Request' => json_encode($params, JSON_PRETTY_PRINT),
+                        'X-Request' => json_encode($params, JSON_UNESCAPED_SLASHES),
                         'X-Params' => match ($method) {
-                            'POST' => $params->$parent ?? null,
-                            'PUT' => $params->$parent ?? null,
+                            'POST' => $getRequest(),
+                            'PUT' => $getRequest(),
                             default => $params,
                         }
                     ];
-                    if ($method === 'POST' && !in_array($parent, ['rates'])) {
+                    if ($method === 'POST' && isset($params->$parent) && !in_array($parent, ['rates'])) {
                         $headers['id'] = 10;
                     }
                     if ($callback !== null) {
                         if ($callback instanceof Closure) {
-                            $callback->call($this, $headers, $body);
+                            $callback->call($this,
+                                $headers['X-Request'],
+                                $headers,
+                                $body
+                            );
                         } else {
-                            $res = $callback["$method /$path"]($headers, $body);
+                            $function = $callback["$method /$path"];
+                            if (is_bool($function)) {
+                                $function = fn() => null;
+                            }
+                            $res = $function->call($this,
+                                $headers['X-Request'],
+                                $headers,
+                                $body
+                            );
                             if ($res !== null) {
                                 if (array_is_list($res)) {
                                     [$headers, $body] = $res;
@@ -78,6 +108,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                             }
                         }
                     }
+                    /*
+                    if (in_array($method, ['POST', 'PUT'])) {
+                        $this->assertMatchesJsonSnapshot($headers['X-Request']);
+                    }*/
+
                     return (new Response)->parse($body, $headers);
                 });
         }

@@ -1,0 +1,16 @@
+{
+    "company": {
+        "name": "Test Company",
+        "address_one": "Bla, Bla, Bla",
+        "address_two": "JAJA",
+        "zip": "057",
+        "city": "Bogota",
+        "state": "Engativa",
+        "countrycode": "CO",
+        "phone": "25034030",
+        "fax": "No tengo",
+        "website": "https:\/\/test.com",
+        "removeLogo": true,
+        "privateNotes": "Private notes"
+    }
+}

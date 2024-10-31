@@ -19,7 +19,7 @@ class People extends Resource
 
     protected function init()
     {
-        $this->fields = [
+        static::$fields = [
             'can_view_project_update' => [
                 'type'   => 'boolean',
                 'transform' => 'camel'

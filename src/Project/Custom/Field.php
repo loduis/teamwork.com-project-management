@@ -6,11 +6,11 @@ use TeamWorkPm\Custom\Field as Base;
 
 class Field extends Base
 {
-    public function insert(array $data)
+    public function create(array $data)
     {
         $data['entity'] = 'project';
 
-        return parent::insert($data);
+        return parent::create($data);
     }
 
     public function all(array $params = [])

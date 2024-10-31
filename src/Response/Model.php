@@ -87,7 +87,7 @@ abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
 
     public function count(): int
     {
-        return count((array) $this->data);
+        return count($this->data);
     }
 
     /**

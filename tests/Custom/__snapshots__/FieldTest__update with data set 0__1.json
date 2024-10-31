@@ -1,0 +1,8 @@
+{
+    "customfield": {
+        "name": "Test field",
+        "entity": "project",
+        "type": "text-short",
+        "description": "Updated description"
+    }
+}

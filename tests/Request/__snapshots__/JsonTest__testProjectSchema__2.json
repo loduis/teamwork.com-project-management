@@ -1,0 +1,15 @@
+{
+    "project": {
+        "name": "Test",
+        "customFields": [
+            {
+                "customFieldId": 123,
+                "value": "valor1"
+            },
+            {
+                "customFieldId": 456,
+                "value": "valor2"
+            }
+        ]
+    }
+}

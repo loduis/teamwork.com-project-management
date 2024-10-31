@@ -1,0 +1,76 @@
+{
+    "name": {
+        "type": "string",
+        "required": true
+    },
+    "address_one": {
+        "type": "string"
+    },
+    "address_two": {
+        "type": "string"
+    },
+    "zip": {
+        "type": "string"
+    },
+    "city": {
+        "type": "string"
+    },
+    "state": {
+        "type": "string"
+    },
+    "country_code": {
+        "type": "country",
+        "transform": "countrycode"
+    },
+    "phone": {
+        "type": "string"
+    },
+    "fax": {
+        "type": "string"
+    },
+    "email_one": {
+        "type": "email"
+    },
+    "email_two": {
+        "type": "email"
+    },
+    "email_three": {
+        "type": "email"
+    },
+    "website": {
+        "type": "url"
+    },
+    "cid": {
+        "type": "string",
+        "on_update": true
+    },
+    "industry_cat_id": {
+        "type": "string",
+        "transform": "camel",
+        "on_update": true
+    },
+    "tag_ids": {
+        "type": "string",
+        "transform": "camel",
+        "on_update": true
+    },
+    "logo_pending_file_ref": {
+        "type": "string",
+        "transform": "camel",
+        "on_update": true
+    },
+    "remove_logo": {
+        "type": "boolean",
+        "transform": "camel",
+        "on_update": true
+    },
+    "profile": {
+        "type": "string",
+        "on_update": true
+    },
+    "private_notes": {
+        "type": "string",
+        "transform": "camel",
+        "on_update": true
+    }
+}

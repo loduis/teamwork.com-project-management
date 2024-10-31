@@ -8,7 +8,7 @@ class File extends Rest\Resource
 {
     protected function init()
     {
-        $this->fields = [
+        static::$fields = [
             'pending_file_ref' => true,
             'description' => false,
             'category_id' => [

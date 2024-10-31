@@ -7,5 +7,5 @@ namespace TeamWorkPm\Comment;
  */
 class Notebook extends Model
 {
-    protected $resource = 'notebooks';
+    protected string $resource = 'notebooks';
 }

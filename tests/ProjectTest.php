@@ -12,11 +12,9 @@ final class ProjectTest extends TestCase
      */
     public function insertProject(array $data): void
     {
-        $this->assertEquals(10, $this->factory('project', function ($headers) {
-            $project = $headers['X-Params'];
-            $this->assertObjectHasProperty('name', $project);
-            $this->assertObjectHasProperty('description', $project);
-        })->save($data));
+        $this->assertEquals(10, $this->factory('project', [
+            'POST /projects' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->save($data));
     }
 
     /**
@@ -42,14 +40,9 @@ final class ProjectTest extends TestCase
         $data['custom_fields'] = [
             62435 => 'This is a test'
         ];
-        $this->assertTrue($this->factory('project', function ($headers) {
-            $project = $headers['X-Params'];
-            $this->assertEquals('Updated Project Name', $project->name);
-            $this->assertObjectHasProperty('customFields', $project);
-            $this->assertCount(1, $project->customFields);
-            $this->assertObjectHasProperty('customFieldId', $project->customFields[0]);
-            $this->assertObjectHasProperty('value', $project->customFields[0]);
-        })->save($data));
+        $this->assertTrue($this->factory('project', [
+            'PUT /projects/10' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->save($data));
     }
 
     /**
@@ -60,7 +53,9 @@ final class ProjectTest extends TestCase
     {
         $this->assertEquals(
             "Colombia",
-            $this->factory('project')->get(TPM_PROJECT_ID)->name
+            $this->factory('project', [
+                'GET /projects/' . TPM_PROJECT_ID => true
+            ])->get(TPM_PROJECT_ID)->name
         );
     }
 
@@ -69,7 +64,11 @@ final class ProjectTest extends TestCase
      */
     public function getAllProjects(): void
     {
-        $this->assertGreaterThan(0, count($this->factory('project')->all()));
+        $this->assertGreaterThan(0,
+            count($this->factory('project', [
+                'GET /projects?status=ALL' => true
+            ])->all())
+        );
     }
 
     /**
@@ -77,7 +76,11 @@ final class ProjectTest extends TestCase
      */
     public function getActiveProjects(): void
     {
-        $this->assertGreaterThan(0, count($this->factory('project')->getActive()));
+        $this->assertGreaterThan(0,
+            count($this->factory('project', [
+                'GET /projects?status=ACTIVE' => true
+            ])->getActive())
+        );
     }
 
     /**
@@ -87,7 +90,9 @@ final class ProjectTest extends TestCase
     {
         $this->assertGreaterThan(
             0,
-            count($this->factory('project')->getByCompany(TPM_COMPANY_ID))
+            count($this->factory('project', [
+                'GET /companies/'. TPM_COMPANY_ID . '/projects' => true
+            ])->getByCompany(TPM_COMPANY_ID))
         );
     }
 
@@ -96,7 +101,11 @@ final class ProjectTest extends TestCase
      */
     public function getArchivedProjects(): void
     {
-        $this->assertGreaterThan(0, count($this->factory('project')->getArchived()));
+        $this->assertGreaterThan(0,
+            count($this->factory('project', [
+                'GET /projects?status=ARCHIVED' => true
+            ])->getArchived())
+        );
     }
 
     /**
@@ -104,8 +113,10 @@ final class ProjectTest extends TestCase
      */
     public function getRates(): void
     {
-        $this->assertTrue(
-            isset($this->factory('project.rate')->get(TPM_PROJECT_ID)->users)
+        $this->assertArrayHasKey('users',
+            $this->factory('project.rate', [
+                'GET /projects/' . TPM_PROJECT_ID . '/rates' => true
+            ])->get(TPM_PROJECT_ID)
         );
     }
 
@@ -114,8 +125,10 @@ final class ProjectTest extends TestCase
      */
     public function getStats(): void
     {
-        $this->assertTrue(
-            isset($this->factory('project')->getStats(TPM_PROJECT_ID)->tasks->active)
+        $this->assertEquals(1,
+            $this->factory('project', [
+                'GET /projects/' . TPM_PROJECT_ID . '/stats' => true
+            ])->getStats(TPM_PROJECT_ID)->tasks->active
         );
     }
 
@@ -126,12 +139,9 @@ final class ProjectTest extends TestCase
     {
         // TODO this method fail on live when users params is set
         $this->assertTrue(
-            $this->factory('project.rate', function ($headers) {
-                $rates = $headers['X-Params'];
-                $this->assertObjectHasProperty('project-default', $rates);
-                $this->assertObjectHasProperty('users', $rates);
-                $this->assertObjectHasProperty(TPM_USER_ID, $rates->users);
-            })->set(TPM_PROJECT_ID, [
+            $this->factory('project.rate', [
+                'POST /projects/'. TPM_PROJECT_ID .'/rates'  => fn($data) => $this->assertMatchesJsonSnapshot($data)
+            ])->set(TPM_PROJECT_ID, [
                 'project_default' => 1,
                 'users' => [
                     TPM_USER_ID => 5
@@ -146,7 +156,9 @@ final class ProjectTest extends TestCase
      */
     public function starProject(): void
     {
-        $this->assertTrue($this->factory('project')->star(10)); // Assume 10 is a valid project ID
+        $this->assertTrue($this->factory('project', [
+            'PUT /projects/' . TPM_PROJECT_ID . '/star' => true
+        ])->star(TPM_PROJECT_ID));
     }
 
     /**
@@ -154,7 +166,9 @@ final class ProjectTest extends TestCase
      */
     public function unStarProject(): void
     {
-        $this->assertTrue($this->factory('project')->unStar(10)); // Assume 10 is a valid project ID
+        $this->assertTrue($this->factory('project', [
+            'PUT /projects/' . TPM_PROJECT_ID . '/unstar' => true
+        ])->unStar(TPM_PROJECT_ID));
     }
 
     /**
@@ -175,7 +189,9 @@ final class ProjectTest extends TestCase
      */
     public function delete()
     {
-        $this->assertTrue($this->factory('project')->delete(TPM_PROJECT_ID));
+        $this->assertTrue($this->factory('project', [
+            'DELETE /projects/' . TPM_PROJECT_ID => true
+        ])->delete(TPM_PROJECT_ID));
     }
 
     public function projectProvider(): array

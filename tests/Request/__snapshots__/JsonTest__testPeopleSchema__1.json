@@ -1,0 +1,19 @@
+{
+    "person": {
+        "email-address": "tes@gmail.com",
+        "first-name": "Developer",
+        "last-name": "Teamwork",
+        "workingHours": {
+            "entries": [
+                {
+                    "weekday": "Monday",
+                    "taskHours": 8
+                },
+                {
+                    "weekday": "Tuesday",
+                    "taskHours": 6
+                }
+            ]
+        }
+    }
+}

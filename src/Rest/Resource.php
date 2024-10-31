@@ -34,9 +34,9 @@ abstract class Resource
     /**
      * Stores the object fields
      *
-     * @var array
+     * @var array|string
      */
-    protected array $fields = [];
+    protected static array|string $fields = [];
 
     /**
      * @param string $url
@@ -66,10 +66,19 @@ abstract class Resource
                 $this->action .= 's';
             }
         }
+        if (is_string(static::$fields)) {
+            $fields = str_replace('.', DIRECTORY_SEPARATOR, static::$fields);
+            $content = file_get_contents(
+                __DIR__ . DIRECTORY_SEPARATOR . '..' .
+                DIRECTORY_SEPARATOR . 'schemas' . DIRECTORY_SEPARATOR . $fields . '.json'
+            );
+
+            static::$fields = json_decode($content, true);
+        }
         // configure request for put and post fields
         $this->rest->configRequest(
             $this->parent,
-            $this->fields
+            static::$fields
         );
     }
 
@@ -92,6 +101,12 @@ abstract class Resource
         if ($name === 'getAll' && method_exists($this, 'all')) {
             return $this->all(...$arguments);
         }
+        if ($name === 'create' && method_exists($this, 'insert')) {
+            return $this->insert(...$arguments);
+        }
+        if ($name === 'insert' && method_exists($this, 'create')) {
+            return $this->create(...$arguments);
+        }
 
         if ($name === 'first') {
             $entries = [];
@@ -111,12 +126,13 @@ abstract class Resource
         throw new BadMethodCallException("No exists method: $name");
     }
 
-    protected function validates(array $ids): void
+    protected function validates(array $ids, bool $required = false): void
     {
+        $template = $required ? 'Required field' : 'Invalid param';
         foreach ($ids as $field => $id) {
             $id = (int) $id;
             if ($id <= 0) {
-                throw new Exception("Invalid param $field");
+                throw new Exception("$template $field");
             }
         }
     }

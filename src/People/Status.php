@@ -11,7 +11,7 @@ class Status extends Resource
     {
         $this->parent = 'userstatus';
         $this->action = 'status';
-        $this->fields = [
+        static::$fields = [
             'status' => true,
             'notify' => false,
         ];
@@ -57,7 +57,7 @@ class Status extends Resource
      * @return int
      * @throws Exception
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         $person_id = empty($data['person_id']) ? 0 : (int)$data['person_id'];
         if ($person_id <= 0) {

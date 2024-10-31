@@ -7,5 +7,5 @@ namespace TeamWorkPm\Comment;
  */
 class Milestone extends Model
 {
-    protected $resource = 'milestones';
+    protected string $resource = 'milestones';
 }

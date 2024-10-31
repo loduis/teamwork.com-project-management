@@ -6,7 +6,7 @@ class Role extends Model
 {
     protected function init()
     {
-        $this->fields = [
+        static::$fields = [
             'name' => true,
             'description' => false,
             'users' => [
@@ -58,7 +58,7 @@ class Role extends Model
      * @return int
      * @throws Exception
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         $project_id = empty($data['project_id']) ? 0 : (int)$data['project_id'];
         if ($project_id <= 0) {

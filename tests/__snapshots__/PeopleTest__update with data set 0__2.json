@@ -1,0 +1,24 @@
+{
+    "person": {
+        "address": {
+            "line1": "Main",
+            "line2": "Second",
+            "city": "Manizales",
+            "state": "Bolivar",
+            "zipcode": "01011",
+            "countrycode": "CO"
+        },
+        "workingHours": {
+            "entries": [
+                {
+                    "weekday": "sunday",
+                    "taskHours": 3
+                },
+                {
+                    "weekday": "monday",
+                    "taskHours": 3
+                }
+            ]
+        }
+    }
+}

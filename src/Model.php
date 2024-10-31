@@ -22,7 +22,7 @@ abstract class Model extends Rest\Resource
      * @param array|object $data
      * @return int
      */
-    public function insert(array|object $data): int
+    public function create(array|object $data): int
     {
         /**
          * @var int
@@ -39,11 +39,19 @@ abstract class Model extends Rest\Resource
     public function update(array|object $data): bool
     {
         $data = arr_obj($data);
-        $id = (int) ($data['id'] ?? 0);
+        $id = (int) $data->pull('id');
         if ($id <= 0) {
-            throw new Exception('Required field id');
+            if ($this->parent && $data->offsetExists($this->parent)) {
+                $entry = $data[$this->parent];
+                $id = (int) $entry->pull('id');
+            }
+            $this->validates([
+                'id' => $id
+            ], true);
         }
-        return $this->rest->put("$this->action/$id", $data) === true;
+
+        /** @var bool */
+        return $this->rest->put("$this->action/$id", $data);
     }
 
     /**
@@ -56,9 +64,16 @@ abstract class Model extends Rest\Resource
     {
         $data = arr_obj($data);
 
-        return $data->offsetExists('id')
+        return (
+            $data->offsetExists('id') || (
+                $this->parent &&
+                $data->offsetExists($this->parent) &&
+                ($entry = $data[$this->parent]) &&
+                $entry->offsetExists('id')
+            )
+        )
             ? $this->update($data)
-            : $this->insert($data);
+            : $this->create($data);
     }
 
     /**

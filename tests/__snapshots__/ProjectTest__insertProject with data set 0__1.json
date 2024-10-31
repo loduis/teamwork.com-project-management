@@ -1,0 +1,9 @@
+{
+    "project": {
+        "name": "Test Project",
+        "description": "Description of Test Project",
+        "use-tasks": true,
+        "start-date": "2024-01-01",
+        "end-date": "2024-12-31"
+    }
+}

@@ -6,7 +6,7 @@ class Tag extends Model
 {
     protected function init()
     {
-        $this->fields = [
+        static::$fields = [
             'name' => true,
             'color' => false,
         ];
@@ -66,7 +66,7 @@ class Tag extends Model
      *
      * @return int
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         return $this->rest->post("$this->action", $data);
     }

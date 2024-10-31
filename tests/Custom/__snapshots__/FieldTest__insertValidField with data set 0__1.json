@@ -1,0 +1,20 @@
+{
+    "customfield": {
+        "name": "Valid Custom Field",
+        "entity": "project",
+        "type": "text-short",
+        "description": "A valid custom field for testing",
+        "options": {
+            "choices": [
+                {
+                    "color": "red",
+                    "value": "High"
+                },
+                {
+                    "color": "green",
+                    "value": "Low"
+                }
+            ]
+        }
+    }
+}

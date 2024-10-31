@@ -1,0 +1,18 @@
+{
+    "project_default": {
+        "type": "integer",
+        "transform": "dash"
+    },
+    "users": {
+        "type": "array<object>",
+        "fields": {
+            "$key": {
+                "type": "integer"
+            },
+            "rate": {
+                "type": "integer"
+            }
+        },
+        "accept": "<$key,rate>"
+    }
+}

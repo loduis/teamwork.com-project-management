@@ -1,0 +1,15 @@
+{
+    "project": {
+        "name": "Updated Project Name",
+        "description": "Description of Test Project",
+        "use-tasks": true,
+        "start-date": "2024-01-01",
+        "end-date": "2024-12-31",
+        "customFields": [
+            {
+                "customFieldId": 62435,
+                "value": "This is a test"
+            }
+        ]
+    }
+}

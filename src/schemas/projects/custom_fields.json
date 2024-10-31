@@ -1,0 +1,61 @@
+{
+    "name": {
+        "type": "string",
+        "required": true
+    },
+    "entity": {
+        "type": "string",
+        "required": true,
+        "validate": [
+            "project",
+            "task"
+        ]
+    },
+    "type": {
+        "type": "string",
+        "required": true,
+        "validate": [
+            "text-short",
+            "number-integer",
+            "date",
+            "url",
+            "checkbox",
+            "dropdown",
+            "status"
+        ]
+    },
+    "description": {
+        "type": "string"
+    },
+    "formula": {
+        "type": "string"
+    },
+    "project_id": {
+        "type": "integer",
+        "transform": "camel"
+    },
+    "required": {
+        "type": "boolean"
+    },
+    "is_private": {
+        "type": "boolean",
+        "transform": "camel"
+    },
+    "options": {
+        "type": "object",
+        "accept": "<choices>",
+        "choices": {
+            "type": "array<object>",
+            "fields": {
+                "color": {
+                    "type": "string",
+                    "required": true
+                },
+                "value": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        }
+    }
+}

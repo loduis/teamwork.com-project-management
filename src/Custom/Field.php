@@ -4,6 +4,7 @@ namespace TeamWorkPm\Custom;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Model;
+use TeamWorkPm\Response\Model as Response;
 
 class Field extends Model
 {
@@ -11,73 +12,16 @@ class Field extends Model
 
     protected ?string $parent = 'customfield';
 
-    protected function init()
-    {
-        $this->fields = [
-            'name' => [
-                'type' => 'string',
-                'required' => true
-            ],
-            'entity' => [
-                'type' => 'string',
-                'required' => true,
-                'validate' => [
-                    'project',
-                    'task'
-                ]
-            ],
-            'type' => [
-                'type' => 'string',
-                'required' => true,
-                'validate' => [
-                    'text-short',
-                    'number-integer',
-                    'date',
-                    'url',
-                    'checkbox',
-                    'dropdown',
-                    'status'
-                ]
-            ],
-            'description' => [
-                'type' => 'string'
-            ],
-            'formula' => [
-                'type' => 'string'
-            ],
-            'project_id' => [
-                'type' => 'integer',
-                'transform' => 'camel'
-            ],
-            'required' => [
-                'type' => 'boolean',
-            ],
-            'is_private' => [
-                'type' => 'boolean',
-                'transform' => 'camel'
-            ],
-            'options' => [
-                'type' => 'array',
-                'transform' => [null, function ($value) {
-                    $choices = array_reduce($value, function ($acc, $entry) {
-                        $entry  = arr_obj($entry);
-                        if (empty($entry->color) || empty($entry->value)) {
-                            throw new Exception('Invalid value for field options');
-                        }
-                        $acc[] = [
-                            'color' => $entry->color,
-                            'value' => $entry->value
-                        ];
-                        return $acc;
-                    }, []);
+    protected static string|array $fields = 'projects.custom_fields';
 
-                    return $choices ? compact('choices') : null;
-                }]
-            ]
-        ];
-    }
-
-    public function all(array $params = [])
+    /**
+     * Get all custom fields
+     *
+     * @param array $params
+     * @return Response
+     * @throws Exception
+     */
+    public function all(object|array $params = []): Response
     {
         return $this->rest->get("$this->action", $params);
     }

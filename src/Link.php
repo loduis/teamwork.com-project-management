@@ -6,7 +6,7 @@ class Link extends Model
 {
     protected function init()
     {
-        $this->fields = [
+        static::$fields = [
             // {link name}
             'name' => true,
             // {link display code: Embed code, Iframe code, URL}
@@ -91,7 +91,7 @@ class Link extends Model
      * @return int
      * @throws Exception
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         $project_id = empty($data['project_id']) ? 0 : (int)$data['project_id'];
         if ($project_id <= 0) {

@@ -3,165 +3,62 @@
 namespace TeamWorkPm\Tests\Task;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
 final class ListTest extends TestCase
 {
-    private $model;
-    private $projectId;
-    private $id;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->model = Factory::build('task/list');
-        $this->projectId = get_first_project_id();
-        $this->id = get_first_task_list_id($this->projectId);
-    }
-
     /**
      * @dataProvider provider
-     * @test
+     * @_test
      */
     public function insert($data): void
     {
-        try {
-            $this->model->save($data);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Required field project_id', $e->getMessage());
-        }
-
-        try {
-            $data['project_id'] = $this->projectId;
-            $data['milestone_id'] = get_first_milestone_id($this->projectId);
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Required field name');
+        $this->assertEquals(10, $this->factory('task.list')->save([
+            'project_id' => TPM_PROJECT_ID,
+        ]));
     }
 
     /**
-     * @depends insert
-     * @dataProvider provider
-     * @test
+     * @_test
      */
-    public function update($data): void
+    public function insertReal(): void
     {
-        try {
-            $data['id'] = $this->id;
-            $this->assertTrue($this->model->save($data));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @depends insert
-     * @test
-     */
-    public function get(): void
-    {
-        try {
-            $this->model->get(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
-
-        try {
-            $list = $this->model->get($this->id);
-            $this->assertEquals($this->id, $list->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-
-        // task list without tasks
-        try {
-            $list = $this->model->get($this->id, false);
-            $this->assertFalse(isset($list->todoItems));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @depends insert
-     * @test
-     */
-    public function getByProject(): void
-    {
-        try {
-            $this->model->getByProject(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param project_id', $e->getMessage());
-        }
-
-        try {
-            $list = $this->model->getByProject($this->projectId);
-            $this->assertGreaterThan(0, count($list));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @depends insert
-     * @test
-     */
-    public function getActiveByProject(): void
-    {
-        try {
-            $list = $this->model->getByProject($this->projectId, 'active');
-            $this->assertGreaterThan(0, count($list));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @depends insert
-     * @test
-     */
-    public function getUpcomingByProject(): void
-    {
-        try {
-            $list = $this->model->getByProject($this->projectId, 'upcoming');
-            $this->assertGreaterThan(0, count($list));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @depends insert
-     * @dataProvider provider
-     * @test
-     */
-    public function reorder($data): void
-    {
-        try {
-            $data['project_id'] = $this->projectId;
-            $this->model->save($data);
-            $list = $this->model->getByProject($this->projectId);
-            $ids = [];
-            foreach ($list as $l) {
-                $ids[] = $l->id;
+        $this->assertEquals(10, $this->factory('task.list', [
+            'POST /projects/'. TPM_PROJECT_ID . '/tasklists' => function ($data) {
+                $this->assertObjectHasProperty('name', $data);
             }
-            shuffle($ids);
-            $this->assertTrue($this->model->reorder($this->projectId, $ids));
-            $list = $this->model->getByProject($this->projectId);
-            $order = [];
-            foreach ($list as $l) {
-                $order[] = $l->id;
+        ])->save([
+            'project_id' => TPM_PROJECT_ID,
+            'name' => 'Test'
+        ]));
+
+        $this->assertEquals(10, $this->factory('task.list', [
+            'POST /projects/'. TPM_PROJECT_ID . '/tasklists' => function ($data) {
+                $this->assertObjectHasProperty('todo-list', $data);
+                $this->assertObjectHasProperty('applyDefaultsToExistingTasks', $data);
             }
-            $this->assertEquals($ids, $order);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        ])->save([
+            'project_id' => TPM_PROJECT_ID,
+            'apply_defaults_to_existing_tasks' => true,
+            'name' => 'Test'
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function reorder(): void
+    {
+        $this->assertTrue($this->factory('task.list', [
+            'PUT /projects/'. TPM_PROJECT_ID . '/tasklists/reorder' => function ($data) {
+                $this->assertEquals(
+                    '{"todo-lists":{"todo-list":[{"id":1},{"id":2},{"id":2}]}}',
+                    $data
+                );
+            }
+        ])->reorder(TPM_PROJECT_ID, 1, 2, 2));
     }
 
     public function provider()

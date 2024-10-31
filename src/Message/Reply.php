@@ -9,7 +9,7 @@ class Reply extends Model
 {
     public function init()
     {
-        $this->fields = [
+        static::$fields = [
             'body' => true,
             'notify' => [
                 'type' => 'array',
@@ -68,7 +68,7 @@ class Reply extends Model
      * @return int
      * @throws Exception
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         $message_id = empty($data['message_id']) ? 0 : (int)$data['message_id'];
         if ($message_id <= 0) {

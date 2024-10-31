@@ -67,7 +67,7 @@ class Client
      */
     private function request(string $method, string $path, $parameters = null): bool | Response | int
     {
-        $url = "{$this->url}$path." . self::$FORMAT;
+        $url = "{$this->url}$path." . static::$FORMAT;
         $headers = [
             'Authorization: BASIC ' . base64_encode($this->key . ':xxx'),
         ];
@@ -102,7 +102,7 @@ class Client
             throw new Exception($errorInfo);
         }
 
-        if ($method == 'DELETE' && $status === 204) {
+        if ($status === 204) {
             $body = '{}';
         }
 
@@ -259,5 +259,12 @@ class Client
         }
 
         return $headers;
+    }
+
+    public function notUseFields()
+    {
+        $this->request->notUseFields();
+
+        return $this;
     }
 }

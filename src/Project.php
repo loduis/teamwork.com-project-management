@@ -7,144 +7,14 @@ namespace TeamWorkPm;
 use TeamWorkPm\Response\Model as Response;
 
 /**
- * Class Project
- *
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/projects/get-projects-json
- *
- * This class represents a project in the TeamWorkPm system. It contains the fields and methods
- * necessary to interact with the project API, including creating, retrieving, and managing projects
- * and their states (active, archived, starred, etc.).
  */
 class Project extends Model
 {
-    /**
-     * Initialize project fields.
-     *
-     * Fields define the structure and validation rules for the project data, such as required
-     * fields, data types, and transformations. This includes fields like `name`, `description`,
-     * and options for project features like tasks, milestones, and comments.
-     */
-    protected function init()
-    {
-        $this->fields = [
-            'name' => [
-                'type' => 'string',
-                'required' => true
-            ],
-            'description' => [
-                'type' => 'string'
-            ],
-            'use_tasks' => [
-                'type' => 'boolean',
-                'transform' => 'camel'
-            ],
-            'use_milestones' => [
-                'type' => 'boolean',
-                'transform' => 'camel'
-            ],
-            'use_messages' => [
-                'type' => 'boolean',
-                'transform' => 'camel'
-            ],
-            'use_files' => [
-                'type' => 'boolean',
-                'transform' => 'camel'
-            ],
-            'use_time' => [
-                'type' => 'boolean',
-                'transform' => 'camel'
-            ],
-            'use_notebook' => [
-                'type' => 'boolean',
-                'transform' => 'camel'
-            ],
-            'use_risk_register' => [
-                'type' => 'boolean',
-                'transform' => 'use-riskregister'
-            ],
-            'use_links' => [
-                'type' => 'boolean',
-                'transform' => 'camel'
-            ],
-            'use_billing' => [
-                'type' => 'boolean',
-                'transform' => 'camel'
-            ],
-            'use_comments' => [
-                'type' => 'boolean',
-                'transform' => 'camel'
-            ],
-            'category_id' => [
-                'type' => 'integer'
-            ],
-            'start_date' => [
-                'type' => 'string',
-                'transform' => 'dash'
-            ],
-            'end_date' => [
-                'type' => 'string',
-                'transform' => 'dash'
-            ],
-            'tag_ids' => [
-                'type' => 'string',
-                'transform' => 'camel'
-            ],
-            'onboarding' => [
-                'type' => 'boolean'
-            ],
-            'grant_access_to' => [
-                'type' => 'string',
-                'transform' => 'dash'
-            ],
-            'private' => [
-                'type' => 'boolean'
-            ],
-            'custom_fields' => [
-                'type' => 'array',
-                'transform' => ['camel', function (array $value): array {
-                    /**
-                     * @var array
-                     */
-                    return array_reduce($value, function (array $acc, string $value, int $key) {
-                        $acc[] = [
-                            'customFieldId' => $key,
-                            'value' => $value
-                        ];
-                        return $acc;
-                    }, []);
-                }]
-            ],
-            'people' => [
-                'type' => 'integer'
-            ],
-            'project_owner_id' => [
-                'type' => 'integer',
-                'transform' => 'camel'
-            ],
-            'company_id' => [
-                'type' => 'integer',
-                'transform' => 'camel'
-            ],
-            'template_date_target_default' => [
-                'type' => 'string',
-                'transform' => 'camel',
-                'on_update' => true
-            ],
-            'status' => [
-                'type' => 'string',
-                'on_update' => true
-            ],
-            'logo_pending_file_ref' => [
-                'type' => 'string',
-                'transform' => 'camel',
-                'on_update' => true,
-            ]
-        ];
-    }
+    protected static string|array $fields = 'projects';
 
     /**
-     * Retrieves all accessible projects, including active, inactive, and archived projects.
-     * You can optionally pass a date to get only recently updated projects, useful for caching purposes.
+     * Retrieves all accessible projects
      *
      * @param object|array $params Optional query parameters
      * @return Response
@@ -211,11 +81,24 @@ class Project extends Model
      * @param object|array $data
 
      * @return bool
-     * @throws \TeamWorkPm\Exception
+     * @throws Exception
      */
     public function setRates(int $id, object|array $data = []): bool
     {
         return Factory::projectRate()->set($id, $data);
+    }
+
+    /**
+     * Get all People (within a Project)
+     *
+     * @param int $id
+     *
+     * @return Response
+     * @throws Exception
+     */
+    public function getPeople(int $id): Response
+    {
+        return Factory::people()->getByProject($id);
     }
 
     /**

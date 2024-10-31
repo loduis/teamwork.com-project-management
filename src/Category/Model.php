@@ -3,58 +3,57 @@
 namespace TeamWorkPm\Category;
 
 use TeamWorkPm\Exception;
+use TeamWorkPm\Response\Model as Response;
 
 abstract class Model extends \TeamWorkPm\Model
 {
+    protected static string|array $fields = 'resource_categories';
+
     protected function init()
     {
-        [$parent, $type] = explode('-', (string) $this->parent);
-        $this->parent = $parent;
+        [$this->parent, $type] = explode('-', (string) $this->parent);
         $this->action = $type . 'Categories';
-        $this->fields = [
-            'name' => true,
-            'parent' => false,
-        ];
     }
 
     /**
-     * Retrieving all of a Projects Categories
+     * Retrieving all of a [File|Link|Message|Notebook] Categories by projects
      *
-     * GET /projects/#{project_id}/#{resource}Categories.xml
-     *
-     * All the message categories for your project will be returned.
-     *
-     * @param int $project_id
-     * @return \TeamWorkPm\Response\Model
+     * @param integer $id
+     * @return Response
      */
-    public function getByProject(int $project_id)
+    public function getByProject(int $id): Response
     {
-        if ($project_id <= 0) {
-            throw new Exception('Invalid param project_id');
-        }
-        return $this->rest->get("projects/$project_id/$this->action");
+        return $this->rest->get("projects/$id/$this->action");
     }
 
     /**
-     * Creating Categories
+     * Alias to getByProjectId
      *
-     * POST /projects/#{project_id}/#{resource}Categories.xml
-     *
-     * A new category will be created and attached to your specified project ID.
+     * @param integer $projectId
+     * @throws Exception
+     */
+    public function all(int $projectId): Response
+    {
+        return $this->getByProject($projectId);
+    }
+
+    /**
+     * Creating [File|Link|Message|Notebook] Categories
      *
      * @param array|object $data
-     * @return int
+     * @return integer
+     * @return Response
      */
-    public function insert(array|object $data): int
+    public function create(array|object $data): int
     {
         $data = arr_obj($data);
-        $project_id = (int) ($data['project_id'] ?? 0);
-        if ($project_id <= 0) {
-            throw new Exception('Required field project_id');
-        }
+        $projectId = (int) $data->pull('project_id');
+        $this->validates([
+            'project_id' => $projectId
+        ]);
         /**
          * @var int
          */
-        return $this->rest->post("projects/$project_id/$this->action", $data);
+        return $this->rest->post("projects/$projectId/$this->action", $data);
     }
 }

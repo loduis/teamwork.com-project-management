@@ -1,0 +1,20 @@
+{
+    "customfield": {
+        "name": "Dropdown Field",
+        "entity": "task",
+        "type": "dropdown",
+        "description": "A dropdown custom field",
+        "options": {
+            "choices": [
+                {
+                    "color": "blue",
+                    "value": "Option 1"
+                },
+                {
+                    "color": "yellow",
+                    "value": "Option 2"
+                }
+            ]
+        }
+    }
+}

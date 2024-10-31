@@ -7,7 +7,7 @@ class Milestone extends Model
     protected function init()
     {
         // this is the list of fields that can send the api
-        $this->fields = [
+        static::$fields = [
             'title' => true,
             'description' => false,
             'deadline' => [
@@ -146,7 +146,7 @@ class Milestone extends Model
      * @return int
      * @throws Exception
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         $project_id = empty($data['project_id']) ? 0 : $data['project_id'];
         if ($project_id <= 0) {

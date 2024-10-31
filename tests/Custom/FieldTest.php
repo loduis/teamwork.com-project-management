@@ -27,13 +27,9 @@ final class FieldTest extends TestCase
     {
         $data['description'] = 'A custom field description';
 
-        $this->assertEquals(10, $this->factory('custom.field', function ($headers) {
-            $customField = $headers['X-Params'];
-            $this->assertObjectHasProperty('name', $customField);
-            $this->assertObjectHasProperty('entity', $customField);
-            $this->assertObjectHasProperty('type', $customField);
-            $this->assertObjectNotHasProperty('invalidField', $customField);
-        })->save($data));
+        $this->assertEquals(TPM_TEST_ID, $this->factory('custom.field', [
+            'POST /projects/api/v3/customfields' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->save($data));
     }
 
     /**
@@ -43,14 +39,13 @@ final class FieldTest extends TestCase
      */
     public function update($data): void
     {
-        $data['name'] = rand_string($data['name']);
+        $data['name'] = 'Test field';
         $data['description'] = 'Updated description';
-        $data['id'] = 10;
+        $data['id'] = TPM_TEST_ID;
 
-        $this->assertTrue($this->factory('custom.field', function ($headers) {
-            $customField = $headers['X-Params'];
-            $this->assertEquals('Updated description', $customField->description);
-        })->save($data));
+        $this->assertTrue($this->factory('custom.field', [
+            'PUT /projects/api/v3/customfields/' . TPM_TEST_ID => fn ($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->save($data));
     }
 
     /**
@@ -78,15 +73,9 @@ final class FieldTest extends TestCase
      */
     public function insertValidField($data): void
     {
-        $this->assertEquals(10, $this->factory('custom.field', function ($headers) {
-            $customField = $headers['X-Params'];
-            $this->assertObjectHasProperty('name', $customField);
-            $this->assertObjectHasProperty('entity', $customField);
-            $this->assertObjectHasProperty('type', $customField);
-            $this->assertObjectHasProperty('description', $customField);
-            $this->assertObjectHasProperty('options', $customField);
-            $this->assertNotEmpty($customField->options->choices);
-        })->save($data));
+        $this->assertEquals(TPM_TEST_ID, $this->factory('custom.field', [
+            'POST /projects/api/v3/customfields' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->save($data));
     }
 
     /**
@@ -98,6 +87,13 @@ final class FieldTest extends TestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage($expectedMessage);
         $this->factory('custom.field')->save($data);
+        /*
+        try {
+            $this->factory('custom.field')->save($data);
+            echo 'pass', PHP_EOL;
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }*/
     }
 
     /**
@@ -171,6 +167,7 @@ final class FieldTest extends TestCase
                 ],
                 'Required field name'
             ],
+
             // Campo requerido faltante: 'entity'
             [
                 [
@@ -180,6 +177,7 @@ final class FieldTest extends TestCase
                 ],
                 'Required field entity'
             ],
+
             // Valor no válido para el campo 'type'
             [
                 [
@@ -199,10 +197,21 @@ final class FieldTest extends TestCase
                     'description' => 'Field with invalid options',
                     'options' => [
                         ['color' => 'blue'],
-                        ['value' => 'Missing color']
                     ]
                 ],
-                'Invalid value for field options'
+                'Required field value'
+            ],
+            [
+                [
+                    'name' => 'Invalid Options Field',
+                    'entity' => 'project',
+                    'type' => 'dropdown',
+                    'description' => 'Field with invalid options',
+                    'options' => [
+                        ['value' => 'value'],
+                    ]
+                ],
+                'Required field color'
             ]
         ];
     }

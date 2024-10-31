@@ -12,7 +12,7 @@ class Card extends Model
         $this->parent = 'card';
         $this->action = 'portfolio/cards';
 
-        $this->fields = [
+        static::$fields = [
             'projectId' => [
                 'type' => 'string'
             ],
@@ -66,7 +66,7 @@ class Card extends Model
      *
      * @return int
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         $columnId = empty($data['columnId']) ? 0 : (int)$data['columnId'];
         if ($columnId <= 0) {

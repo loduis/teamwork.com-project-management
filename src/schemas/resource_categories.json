@@ -1,0 +1,10 @@
+{
+    "name": {
+        "type": "string",
+        "required": true
+    },
+    "parent_id": {
+        "type": "string",
+        "transform": "dash"
+    }
+}

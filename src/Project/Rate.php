@@ -14,30 +14,7 @@ class Rate extends Resource
 
     protected ?string $actions = 'rates';
 
-    protected function init()
-    {
-        $this->fields = [
-            'project_default' => [
-                'type' => 'integer',
-                'transform' => 'dash'
-            ],
-            'users' => [
-                'type' => 'array',
-                'transform' => [null, function (array|object $value): array {
-                    return array_reduce($value, function (array $acc, $value, $key) {
-                        if (!is_scalar($value)) {
-                            /** @disregard P1013 */
-                            $value = arr_obj($value)->rate;
-                        }
-                        $acc[$key] = [
-                            'rate' => (float)$value,
-                        ];
-                        return $acc;
-                    }, []);
-                }]
-            ]
-        ];
-    }
+    protected static string|array $fields = 'projects.rates';
 
     /**
      * @param int $projectId

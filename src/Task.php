@@ -6,7 +6,7 @@ class Task extends Model
 {
     protected function init()
     {
-        $this->fields = [
+        static::$fields = [
             'content' => true,
             'notify' => [
                 'type' => 'boolean',
@@ -117,7 +117,7 @@ class Task extends Model
      * @return int
      * @throws Exception
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         $task_list_id = empty($data['task_list_id']) ? 0 : (int)$data['task_list_id'];
         if ($task_list_id <= 0) {

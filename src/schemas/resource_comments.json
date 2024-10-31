@@ -1,0 +1,21 @@
+{
+    "body": {
+        "type": "string",
+        "required": true
+    },
+    "notify": {
+        "type": "string"
+    },
+    "is_private": {
+        "type": "boolean",
+        "transform": "isprivate"
+    },
+    "pending_file_attachments": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "content_type": {
+        "type": "string",
+        "transform": "dash"
+    }
+}

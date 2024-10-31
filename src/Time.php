@@ -6,7 +6,7 @@ class Time extends Model
 {
     protected function init()
     {
-        $this->fields = [
+        static::$fields = [
             'description' => true,
             'person_id' => true,
             'date' => [
@@ -43,7 +43,7 @@ class Time extends Model
      * @return int
      * @throws Exception
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         $id = 0;
         if (!empty($data['task_id'])) {

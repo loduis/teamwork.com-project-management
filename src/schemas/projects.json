@@ -1,0 +1,107 @@
+{
+    "name": {
+        "type": "string",
+        "required": true
+    },
+    "description": {
+        "type": "string"
+    },
+    "use_tasks": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_milestones": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_messages": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_files": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_time": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_notebook": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_risk_register": {
+        "type": "boolean",
+        "transform": "use-riskregister"
+    },
+    "use_links": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_billing": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_comments": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "category_id": {
+        "type": "integer",
+        "transform": "dash"
+    },
+    "start_date": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "end_date": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "tag_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "onboarding": {
+        "type": "boolean"
+    },
+    "grant_access_to": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "private": {
+        "type": "boolean"
+    },
+    "custom_fields": {
+        "type": "array<object>",
+        "transform": "camel",
+        "fields": {
+            "custom_field_id": {
+                "type": "integer",
+                "transform": "camel",
+                "required": true
+            },
+            "value": {
+                "type": "string",
+                "required": true
+            }
+        },
+        "accept": "<custom_field_id,value>"
+    },
+    "people": {
+        "type": "integer"
+    },
+    "project_owner_id": {
+        "type": "integer",
+        "transform": "camel"
+    },
+    "company_id": {
+        "type": "integer",
+        "transform": "camel"
+    },
+    "template_date_target_default": {
+        "type": "string",
+        "transform": "camel",
+        "on_update": true
+    }
+}

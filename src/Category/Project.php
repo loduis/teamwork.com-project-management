@@ -10,21 +10,18 @@ use TeamWorkPm\Response\Model as Response;
  */
 class Project extends Model
 {
+    protected static string|array $fields = 'resource_categories';
+
     protected function init()
     {
-        [$parent, $type] = explode('-', (string) $this->parent);
-        $this->parent = $parent;
+        [$this->parent, $type] = explode('-', (string) $this->parent);
         $this->action = $type . 'Categories';
-        $this->fields = [
-            'name' => true,
-            'parent' => false,
-        ];
     }
 
     /**
-     * Retrieve all Project Categories
-     * GET /projectCategories
-     * Will return all project categories
+     * Retrieving all of a Project Categories
+     *
+     * @return Response
      */
     public function all(): Response
     {

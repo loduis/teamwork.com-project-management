@@ -15,6 +15,7 @@
          verbose="true">
     <testsuites>
         <testsuite name="default">
+            <file>tests/Request/JsonTest.php</file>
             <file>tests/ProjectTest.php</file>
             <file>tests/PeopleTest.php</file>
             <file>tests/CompanyTest.php</file>

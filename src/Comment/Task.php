@@ -7,5 +7,5 @@ namespace TeamWorkPm\Comment;
  */
 class Task extends Model
 {
-    protected $resource = 'todo_items';
+    protected string $resource = 'todo_items';
 }

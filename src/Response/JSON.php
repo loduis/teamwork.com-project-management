@@ -181,7 +181,7 @@ class JSON extends Model
             return $source;
         }
 
-        $destination = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+        $destination = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS | \ArrayObject::STD_PROP_LIST);
         /**
          * @var string $key
          * @var mixed $value

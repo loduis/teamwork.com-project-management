@@ -11,7 +11,7 @@ class Status extends Resource
     {
         $this->parent = 'userstatus';
         $this->action = 'status';
-        $this->fields = [
+        static::$fields = [
             'status' => true,
             'notify' => false,
         ];
@@ -42,7 +42,7 @@ class Status extends Resource
      * @param array $data
      * @return int
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         return $this->rest->post("me/$this->action", $data);
     }

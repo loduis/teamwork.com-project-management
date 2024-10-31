@@ -10,3 +10,7 @@ phpunit.xml
 psalm.xml
 .phpunit.result.cache
 .env
+/scripts/
+projects-api-v1.oas2.json
+projects-api-v2.oas2.json
+projects-api-v3.oas2.json

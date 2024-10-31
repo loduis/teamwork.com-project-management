@@ -8,7 +8,7 @@ class Notebook extends Rest\Resource
 {
     protected function init()
     {
-        $this->fields = [
+        static::$fields = [
             'name' => true,
             'description' => true,
             'content' => true,
@@ -147,7 +147,7 @@ class Notebook extends Rest\Resource
      *
      * @throws Exception
      */
-    public function insert(array $data)
+    public function create(array $data)
     {
         $projectId = empty($data['project_id']) ? 0 : (int)$data['project_id'];
         if ($projectId <= 0) {

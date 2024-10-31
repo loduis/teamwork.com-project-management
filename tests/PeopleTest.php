@@ -28,9 +28,9 @@ final class PeopleTest extends TestCase
         // =========== required fields ========= //
         $fail = [];
         $required = [
+            'email_address',
             'first_name',
             'last_name',
-            'email_address',
             'user_name',
         ];
         foreach ($required as $field) {
@@ -45,11 +45,9 @@ final class PeopleTest extends TestCase
             }
         }
 
-        $this->assertEquals(10, $this->factory('people', function ($headers) {
-            $people = $headers['X-Params'];
-            $this->assertObjectHasProperty('email-address', $people);
-            $this->assertObjectHasProperty('first-name', $people);
-        })->save($data));
+        $this->assertEquals(10, $this->factory('people', [
+            'POST /people' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->save($data));
 
 
         $data['project_id'] = TPM_PROJECT_ID;
@@ -58,21 +56,9 @@ final class PeopleTest extends TestCase
         ];
 
         $this->assertEquals(10, $this->factory('people', [
-            'POST /people' => function ($headers) {
-                $people = $headers['X-Params'];
-                $this->assertObjectHasProperty('email-address', $people);
-                $this->assertObjectHasProperty('first-name', $people);
-            },
-            'POST /projects/967489/people/10' => function ($headers) {
-                unset($headers['id']);
-                $this->assertNull($headers['X-Params']);
-                return $headers;
-            },
-            'PUT /projects/967489/people/10' => function ($headers) {
-                $permission = $headers['X-Params'];
-                $this->assertObjectHasProperty('projectAdministrator', $permission);
-                return $headers;
-            }
+            'POST /people' => fn($data) => $this->assertMatchesJsonSnapshot($data),
+            'POST /projects/967489/people/10' => true,
+            'PUT /projects/967489/people/10' => true
         ])->save($data));
     }
 
@@ -93,7 +79,7 @@ final class PeopleTest extends TestCase
         $fail = [];
         // =========== validate email address ========= //
         try {
-            $fail['id'] = 10;
+            $fail['id'] = TPM_TEST_ID;
             $fail['email_address'] = 'back@email_address';
             $this->assertTrue($this->factory('people')->save($fail));
         } catch (Exception $e) {
@@ -103,29 +89,19 @@ final class PeopleTest extends TestCase
             );
         }
         try {
-            $data['id'] = 10;
+            $data['id'] = TPM_TEST_ID;
             $data['company_id'] = TPM_COMPANY_ID;
-            $this->assertTrue($this->factory('people', function ($headers) {
-                $people = $headers['X-Params'];
-                $this->assertObjectHasProperty('email-address', $people);
-                $this->assertObjectHasProperty('company-id', $people);
-            })->save($data));
+            $this->assertTrue($this->factory('people', [
+                'PUT /people/' . TPM_TEST_ID => fn($data) => $this->assertMatchesJsonSnapshot($data)
+            ])->save($data));
         } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
 
-        $this->assertTrue($this->factory('people', function ($headers) {
-            $person = $headers['X-Params'];
-            $address = $person->address;
-            $workingHours = $person->workingHours;
-            $this->assertObjectHasProperty('line1', $address);
-            $this->assertObjectHasProperty('countrycode', $address);
-            $this->assertObjectHasProperty('city', $address);
-            $this->assertObjectHasProperty('state', $address);
-            $this->assertObjectHasProperty('zipcode', $address);
-            $this->assertCount(2, $workingHours->entries);
-        })->save([
-            'id' => 10,
+        $this->assertTrue($this->factory('people', [
+            'PUT /people/' . TPM_TEST_ID => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->save([
+            'id' => TPM_TEST_ID,
             'address' => [
                 'line1' => 'Main',
                 'line2' => 'Second',
@@ -156,7 +132,9 @@ final class PeopleTest extends TestCase
     {
         $this->assertEquals(
             "Php",
-            $this->factory('people')->get(TPM_USER_ID)->firstName
+            $this->factory('people', [
+                'GET /people/' . TPM_USER_ID => true
+            ])->get(TPM_USER_ID)->firstName
         );
     }
 
@@ -166,7 +144,11 @@ final class PeopleTest extends TestCase
      */
     public function getAll(): void
     {
-        $this->assertGreaterThan(0, count($this->factory('people')->all()));
+        $this->assertGreaterThan(0,
+            count($this->factory('people', [
+                'GET /people' => true
+            ])->all())
+        );
     }
 
     /**
@@ -175,7 +157,11 @@ final class PeopleTest extends TestCase
      */
     public function getByProject(): void
     {
-        $this->assertGreaterThan(0, count($this->factory('people')->getByProject(TPM_PROJECT_ID)));
+        $this->assertGreaterThan(0,
+            count($this->factory('people', [
+                'GET /projects/' . TPM_PROJECT_ID . '/people' => true
+            ])->getByProject(TPM_PROJECT_ID))
+        );
     }
 
     /**
@@ -257,7 +243,9 @@ final class PeopleTest extends TestCase
      */
     public function delete()
     {
-        $this->assertTrue($this->factory('people')->delete(TPM_USER_ID));
+        $this->assertTrue($this->factory('people', [
+            'DELETE /people/' . TPM_USER_ID => true
+        ])->delete(TPM_USER_ID));
     }
 
     public function provider()
