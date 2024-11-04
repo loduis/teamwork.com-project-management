@@ -46,7 +46,7 @@
         "accept": "<choices>",
         "choices": {
             "type": "array<object>",
-            "fields": {
+            "properties": {
                 "color": {
                     "type": "string",
                     "required": true

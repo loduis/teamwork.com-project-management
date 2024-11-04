@@ -9,7 +9,7 @@ use TeamWorkPm\Response\Model as Response;
  */
 class Company extends Model
 {
-    protected static array|string $fields = 'companies';
+    protected string|array $fields = 'companies';
 
     /**
      * Retrieve Companies
@@ -21,7 +21,7 @@ class Company extends Model
      */
     public function all(array|object $params = []): Response
     {
-        return $this->rest->get((string) $this->action, $params);
+        return $this->fetch((string) $this->action, $params);
     }
 
     /**
@@ -34,6 +34,6 @@ class Company extends Model
      */
     public function getByProject(int $id): Response
     {
-        return $this->rest->get("projects/$id/$this->action");
+        return $this->fetch("projects/$id/$this->action");
     }
 }

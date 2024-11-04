@@ -2,75 +2,75 @@
 
 namespace TeamWorkPm;
 
-use TeamWorkPm\Response\Model;
+use TeamWorkPm\Response\Model as Response;
 
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/files/get-files-id-json
+ */
 class File extends Rest\Resource
 {
-    protected function init()
+    protected string|array $fields = [];
+
+    /**
+     * Get all files in projects
+     *
+     * @param int $id
+     *
+     * @return Response
+     * @throws Exception
+     */
+    public function all(): Response
     {
-        static::$fields = [
-            'pending_file_ref' => true,
-            'description' => false,
-            'category_id' => [
-                'type' => 'integer'
-            ],
-            'category_name' => false,
-            'private' => false,
-        ];
+        return $this->fetch("$this->action");
     }
 
     /**
+     * Get a Single File
+     *
      * @param int $id
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
-    public function get($id)
+    public function get(int $id): Response
     {
-        $id = (int)$id;
-        if ($id <= 0) {
-            throw new Exception('Invalid param id');
-        }
-        return $this->rest->get("$this->action/$id");
+        return $this->fetch("$this->action/$id");
     }
 
     /**
      * List Files on a Project
      *
-     * GET /projects/#{project_id}/files.xml
+     * @param int $id
      *
-     * This lets you query the list of files for a project.
-     *
-     * @param int $project_id
-     *
-     * @return Model
+     * @return Response
      * @throws Exception
      */
-    public function getByProject($project_id)
+    public function getByProject(int $projectId)
     {
-        $project_id = (int)$project_id;
-        if ($project_id <= 0) {
-            throw new Exception('Invalid param project_id');
-        }
-        return $this->rest->get("projects/$project_id/$this->action");
+        return Factory::projectFile()->all($projectId);
     }
 
     /**
-     * Step 1. Upload the file
+     * List Files on a Task
      *
-     * POST /pendingfiles
+     * @param int $id
      *
-     * Send your file to POST /pendingfiles.xml using the FORM field "file".
-     * You will still need to authenticate yourself by passing your API token.
-     *
-     * If the upload is successful, you will get back something like:
-     * tf_1706111559e0a49
-     *
-     * @param array $files
-     * @return string
+     * @return Response
      * @throws Exception
      */
-    public function upload($files)
+    public function getByTask(int $id)
+    {
+        return Factory::taskFile()->all($id);
+    }
+
+    /**
+     * Upload a File (Classic)
+     *
+     * @param string|array $files
+     * @return array
+     * @throws Exception
+     */
+    public function upload(string|array $files): array
     {
         $files = (array)$files;
         $pending_file_attachments = [];
@@ -80,63 +80,119 @@ class File extends Rest\Resource
             }
         }
         foreach ($files as $filename) {
-            $params = ['file' => self::getFileParam($filename)];
-            $pending_file_attachments[] = $this->rest->upload(
+            $params = ['file' => curl_file_create($filename)];
+            $pending_file_attachments[] = $this->post(
                 'pendingfiles',
                 $params
             );
         }
 
-        return implode(',', $pending_file_attachments);
-    }
-
-    private static function getFileParam($filename)
-    {
-        if (function_exists('curl_file_create')) {
-            return curl_file_create($filename);
-        }
-
-        return "@$filename";
+        return $pending_file_attachments;
     }
 
     /**
      * Add a File to a Project
+     * Add a File to a Task
      *
-     * POST /projects/#{file_id}/files
      *
      * @param array $data
      *
-     * @return int File id
+     * @return int
      * @throws Exception
      */
-    public function save(array $data)
+    public function add(object|array $data): mixed
     {
-        $project_id = empty($data['project_id']) ? 0 : (int)$data['project_id'];
-        if ($project_id <= 0) {
-            throw new Exception('Required field project_id');
+        $data = arr_obj($data);
+        $projectId = $data->pull('project_id');
+        $taskId = $data->pull('task_id');
+        $id = $data->pull('id');
+        $files = $data->pull('files');
+        if ($files !== null) {
+            $files = is_string($files) ? (array) $files : $files->toArray();
+            if ($id !== null) {
+                $files = $files[0];
+            }
+            $data[
+                $taskId ?
+                'pending_file_attachments':
+                'pending_file_ref'
+            ] = $this->upload($files);
         }
-        if (empty($data['pending_file_ref']) && empty($data['filename'])) {
-            throw new Exception('Required field pending_file_ref or filename');
+        if ($id !== null) {
+            if (empty($data['pending_file_ref'])) {
+                throw new Exception('Required field pending_file_ref');
+            }
+            $params = [
+                'pendingFileRef' => ((array) $data['pending_file_ref'])[0]
+            ];
+            if (!empty($data->description)) {
+                $params['description'] = $data['description'];
+            }
+            return $this->notUseFields()
+                ->post("$this->action/$id", ['fileversion' => $params]);
         }
-        if (empty($data['pending_file_ref'])) {
-            $data['pending_file_ref'] = $this->upload($data['filename']);
+
+        if (!($taskId || $projectId)) {
+            throw new Exception('Required field project_id or task_id');
         }
-        unset($data['filename']);
-        return $this->rest->post("projects/$project_id/files", $data);
+
+        return $projectId ?
+            Factory::projectFile()->add($projectId, $data):
+            Factory::taskFile()->add($taskId, $data);
     }
 
     /**
+     * Copy a File to another Project
+     *
+     * @param integer $id
+     * @param integer $projectId
+     * @return boolean
+     */
+    public function copy(int $id, int $projectId): bool
+    {
+        return $this
+            ->notUseFields()
+            ->put(
+            "$this->action/$id/copy", compact('projectId')
+        );
+    }
+
+    /**
+     * Get a short URL for sharing a File
+     *
+     * @param integer $id
+     * @return string
+     */
+    public function getSharedLink(int $id): string
+    {
+        return $this->fetch("$this->action/$id/sharedlink")->url;
+    }
+
+    /**
+     * Move a file to another Project
+     *
+     * @param integer $id
+     * @param integer $projectId
+     * @return boolean
+     */
+    public function move(int $id, int $projectId): bool
+    {
+        return $this
+            ->notUseFields()
+            ->put("$this->action/$id/move", compact('projectId')
+        );
+    }
+
+    /**
+     * Delete a File from a Project
+     *
      * @param int $id
      *
      * @return bool
      * @throws Exception
      */
-    public function delete($id)
+    public function delete(int $id): bool
     {
-        $id = (int)$id;
-        if ($id <= 0) {
-            throw new Exception('Invalid param id');
-        }
-        return $this->rest->delete("$this->action/$id");
+        return $this->del("$this->action/$id");
     }
 }

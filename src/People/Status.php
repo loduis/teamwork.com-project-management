@@ -11,7 +11,7 @@ class Status extends Resource
     {
         $this->parent = 'userstatus';
         $this->action = 'status';
-        static::$fields = [
+        $this->fields = [
             'status' => true,
             'notify' => false,
         ];
@@ -31,7 +31,7 @@ class Status extends Resource
     public function get($person_id)
     {
         $person_id = (int)$person_id;
-        return $this->rest->get("people/$person_id/$this->action");
+        return $this->fetch("people/$person_id/$this->action");
     }
 
     /**
@@ -44,7 +44,7 @@ class Status extends Resource
      */
     public function getAll()
     {
-        return $this->rest->get("people/$this->action");
+        return $this->fetch("people/$this->action");
     }
 
     /**
@@ -65,7 +65,7 @@ class Status extends Resource
         }
         unset($data['person_id']);
 
-        return $this->rest->post("people/$person_id/$this->action", $data);
+        return $this->post("people/$person_id/$this->action", $data);
     }
 
     /**
@@ -87,7 +87,7 @@ class Status extends Resource
         }
         $person_id = empty($data['person_id']) ? 0 : (int)$data['person_id'];
         unset($data['id'], $data['person_id']);
-        return $this->rest->put('people/' . ($person_id ? $person_id . '/' : '') . "$this->action/$id", $data);
+        return $this->put('people/' . ($person_id ? $person_id . '/' : '') . "$this->action/$id", $data);
     }
 
     /**
@@ -111,7 +111,7 @@ class Status extends Resource
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->delete('people/' . ($person_id ? $person_id . '/' : '') . "$this->action/$id");
+        return $this->del('people/' . ($person_id ? $person_id . '/' : '') . "$this->action/$id");
     }
 
     /**

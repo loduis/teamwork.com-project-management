@@ -9,7 +9,7 @@ use TeamWorkPm\Response\Model as Response;
  */
 class Task_List extends Model
 {
-    protected static string|array $fields = 'tasklists';
+    protected string|array $fields = 'tasklists';
 
     protected ?string $action = 'tasklists';
 
@@ -24,7 +24,7 @@ class Task_List extends Model
      */
     public function all(array|object $params = []): Response
     {
-        return $this->rest->get("$this->action", $params);
+        return $this->fetch("$this->action", $params);
     }
 
     /**
@@ -38,7 +38,7 @@ class Task_List extends Model
      */
     public function getByProject(int $id, object| array $params = []): Response
     {
-        return $this->rest->get("projects/$id/$this->action", $params);
+        return $this->fetch("projects/$id/$this->action", $params);
     }
 
     /**
@@ -49,7 +49,7 @@ class Task_List extends Model
      */
     public function getTemplates(): Response
     {
-        return $this->rest->get("$this->action/templates");
+        return $this->fetch("$this->action/templates");
     }
 
     /**

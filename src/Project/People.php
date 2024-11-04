@@ -19,7 +19,7 @@ class People extends Resource
 
     protected function init()
     {
-        static::$fields = [
+        $this->fields = [
             'can_view_project_update' => [
                 'type'   => 'boolean',
                 'transform' => 'camel'
@@ -122,7 +122,7 @@ class People extends Resource
     {
         $this->validates(compact('projectId', 'personId'));
 
-        return $this->rest->get("/projects/$projectId/people/$personId");
+        return $this->fetch("/projects/$projectId/people/$personId");
     }
 
     /**
@@ -137,7 +137,7 @@ class People extends Resource
         $this->validates(compact('projectId', 'personId'));
 
         /** @var bool */
-        return $this->rest->post("projects/$projectId/people/$personId");
+        return $this->post("projects/$projectId/people/$personId");
     }
 
     /**
@@ -158,7 +158,7 @@ class People extends Resource
         $this->validates(compact('project_id', 'person_id'));
 
         /** @var bool */
-        return $this->rest->put(
+        return $this->put(
             "projects/$project_id/people/$person_id",
             $data
         );
@@ -175,6 +175,6 @@ class People extends Resource
     {
         $this->validates(compact('projectId', 'personId'));
 
-        return $this->rest->delete("/projects/$projectId/people/$personId");
+        return $this->del("/projects/$projectId/people/$personId");
     }
 }

@@ -31,7 +31,7 @@ namespace {
      *
      * @return ArrayObject
      */
-    function arr_obj(array|object $entries = [], int $options = ArrayObject::ARRAY_AS_PROPS | ArrayObject::STD_PROP_LIST): ArrayObject
+    function arr_obj(array|object $entries = [], int $options = ArrayObject::ARRAY_AS_PROPS): ArrayObject
     {
         if ($entries instanceof ArrayObject) {
             return $entries;
@@ -60,6 +60,9 @@ namespace {
 
 
 namespace TeamWorkPm {
+
+    use Closure;
+
     if (!function_exists(__NAMESPACE__ . '\array_reduce')) {
         function array_reduce(object|iterable $array, callable $callback, mixed $initial = null): mixed
         {
@@ -92,7 +95,8 @@ namespace TeamWorkPm {
         {
             $array = [];
             foreach ($this->getArrayCopy() as $key => $value) {
-                $array[$key] = $value instanceof self ? $value->toArray() : $value;
+                /** @disregard */
+                $array[$key] = $value instanceof static ? $value->toArray() : $value;
             }
 
             return $array;

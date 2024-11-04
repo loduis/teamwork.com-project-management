@@ -1,0 +1,6 @@
+{
+    "file": {
+        "pendingFileRef": "test",
+        "grant-access-to": "1,2,3"
+    }
+}

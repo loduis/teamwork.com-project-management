@@ -10,7 +10,7 @@ use TeamWorkPm\Response\Model as Response;
  */
 class Project extends Model
 {
-    protected static string|array $fields = 'resource_categories';
+    protected string|array $fields = 'resource_categories';
 
     protected function init()
     {
@@ -25,6 +25,6 @@ class Project extends Model
      */
     public function all(): Response
     {
-        return $this->rest->get((string) $this->action);
+        return $this->fetch((string) $this->action);
     }
 }

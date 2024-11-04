@@ -15,7 +15,7 @@ abstract class Model extends Rest\Resource
     {
         $this->validates(['id' => $id]);
 
-        return $this->rest->get("$this->action/$id", $params);
+        return $this->fetch("$this->action/$id", $params);
     }
 
     /**
@@ -27,7 +27,7 @@ abstract class Model extends Rest\Resource
         /**
          * @var int
          */
-        return $this->rest->post((string) $this->action, $data);
+        return $this->post((string) $this->action, $data);
     }
 
     /**
@@ -51,7 +51,7 @@ abstract class Model extends Rest\Resource
         }
 
         /** @var bool */
-        return $this->rest->put("$this->action/$id", $data);
+        return $this->put("$this->action/$id", $data);
     }
 
     /**
@@ -86,6 +86,6 @@ abstract class Model extends Rest\Resource
     {
         $this->validates(['id' => $id]);
 
-        return $this->rest->delete("$this->action/$id");
+        return $this->del("$this->action/$id");
     }
 }

@@ -6,7 +6,7 @@ class Link extends Model
 {
     protected function init()
     {
-        static::$fields = [
+        $this->fields = [
             // {link name}
             'name' => true,
             // {link display code: Embed code, Iframe code, URL}
@@ -55,7 +55,7 @@ class Link extends Model
      */
     public function getAll()
     {
-        return $this->rest->get($this->action);
+        return $this->fetch($this->action);
     }
 
     /**
@@ -76,7 +76,7 @@ class Link extends Model
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        return $this->rest->get("/projects/$project_id/$this->action");
+        return $this->fetch("/projects/$project_id/$this->action");
     }
 
     /**
@@ -97,6 +97,6 @@ class Link extends Model
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }
-        return $this->rest->post("projects/$project_id/$this->action", $data);
+        return $this->post("projects/$project_id/$this->action", $data);
     }
 }

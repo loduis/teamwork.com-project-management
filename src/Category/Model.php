@@ -7,7 +7,7 @@ use TeamWorkPm\Response\Model as Response;
 
 abstract class Model extends \TeamWorkPm\Model
 {
-    protected static string|array $fields = 'resource_categories';
+    protected string|array $fields = 'resource_categories';
 
     protected function init()
     {
@@ -23,7 +23,7 @@ abstract class Model extends \TeamWorkPm\Model
      */
     public function getByProject(int $id): Response
     {
-        return $this->rest->get("projects/$id/$this->action");
+        return $this->fetch("projects/$id/$this->action");
     }
 
     /**
@@ -54,6 +54,6 @@ abstract class Model extends \TeamWorkPm\Model
         /**
          * @var int
          */
-        return $this->rest->post("projects/$projectId/$this->action", $data);
+        return $this->post("projects/$projectId/$this->action", $data);
     }
 }

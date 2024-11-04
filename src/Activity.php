@@ -19,7 +19,7 @@ class Activity extends Rest\Resource
      */
     public function all(object|array $params = []): Response
     {
-        return $this->rest->get("$this->action", $params);
+        return $this->fetch("$this->action", $params);
     }
 
     /**
@@ -36,7 +36,7 @@ class Activity extends Rest\Resource
             throw new Exception('Invalid param id');
         }
 
-        return $this->rest->get("projects/$id/$this->action", $params);
+        return $this->fetch("projects/$id/$this->action", $params);
     }
 
     /**
@@ -48,7 +48,7 @@ class Activity extends Rest\Resource
      */
     public function getByTask(int $id): Response
     {
-        return $this->rest->get("tasks/$id/activity");
+        return $this->fetch("tasks/$id/activity");
     }
 
     /**
@@ -60,6 +60,6 @@ class Activity extends Rest\Resource
      */
     public function delete(int $id): bool
     {
-        return $this->rest->delete("activity/$id");
+        return $this->del("activity/$id");
     }
 }

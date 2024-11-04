@@ -12,7 +12,7 @@ class Field extends Model
 
     protected ?string $parent = 'customfield';
 
-    protected static string|array $fields = 'projects.custom_fields';
+    protected string|array $fields = 'projects.custom_fields';
 
     /**
      * Get all custom fields
@@ -23,6 +23,6 @@ class Field extends Model
      */
     public function all(object|array $params = []): Response
     {
-        return $this->rest->get("$this->action", $params);
+        return $this->fetch("$this->action", $params);
     }
 }

@@ -11,7 +11,7 @@ use TeamWorkPm\Response\Model as Response;
  */
 class Project extends Model
 {
-    protected static string|array $fields = 'projects';
+    protected string|array $fields = 'projects';
 
     /**
      * Retrieves all accessible projects
@@ -57,7 +57,7 @@ class Project extends Model
      */
     public function getStarred(): Response
     {
-        return $this->rest->get("$this->action/starred");
+        return $this->fetch("$this->action/starred");
     }
 
     /**
@@ -102,6 +102,19 @@ class Project extends Model
     }
 
     /**
+     * Get all People (within a Project)
+     *
+     * @param int $id
+     *
+     * @return Response
+     * @throws Exception
+     */
+    public function getFiles(int $id): Response
+    {
+        return Factory::file()->getByProject($id);
+    }
+
+    /**
      * Get Project Stats
      *
      * @return Response
@@ -109,7 +122,7 @@ class Project extends Model
      */
     public function getStats(int $id, object|array $params = []): Response
     {
-        return $this->rest->get("$this->action/$id/stats", $params);
+        return $this->fetch("$this->action/$id/stats", $params);
     }
 
     /**
@@ -123,7 +136,7 @@ class Project extends Model
      */
     public function getByCompany(int $id, object|array $params = []): Response
     {
-        return $this->rest->get("companies/$id/$this->action", $params);
+        return $this->fetch("companies/$id/$this->action", $params);
     }
 
     /**
@@ -137,7 +150,7 @@ class Project extends Model
     {
         $this->validates(['id' => $id]);
         /** @var bool */
-        return $this->rest->put("$this->action/$id/star");
+        return $this->put("$this->action/$id/star");
     }
 
     /**
@@ -151,7 +164,7 @@ class Project extends Model
     {
         $this->validates(['id' => $id]);
         /** @var bool */
-        return $this->rest->put("$this->action/$id/unstar");
+        return $this->put("$this->action/$id/unstar");
     }
 
     /**
@@ -195,6 +208,6 @@ class Project extends Model
         $params = arr_obj($params);
         $params['status'] = strtoupper($status);
 
-        return $this->rest->get("$this->action", $params);
+        return $this->fetch("$this->action", $params);
     }
 }

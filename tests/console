@@ -23,6 +23,7 @@ $casterToArray = function ($model) {
         }
         $results[Caster::PREFIX_VIRTUAL . $key] = $value;
     }
+
     return $results;
 };
 

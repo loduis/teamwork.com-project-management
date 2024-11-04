@@ -6,7 +6,7 @@ class Time extends Model
 {
     protected function init()
     {
-        static::$fields = [
+        $this->fields = [
             'description' => true,
             'person_id' => true,
             'date' => [
@@ -56,7 +56,7 @@ class Time extends Model
         if ($id <= 0) {
             throw new Exception('Required field project_id or task_id');
         }
-        return $this->rest->post("$resource/$id/$this->action", $data);
+        return $this->post("$resource/$id/$this->action", $data);
     }
 
     /**
@@ -76,7 +76,7 @@ class Time extends Model
      */
     public function getAll(array $params = [])
     {
-        return $this->rest->get("$this->action", $params);
+        return $this->fetch("$this->action", $params);
     }
 
     /**
@@ -101,7 +101,7 @@ class Time extends Model
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        return $this->rest->get("projects/$project_id/$this->action", $params);
+        return $this->fetch("projects/$project_id/$this->action", $params);
     }
 
     /**
@@ -123,6 +123,6 @@ class Time extends Model
         if ($task_id <= 0) {
             throw new Exception('Invalid param task_id');
         }
-        return $this->rest->get("todo_items/$task_id/$this->action", $params);
+        return $this->fetch("todo_items/$task_id/$this->action", $params);
     }
 }

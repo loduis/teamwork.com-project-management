@@ -16,7 +16,7 @@ class People extends Model
 
     protected ?string $action = 'people';
 
-    protected static string|array $fields = 'people';
+    protected string|array $fields = 'people';
 
     /**
      * Get All People
@@ -28,7 +28,7 @@ class People extends Model
      */
     public function all(array|object $params = []): Response
     {
-        return $this->rest->get((string) $this->action, $params);
+        return $this->fetch((string) $this->action, $params);
     }
 
     /**
@@ -42,7 +42,7 @@ class People extends Model
 
     public function getApiKeys(): Response
     {
-        return $this->rest->get("$this->action/APIKeys");
+        return $this->fetch("$this->action/APIKeys");
     }
 
     /**
@@ -52,7 +52,7 @@ class People extends Model
      */
     public function getStats(): Response
     {
-        return $this->rest->get('stats');
+        return $this->fetch('stats');
     }
 
     /**
@@ -63,7 +63,7 @@ class People extends Model
      */
     public function getMe(): Response
     {
-        return $this->rest->get('me');
+        return $this->fetch('me');
     }
 
     /**
@@ -124,7 +124,7 @@ class People extends Model
         }
         $path .= 'availablepeople';
 
-        return $this->rest->get($path, $params);
+        return $this->fetch($path, $params);
     }
 
 
@@ -136,7 +136,7 @@ class People extends Model
      */
     public function getDeleted(object|array $params = []): Response
     {
-        return $this->rest->get("$this->action/deleted", $params);
+        return $this->fetch("$this->action/deleted", $params);
     }
 
     /**
@@ -157,7 +157,7 @@ class People extends Model
             $path .= '/' . $personId;
         }
 
-        return $this->rest->get($path);
+        return $this->fetch($path);
     }
 
     /**
@@ -170,7 +170,7 @@ class People extends Model
      */
     public function getByCompany(int $id)
     {
-        return $this->rest->get("companies/$id/$this->action");
+        return $this->fetch("companies/$id/$this->action");
     }
 
     /**

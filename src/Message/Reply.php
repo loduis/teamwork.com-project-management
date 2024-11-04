@@ -9,7 +9,7 @@ class Reply extends Model
 {
     public function init()
     {
-        static::$fields = [
+        $this->fields = [
             'body' => true,
             'notify' => [
                 'type' => 'array',
@@ -52,7 +52,7 @@ class Reply extends Model
                 unset($params[$name]);
             }
         }
-        return $this->rest->get("messages/$message_id/replies", $params);
+        return $this->fetch("messages/$message_id/replies", $params);
     }
 
     /**
@@ -74,6 +74,6 @@ class Reply extends Model
         if ($message_id <= 0) {
             throw new Exception('Required field message_id');
         }
-        return $this->rest->post("messages/$message_id/messageReplies", $data);
+        return $this->post("messages/$message_id/messageReplies", $data);
     }
 }

@@ -1,0 +1,52 @@
+{
+    "name": {
+        "type": "string"
+    },
+    "description": {
+        "type": "string"
+    },
+    "private": {
+        "type": "integer"
+    },
+    "category_id": {
+        "type": "integer",
+        "transform": "dash"
+    },
+    "category_name": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "pending_file_ref": {
+        "type": "string|array<string>",
+        "transform": "camel",
+        "required": true
+    },
+    "tags": {
+        "type": "array<string>"
+    },
+    "notify": {
+        "type": "string|array<integer>",
+        "validate": [
+            "ALL"
+        ]
+    },
+    "notify_current_user": {
+        "type": "boolean",
+        "transform": "camel"
+    },
+    "auto_new_version": {
+        "type": "boolean",
+        "transform": "camel"
+    },
+    "grant_access_to": {
+        "type": "string|array<integer>",
+        "validate": [
+            ""
+        ],
+        "transform": "dash"
+    },
+    "tag_ids": {
+        "type": "array<integer>",
+        "transform": "camel"
+    }
+}

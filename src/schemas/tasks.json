@@ -1,0 +1,204 @@
+{
+    "use_defaults": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "completed": {
+        "type": "boolean"
+    },
+    "content": {
+        "type": "string",
+        "required": true
+    },
+    "task_list_id": {
+        "type": "integer",
+        "transform": "tasklistId"
+    },
+    "creator_id": {
+        "type": "integer",
+        "transform": "dash"
+    },
+    "notify": {
+        "type": "boolean"
+    },
+    "responsible_party_id": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "start_date": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "due_date": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "description": {
+        "type": "string"
+    },
+    "priority": {
+        "type": "string"
+    },
+    "progress": {
+        "type": "integer"
+    },
+    "parent_task_id": {
+        "type": "integer",
+        "transform": "camel"
+    },
+    "tag_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "everyone_must_do": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "predecessors": {
+        "type": "array<object>",
+        "properties": {
+            "id": {
+                "type": "integer"
+            },
+            "name": {
+                "type": "string"
+            },
+            "type": {
+                "type": "string"
+            },
+            "status": {
+                "type": "string"
+            },
+            "parent_task_id": {
+                "type": "integer",
+                "transform": "camel"
+            }
+        }
+    },
+    "reminders": {
+        "type": "array<object>",
+        "properties": {
+            "user_id": {
+                "type": "integer",
+                "transform": "dash"
+            },
+            "date_time_utc": {
+                "type": "string",
+                "transform": "dash"
+            },
+            "type": {
+                "type": "string"
+            },
+            "note": {
+                "type": "string"
+            },
+            "people_assigned": {
+                "type": "boolean",
+                "transform": "dash"
+            },
+            "is_relative": {
+                "type": "boolean",
+                "transform": "camel"
+            },
+            "relative_number_days": {
+                "type": "integer",
+                "transform": "dash"
+            },
+            "using_off_set_due_date": {
+                "type": "boolean",
+                "transform": "camel"
+            }
+        }
+    },
+    "column_id": {
+        "type": "integer",
+        "transform": "camel"
+    },
+    "comment_follower_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "change_follower_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "grant_access_to": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "private": {
+        "type": "boolean"
+    },
+    "custom_fields": {
+        "type": "array<object>",
+        "transform": "camel",
+        "properties": {
+            "custom_field_id": {
+                "type": "integer",
+                "transform": "camel",
+                "required": true
+            },
+            "value": {
+                "type": "string",
+                "required": true
+            }
+        },
+        "accept": "<custom_field_id,value>"
+    },
+    "estimated_minutes": {
+        "type": "integer",
+        "transform": "dash"
+    },
+    "pending_file_attachments": {
+        "type": "string|array<string>",
+        "transform": "camel"
+    },
+    "update_files": {
+        "type": "boolean",
+        "transform": "camel"
+    },
+    "attachments": {
+        "type": "string"
+    },
+    "remove_other_files": {
+        "type": "boolean",
+        "transform": "camel"
+    },
+    "attachments_category_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "pending_file_attachments_category_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "repeat_options": {
+        "type": "object",
+        "transform": "camel",
+        "selected_days": {
+            "type": "string",
+            "transform": "selecteddays"
+        },
+        "repeat_end_date": {
+            "type": "string",
+            "transform": "camel"
+        },
+        "repeats_freq": {
+            "type": "string",
+            "transform": "camel"
+        },
+        "monthly_repeat_type": {
+            "type": "string",
+            "transform": "camel"
+        }
+    },
+    "tags": {
+        "type": "string",
+        "on_update": true
+    },
+    "position_after_task": {
+        "type": "integer",
+        "transform": "camel",
+        "on_update": true
+    }
+}

@@ -3,21 +3,9 @@
 namespace TeamWorkPm\Tests;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 
 final class FileTest extends TestCase
 {
-    private $model;
-    private $id;
-    private $projectId;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->model = Factory::build('file');
-        $this->projectId = get_first_project_id();
-        $this->id = get_first_file_id($this->projectId);
-    }
 
     /**
      * @test
@@ -26,93 +14,161 @@ final class FileTest extends TestCase
     {
         try {
             $filename = 'back_file_path';
-            $this->model->upload($filename);
+            $this->factory('file')->upload($filename);
         } catch (Exception $e) {
             $this->assertEquals('Not file exist ' . $filename, $e->getMessage());
         }
+        //
+        $filename = __DIR__ . '/uploads/teamworkpm.jpg';
+        $files = $this->factory('file', [
+            'POST /pendingfiles' => function ($params, $headers) {
+                $this->assertInstanceOf('CURLFile', $headers['X-Params']['file']);
+                return '{"pendingFile":{"ref":"tf_3d9cfae3-65f7-4ff8-8bf5-ca0512de600a"}}';
+            }
+        ])->upload($filename);
 
-        try {
-            $filename = __DIR__ . '/uploads/teamworkpm.jpg';
-            $this->assertNotEmpty($this->model->upload($filename));
-        } catch (Exception $e) {
-            $this->assertTrue(false, $filename);
-        }
+        $this->assertIsArray($files);
+        $this->assertCount(1, $files);
     }
 
     /**
      * @test
      */
-    public function save(): void
+    public function addToProject(): void
     {
-        $data = [
-            'description' => 'Bla, Bla, Bla',
-        ];
-        try {
-            $this->model->save($data);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Required field project_id', $e->getMessage());
-        }
-
-        try {
-            $data['project_id'] = $this->projectId;
-            $this->model->save($data);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals(
-                'Required field pending_file_ref or filename',
-                $e->getMessage()
-            );
-        }
-
-        try {
-            $data['filename'] = __DIR__ . '/uploads/teamworkpm.jpg';
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $res = $this->factory('file', [
+            'POST /pendingfiles' => function () {
+                return '{"pendingFile":{"ref":"tf_3d9cfae3-65f7-4ff8-8bf5-ca0512de600a"}}';
+            },
+            'POST /projects/967489/files' => function($data) {
+                $this->assertMatchesJsonSnapshot($data);
+            }
+        ])->add([
+            'project_id' => TPM_PROJECT_ID,
+            'files' => [
+                __DIR__ . '/uploads/person.png',
+                __DIR__ . '/uploads/teamworkpm.jpg'
+            ]
+        ]);
+        $this->assertEquals(TPM_TEST_ID, $res);
     }
 
     /**
-     * @depends save
      * @test
      */
-    public function get(): void
+    public function addNewVersion(): void
     {
-        try {
-            $this->model->get(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
+        $res = $this->factory('file', [
+            'POST /pendingfiles' => function () {
+                return '{"pendingFile":{"ref":"tf_3d9cfae3-65f7-4ff8-8bf5-ca0512de600a"}}';
+            },
+            'POST /files/' . TPM_FILE_ID  => true
+        ])->add([
+            'id' => TPM_FILE_ID,
+            'files' => [
+                __DIR__ . '/uploads/person.png',
+            ]
+        ]);
+        $this->assertEquals(TPM_TEST_ID, $res);
 
-        try {
-            $file = $this->model->get($this->id);
-            $this->assertEquals($this->id, $file->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $res = $this->factory('file', [
+            'POST /pendingfiles' => function () {
+                return '{"pendingFile":{"ref":"tf_3d9cfae3-65f7-4ff8-8bf5-ca0512de600a"}}';
+            },
+            'POST /files/' . TPM_FILE_ID  => true
+        ])->add([
+            'id' => TPM_FILE_ID,
+            'files' => __DIR__ . '/uploads/person.png',
+        ]);
+        $this->assertEquals(TPM_TEST_ID, $res);
     }
 
     /**
-     * @depends save
+     * @test
+     */
+    public function addToTask(): void
+    {
+        $res = $this->factory('file', [
+            'POST /pendingfiles' => function () {
+                return '{"pendingFile":{"ref":"tf_3d9cfae3-65f7-4ff8-8bf5-ca0512de600a"}}';
+            },
+            'POST /tasks/'. TPM_TASK_ID . '/files' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->add([
+            'task_id' => TPM_TASK_ID,
+            'files' => [
+                __DIR__ . '/uploads/person.png',
+                __DIR__ . '/uploads/teamworkpm.jpg'
+            ]
+        ]);
+        $this->assertEquals(TPM_TEST_ID, $res);
+    }
+
+    /**
+     * @test
+     */
+    public function all()
+    {
+        $this->assertCount(2, $this->factory('file')->all());
+    }
+
+    /**
+     * @test
+     */
+    public function get()
+    {
+        $this->assertEquals('person.png', $this->factory('file')->get(TPM_FILE_ID)->originalName);
+    }
+
+    /**
+     * @depends addToProject
      * @test
      */
     public function getByProject(): void
     {
-        try {
-            $this->model->getByProject(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param project_id', $e->getMessage());
-        }
+        $this->assertCount(1, $this->factory('file', [
+            'GET /projects/' . TPM_PROJECT_ID . '/files' => true
+        ])->getByProject(TPM_PROJECT_ID));
+    }
 
-        try {
-            $files = $this->model->getByProject($this->projectId);
-            $this->assertGreaterThan(0, count($files));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+    /**
+     * @depends addToTask
+     * @test
+     */
+    public function getByTask(): void
+    {
+        $this->assertCount(1, $this->factory('file', [
+            'GET /tasks/' . TPM_TASK_ID . '/files' => true
+        ])->getByTask(TPM_TASK_ID));
+    }
+
+    /**
+     * @test
+     */
+    public function move(): void
+    {
+        $this->assertTrue($this->factory('file', [
+            'PUT /files/' . TPM_FILE_ID . '/move' => true
+        ])->move(TPM_FILE_ID, TPM_PROJECT_ID));
+    }
+
+    /**
+     * @test
+     */
+    public function copy(): void
+    {
+        $this->assertTrue($this->factory('file', [
+            'PUT /files/' . TPM_FILE_ID . '/copy' => true
+        ])->copy(TPM_FILE_ID, TPM_PROJECT_ID));
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function delete(): void
+    {
+        $this->assertTrue($this->factory('file', [
+            'DELETE /files/' . TPM_FILE_ID => true
+        ])->delete(TPM_FILE_ID));
     }
 }

@@ -41,9 +41,18 @@ abstract class Model
      * @param array $fields
      * @return $this
      */
-    public function setFields(array $fields)
+    public function setFields(array $fields): static
     {
         $this->fields = $fields;
+        return $this;
+    }
+
+    public function setOpts(array $opts): static
+    {
+        foreach ($opts as $key => $value) {
+            $this->{'set'. $key}($value);
+        }
+
         return $this;
     }
 
@@ -61,106 +70,127 @@ abstract class Model
             $options = ['required' => $options, 'attributes' => []];
         }
         $type = $options['type'] ?? 'string';
-        $transform = $options['transform'] ?? null;
         $originalField = $field;
         $value = $parameters[$field] ?? null;
-        $accept = $options['accept'] ?? null;
-        if ($transform !== null) {
-            $fieldTransform = $transform;
+        if (($transform =$options['transform'] ?? null) !== null) {
             $checkValue = !array_key_exists($field, $parameters);
-            $this->transformField($field, $fieldTransform);
+            $this->transformField($field, $transform);
             if ($checkValue) {
                 $value = $parameters[$field] ?? null;
             }
         }
-        if ($type !== null && $value !== null && is_scalar($value)) {
-            if ($type === 'array') {
-                if (is_string($value) || is_numeric($value)) {
-                    $value = (array)$value;
-                }
-            } elseif (!str_contains($type, '<') && !in_array($type, ['email', 'url', 'country'])) {
-                settype($value, $type);
-            }
-        }
+
+        $value = $this->coerceValue($value, $type);
 
         $this->validate($originalField, $value, $options);
 
         if ($type === 'object') {
-            if ($accept && preg_match('/^<(\w+)>$/', $accept, $matches) && (is_arr_obj($value)) && array_is_list((array) $value)) {
-                $wrapField = $matches[1];
-                if (isset($options[$wrapField])) {
-                    $value = [$wrapField => $value];
-                    if (isset($options[$wrapField]['fields'])) {
-                        $fieldOpts = $options[$wrapField];
-                        $fieldValue = $value[$wrapField];
-                        $fieldValue = $this->getValue($wrapField, $fieldOpts, $value);
-                        $value[$wrapField] = $fieldValue;
-                    }
-                }
-            } elseif (is_object($value) || (
-                is_array($value) && ($value === [] || !array_is_list($value)))
-            ) {
-                $res = [];
-                foreach ($options as $key => $opts) {
-                    if (is_scalar($opts)) {
-                        continue;
-                    }
-                    $val = $this->getValue($key, $opts, $value);
-                    if ($val !== null) {
-                        $res[$key] = $val;
-                    }
-                }
-                $value = $res;
+            $value = $this->handleObjectType($value, $options);
+        } elseif ($type === 'array<object>' &&
+            is_array($value) &&
+            isset($options['properties'])
+        ) {
+            $value = $this->handleArrayOfObjectType($value, $options);
+        } elseif ($value !== null && in_array($type, ['string|array<integer>', 'string|array<string>'])) {
+            if (is_array($value)) {
+                $value = implode(',', $value);
+            } else {
+                $value = (string) $value;
             }
         }
-        if ($type === 'array<object>' &&
-            is_array($value) &&
-            isset($options['fields'])
-        ) {
-            if ($accept &&
-                preg_match('/<(.+?),(.+?)>/', $accept, $matches) &&
-                !array_is_list((array) $value)
-            ) {
-                $idField = $matches[1];
-                $valueField = $matches[2];
-                $processedValue = [];
-                $indexByKey = $idField === '$key';
-                if ($indexByKey) {
-                    foreach ($value as $key => $val) {
-                        $processedValue[$key] = [
-                            $valueField => is_scalar($val) ? $val : ((array)$val)[$valueField]
-                        ];
-                    }
-                    return $processedValue;
-                }
 
+        return $value;
+    }
+
+    private function handleArrayOfObjectType(mixed $value, $options)
+    {
+        $accept = $options['accept'] ?? null;
+        if ($accept &&
+            preg_match('/<(.+?),(.+?)>/', $accept, $matches) &&
+            !array_is_list((array) $value)
+        ) {
+            $idField = $matches[1];
+            $valueField = $matches[2];
+            $processedValue = [];
+            $indexByKey = $idField === '$key';
+            if ($indexByKey) {
                 foreach ($value as $key => $val) {
-                    $processedValue[] = [
-                        $idField => $key,
-                        $valueField => $val
+                    $processedValue[$key] = [
+                        $valueField => is_scalar($val) ? $val : ((array)$val)[$valueField]
                     ];
                 }
-                $value = $processedValue;
+                return $processedValue;
             }
 
-            $_options = $options['fields'];
+            foreach ($value as $key => $val) {
+                $processedValue[] = [
+                    $idField => $key,
+                    $valueField => $val
+                ];
+            }
+            $value = $processedValue;
+        }
 
-            foreach ($value as $i => $entry) {
-                $res = [];
-                foreach ($_options as $key => $opts) {
-                    $val = $this->getValue($key, $opts, $entry);
-                    if ($val !== null) {
-                        $res[$key] = $val;
-                    }
-                }
-                /*
-                foreach ($entry as $key => $val) {
-                    $val = $this->getValue($key, $opts[$key], $entry);
+        $_options = $options['properties'];
+
+        foreach ($value as $i => $entry) {
+            $res = [];
+            foreach ($_options as $key => $opts) {
+                $val = $this->getValue($key, $opts, $entry);
+                if ($val !== null) {
                     $res[$key] = $val;
                 }
-                */
+            }
+            $value[$i] = $res;
+        }
 
-                $value[$i] = $res;
+        return $value;
+    }
+
+    private function handleObjectType(mixed $value, $options)
+    {
+        $accept = $options['accept'] ?? null;
+        if ($accept && preg_match('/^<(\w+)>$/', $accept, $matches) && (is_arr_obj($value)) && array_is_list((array) $value)) {
+            $wrapField = $matches[1];
+            if (isset($options[$wrapField])) {
+                $value = [$wrapField => $value];
+                if (isset($options[$wrapField]['properties'])) {
+                    $fieldOpts = $options[$wrapField];
+                    $fieldValue = $value[$wrapField];
+                    $fieldValue = $this->getValue($wrapField, $fieldOpts, $value);
+                    $value[$wrapField] = $fieldValue;
+                }
+            }
+        } elseif (is_object($value) || (
+            is_array($value) && ($value === [] || !array_is_list($value)))
+        ) {
+            $res = [];
+            foreach ($options as $key => $opts) {
+                if (is_scalar($opts)) {
+                    continue;
+                }
+                $val = $this->getValue($key, $opts, $value);
+                if ($val !== null) {
+                    $res[$key] = $val;
+                }
+            }
+            $value = $res;
+        }
+
+        return $value;
+    }
+
+    private function coerceValue($value, string $type)
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        if (is_scalar($value)) {
+            if ($type === 'array') {
+                return (array) $value;
+            } elseif (!str_contains($type, '<') && !in_array($type, ['email', 'url', 'country'])) {
+                settype($value, $type);
             }
         }
 
@@ -169,7 +199,7 @@ abstract class Model
 
     protected function validate(string $field, mixed $value, array $options): void
     {
-        $isNull = $value === null || $value === '';
+        $isNull = $value === null;
         if ($this->method === 'POST' && (
             $options['required'] ?? false
             ) !== false && $isNull
@@ -179,6 +209,14 @@ abstract class Model
         // checking fields that must meet certain values
         if (!$isNull   && (
                 (
+                    $options['type'] == 'string|array<integer>' &&
+                    !$this->validateStringArrayOfInteger($value, $options)
+                ) || (
+                    $options['type'] == 'string|array<string>' &&
+                    !$this->validateStringArrayOfString($value, $options)
+                ) ||
+                (
+                    !str_contains($options['type'], '|') &&
                     isset($options['validate']) &&
                     is_array($options['validate']) &&
                     !in_array($value, $options['validate'])
@@ -200,6 +238,7 @@ abstract class Model
         }
     }
 
+
     public function getParent(): string
     {
         return (string) $this->parent;
@@ -210,20 +249,31 @@ abstract class Model
      *
      * @param string $method
      * @param array|object|null $parameters
-     * @return string|null
+     * @return null|string|array
      */
-    public function getParameters(string $method, object|array|null $parameters): ?string
+    public function getParameters(string $method, object|array|null $parameters): null|string|array
     {
         $result = null;
+
+        $this->method = $method;
 
         if ($parameters === null) {
             return null;
         }
 
-        $this->method = $method;
+        if ($method === 'POST' &&
+            is_array($parameters) &&
+            isset($parameters['file']) &&
+            $parameters['file'] instanceof \CURLFile
+        ) {
+            $this->useFields = true;
+            return $parameters;
+        }
+
         if ($isArrayObject = is_arr_obj($parameters)) {
             $parameters = arr_obj($parameters)->toArray();
         }
+
         if ($method === 'GET') {
             if ($isArrayObject) {
                 $result = http_build_query($parameters);
@@ -239,11 +289,73 @@ abstract class Model
 
     private function transformField(&$field, $fieldTransform)
     {
-        if ($fieldTransform !== null) {
-            $field = in_array($fieldTransform, ['camel', 'dash']) ?
-                Str::{$fieldTransform}($field) :
-                $fieldTransform;
+        $field = in_array($fieldTransform, ['camel', 'dash']) ?
+            Str::{$fieldTransform}($field) :
+            $fieldTransform;
+    }
+
+    private function validateStringArrayOfString(string|array $value): bool
+    {
+        if (is_string($value)) {
+            if (str_contains($value, ',')) {
+                $ids = explode(',', $value);
+                $ids = array_map(fn($val)=> trim($val), $ids);
+                return $this->isArrayOfStrings($ids);
+            }
+            return true;
         }
+
+        return $this->isArrayOfStrings($value);
+    }
+
+    private function validateStringArrayOfInteger(int|string|array $value, array $options): bool
+    {
+        if (is_string($value)) {
+            if (in_array($value, $options['validate'])) {
+                return true;
+            }
+            if (str_contains($value, ',') || ctype_digit($value)) {
+                $ids = explode(',', $value);
+                $ids = array_map(fn($val)=> trim($val), $ids);
+                return $this->isArrayOfIntegers($ids);
+            }
+            return false;
+        }
+        if (is_int($value)) {
+            return true;
+        }
+
+        return $this->isArrayOfIntegers($value);
+    }
+
+    private function isArrayOfIntegers($array): bool
+    {
+        if (!is_array($array)) {
+            return false;
+        }
+
+        foreach ($array as $value) {
+            if (!is_scalar($value) || !ctype_digit((string)$value)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function isArrayOfStrings($array): bool
+    {
+        if (!is_array($array)) {
+            return false;
+        }
+
+        foreach ($array as $value) {
+            if (!is_scalar($value) || !is_string($value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function notUseFields()

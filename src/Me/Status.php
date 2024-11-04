@@ -11,7 +11,7 @@ class Status extends Resource
     {
         $this->parent = 'userstatus';
         $this->action = 'status';
-        static::$fields = [
+        $this->fields = [
             'status' => true,
             'notify' => false,
         ];
@@ -29,7 +29,7 @@ class Status extends Resource
      */
     public function get()
     {
-        return $this->rest->get("me/$this->action");
+        return $this->fetch("me/$this->action");
     }
 
     /**
@@ -44,7 +44,7 @@ class Status extends Resource
      */
     public function create(array $data)
     {
-        return $this->rest->post("me/$this->action", $data);
+        return $this->post("me/$this->action", $data);
     }
 
     /**
@@ -65,7 +65,7 @@ class Status extends Resource
         if ($id <= 0) {
             throw new Exception('Required field id');
         }
-        return $this->rest->put("me/$this->action/$id", $data);
+        return $this->put("me/$this->action/$id", $data);
     }
 
     /**
@@ -87,7 +87,7 @@ class Status extends Resource
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->delete("me/$this->action/$id");
+        return $this->del("me/$this->action/$id");
     }
 
     /**

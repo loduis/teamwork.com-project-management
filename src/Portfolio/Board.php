@@ -12,7 +12,7 @@ class Board extends Model
         $this->parent = 'board';
         $this->action = 'portfolio/boards';
 
-        static::$fields = [
+        $this->fields = [
             'canEdit' => [
                 'type' => 'boolean'
             ],
@@ -52,6 +52,6 @@ class Board extends Model
      */
     public function all()
     {
-        return $this->rest->get("$this->action");
+        return $this->fetch("$this->action");
     }
 }

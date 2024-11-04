@@ -2,6 +2,7 @@
 
 namespace TeamWorkPm\Rest;
 
+use CURLFile;
 use CurlHandle;
 use Exception;
 use TeamWorkPm\Request\Model as Request;
@@ -65,16 +66,19 @@ class Client
      * @return mixed
      * @throws Exception
      */
-    private function request(string $method, string $path, $parameters = null): bool | Response | int
+    private function request(string $method, string $path, $parameters = null, array $opts = []): bool | int | string | Response
     {
         $url = "{$this->url}$path." . static::$FORMAT;
         $headers = [
             'Authorization: BASIC ' . base64_encode($this->key . ':xxx'),
         ];
         $request = $this->request
+            ->setOpts($opts)
             ->setAction($path)
             ->getParameters($method, $parameters);
+
         $ch = static::initCurl($method, $url, $request, $headers);
+
         $i = 0;
         $data = '';
         $headers = [];
@@ -114,6 +118,7 @@ class Client
         $headers['X-Parent'] = $this->request->getParent();
         // for chrome use
         // $headers['X-Authorization'] = 'BASIC ' . base64_encode($this->key . ':xxx');
+        // print_r($headers);
 
         return $this->response->parse($body, $headers);
     }
@@ -125,7 +130,7 @@ class Client
      * @param array $headers
      * @return CurlHandle
      */
-    private static function initCurl(string $method, string $url, ?string $params, array $headers): CurlHandle
+    private static function initCurl(string $method, string $url, null|string|array $params, array $headers): CurlHandle
     {
         $ch = curl_init();
         switch ($method) {
@@ -133,12 +138,6 @@ class Client
                 if ($params !== null && !empty($params)) {
                     $url .= '?' . $params;
                 }
-                break;
-            case 'UPLOAD':
-                curl_setopt_array($ch, [
-                    CURLOPT_POST => true,
-                    CURLOPT_POSTFIELDS => $params,
-                ]);
                 break;
             case 'DELETE':
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
@@ -153,10 +152,14 @@ class Client
                 if ($params !== null && !empty($params)) {
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
                 }
-                $headers = array_merge($headers, [
-                    'Content-Type: application/' . self::$FORMAT,
-                    'Content-Length:' . strlen((string) $params),
-                ]);
+                if (is_array($params) && isset($params['file']) && $params['file'] instanceof CURLFile) {
+                    $headers[] = 'Content-Type: multipart/form-data';
+                } else {
+                    $headers = array_merge($headers, [
+                        'Content-Type: application/' . self::$FORMAT,
+                        'Content-Length:' . strlen((string) $params),
+                    ]);
+                }
                 break;
         }
         curl_setopt_array($ch, [
@@ -180,36 +183,33 @@ class Client
      * @return Response
      * @throws Exception
      */
-    public function get(string $path, object|array|null $parameters = null): Response
+    public function get(string $path, object|array|null $parameters = null, array $opts = []): Response
     {
-        return $this->request('GET', $path, $parameters);
+        return $this->request('GET', $path, $parameters, $opts);
     }
 
-    public function put(string $path, object|array|null $parameters = null): bool | Response
+    public function put(string $path, object|array|null $parameters = null, array $opts = []): bool | Response
     {
-        return $this->request('PUT', $path, $parameters);
+        return $this->request('PUT', $path, $parameters, $opts);
     }
 
-    public function post(string $path, object|array|null $parameters = null): bool | Response | int
+    public function post(string $path, object|array|null $parameters = null, array $opts = []): bool | int | string | Response
     {
-        return $this->request('POST', $path, $parameters);
+        return $this->request('POST', $path, $parameters, $opts);
     }
 
-    public function delete(string $path): bool
+    public function delete(string $path, array $opts = []): bool
     {
-        return $this->request('DELETE', $path);
+        return $this->request('DELETE', $path, null, $opts);
     }
 
-    public function upload(string $path, array|object $parameters): bool
-    {
-        return $this->request('UPLOAD', $path, $parameters);
-    }
-
+    /*
     public function configRequest(string $parent, array $fields = []): void
     {
         $this->request->setParent($parent)
             ->setFields($fields);
     }
+    */
 
     /**
      * @return Request|null

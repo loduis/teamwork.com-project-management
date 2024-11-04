@@ -2,6 +2,7 @@
 
 namespace TeamWorkPm\Tests\Request;
 
+use TeamWorkPm\Exception;
 use TeamWorkPm\Tests\TestCase;
 use TeamWorkPm\Request\JSON as Request;
 
@@ -177,6 +178,60 @@ class JsonTest extends TestCase
         ]);
 
         $this->assertMatchesJsonSnapshot($res);
+    }
 
+    public function testProjectFiles()
+    {
+        $fields = json_decode(file_get_contents(__DIR__ . '/../../src/schemas/projects/files.json'), true);
+        $request = new Request();
+        $request->setParent('file');
+        $request->setFields($fields);
+
+        $res = $request->getParameters('POST', [
+            'grant_access_to' => '',
+            'pending_file_ref' => 'test'
+        ]);
+
+        $this->assertMatchesJsonSnapshot($res);
+
+        $res = $request->getParameters('POST', [
+            'grant_access_to' => [1, 2, 3],
+            'pending_file_ref' => 'test'
+        ]);
+
+        $this->assertMatchesJsonSnapshot($res);
+
+        $res = $request->getParameters('POST', [
+            'grant_access_to' => 1,
+            'pending_file_ref' => 'test'
+        ]);
+
+        $this->assertMatchesJsonSnapshot($res);
+
+        $res = $request->getParameters('POST', [
+            'grant_access_to' => [],
+            'pending_file_ref' => 'test'
+        ]);
+
+        $this->assertMatchesJsonSnapshot($res);
+
+        try {
+            $res = $request->getParameters('POST', [
+                'pending_file_ref' => 'test',
+                'grant_access_to' => [[10]],
+            ]);
+            $this->fail('Throw exception');
+        } catch (Exception $e) {
+            $this->assertEquals('Invalid value for field grant_access_to', $e->getMessage());
+        }
+
+        try {
+            $res = $request->getParameters('POST', [
+                'grant_access_to' => null,
+            ]);
+            $this->fail('Throw exception: ' . json_encode($res));
+        } catch (Exception $e) {
+            $this->assertEquals('Required field pending_file_ref', $e->getMessage());
+        }
     }
 }

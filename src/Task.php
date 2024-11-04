@@ -2,103 +2,58 @@
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Response\Model as Response;
+
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/tasks/get-tasks-json
+ */
 class Task extends Model
 {
-    protected function init()
+    protected ?string $parent = 'todo-item';
+
+    protected ?string $action = 'tasks';
+
+    protected string|array $fields = 'tasks';
+
+    /**
+     * Get all Tasks across all Projects
+     *
+     * @param array|object $params
+     *
+     * @return Response
+     * @throws Exception
+     */
+    public function all(array|object $params = []): Response
     {
-        static::$fields = [
-            'content' => true,
-            'notify' => [
-                'type' => 'boolean',
-            ],
-            'description' => false,
-            'due_date' => [
-                'type' => 'integer'
-            ],
-            'start_date' => [
-                'type' => 'integer'
-            ],
-            'private' => [
-                'type' => 'boolean',
-            ],
-            'priority' => [
-                'validate' => [
-                    'low',
-                    'medium',
-                    'high',
-                ],
-            ],
-            'estimated_minutes' => [
-                            'type' => 'integer'
-            ],
-            'predecessors' => [
-                'type' => 'array',
-            ],
-            'ticketId' => [
-                'type' => 'integer'
-            ],
-            'responsible_party_id' => false,
-            'attachments' => false,
-            'pending_file_attachments' => false,
-        ];
-        $this->parent = 'todo-item';
-        $this->action = 'todo_items';
+        return $this->fetch("$this->action", $params);
     }
 
     /**
-     * @param $id
-     * @param bool $get_time
+     * Get all Tasks on a given Task List
      *
-     * @return \TeamWorkPm\Response\Model
+     * @param int $id
+     * @param array|object $params
+     *
+     * @return Response
      * @throws Exception
      */
-    public function get($id, $get_time = false)
+    public function getByTaskList($id, array|object $params = []): Response
     {
-        $id = (int)$id;
-        if ($id <= 0) {
-            throw new Exception('Invalid param id');
-        }
-        $params = [];
-        if ($get_time) {
-            $params['getTime'] = (int)$get_time;
-        }
-        return $this->rest->get("$this->action/$id", $params);
+        return $this->fetch("tasklists/$id/$this->action", $params);
     }
 
     /**
-     * Retrieve all tasks on a task list
+     * Get all Tasks on a given Task List
      *
-     * GET /todo_lists/#{todo_list_id}/tasks.json
-     * This is almost the same as the “Get list” action, except it does only returns the items.
+     * @param int $id
+     * @param array|object $params
      *
-     * This is almost the same as the “Get list” action, except it does only returns the items.
-     *
-     * If you want to return details about who created each todo item, you must
-     * pass the flag "getCreator=yes". This will then return "creator-id",
-     * "creator-firstname", "creator-lastname" and "creator-avatar-url" for each task.
-     * A flag "canEdit" is returned with each task.
-     *
-     * @param int $task_list_id
-     * @param string $filter
-     *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
-    public function getByTaskList($task_list_id, $filter = 'all')
+    public function getByProject($id, array|object $params = []): Response
     {
-        $task_list_id = (int)$task_list_id;
-        if ($task_list_id <= 0) {
-            throw new Exception('Invalid param task_list_id');
-        }
-        $params = [
-            'filter' => $filter,
-        ];
-        $filter = strtolower($filter);
-        $validate = ['all', 'pending', 'upcoming', 'late', 'today', 'finished'];
-        if (in_array($filter, $validate)) {
-            $params['filter'] = 'all';
-        }
-        return $this->rest->get("todo_lists/$task_list_id/$this->action", $params);
+        return $this->fetch("projects/$id/$this->action", $params);
     }
 
     /**
@@ -112,44 +67,47 @@ class Task extends Model
      * should be sent to that person to tell them about the assignment.
      * Multiple people can be assigned by passing a comma delimited list for responsible-party-id.
      *
-     * @param array $data
+     * @param array|object $data
      *
      * @return int
      * @throws Exception
      */
-    public function create(array $data)
+    public function create(array|object $data): int
     {
-        $task_list_id = empty($data['task_list_id']) ? 0 : (int)$data['task_list_id'];
-        if ($task_list_id <= 0) {
-            throw new Exception('Required field task_list_id');
+        $data = arr_obj($data);
+
+        $taskListId = $data->pull('task_list_id');
+        $projectId = $data->pull('project_id');
+        if ($projectId && $taskListId) {
+            $data['task_list_id'] = $taskListId;
         }
-        if (!empty($data['files'])) {
-            $file = Factory::build('file');
-            $data['pending_file_attachments'] = $file->upload($data['files']);
-            unset($data['files']);
+
+        if (!($projectId || $taskListId)) {
+            throw new Exception('Required field task_list_id or project_id');
         }
-        return $this->rest->post("todo_lists/$task_list_id/$this->action", $data);
+
+        $root = $projectId ? 'projects' : 'tasklists';
+        $id = $projectId ? $projectId : $taskListId;
+        $files = $data->pull('files');
+        if ($files !== null) {
+            $data['pending_file_attachments'] = Factory::file()
+                ->upload($files->toArray());
+        }
+
+        return $this->post("$root/$id/$this->action", $data);
     }
 
     /**
      * Mark an Item Complete
-     *
-     * PUT /todo_items/#{id}/complete.xml
-     *
-     * The submitted todo item is marked as complete
      *
      * @param int $id
      *
      * @return bool
      * @throws Exception
      */
-    public function complete($id)
+    public function complete(int $id): bool
     {
-        $id = (int)$id;
-        if ($id <= 0) {
-            throw new Exception('Invalid param id');
-        }
-        return $this->rest->put("$this->action/$id/complete");
+        return $this->put("$this->action/$id/complete");
     }
 
     /**
@@ -164,14 +122,14 @@ class Task extends Model
      * @return bool
      * @throws Exception
      */
-    public function uncomplete($id)
+    public function unComplete($id)
     {
         $id = (int)$id;
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
 
-        return $this->rest->put("$this->action/$id/uncomplete");
+        return $this->put("$this->action/$id/uncomplete");
     }
 
     /**
@@ -195,6 +153,6 @@ class Task extends Model
         if ($task_list_id <= 0) {
             throw new Exception('Invalid param task_list_id');
         }
-        return $this->rest->post("todo_lists/$task_list_id/$this->action/reorder", $ids);
+        return $this->post("todo_lists/$task_list_id/$this->action/reorder", $ids);
     }
 }

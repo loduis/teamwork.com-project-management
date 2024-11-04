@@ -68,7 +68,7 @@
             },
             "tags": {
                 "type": "array<object>",
-                "fields": {
+                "properties": {
                     "id": {
                         "type": "integer"
                     },
@@ -90,7 +90,7 @@
             },
             "reminders": {
                 "type": "array<object>",
-                "fields": {
+                "properties": {
                     "user_id": {
                         "type": "integer",
                         "transform": "dash"
@@ -144,7 +144,7 @@
             "custom_fields": {
                 "type": "array<object>",
                 "transform": "camel",
-                "fields": {
+                "properties": {
                     "custom_field_id": {
                         "type": "integer",
                         "transform": "camel"
@@ -157,7 +157,7 @@
             "pending_file_attachments": {
                 "type": "array<object>",
                 "transform": "camel",
-                "fields": {
+                "properties": {
                     "type": "object"
                 }
             }

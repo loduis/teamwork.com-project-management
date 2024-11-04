@@ -11,6 +11,7 @@
 >
     <projectFiles>
         <file name="src/Auth.php" />
+        <file name="src/File.php" />
         <file name="src/People.php" />
         <file name="src/Company.php" />
         <file name="src/Project.php" />

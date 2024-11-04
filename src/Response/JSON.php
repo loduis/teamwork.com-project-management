@@ -12,7 +12,7 @@ use TeamWorkPm\Helper\Str;
  */
 class JSON extends Model
 {
-    public function parse(string $data, array $headers): static | int | bool | null
+    public function parse(string $data, array $headers): static | int | bool | string | null
     {
         /**
          * @var mixed
@@ -28,6 +28,7 @@ class JSON extends Model
                 || $headers['Status'] === 409
                 || $headers['Status'] === 422
                 || $headers['Status'] === 400
+                || $headers['Status'] === 404
             )) {
                 throw new Exception([
                     'Message' => $errors,
@@ -37,11 +38,6 @@ class JSON extends Model
             }
             if (in_array($headers['Status'], [201, 200, 204])) {
                 switch ($headers['Method']) {
-                    case 'UPLOAD':
-                        /**
-                         * @var string|null
-                         */
-                        return $source->pendingFile->ref ??  null;
                     case 'POST':
                         if (!empty($headers['id']) && $headers['Status'] === 201) {
                             return (int)$headers['id'];
@@ -49,6 +45,9 @@ class JSON extends Model
 
                         if (!empty($source->fileId)) {
                             return (int)$source->fileId;
+                        }
+                        if (!empty($source->pendingFile->ref)) {
+                            return $source->pendingFile->ref;
                         }
                         /**
                          * @var  string
@@ -73,7 +72,7 @@ class JSON extends Model
                         if (!empty($source->STATUS)) {
                             unset($source->STATUS);
                         }
-                        if (!empty($source->project->files)) {
+                        if (isset($source->project->files)) {
                             $source = $source->project->files;
                         } elseif (!empty($source->project->notebooks)) {
                             $source = $source->project->notebooks;
@@ -111,7 +110,7 @@ class JSON extends Model
                                 }
                             }
                             $source = $_source;
-                        } elseif (strpos($headers['X-Action'], 'time_entries') !== false && $source !== null) {
+                        } elseif (str_contains($headers['X-Action'], 'time_entries') && $source !== null) {
                             $source = [];
                         }
                         $this->headers = $headers;
@@ -132,6 +131,8 @@ class JSON extends Model
                 }
             } elseif (!empty($source->MESSAGE)) {
                 $errors = $source->MESSAGE;
+            }  elseif (!empty($source->error)) {
+                $errors = $source->error;
             } else {
                 $errors = null;
             }
@@ -181,7 +182,7 @@ class JSON extends Model
             return $source;
         }
 
-        $destination = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS | \ArrayObject::STD_PROP_LIST);
+        $destination = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
         /**
          * @var string $key
          * @var mixed $value
@@ -203,22 +204,6 @@ class JSON extends Model
             return null;
         }
 
-        if (function_exists('json_last_error_msg')) {
-            return json_last_error_msg();
-        }
-
-        switch ($errorCode) {
-            case JSON_ERROR_DEPTH:
-                return 'Maximum stack depth exceeded';
-            case JSON_ERROR_STATE_MISMATCH:
-                return 'Underflow or the modes mismatch';
-            case JSON_ERROR_CTRL_CHAR:
-                return 'Unexpected control character found';
-            case JSON_ERROR_SYNTAX:
-                return 'Syntax error, malformed JSON';
-            case JSON_ERROR_UTF8:
-                return 'Malformed UTF-8 characters, possibly incorrectly encoded';
-        }
-        return null;
+        return json_last_error_msg();
     }
 }

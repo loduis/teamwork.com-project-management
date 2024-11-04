@@ -1,0 +1,25 @@
+{
+    "pending_file_attachments": {
+        "type": "array<string>",
+        "transform": "camel"
+    },
+    "update_files": {
+        "type": "boolean",
+        "transform": "camel"
+    },
+    "remove_other_files": {
+        "type": "boolean",
+        "transform": "camel"
+    },
+    "attachments": {
+        "type": "string"
+    },
+    "attachments_category_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "pending_file_attachments_category_ids": {
+        "type": "string",
+        "transform": "camel"
+    }
+}

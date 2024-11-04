@@ -19,7 +19,7 @@ class Account extends Rest\Resource
      */
     public function get(): Response
     {
-        return $this->rest->get('account');
+        return $this->fetch('account');
     }
 
     /**
@@ -30,6 +30,6 @@ class Account extends Rest\Resource
      */
     public function authenticate(): Response
     {
-        return $this->rest->get('authenticate');
+        return $this->fetch('authenticate');
     }
 }

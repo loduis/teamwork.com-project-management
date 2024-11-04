@@ -17,7 +17,7 @@ abstract class Model extends \TeamWorkPm\Model
 
     protected ?string $action = 'comments';
 
-    protected static string|array $fields = 'resource_comments';
+    protected string|array $fields = 'resource_comments';
 
     /**
      * Create a comment related to a task/message/notebook etc.
@@ -46,7 +46,7 @@ abstract class Model extends \TeamWorkPm\Model
             $resource = 'fileversions';
         }
 
-        return $this->rest->post(
+        return $this->post(
             "$resource/$resourceId/$this->action",
             $data
         );
@@ -63,7 +63,7 @@ abstract class Model extends \TeamWorkPm\Model
      */
     public function getRecent(int $resourceId, array|object $params = []): Response
     {
-        return $this->rest->get(
+        return $this->fetch(
             "$this->resource/$resourceId/$this->action",
             $params
         );

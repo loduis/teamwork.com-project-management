@@ -220,7 +220,6 @@ final class ProjectTest extends TestCase
             ],
             [
                 [
-                    'name' => '',
                     'description' => 'Invalid project with empty name',
                 ],
             ],

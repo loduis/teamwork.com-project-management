@@ -75,7 +75,7 @@
     "custom_fields": {
         "type": "array<object>",
         "transform": "camel",
-        "fields": {
+        "properties": {
             "custom_field_id": {
                 "type": "integer",
                 "transform": "camel",

@@ -12,7 +12,7 @@ class Card extends Model
         $this->parent = 'card';
         $this->action = 'portfolio/cards';
 
-        static::$fields = [
+        $this->fields = [
             'projectId' => [
                 'type' => 'string'
             ],
@@ -56,7 +56,7 @@ class Card extends Model
             throw new Exception('Invalid param columnId');
         }
 
-        return $this->rest->get("portfolio/columns/$columnId/cards");
+        return $this->fetch("portfolio/columns/$columnId/cards");
     }
 
     /**
@@ -78,7 +78,7 @@ class Card extends Model
             throw new Exception('Required field projectId');
         }
 
-        return $this->rest->post("portfolio/columns/$columnId/cards", $data);
+        return $this->post("portfolio/columns/$columnId/cards", $data);
     }
 
     /**
@@ -106,6 +106,6 @@ class Card extends Model
             throw new Exception('Required field oldColumnId');
         }
 
-        return $this->rest->put("$this->action/$cardId/move", $data);
+        return $this->put("$this->action/$cardId/move", $data);
     }
 }

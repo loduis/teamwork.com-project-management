@@ -8,7 +8,7 @@ class Notebook extends Rest\Resource
 {
     protected function init()
     {
-        static::$fields = [
+        $this->fields = [
             'name' => true,
             'description' => true,
             'content' => true,
@@ -42,7 +42,7 @@ class Notebook extends Rest\Resource
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->get("$this->action/$id", $params);
+        return $this->fetch("$this->action/$id", $params);
     }
 
     /**
@@ -62,7 +62,7 @@ class Notebook extends Rest\Resource
     public function getAll($includeContent = false)
     {
         $includeContent = (bool)$includeContent;
-        return $this->rest->get("$this->action", [
+        return $this->fetch("$this->action", [
             'includeContent' => $includeContent ? 'true' : 'false',
         ]);
     }
@@ -90,7 +90,7 @@ class Notebook extends Rest\Resource
             throw new Exception('Invalid param project_id');
         }
         $includeContent = (bool)$includeContent;
-        return $this->rest->get("projects/$projectId/$this->action", [
+        return $this->fetch("projects/$projectId/$this->action", [
             'includeContent' => $includeContent ? 'true' : 'false',
         ]);
     }
@@ -113,7 +113,7 @@ class Notebook extends Rest\Resource
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->put("$this->action/$id/lock");
+        return $this->put("$this->action/$id/lock");
     }
 
     /**
@@ -134,7 +134,7 @@ class Notebook extends Rest\Resource
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->put("$this->action/$id/unlock");
+        return $this->put("$this->action/$id/unlock");
     }
 
     /**
@@ -153,7 +153,7 @@ class Notebook extends Rest\Resource
         if ($projectId <= 0) {
             throw new Exception('Required field project_id');
         }
-        return $this->rest->post("projects/$projectId/$this->action", $data);
+        return $this->post("projects/$projectId/$this->action", $data);
     }
 
     /**
@@ -173,7 +173,7 @@ class Notebook extends Rest\Resource
         if ($id <= 0) {
             throw new Exception('Required field id');
         }
-        return $this->rest->put("$this->action/$id", $data);
+        return $this->put("$this->action/$id", $data);
     }
 
     /**
@@ -201,6 +201,6 @@ class Notebook extends Rest\Resource
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->delete("$this->action/$id");
+        return $this->del("$this->action/$id");
     }
 }

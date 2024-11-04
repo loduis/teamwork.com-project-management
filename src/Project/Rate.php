@@ -14,7 +14,7 @@ class Rate extends Resource
 
     protected ?string $actions = 'rates';
 
-    protected static string|array $fields = 'projects.rates';
+    protected string|array $fields = 'projects.rates';
 
     /**
      * @param int $projectId
@@ -25,7 +25,7 @@ class Rate extends Resource
      */
     public function get(int $projectId, object|array $params = [])
     {
-        return $this->rest->get("projects/$projectId/$this->actions", $params);
+        return $this->fetch("projects/$projectId/$this->actions", $params);
     }
 
     /**
@@ -37,6 +37,6 @@ class Rate extends Resource
      */
     public function set(int $projectId, object|array $data)
     {
-        return $this->rest->post("projects/$projectId/$this->actions", $data);
+        return $this->post("projects/$projectId/$this->actions", $data);
     }
 }

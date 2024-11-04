@@ -6,7 +6,7 @@ class Role extends Model
 {
     protected function init()
     {
-        static::$fields = [
+        $this->fields = [
             'name' => true,
             'description' => false,
             'users' => [
@@ -30,7 +30,7 @@ class Role extends Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->get("$this->action/$id", $params);
+        return $this->fetch("$this->action/$id", $params);
     }
 
     /**
@@ -45,7 +45,7 @@ class Role extends Model
     public function getByProject($id)
     {
         $id = (int)$id;
-        return $this->rest->get("projects/$id/$this->action");
+        return $this->fetch("projects/$id/$this->action");
     }
 
     /**
@@ -64,7 +64,7 @@ class Role extends Model
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }
-        return $this->rest->post("projects/$project_id/$this->action", $data);
+        return $this->post("projects/$project_id/$this->action", $data);
     }
 
     /**
@@ -84,6 +84,6 @@ class Role extends Model
             throw new Exception('Required field id');
         }
         unset($data['id']);
-        return $this->rest->put("$this->action/$id", $data);
+        return $this->put("$this->action/$id", $data);
     }
 }

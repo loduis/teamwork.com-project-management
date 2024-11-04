@@ -24,8 +24,10 @@ use TeamWorkPm\Rest\Client as HttpClient;
  * @method static Portfolio\Column portfolioColumn()
  * @method static Project\People projectPeople()
  * @method static Project\Rate projectRate()
+ * @method static Project\File projectFile()
  * @method static Project\CustomField projectCustomField()
  * @method static Task\CustomField taskCustomField()
+ * @method static Task\File taskFile()
  * @method static Account account()
  * @method static CustomField customField()
  * @method static Activity activity()
@@ -42,6 +44,7 @@ use TeamWorkPm\Rest\Client as HttpClient;
  * @method static Task task()
  * @method static TaskList taskList()
  * @method static Time time()
+ * @method static File file()
  */
 class Factory
 {
@@ -49,26 +52,29 @@ class Factory
 
     /**
      * @param string $className
-     * @return Model|People|Project\People
+     * @return Model
      */
-    public static function build(string $className)
+    public static function build(string $className, ?HttpClient $httpClient = null)
     {
         [$className, $url, $key] = static::resolve($className);
 
-        $hash = md5($className . '-' . $url);
+        $clientHash = md5($url . '-' . $key);
 
-        $instance = static::$instances[$hash] ?? null;
-
-        if ($instance === null) {
-            $_hash = md5($url . '-' . $key);
-            $httpClient = static::$instances[$_hash] ?? (
-                static::$instances[$_hash] = new HttpClient($url, $key)
-            );
-            $instance = new $className($httpClient);
-            static::$instances[$hash] = $instance;
+        if ($httpClient !== null) {
+            $oldClient = static::$instances[$clientHash] ?? null;
+            if ($oldClient !== null && $httpClient !== $oldClient) {
+                static::$instances = [];
+            }
+            static::$instances[$clientHash] = $httpClient;
+        } elseif (($httpClient = (static::$instances[$clientHash] ?? null)) === null) {
+            $httpClient = static::$instances[$clientHash] = new HttpClient($url, $key);
         }
 
-        return $instance;
+        $classHash = md5($className . '-' . $url);
+
+        return static::$instances[$classHash] ?? (
+            static::$instances[$classHash] = new $className($httpClient)
+        );
     }
 
     /**
@@ -78,11 +84,13 @@ class Factory
      * @param HttpClient $httpClient
      * @return void
      */
+    /*
     public static function shareHttpClient(string $url, string $key, HttpClient $httpClient): void
     {
         $hash = md5($url . '-' . $key);
         static::$instances[$hash] = $httpClient;
     }
+    */
 
     public static function resolve(string $className)
     {

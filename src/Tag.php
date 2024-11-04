@@ -6,7 +6,7 @@ class Tag extends Model
 {
     protected function init()
     {
-        static::$fields = [
+        $this->fields = [
             'name' => true,
             'color' => false,
         ];
@@ -28,7 +28,7 @@ class Tag extends Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->get("$this->action/$id", $params);
+        return $this->fetch("$this->action/$id", $params);
     }
 
     /**
@@ -39,7 +39,7 @@ class Tag extends Model
      */
     public function getAllTags()
     {
-        return $this->rest->get("$this->action");
+        return $this->fetch("$this->action");
     }
 
     /**
@@ -54,7 +54,7 @@ class Tag extends Model
      */
     public function getAllTagsForResource($resource = '', $id = null)
     {
-        return $this->rest->get("$resource/$id/$this->action");
+        return $this->fetch("$resource/$id/$this->action");
     }
 
     /**
@@ -68,7 +68,7 @@ class Tag extends Model
      */
     public function create(array $data)
     {
-        return $this->rest->post("$this->action", $data);
+        return $this->post("$this->action", $data);
     }
 
     /**
@@ -92,11 +92,11 @@ class Tag extends Model
         if (!empty($resource) && !empty($resource_id)) {
             $action = "$resource/$resource_id/$this->action";
         }
-        return $this->rest->put($action, $data);
+        return $this->put($action, $data);
     }
 
     public function addTagToResource($resource = '', $id = null)
     {
-        return $this->rest->put("$resource/$id/$this->action");
+        return $this->put("$resource/$id/$this->action");
     }
 }

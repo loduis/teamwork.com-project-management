@@ -7,7 +7,7 @@ class Milestone extends Model
     protected function init()
     {
         // this is the list of fields that can send the api
-        static::$fields = [
+        $this->fields = [
             'title' => true,
             'description' => false,
             'deadline' => [
@@ -59,7 +59,7 @@ class Milestone extends Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->put("$this->action/$id/complete");
+        return $this->put("$this->action/$id/complete");
     }
 
     /**
@@ -80,7 +80,7 @@ class Milestone extends Model
         if ($id <= 0) {
             throw new Exception('Invalid param id');
         }
-        return $this->rest->put("$this->action/$id/uncomplete");
+        return $this->put("$this->action/$id/uncomplete");
     }
 
     /**
@@ -93,7 +93,7 @@ class Milestone extends Model
      */
     public function getAll($filter = 'all')
     {
-        return $this->rest->get("$this->action", $this->getParams($filter));
+        return $this->fetch("$this->action", $this->getParams($filter));
     }
 
     /**
@@ -111,7 +111,7 @@ class Milestone extends Model
         if ($project_id <= 0) {
             throw new Exception('Invalid param project_id');
         }
-        return $this->rest->get(
+        return $this->fetch(
             "projects/$project_id/$this->action",
             $this->getParams($filter)
         );
@@ -152,6 +152,6 @@ class Milestone extends Model
         if ($project_id <= 0) {
             throw new Exception('Required field project_id');
         }
-        return $this->rest->post("projects/$project_id/$this->action", $data);
+        return $this->post("projects/$project_id/$this->action", $data);
     }
 }

@@ -12,7 +12,7 @@ class Column extends Model
         $this->parent = 'column';
         $this->action = 'portfolio/columns';
 
-        static::$fields = [
+        $this->fields = [
             'name' => [
                 'type' => 'string'
             ],
@@ -79,7 +79,7 @@ class Column extends Model
             throw new Exception('Invalid param boardId');
         }
 
-        return $this->rest->get("portfolio/boards/$boardId/columns");
+        return $this->fetch("portfolio/boards/$boardId/columns");
     }
 
     /**
@@ -95,6 +95,6 @@ class Column extends Model
         }
         unset($data['board_id']);
 
-        return $this->rest->post("portfolio/boards/$boardId/columns", $data);
+        return $this->post("portfolio/boards/$boardId/columns", $data);
     }
 }

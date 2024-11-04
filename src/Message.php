@@ -6,7 +6,7 @@ class Message extends Model
 {
     protected function init()
     {
-        static::$fields = [
+        $this->fields = [
             'title' => true,
             'category_id' => [
                 'required' => true,
@@ -55,7 +55,7 @@ class Message extends Model
         if ($archive) {
             $action .= '/archive';
         }
-        return $this->rest->get($action);
+        return $this->fetch($action);
     }
 
     /**
@@ -92,7 +92,7 @@ class Message extends Model
         if ($archive) {
             $action .= '/archive';
         }
-        return $this->rest->get($action);
+        return $this->fetch($action);
     }
 
     /**
@@ -119,6 +119,6 @@ class Message extends Model
             $data['pending_file_attachments'] = $file->upload($data['files']);
             unset($data['files']);
         }
-        return $this->rest->post("projects/$project_id/$this->action", $data);
+        return $this->post("projects/$project_id/$this->action", $data);
     }
 }

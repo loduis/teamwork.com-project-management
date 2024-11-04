@@ -4,6 +4,7 @@ namespace TeamWorkPm\Rest;
 
 use BadMethodCallException;
 use TeamWorkPm\Exception;
+use TeamWorkPm\Response\Model as Response;
 
 /**
  * @method void init()
@@ -15,7 +16,7 @@ abstract class Resource
      *
      * @var \TeamWorkPm\Rest\Client
      */
-    protected Client $rest;
+    private Client $rest;
 
     /**
      * It is the parent element that contains the other xml or json elements of the put and post parameters
@@ -36,7 +37,7 @@ abstract class Resource
      *
      * @var array|string
      */
-    protected static array|string $fields = [];
+    protected string|array $fields = [];
 
     /**
      * @param string $url
@@ -48,7 +49,7 @@ abstract class Resource
      */
     public function __construct(Client $httpClient)
     {
-        $this->rest   = $httpClient;
+        $this->rest = $httpClient;
         if ($this->parent === null) {
             $this->parent = strtolower(str_replace(
                 ['TeamWorkPm\\', '\\'],
@@ -66,21 +67,30 @@ abstract class Resource
                 $this->action .= 's';
             }
         }
-        if (is_string(static::$fields)) {
-            $fields = str_replace('.', DIRECTORY_SEPARATOR, static::$fields);
+        if (is_string($this->fields)) {
+            $fields = str_replace('.', DIRECTORY_SEPARATOR, $this->fields);
             $content = file_get_contents(
                 __DIR__ . DIRECTORY_SEPARATOR . '..' .
                 DIRECTORY_SEPARATOR . 'schemas' . DIRECTORY_SEPARATOR . $fields . '.json'
             );
 
-            static::$fields = json_decode($content, true);
+            $this->fields = json_decode($content, true);
         }
         // configure request for put and post fields
+        // $this->resetOptions();
+    }
+
+    /*
+    protected function resetOptions()
+    {
         $this->rest->configRequest(
             $this->parent,
-            static::$fields
+            $this->fields
         );
+
+        return $this;
     }
+    */
 
     /**
      * @codeCoverageIgnore
@@ -104,6 +114,7 @@ abstract class Resource
         if ($name === 'create' && method_exists($this, 'insert')) {
             return $this->insert(...$arguments);
         }
+
         if ($name === 'insert' && method_exists($this, 'create')) {
             return $this->create(...$arguments);
         }
@@ -135,5 +146,52 @@ abstract class Resource
                 throw new Exception("$template $field");
             }
         }
+    }
+
+    protected function put(string $path, object|array|null $parameters = null): bool | Response
+    {
+        // $this->resetOptions();
+
+        return $this->rest->put($path, $parameters, [
+            'Parent' => $this->parent,
+            'Fields' => $this->fields
+        ]);
+    }
+
+    protected function post(string $path, object|array|null $parameters = null): bool | int | string | Response
+    {
+        // $this->resetOptions();
+
+        return $this->rest->post($path, $parameters, [
+            'Parent' => $this->parent,
+            'Fields' => $this->fields
+        ]);
+    }
+
+    protected function fetch(string $path, object|array|null $parameters = null): Response
+    {
+        // $this->resetOptions();
+
+        return $this->rest->get($path, $parameters, [
+            'Parent' => $this->parent,
+            'Fields' => []
+        ]);
+    }
+
+    protected function del(string $path): bool
+    {
+        // $this->resetOptions();
+
+        return $this->rest->delete($path, [
+            'Parent' => $this->parent,
+            'Fields' => []
+        ]);
+    }
+
+    protected function notUseFields()
+    {
+        $this->rest->notUseFields();
+
+        return $this;
     }
 }

@@ -31,7 +31,7 @@ abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
      * @param array $headers
      * @return static|int|bool|null
      */
-    abstract public function parse(string $data, array $headers): static|int|bool|null;
+    abstract public function parse(string $data, array $headers): static|int|bool|string|null;
 
     public function save(string $filename): bool
     {
@@ -174,5 +174,32 @@ abstract class Model implements \IteratorAggregate, \Countable, \ArrayAccess
     public function __unset(mixed $name)
     {
         unset($this->data[$name]);
+    }
+
+    public function map(callable $callback)
+    {
+        $data = [];
+
+        foreach ($this as $key => $value) {
+            $data[] = $callback($value, $key);
+        }
+
+        return $data;
+    }
+
+    public function reduce(callable $callback, mixed $initial = []): mixed
+    {
+        /**
+         * @var mixed
+         */
+        $accumulator = $initial;
+        foreach ($this as $key => $value) {
+            /**
+             * @var mixed
+             */
+            $accumulator = $callback($accumulator, $value, $key);
+        }
+
+        return $accumulator;
     }
 }
