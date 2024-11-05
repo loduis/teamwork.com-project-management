@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm;
 
 use TeamWorkPm\Response\Model as Response;
@@ -19,7 +21,6 @@ class Task extends Model
      * Get all Tasks across all Projects
      *
      * @param array|object $params
-     *
      * @return Response
      * @throws Exception
      */
@@ -33,11 +34,10 @@ class Task extends Model
      *
      * @param int $id
      * @param array|object $params
-     *
      * @return Response
      * @throws Exception
      */
-    public function getByTaskList($id, array|object $params = []): Response
+    public function getByTaskList(int $id, array|object $params = []): Response
     {
         return $this->fetch("tasklists/$id/$this->action", $params);
     }
@@ -47,28 +47,91 @@ class Task extends Model
      *
      * @param int $id
      * @param array|object $params
-     *
      * @return Response
      * @throws Exception
      */
-    public function getByProject($id, array|object $params = []): Response
+    public function getByProject(int $id, array|object $params = []): Response
     {
         return $this->fetch("projects/$id/$this->action", $params);
     }
 
     /**
-     * Create Item on a List
+     * Retrieve Task Dependencies
      *
-     * POST /todo_lists/#{todo_list_id}/todo_items.xml
+     * @param int $id
+     * @return Response
+     * @throws Exception
+     */
+    public function getDependencies(int $id): Response
+    {
+        return $this->fetch("$this->action/$id/dependencies");
+    }
+
+    /**
+     * Get completed Tasks
      *
-     * For the submitted list, creates a todo item. It will be added to the end of the list,
-     * and marked as uncomplete by default. If you give a persons id as the responsible-party-id value,
-     * they will be responsible for same, you can also use the “notify” key to indicate whether an email
-     * should be sent to that person to tell them about the assignment.
-     * Multiple people can be assigned by passing a comma delimited list for responsible-party-id.
+     * @return Response
+     * @throws Exception
+     */
+    public function getCompleted(): Response
+    {
+        return $this->fetch("completedtasks");
+    }
+
+    /**
+     * Get Task Followers
+     *
+     * @param int $id
+     * @return Response
+     * @throws Exception
+     */
+    public function getFollowers(int $id): Response
+    {
+        return $this->fetch("$this->action/$id/followers");
+    }
+
+    /**
+     * Get Task Predecessors
+     *
+     * @param int $id
+     * @return Response
+     * @throws Exception
+     */
+    public function getPredecessors(int $id): Response
+    {
+        return $this->fetch("$this->action/$id/predecessors");
+    }
+
+    /**
+     * Get Sub Tasks of a Task
+     *
+     * @param int $id
+     * @return Response
+     * @throws Exception
+     */
+    public function getSubTasks(int $id): Response
+    {
+        return $this->fetch("$this->action/$id/subtasks");
+    }
+
+    /**
+     * Get Recurring Tasks related to original Task.
+     *
+     * @param int $id
+     * @param array|object $params
+     * @return Response
+     * @throws Exception
+     */
+    public function getRecurring(int $id, array|object $params = []): Response
+    {
+        return $this->fetch("$this->action/$id/recurring", $params);
+    }
+
+    /**
+     * Create a Task on a Project
+     * Create a Task on a TaskList
      *
      * @param array|object $data
-     *
      * @return int
      * @throws Exception
      */
@@ -91,17 +154,37 @@ class Task extends Model
         $files = $data->pull('files');
         if ($files !== null) {
             $data['pending_file_attachments'] = Factory::file()
-                ->upload($files->toArray());
+                ->upload($files);
         }
 
         return $this->post("$root/$id/$this->action", $data);
     }
 
     /**
-     * Mark an Item Complete
+     * Create a Sub Task
+     *
+     * @param integer $id
+     * @param array|object $data
+     * @return integer
+     */
+    public function add(int $id, array|object $data): int
+    {
+        $data = arr_obj($data);
+        $data->pull('project_id');
+        $data->pull('task_list_id');
+        $files = $data->pull('files');
+        if ($files !== null) {
+            $data['pending_file_attachments'] = Factory::file()
+                ->upload($files);
+        }
+
+        return $this->post("$this->action/$id", $data);
+    }
+
+    /**
+     * Mark a Task complete
      *
      * @param int $id
-     *
      * @return bool
      * @throws Exception
      */
@@ -113,46 +196,32 @@ class Task extends Model
     /**
      * Mark an Item Uncomplete
      *
-     * PUT /todo_items/#{id}/uncomplete.xml
-     *
-     * Changes the item to uncomplete. (if called on an uncomplete item, has no effect)
-     *
      * @param int $id
-     *
      * @return bool
      * @throws Exception
      */
-    public function unComplete($id)
+    public function unComplete(int $id): bool
     {
-        $id = (int)$id;
-        if ($id <= 0) {
-            throw new Exception('Invalid param id');
-        }
-
         return $this->put("$this->action/$id/uncomplete");
     }
 
     /**
-     * Reorder the todo items
+     * Reorder the Tasks
      *
-     * POST /todo_lists/#{todo_list_id}/todo_items/reorder.xml
-     *
-     * Re-orders items on the submitted list. Completed items cannot be reordered,
-     * and any items not specified will be sorted after the items explicitly given
-     * Items can be re-parented by putting them from one list into the ordering of items for a different list/
-     *
-     * @param int $task_list_id
+     * @param int $id
      * @param array $ids
-     *
      * @return bool
      * @throws Exception
      */
-    public function reorder($task_list_id, array $ids)
+    public function reorder(int $id, int ...$ids)
     {
-        $task_list_id = (int)$task_list_id;
-        if ($task_list_id <= 0) {
-            throw new Exception('Invalid param task_list_id');
+        $params = [];
+        foreach ($ids as $id) {
+            $params[$this->parent][]['id'] = $id;
         }
-        return $this->post("todo_lists/$task_list_id/$this->action/reorder", $ids);
+        $parent = $this->parent . 's';
+        $params = [$parent => $params];
+
+        return $this->put("tasklists/$id/$this->action/reorder", $ids);
     }
 }

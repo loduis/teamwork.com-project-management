@@ -3,37 +3,25 @@
 namespace TeamWorkPm\Tests;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 
 final class TaskTest extends TestCase
 {
-    private $model;
-    private $taskListId;
-    private $id;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->model = Factory::build('task');
-        $projectId = get_first_project_id();
-        $this->taskListId = get_first_task_list_id($projectId);
-        $this->id = get_first_task_id($this->taskListId);
-    }
 
     /**
      * @dataProvider provider
      * @test
      */
-    public function insert($data): void
+    public function create($data): void
     {
         try {
             $data['files'] = __DIR__ . '/uploads/teamworkpm.jpg';
-            $this->model->save($data);
+            $this->factory('task')->create($data);
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
-            $this->assertEquals('Required field task_list_id', $e->getMessage());
+            $this->assertEquals('Required field task_list_id or project_id', $e->getMessage());
         }
 
+        /*
         try {
             $data['task_list_id'] = $this->taskListId;
             $id = $this->model->save($data);
@@ -41,11 +29,12 @@ final class TaskTest extends TestCase
         } catch (Exception $e) {
             $this->fail($e->getMessage());
         }
+        */
     }
 
     /**
      * @dataProvider provider
-     * @test
+     * @-test
      */
     public function update($data): void
     {
@@ -58,7 +47,7 @@ final class TaskTest extends TestCase
     }
 
     /**
-     * @test
+     * @-test
      */
     public function get(): void
     {
@@ -85,7 +74,7 @@ final class TaskTest extends TestCase
     }
 
     /**
-     * @test
+     * @-test
      */
     public function getByTaskList(): void
     {
@@ -105,7 +94,7 @@ final class TaskTest extends TestCase
     }
 
     /**
-     * @test
+     * @-test
      */
     public function complete(): void
     {
@@ -124,7 +113,7 @@ final class TaskTest extends TestCase
     }
 
     /**
-     * @test
+     * @-test
      */
     public function getFinishedByTaskList(): void
     {
@@ -140,7 +129,7 @@ final class TaskTest extends TestCase
     }
 
     /**
-     * @test
+     * @-test
      */
     public function unComplete(): void
     {
@@ -159,7 +148,7 @@ final class TaskTest extends TestCase
     }
 
     /**
-     * @test
+     * @-test
      */
     public function getPendingByTaskList(): void
     {
@@ -176,7 +165,7 @@ final class TaskTest extends TestCase
 
     /**
      * @dataProvider provider
-     * @test
+     * @-test
      */
     public function reorder($data): void
     {

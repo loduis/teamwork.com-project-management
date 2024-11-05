@@ -6,20 +6,6 @@ class JSON extends Model
 {
     protected function parseParameters(array $parameters): ?string
     {
-        /*
-        $object = new \stdClass;
-        $parent = (string) $this->parent;
-        if ($parent !== '') {
-            if (array_key_exists($parent, $parameters)) {
-                $parent = $object;
-            } else {
-                $object->$parent = new \stdClass;
-                $parent = $object->$parent;
-            }
-        } else {
-            $parent = $object;
-        }
-        */
         $object = new \stdClass();
 
         if ($this->useFields) {
@@ -42,6 +28,10 @@ class JSON extends Model
                         ? $object->$field = $value
                         : $parent->$field = $value;
                 }
+            }
+            $parent = (string) $this->parent;
+            if (!count((array) $object->$parent)) {
+                unset($object->$parent);
             }
         } else {
             foreach ($parameters as $key => $value) {

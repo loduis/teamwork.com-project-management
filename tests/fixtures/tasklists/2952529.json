@@ -1,0 +1,24 @@
+{
+    "STATUS": "OK",
+    "todo-list": {
+        "id": "2952529",
+        "name": "My List",
+        "description": "",
+        "position": 1001,
+        "projectId": "967489",
+        "projectName": "Colombia",
+        "lastUpdated": "2024-10-22T11:24:48Z",
+        "createdAt": "2023-11-29T11:56:05Z",
+        "private": false,
+        "isTemplate": false,
+        "tags": [],
+        "tasks": null,
+        "milestone-id": "",
+        "pinned": false,
+        "complete": false,
+        "uncompleted-count": 1,
+        "status": "new",
+        "notifyTaskAssignee": true,
+        "isBillable": null
+    }
+}

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm;
 
 use TeamWorkPm\Response\Model as Response;
@@ -68,7 +70,7 @@ class Task_List extends Model
         $parent = $this->parent . 's';
         $params = [$parent => $params];
 
-        return $this->rest
+        return $this
             ->notUseFields()
             ->put(
                 "projects/$projectId/$this->action/reorder",
@@ -99,7 +101,6 @@ class Task_List extends Model
             $data['apply_defaults_to_existing_tasks'] = $apply_defaults_to_existing_tasks;
         }
 
-        return $this->rest
-            ->post("projects/$projectId/$this->action", $data);
+        return $this->post("projects/$projectId/$this->action", $data);
     }
 }

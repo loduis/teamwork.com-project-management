@@ -18,3 +18,5 @@ const TPM_TEST_ID = 10;
 const TPM_TASK_ID = 43119773;
 
 const TPM_FILE_ID = 10197393;
+
+const TPM_TASK_LIST_ID = 2952529;
