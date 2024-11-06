@@ -21,181 +21,212 @@ final class TaskTest extends TestCase
             $this->assertEquals('Required field task_list_id or project_id', $e->getMessage());
         }
 
-        /*
-        try {
-            $data['task_list_id'] = $this->taskListId;
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-        */
+
+        $this->assertEquals(TPM_TEST_ID, $this->factory('task', [
+            'POST /projects/' . TPM_PROJECT_ID . '/tasks' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->create([
+            'project_id' => TPM_PROJECT_ID,
+            'content' => 'Test'
+        ]));
+
+        $this->assertEquals(TPM_TEST_ID, $this->factory('task', [
+            'POST /tasklists/' . TPM_TASK_LIST_ID . '/tasks' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->create([
+            'task_list_id' => TPM_TASK_LIST_ID,
+            'content' => 'Test',
+            'custom_fields' => [
+                68 => 'Jane Doe',
+                75 => 'Finance'
+            ]
+        ]));
     }
 
     /**
      * @dataProvider provider
-     * @-test
+     * @test
      */
     public function update($data): void
     {
-        try {
-            $data['id'] = $this->id;
-            $this->assertTrue($this->model->save($data));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @-test
-     */
-    public function get(): void
-    {
-        try {
-            $times = $this->model->get(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
-
-        try {
-            $task = $this->model->get($this->id);
-            $this->assertEquals($this->id, $task->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-
-        try {
-            $task = $this->model->get($this->id, true);
-            $this->assertTrue(isset($task->timeIsLogged));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @-test
-     */
-    public function getByTaskList(): void
-    {
-        try {
-            $times = $this->model->getByTaskList(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param task_list_id', $e->getMessage());
-        }
-
-        try {
-            $tasks = $this->model->getByTaskList($this->taskListId);
-            $this->assertGreaterThan(0, count($tasks));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @-test
-     */
-    public function complete(): void
-    {
-        try {
-            $times = $this->model->complete(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
-
-        try {
-            $this->assertTrue($this->model->complete($this->id));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @-test
-     */
-    public function getFinishedByTaskList(): void
-    {
-        try {
-            $tasks = $this->model->getByTaskList($this->taskListId, 'finished');
-            $this->assertGreaterThan(0, count($tasks));
-            foreach ($tasks as $t) {
-                $this->assertNotEmpty($t->completed);
-            }
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @-test
-     */
-    public function unComplete(): void
-    {
-        try {
-            $times = $this->model->uncomplete(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
-
-        try {
-            $this->assertTrue($this->model->unComplete($this->id));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @-test
-     */
-    public function getPendingByTaskList(): void
-    {
-        try {
-            $tasks = $this->model->getByTaskList($this->taskListId, 'pending');
-            $this->assertGreaterThan(0, count($tasks));
-            foreach ($tasks as $t) {
-                $this->assertEmpty($t->completed);
-            }
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertTrue($this->factory('task', [
+            'PUT /tasks/' . TPM_TASK_ID => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->update([
+            'id' => TPM_TASK_ID,
+            'content' => 'Change content',
+            'custom_fields' => []
+        ]));
     }
 
     /**
      * @dataProvider provider
-     * @-test
+     * @test
      */
-    public function reorder($data): void
+    public function add($data): void
     {
-        try {
-            $this->model->reorder(0, []);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param task_list_id', $e->getMessage());
-        }
+        $this->assertEquals(TPM_TEST_ID, $this->factory('task', [
+            'POST /tasks/' . TPM_TASK_ID => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->add(TPM_TASK_ID, [
+            'content' => 'Sub task',
+        ]));
+    }
 
-        try {
-            $data['task_list_id'] = $this->taskListId;
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-            $tasks = $this->model->getByTaskList($this->taskListId);
-            $ids = [];
-            foreach ($tasks as $t) {
-                $ids[] = $t->id;
-            }
-            shuffle($ids);
-            $this->assertTrue($this->model->reorder($this->taskListId, $ids));
-            $tasks = $this->model->getByTaskList($this->taskListId);
-            $order = [];
-            foreach ($tasks as $t) {
-                $order[] = $t->id;
-            }
-            $this->assertEquals($ids, $order);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+    /**
+     * @test
+     */
+    public function delete(): void
+    {
+        $this->assertTrue($this->factory('task', [
+            'DELETE /tasks/' . TPM_TASK_ID => true
+        ])->delete(TPM_TASK_ID));
+    }
+
+
+    /**
+     * @depends create
+     * @test
+     */
+    public function getAll(): void
+    {
+        $this->assertGreaterThan(0,
+            count($this->factory('task', [
+                'GET /tasks' => true
+            ])->all())
+        );
+
+    }
+    /**
+     * @depends create
+     * @test
+     */
+    public function get(): void
+    {
+        $this->assertEquals(
+            "Mi task with files",
+            $this->factory('task', [
+                'GET /tasks/' . TPM_TASK_ID => true
+            ])->get(TPM_TASK_ID)->content
+        );
+    }
+
+    /**
+     * @depends create
+     * @test
+     */
+    public function getByProject(): void
+    {
+        $this->assertGreaterThan(0,
+            count($this->factory('task', [
+                'GET /projects/' . TPM_PROJECT_ID . '/tasks' => true
+            ])->getByProject(TPM_PROJECT_ID))
+        );
+    }
+
+    /**
+     * @depends create
+     * @test
+     */
+    public function getByTaskList(): void
+    {
+        $this->assertGreaterThan(0,
+            count($this->factory('task', [
+                'GET /tasklists/' . TPM_TASK_LIST_ID . '/tasks' => true
+            ])->getByTaskList(TPM_TASK_LIST_ID))
+        );
+    }
+
+    /**
+     * @depends create
+     * @test
+     */
+    public function getCompleted(): void
+    {
+        $this->assertGreaterThan(0,
+            count($this->factory('task', [
+                'GET /completedtasks' => true
+            ])->getCompleted())
+        );
+    }
+
+    /**
+     * @depends create
+     * @test
+     */
+    public function getFollowers(): void
+    {
+        $this->assertGreaterThan(0,
+            count($this->factory('task', [
+                'GET /tasks/' . TPM_TASK_ID . '/followers' => true
+            ])->getFollowers(TPM_TASK_ID)->changeFollowerIds)
+        );
+    }
+
+    /**
+     * @depends create
+     * @test
+     */
+    public function getPredecessors(): void
+    {
+        $this->assertCount(0,
+            $this->factory('task', [
+                'GET /tasks/' . TPM_TASK_ID . '/predecessors' => true
+            ])->getPredecessors(TPM_TASK_ID)
+        );
+    }
+
+    /**
+     * @depends create
+     * @test
+     */
+    public function getSubTasks(): void
+    {
+        $this->assertCount(1,
+            $this->factory('task', [
+                'GET /tasks/' . TPM_TASK_ID . '/subtasks' => true
+            ])->getSubTasks(TPM_TASK_ID)
+        );
+    }
+
+    /**
+     * @depends create
+     * @test
+     */
+    public function getRecurring(): void
+    {
+        $task = $this->factory('task', [
+            'GET /tasks/' . TPM_TASK_ID . '/recurring' => true
+        ])->getRecurring(TPM_TASK_ID);
+
+        $this->assertArrayHasKey('datesSet', $task);
+        $this->assertArrayHasKey('recurringDates', $task);
+    }
+
+    /**
+     * @test
+     */
+    public function complete(): void
+    {
+        $this->assertTrue($this->factory('task', [
+            'PUT /tasks/' . TPM_TASK_ID . '/complete' => true
+        ])->complete(TPM_TASK_ID));
+    }
+
+    /**
+     * @test
+     */
+    public function unComplete(): void
+    {
+        $this->assertTrue($this->factory('task', [
+            'PUT /tasks/' . TPM_TASK_ID . '/uncomplete' => true
+        ])->unComplete(TPM_TASK_ID));
+    }
+
+    /**
+     * @test
+     */
+    public function reorder(): void
+    {
+        $this->assertTrue($this->factory('task', [
+            'PUT /tasklists/'. TPM_TASK_ID . '/tasks/reorder' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->reorder(TPM_TASK_ID, 1, 2, 2));
     }
 
     public function provider()

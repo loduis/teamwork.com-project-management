@@ -7,4 +7,5 @@ namespace TeamWorkPm\Category;
  */
 class Message extends Model
 {
+    protected ?string $action = 'messageCategories';
 }

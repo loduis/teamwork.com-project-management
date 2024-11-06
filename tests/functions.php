@@ -364,5 +364,5 @@ function stf(Model $resource)
         mkdir($dirname, 0777, true);
     }
 
-    file_put_contents($filename, (string) $resource->getOriginalContent());
+    return file_put_contents($filename, (string) $resource->getOriginalContent()) !== false;
 }

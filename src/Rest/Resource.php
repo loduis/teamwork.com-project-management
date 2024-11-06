@@ -50,6 +50,7 @@ abstract class Resource
     public function __construct(Client $httpClient)
     {
         $this->rest = $httpClient;
+        /*
         if ($this->parent === null) {
             $this->parent = strtolower(str_replace(
                 ['TeamWorkPm\\', '\\'],
@@ -57,7 +58,9 @@ abstract class Resource
                 static::class
             ));
         }
+        */
         $this->init();
+        /*
         if (null === $this->action) {
             $this->action = str_replace('-', '_', $this->parent);
             // pluralize
@@ -67,6 +70,7 @@ abstract class Resource
                 $this->action .= 's';
             }
         }
+        */
         if (is_string($this->fields)) {
             $fields = str_replace('.', DIRECTORY_SEPARATOR, $this->fields);
             $content = file_get_contents(

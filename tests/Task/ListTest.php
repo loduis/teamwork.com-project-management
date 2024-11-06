@@ -117,6 +117,16 @@ final class ListTest extends TestCase
         ])->reorder(TPM_PROJECT_ID, 1, 2, 2));
     }
 
+    /**
+     * @test
+     */
+    public function delete(): void
+    {
+        $this->assertTrue($this->factory('task.list', [
+            'DELETE /tasklists/' . TPM_TASK_LIST_ID => true
+        ])->delete(TPM_TASK_LIST_ID));
+    }
+
     public function provider()
     {
         return [

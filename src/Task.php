@@ -70,6 +70,8 @@ class Task extends Model
     /**
      * Get completed Tasks
      *
+     * @todo Need check
+     *
      * @return Response
      * @throws Exception
      */
@@ -216,8 +218,8 @@ class Task extends Model
     public function reorder(int $id, int ...$ids)
     {
         $params = [];
-        foreach ($ids as $id) {
-            $params[$this->parent][]['id'] = $id;
+        foreach ($ids as $task) {
+            $params[$this->parent][]['id'] = $task;
         }
         $parent = $this->parent . 's';
         $params = [$parent => $params];

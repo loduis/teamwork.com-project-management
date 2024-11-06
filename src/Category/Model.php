@@ -7,13 +7,9 @@ use TeamWorkPm\Response\Model as Response;
 
 abstract class Model extends \TeamWorkPm\Model
 {
-    protected string|array $fields = 'resource_categories';
+    protected ?string $parent = 'category';
 
-    protected function init()
-    {
-        [$this->parent, $type] = explode('-', (string) $this->parent);
-        $this->action = $type . 'Categories';
-    }
+    protected string|array $fields = 'resource_categories';
 
     /**
      * Retrieving all of a [File|Link|Message|Notebook] Categories by projects

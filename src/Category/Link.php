@@ -7,4 +7,5 @@ namespace TeamWorkPm\Category;
  */
 class Link extends Model
 {
+    protected ?string $action = 'linkCategories';
 }

@@ -17,6 +17,7 @@
         <testsuite name="default">
             <file>tests/Request/JsonTest.php</file>
             <file>tests/FileTest.php</file>
+            <file>tests/TaskTest.php</file>
             <file>tests/ProjectTest.php</file>
             <file>tests/PeopleTest.php</file>
             <file>tests/CompanyTest.php</file>

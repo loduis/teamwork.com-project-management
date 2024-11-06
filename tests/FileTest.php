@@ -108,7 +108,11 @@ final class FileTest extends TestCase
      */
     public function all()
     {
-        $this->assertCount(2, $this->factory('file')->all());
+        $files = $this->factory('file')->all();
+
+        $this->assertCount(2, $files);
+
+        $this->assertEquals('teamworkpm', $files[0]->fileSource);
     }
 
     /**

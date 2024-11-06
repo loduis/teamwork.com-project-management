@@ -9,6 +9,10 @@ use TeamWorkPm\Response\Model as Response;
  */
 class Company extends Model
 {
+    protected ?string $parent = 'company';
+
+    protected ?string $action = 'companies';
+
     protected string|array $fields = 'companies';
 
     /**

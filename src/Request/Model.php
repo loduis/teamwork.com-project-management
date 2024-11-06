@@ -21,7 +21,7 @@ abstract class Model
      * @param string $parent
      * @return $this
      */
-    public function setParent(string $parent)
+    public function setParent(?string $parent)
     {
         $this->parent = $parent;
         return $this;

@@ -9,6 +9,10 @@ use TeamWorkPm\Response\Model as Response;
  */
 class File extends Rest\Resource
 {
+    protected ?string $parent = 'file';
+
+    protected ?string $action = 'files';
+
     protected string|array $fields = [];
 
     /**

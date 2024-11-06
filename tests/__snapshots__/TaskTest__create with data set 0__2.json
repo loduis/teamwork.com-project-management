@@ -1,0 +1,15 @@
+{
+    "todo-item": {
+        "content": "Test",
+        "customFields": [
+            {
+                "customFieldId": 68,
+                "value": "Jane Doe"
+            },
+            {
+                "customFieldId": 75,
+                "value": "Finance"
+            }
+        ]
+    }
+}

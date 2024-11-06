@@ -72,6 +72,31 @@ class JSON extends Model
                         if (!empty($source->STATUS)) {
                             unset($source->STATUS);
                         }
+                        $wrapper = $headers['X-Parent'];
+                        $action = $headers['X-Action'];
+                        $count = count(get_object_vars($source));
+                        if ($count == 1) {
+                            $key = key($source);
+                            $match = $wrapper == $key;
+                            $source = $match ? $source->$wrapper : current($source);
+                            if ($key === 'project') {
+                                foreach(['files'] as $key) {
+                                    if (isset($source->$key)) {
+                                        $source = $source->$key;
+                                        break;
+                                    }
+                                }
+                            } elseif ($key === 'projects' && $action === 'files') {
+                                $data = [];
+                                foreach($source as $project) {
+                                    foreach ($project->files as $file) {
+                                        $data[] = $file;
+                                    }
+                                }
+                                $source = $data;
+                            }
+                        }
+                        /*
                         if (isset($source->project->files)) {
                             $source = $source->project->files;
                         } elseif (!empty($source->project->notebooks)) {
@@ -98,8 +123,10 @@ class JSON extends Model
                             && preg_match('!portfolio/columns/(\d+)/cards!', $headers['X-Action'])
                         ) {
                             $source = $source->cards;
+                        } elseif (isset($source->$parent)) {
+                            $source = $source->$parent;
                         } else {
-                            $source = current($source);
+                            echo $parent;
                         }
                         if ($headers['X-Action'] === 'links' || $headers['X-Action'] === 'notebooks') {
                             $_source = [];
@@ -113,6 +140,8 @@ class JSON extends Model
                         } elseif (str_contains($headers['X-Action'], 'time_entries') && $source !== null) {
                             $source = [];
                         }
+                        */
+
                         $this->headers = $headers;
                         $this->string = json_encode($source);
                         if (is_arr_obj($source)) {
@@ -194,6 +223,7 @@ class JSON extends Model
             $key = Str::camel($key);
             $destination->$key = is_scalar($value) ? $value : static::camelizeObject($value);
         }
+
         return $destination;
     }
 

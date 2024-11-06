@@ -238,10 +238,8 @@ final class PeopleTest extends TestCase
 
     /**
      * @test
-     *
-     * @return void
      */
-    public function delete()
+    public function delete(): void
     {
         $this->assertTrue($this->factory('people', [
             'DELETE /people/' . TPM_USER_ID => true

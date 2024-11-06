@@ -7,4 +7,5 @@ namespace TeamWorkPm\Category;
  */
 class File extends Model
 {
+    protected ?string $action = 'fileCategories';
 }

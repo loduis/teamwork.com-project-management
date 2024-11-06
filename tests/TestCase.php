@@ -14,6 +14,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     use MatchesSnapshots;
 
+
     protected function factory(string $className, Closure | array $callback = null)
     {
 
