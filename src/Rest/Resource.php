@@ -152,7 +152,7 @@ abstract class Resource
         }
     }
 
-    protected function put(string $path, object|array|null $parameters = null): bool | Response
+    protected function put(string $path, object|array|null $parameters = null): bool | int | Response
     {
         // $this->resetOptions();
 

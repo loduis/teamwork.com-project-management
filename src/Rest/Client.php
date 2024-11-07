@@ -50,7 +50,7 @@ class Client
         $this->url = $url;
         $format = strtoupper(self::$FORMAT);
         $request = '\TeamWorkPm\Request\\' . $format;
-        $response = '\\TeamWorkPm\\Response\\' . $format;
+        $response = '\TeamWorkPm\\Response\\' . $format;
         /** @psalm-suppress PropertyTypeCoercion */
         $this->request = new $request();
         /** @psalm-suppress PropertyTypeCoercion */
@@ -74,10 +74,15 @@ class Client
         ];
         $request = $this->request
             ->setOpts($opts)
-            ->setAction($path)
-            ->getParameters($method, $parameters);
-
-        $ch = static::initCurl($method, $url, $request, $headers);
+            ->setAction($path);
+        $useFiles = $request->useFiles();
+        // echo $request, PHP_EOL;
+        $ch = static::initCurl(
+            $method,
+            $url,
+            $request->getParameters($method, $parameters),
+            $headers
+        );
 
         $i = 0;
         $data = '';
@@ -116,6 +121,7 @@ class Client
         $headers['X-Request'] = $request;
         $headers['X-Action'] = $path;
         $headers['X-Parent'] = $this->request->getParent();
+        $headers['X-Not-Use-Files'] = !$useFiles;
         // for chrome use
         // $headers['X-Authorization'] = 'BASIC ' . base64_encode($this->key . ':xxx');
         // print_r($headers);
@@ -188,7 +194,7 @@ class Client
         return $this->request('GET', $path, $parameters, $opts);
     }
 
-    public function put(string $path, object|array|null $parameters = null, array $opts = []): bool | Response
+    public function put(string $path, object|array|null $parameters = null, array $opts = []): bool | int | Response
     {
         return $this->request('PUT', $path, $parameters, $opts);
     }

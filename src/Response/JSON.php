@@ -61,6 +61,24 @@ class JSON extends Model
                         }
                         // no break
                     case 'PUT':
+                        unset($source->STATUS);
+                        $keys = get_object_vars($source);
+                        if ($headers['X-Not-Use-Files'] &&
+                            ($count = count($keys)) && (
+                                $count != 1 || !isset($keys['id'])
+                            )
+                        ) {
+                            /**
+                             * @var \stdClass
+                             */
+                            $data = static::camelizeObject($source);
+                            if (!empty($data->id)) {
+                                $data->id = (int)$data->id;
+                            }
+                            /** @psalm-suppress InvalidPropertyAssignmentValue  */
+                            $this->data = $data;
+                            return $this;
+                        }
                         return $source->id ?? true;
                     case 'DELETE':
                         return true;

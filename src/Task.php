@@ -226,4 +226,38 @@ class Task extends Model
 
         return $this->put("tasklists/$id/$this->action/reorder", $ids);
     }
+
+    /**
+     * Move a Task from one Project to Another
+     *
+     * @param integer $id
+     * @param integer $projectId
+     * @param integer $taskListId
+     * @return Response
+     */
+    public function move(int $id, int $projectId, int $taskListId): Response
+    {
+        return $this->notUseFields()
+            ->put(
+                "$this->action/$id/move",
+                compact('projectId', 'taskListId')
+        );
+    }
+
+    /**
+     * Copy a Task from one Project to Another
+     *
+     * @param integer $id
+     * @param integer $projectId
+     * @param integer $taskListId
+     * @return int
+     */
+    public function copy(int $id, int $projectId, int $taskListId): int
+    {
+        return $this->notUseFields()
+            ->put(
+                "$this->action/$id/copy",
+                compact('projectId', 'taskListId')
+        );
+    }
 }

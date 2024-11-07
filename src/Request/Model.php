@@ -363,6 +363,11 @@ abstract class Model
         $this->useFields = false;
     }
 
+    public function useFiles()
+    {
+        return $this->useFields;
+    }
+
     /**
      * Return parameters for post and put request
      *

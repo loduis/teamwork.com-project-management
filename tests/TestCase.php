@@ -52,6 +52,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 $request->setOpts($opts);
                 $request->setAction($path);
                 $parent = $request->getParent();
+                $useFiles = $request->useFiles();
                 $request = $request->getParameters($method, $parameters);
                 $body = match($method) {
                     'GET' => file_get_contents(
@@ -83,6 +84,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     'X-Action' => $path,
                     'X-Parent' => $parent,
                     'X-Request' => json_encode($params, JSON_UNESCAPED_SLASHES),
+                    'X-Not-Use-Files' => !$useFiles,
                     'X-Params' => match ($method) {
                         'POST' => $getRequest(),
                         'PUT' => $getRequest(),

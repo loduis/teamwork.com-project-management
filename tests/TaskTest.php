@@ -229,6 +229,35 @@ final class TaskTest extends TestCase
         ])->reorder(TPM_TASK_ID, 1, 2, 2));
     }
 
+    /**
+     * @test
+     */
+    public function move(): void
+    {
+        $res = $this->factory('task', [
+            'PUT /tasks/43147343/move' => function () {
+                return '{"STATUS":"OK","affectedTaskListIds":"3492444,3490552","affectedTaskIds":"43147343","affectedProjectIds":"967489,967518"}';
+            }
+        ])->move(43147343, 967518, 3490552);
+
+        $this->assertArrayHasKey('affectedTaskListIds', $res);
+        $this->assertArrayHasKey('affectedTaskIds', $res);
+        $this->assertArrayHasKey('affectedProjectIds', $res);
+    }
+
+    /**
+     * @test
+     */
+    public function copy(): void
+    {
+        $this->assertEquals(TPM_TEST_ID, $this->factory('task', [
+            'PUT /tasks/43147343/copy' => function () {
+                return '{"STATUS":"OK","id": ' . TPM_TEST_ID . '}';
+            }
+        ])->copy(43147343, 967518, 3490552));
+
+    }
+
     public function provider()
     {
         return [
