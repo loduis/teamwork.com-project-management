@@ -1,0 +1,42 @@
+{
+    "STATUS": "OK",
+    "milestones": [
+        {
+            "project-name": "Colombia",
+            "userFollowingComments": false,
+            "tasklists": [],
+            "changeFollowerIds": "",
+            "last-changed-on": "2024-12-21T16:40:28Z",
+            "created-on": "2024-12-21T16:40:27Z",
+            "responsible-party-id": "",
+            "reminder": "no",
+            "project-id": "967489",
+            "responsiblePartyIds": "391604",
+            "completed": false,
+            "status": "upcoming",
+            "description": "",
+            "responsible-party-lastname": "",
+            "responsible-party-firstname": "",
+            "responsiblePartyNames": "Php A.",
+            "id": "782731",
+            "creator-id": "391604",
+            "responsiblePartyFullNames": "Php Api",
+            "commentFollowerIds": "",
+            "dueDateOffset": "6295",
+            "company-name": "Php's Company",
+            "canEdit": true,
+            "isprivate": "no",
+            "company-id": "1370007",
+            "comments-count": "0",
+            "responsible-party-type": "Person",
+            "canComplete": true,
+            "private": false,
+            "deadline": "20241225",
+            "userFollowingChanges": false,
+            "responsible-party-ids": "391604",
+            "title": "For now",
+            "tags": [],
+            "project-logo-color": ""
+        }
+    ]
+}

@@ -3,12 +3,15 @@
 namespace TeamWorkPm;
 
 use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\CopyAndMoveTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/files/get-files-id-json
  */
 class File extends Rest\Resource
 {
+    use CopyAndMoveTrait;
+
     protected ?string $parent = 'file';
 
     protected ?string $action = 'files';
@@ -146,22 +149,6 @@ class File extends Rest\Resource
     }
 
     /**
-     * Copy a File to another Project
-     *
-     * @param integer $id
-     * @param integer $projectId
-     * @return boolean
-     */
-    public function copy(int $id, int $projectId): bool
-    {
-        return $this
-            ->notUseFields()
-            ->put(
-            "$this->action/$id/copy", compact('projectId')
-        );
-    }
-
-    /**
      * Get a short URL for sharing a File
      *
      * @param integer $id
@@ -170,21 +157,6 @@ class File extends Rest\Resource
     public function getSharedLink(int $id): string
     {
         return $this->fetch("$this->action/$id/sharedlink")->url;
-    }
-
-    /**
-     * Move a file to another Project
-     *
-     * @param integer $id
-     * @param integer $projectId
-     * @return boolean
-     */
-    public function move(int $id, int $projectId): bool
-    {
-        return $this
-            ->notUseFields()
-            ->put("$this->action/$id/move", compact('projectId')
-        );
     }
 
     /**

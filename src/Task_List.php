@@ -5,43 +5,20 @@ declare(strict_types = 1);
 namespace TeamWorkPm;
 
 use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\ProjectTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/task-lists/post-projects-id-tasklists-json
  */
 class Task_List extends Model
 {
+    use ProjectTrait;
+
     protected string|array $fields = 'tasklists';
 
     protected ?string $action = 'tasklists';
 
     protected ?string $parent = 'todo-list';
-
-    /**
-     * Get all Task Lists
-     *
-     * @param array|object $params
-     * @return Response
-     * @throws Exception
-     */
-    public function all(array|object $params = []): Response
-    {
-        return $this->fetch("$this->action", $params);
-    }
-
-    /**
-     * Get all Task Lists for a Project
-     *
-     * @param int $id
-     * @param object|array $params
-     *
-     * @return Response
-     * @throws Exception
-     */
-    public function getByProject(int $id, object| array $params = []): Response
-    {
-        return $this->fetch("projects/$id/$this->action", $params);
-    }
 
     /**
      * Template Task Lists: get all template task lists

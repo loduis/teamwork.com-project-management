@@ -5,39 +5,14 @@ declare(strict_types = 1);
 namespace TeamWorkPm;
 
 use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\GetAllTrait;
+use TeamWorkPm\Rest\GetByProjectTrait;
 
 class Activity extends Rest\Resource
 {
+    use GetByProjectTrait, GetAllTrait;
+
     protected ?string $action = 'latestActivity';
-
-    /**
-     * Latest Activity across all Projects
-     *
-     * @param object|array $params
-     * @return Response
-     * @throws Exception
-     */
-    public function all(object|array $params = []): Response
-    {
-        return $this->fetch("$this->action", $params);
-    }
-
-    /**
-     * List Latest Activity for a Specific Project
-     *
-     * @param int $id
-     * @param array $params
-     * @return Response
-     * @throws Exception
-     */
-    public function getByProject(int $id, array $params = []): Response
-    {
-        if ($id <= 0) {
-            throw new Exception('Invalid param id');
-        }
-
-        return $this->fetch("projects/$id/$this->action", $params);
-    }
 
     /**
      * Get Task Activity

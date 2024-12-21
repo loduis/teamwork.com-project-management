@@ -1,0 +1,11 @@
+{
+    "milestone": {
+        "title": "Test milestone",
+        "deadline": "20241231",
+        "responsible-party-ids": "391604",
+        "description": "Bla, Bla, Bla",
+        "notify": false,
+        "reminder": false,
+        "private": false
+    }
+}

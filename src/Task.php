@@ -5,29 +5,21 @@ declare(strict_types = 1);
 namespace TeamWorkPm;
 
 use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\CompleteTrait;
+use TeamWorkPm\Rest\GetByProjectTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/tasks/get-tasks-json
  */
 class Task extends Model
 {
+    use CompleteTrait, GetByProjectTrait;
+
     protected ?string $parent = 'todo-item';
 
     protected ?string $action = 'tasks';
 
     protected string|array $fields = 'tasks';
-
-    /**
-     * Get all Tasks across all Projects
-     *
-     * @param array|object $params
-     * @return Response
-     * @throws Exception
-     */
-    public function all(array|object $params = []): Response
-    {
-        return $this->fetch("$this->action", $params);
-    }
 
     /**
      * Get all Tasks on a given Task List
@@ -40,19 +32,6 @@ class Task extends Model
     public function getByTaskList(int $id, array|object $params = []): Response
     {
         return $this->fetch("tasklists/$id/$this->action", $params);
-    }
-
-    /**
-     * Get all Tasks on a given Task List
-     *
-     * @param int $id
-     * @param array|object $params
-     * @return Response
-     * @throws Exception
-     */
-    public function getByProject(int $id, array|object $params = []): Response
-    {
-        return $this->fetch("projects/$id/$this->action", $params);
     }
 
     /**
@@ -181,30 +160,6 @@ class Task extends Model
         }
 
         return $this->post("$this->action/$id", $data);
-    }
-
-    /**
-     * Mark a Task complete
-     *
-     * @param int $id
-     * @return bool
-     * @throws Exception
-     */
-    public function complete(int $id): bool
-    {
-        return $this->put("$this->action/$id/complete");
-    }
-
-    /**
-     * Mark an Item Uncomplete
-     *
-     * @param int $id
-     * @return bool
-     * @throws Exception
-     */
-    public function unComplete(int $id): bool
-    {
-        return $this->put("$this->action/$id/uncomplete");
     }
 
     /**

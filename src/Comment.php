@@ -77,7 +77,7 @@ class Comment extends Model
             $params['objectType'] = str_replace('version', '', $type);
         }
 
-        return $this->fetch("$this->action", $params->toArray());
+        return parent::all($params);
     }
 
     /**

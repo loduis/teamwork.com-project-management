@@ -13,16 +13,4 @@ class Field extends Model
     protected ?string $parent = 'customfield';
 
     protected string|array $fields = 'projects.custom_fields';
-
-    /**
-     * Get all custom fields
-     *
-     * @param array $params
-     * @return Response
-     * @throws Exception
-     */
-    public function all(object|array $params = []): Response
-    {
-        return $this->fetch("$this->action", $params);
-    }
 }

@@ -7,6 +7,7 @@ namespace TeamWorkPm\Project;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Resource;
 use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\GetByProjectTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/files/post-projects-id-files-json
@@ -14,6 +15,8 @@ use TeamWorkPm\Response\Model as Response;
  */
 class File extends Resource
 {
+    use GetByProjectTrait;
+
     protected ?string $parent = 'file';
 
     protected ?string $action = 'files';
@@ -29,9 +32,8 @@ class File extends Resource
      */
     public function all(int $id): Response
     {
-        return $this->fetch("projects/$id/$this->action");
+        return $this->getByProject($id);
     }
-
 
     /**
      * Add a File to a Project

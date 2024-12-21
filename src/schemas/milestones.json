@@ -1,0 +1,43 @@
+{
+    "title": {
+        "type": "string",
+        "required": true
+    },
+    "deadline": {
+        "type": "string",
+        "required": true
+    },
+    "responsible_party_ids": {
+        "type": "string",
+        "transform": "dash",
+        "required": true
+    },
+    "change_follower_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "description": {
+        "type": "string"
+    },
+    "notify": {
+        "type": "boolean"
+    },
+    "tag_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "reminder": {
+        "type": "boolean"
+    },
+    "task_list_ids": {
+        "type": "array<string>",
+        "transform": "camel"
+    },
+    "grant_access_to": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "private": {
+        "type": "boolean"
+    }
+}

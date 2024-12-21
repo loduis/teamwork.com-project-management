@@ -4,23 +4,18 @@ namespace TeamWorkPm\Category;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\ProjectTrait;
+use TeamWorkPm\Rest\ResourceTrait;
 
-abstract class Model extends \TeamWorkPm\Model
+abstract class Model extends \TeamWorkPm\Rest\Resource
 {
+    use ProjectTrait, ResourceTrait {
+        ProjectTrait::create insteadof ResourceTrait;
+    }
+
     protected ?string $parent = 'category';
 
     protected string|array $fields = 'resource_categories';
-
-    /**
-     * Retrieving all of a [File|Link|Message|Notebook] Categories by projects
-     *
-     * @param integer $id
-     * @return Response
-     */
-    public function getByProject(int $id): Response
-    {
-        return $this->fetch("projects/$id/$this->action");
-    }
 
     /**
      * Alias to getByProjectId
@@ -31,25 +26,5 @@ abstract class Model extends \TeamWorkPm\Model
     public function all(int $projectId): Response
     {
         return $this->getByProject($projectId);
-    }
-
-    /**
-     * Creating [File|Link|Message|Notebook] Categories
-     *
-     * @param array|object $data
-     * @return integer
-     * @return Response
-     */
-    public function create(array|object $data): int
-    {
-        $data = arr_obj($data);
-        $projectId = (int) $data->pull('project_id');
-        $this->validates([
-            'project_id' => $projectId
-        ]);
-        /**
-         * @var int
-         */
-        return $this->post("projects/$projectId/$this->action", $data);
     }
 }

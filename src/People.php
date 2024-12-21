@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace TeamWorkPm;
 
 use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\GetAllTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/people/get-people-json
@@ -12,24 +13,13 @@ use TeamWorkPm\Response\Model as Response;
  */
 class People extends Model
 {
+    use GetAllTrait;
+
     protected ?string $parent = 'person';
 
     protected ?string $action = 'people';
 
     protected string|array $fields = 'people';
-
-    /**
-     * Get All People
-     *
-     * @param array|object $params
-     *
-     * @return Response
-     * @throws Exception
-     */
-    public function all(array|object $params = []): Response
-    {
-        return $this->fetch((string) $this->action, $params);
-    }
 
     /**
      * Retrieve all API Keys for all People on account
