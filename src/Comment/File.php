@@ -2,10 +2,12 @@
 
 namespace TeamWorkPm\Comment;
 
+use TeamWorkPm\Comment;
+
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/comments
  */
-class File extends Model
+class File extends Comment
 {
-    protected string $resource = 'files';
+    protected ?string $resource = 'fileversions';
 }

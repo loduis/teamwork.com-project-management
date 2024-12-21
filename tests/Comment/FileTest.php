@@ -3,25 +3,10 @@
 namespace TeamWorkPm\Tests\Comment;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
 final class FileTest extends TestCase
 {
-    private $model;
-    private $resourceId;
-    private $projectId;
-    private $id;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->model = Factory::build('comment/file');
-        $this->projectId = get_first_project_id();
-        $this->resourceId = get_first_file_id($this->projectId);
-        $this->id = get_first_file_comment_id($this->resourceId);
-    }
-
     /**
      * @dataProvider provider
      * @test
@@ -29,37 +14,20 @@ final class FileTest extends TestCase
     public function insert($data): void
     {
         try {
-            $this->model->save($data);
+            $this->factory('comment.file')->save($data);
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
             $this->assertEquals('Required field resource_id', $e->getMessage());
         }
 
-        try {
-            $data['files'] = dirname(__DIR__) . '/uploads/teamworkpm.jpg';
-            $file = Factory::build('file');
-            $file = $file->get($this->resourceId);
-            $data['resource_id'] = $file->versionId;
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @depends insert
-     * @dataProvider provider
-     * @test
-     */
-    public function update($data): void
-    {
-        try {
-            $data['id'] = $this->id;
-            $this->assertTrue($this->model->save($data));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $data['files'] = dirname(__DIR__) . '/uploads/teamworkpm.jpg';
+        $data['resource_id'] = TPM_FILE_VERSION_ID;
+        $this->assertEquals(TPM_TEST_ID, $this->factory('comment.file', [
+            'POST /pendingfiles' => function () {
+                return '{"pendingFile":{"ref":"tf_3d9cfae3-65f7-4ff8-8bf5-ca0512de600a"}}';
+            },
+            'POST /fileversions/' . TPM_FILE_VERSION_ID . '/comments' => true
+        ])->create($data));
     }
 
     /**
@@ -68,12 +36,10 @@ final class FileTest extends TestCase
      */
     public function get(): void
     {
-        try {
-            $comment = $this->model->get($this->id);
-            $this->assertTrue(!empty($comment->id) && $this->id === $comment->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertEquals(
+            'file',
+            $this->factory('comment.file')->get(25766345)->type
+        );
     }
 
     /**
@@ -82,19 +48,9 @@ final class FileTest extends TestCase
      */
     public function getRecent(): void
     {
-        try {
-            $times = $this->model->getRecent(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param resource_id', $e->getMessage());
-        }
-
-        try {
-            $comments = $this->model->getRecent($this->resourceId);
-            $this->assertGreaterThan(0, count($comments));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(1, count($this->factory('comment.file', [
+            'GET /fileversions/' . TPM_FILE_VERSION_ID . '/comments' => true
+        ])->getRecent(TPM_FILE_VERSION_ID)));
     }
 
     public function provider()

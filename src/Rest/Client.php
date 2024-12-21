@@ -76,11 +76,11 @@ class Client
             ->setOpts($opts)
             ->setAction($path);
         $useFiles = $request->useFiles();
-        // echo $request, PHP_EOL;
+
         $ch = static::initCurl(
             $method,
             $url,
-            $request->getParameters($method, $parameters),
+            $request = $request->getParameters($method, $parameters),
             $headers
         );
 

@@ -2,10 +2,12 @@
 
 namespace TeamWorkPm\Comment;
 
+use TeamWorkPm\Comment;
+
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/comments
  */
-class Milestone extends Model
+class Milestone extends Comment
 {
-    protected string $resource = 'milestones';
+    protected ?string $resource = 'milestones';
 }

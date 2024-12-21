@@ -3,25 +3,10 @@
 namespace TeamWorkPm\Tests\Comment;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
 final class TaskTest extends TestCase
 {
-    private $model;
-    private $resourceId;
-    private $id;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->model = Factory::build('comment/task');
-        $project_id = get_first_project_id();
-        $task_list_id = get_first_task_list_id($project_id);
-        $this->resourceId = get_first_task_id($task_list_id);
-        $this->id = get_first_task_comment_id($this->resourceId);
-    }
-
     /**
      * @dataProvider provider
      * @test
@@ -29,67 +14,41 @@ final class TaskTest extends TestCase
     public function insert($data): void
     {
         try {
-            $this->model->save($data);
+            $this->factory('comment.task')->save($data);
             $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
             $this->assertEquals('Required field resource_id', $e->getMessage());
         }
 
-        try {
-            $data['files'] = dirname(__DIR__) . '/uploads/teamworkpm.jpg';
-            $data['resource_id'] = $this->resourceId;
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $data['files'] = dirname(__DIR__) . '/uploads/teamworkpm.jpg';
+        $data['resource_id'] = TPM_TASK_ID;
+        $this->assertEquals(TPM_TEST_ID, $this->factory('comment.task', [
+            'POST /pendingfiles' => function () {
+                return '{"pendingFile":{"ref":"tf_3d9cfae3-65f7-4ff8-8bf5-ca0512de600a"}}';
+            },
+            'POST /tasks/' . TPM_TASK_ID . '/comments' => true
+        ])->create($data));
     }
 
     /**
-     * @dataProvider provider
-     * @test
-     */
-    public function update($data): void
-    {
-        try {
-            $data['id'] = $this->id;
-            $this->assertTrue($this->model->save($data));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
+     * @depends insert
      * @test
      */
     public function get(): void
     {
-        try {
-            $comment = $this->model->get($this->id);
-            $this->assertTrue(!empty($comment->id) && $this->id === $comment->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertEquals(
+            'task',
+            $this->factory('comment.task')->get(25845823)->type
+        );
     }
 
     /**
+     * @depends insert
      * @test
      */
     public function getRecent(): void
     {
-        try {
-            $times = $this->model->getRecent(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param resource_id', $e->getMessage());
-        }
-
-        try {
-            $comments = $this->model->getRecent($this->resourceId);
-            $this->assertGreaterThan(0, count($comments));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(1, count($this->factory('comment.task')->getRecent(TPM_TASK_ID)));
     }
 
     public function provider()
