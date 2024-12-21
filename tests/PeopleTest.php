@@ -50,7 +50,7 @@ final class PeopleTest extends TestCase
         ])->save($data));
 
 
-        $data['project_id'] = TPM_PROJECT_ID;
+        $data['project_id'] = TPM_PROJECT_ID_1;
         $data['permissions'] = [
             'project_administrator' => true
         ];
@@ -159,8 +159,8 @@ final class PeopleTest extends TestCase
     {
         $this->assertGreaterThan(0,
             count($this->factory('people', [
-                'GET /projects/' . TPM_PROJECT_ID . '/people' => true
-            ])->getByProject(TPM_PROJECT_ID))
+                'GET /projects/' . TPM_PROJECT_ID_1 . '/people' => true
+            ])->getByProject(TPM_PROJECT_ID_1))
         );
     }
 
@@ -190,27 +190,27 @@ final class PeopleTest extends TestCase
     public function getAvailableFor(): void
     {
         $this->assertGreaterThan(0, count($this->factory('people')
-            ->getAvailableFor('tasks', ['project_id' => TPM_PROJECT_ID])
+            ->getAvailableFor('tasks', ['project_id' => TPM_PROJECT_ID_1])
         ));
 
         $this->assertGreaterThan(0, count($this->factory('people')
-            ->getAvailableFor('messages', ['project_id' => TPM_PROJECT_ID])
+            ->getAvailableFor('messages', ['project_id' => TPM_PROJECT_ID_1])
         ));
 
         $this->assertGreaterThan(0, count($this->factory('people')
-            ->getAvailableFor('milestones', ['project_id' => TPM_PROJECT_ID])
+            ->getAvailableFor('milestones', ['project_id' => TPM_PROJECT_ID_1])
         ));
 
         $this->assertGreaterThan(0, count($this->factory('people')
-            ->getAvailableFor('files', ['project_id' => TPM_PROJECT_ID])
+            ->getAvailableFor('files', ['project_id' => TPM_PROJECT_ID_1])
         ));
 
         $this->assertGreaterThan(0, count($this->factory('people')
-            ->getAvailableFor('links', ['project_id' => TPM_PROJECT_ID])
+            ->getAvailableFor('links', ['project_id' => TPM_PROJECT_ID_1])
         ));
 
         $this->assertGreaterThan(0, count($this->factory('people')
-            ->getAvailableFor('notebooks', ['project_id' => TPM_PROJECT_ID])
+            ->getAvailableFor('notebooks', ['project_id' => TPM_PROJECT_ID_1])
         ));
 
         // TODO Add unit test for calendar_events

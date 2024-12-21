@@ -2,137 +2,87 @@
 
 namespace TeamWorkPm\Tests;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
-
 final class NotebookTest extends TestCase
 {
-    private $model;
-    private $id;
-    private $projectId;
-
-    protected function setUp(): void
+    /**
+     * @dataProvider provider
+     */
+    public function testCreate(array $data): void
     {
-        parent::setUp();
-        $this->model = Factory::build('notebook');
-        $this->projectId = get_first_project_id();
-        $this->id = get_first_notebook_id($this->projectId);
+        $data['project_id'] = TPM_PROJECT_ID_1;
+        $this->assertEquals(TPM_TEST_ID, $this->factory('notebook', [
+            'POST /projects/' . TPM_PROJECT_ID_1 . '/notebooks' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->create($data));
+    }
+
+    public function testGet(): void
+    {
+        $this->assertEquals('This is a test', $this->factory('notebook', [
+            'GET /notebooks/' . TPM_NOTEBOOK_ID => true
+        ])->get(TPM_NOTEBOOK_ID)->name);
+    }
+
+    public function testGetByProject(): void
+    {
+        $this->assertGreaterThan(0, count($this->factory('notebook', [
+            'GET /projects/' . TPM_PROJECT_ID_1 . '/notebooks' => true
+        ])->getByProject(TPM_PROJECT_ID_1)));
+    }
+
+    public function testLock(): void
+    {
+        $this->assertTrue($this->factory('notebook', [
+            'PUT /notebooks/' . TPM_NOTEBOOK_ID . '/lock' => true
+        ])->lock(TPM_NOTEBOOK_ID));
+    }
+
+    public function testUnlock(): void
+    {
+        $this->assertTrue($this->factory('notebook', [
+            'PUT /notebooks/' . TPM_NOTEBOOK_ID . '/unlock' => true
+        ])->unlock(TPM_NOTEBOOK_ID));
     }
 
     /**
      * @dataProvider provider
-     * @test
      */
-    public function insert($data): void
+    public function testUpdate(array $data): void
     {
-        try {
-            $this->model->save($data);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Required field project_id', $e->getMessage());
-        }
-
-        try {
-            $data['project_id'] = $this->projectId;
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $data['id'] = TPM_NOTEBOOK_ID;
+        $data['name'] = 'Updated Notebook Name';
+        $this->assertTrue($this->factory('notebook', [
+            'PUT /notebooks/' . TPM_NOTEBOOK_ID => true
+        ])->update($data));
     }
 
-    /**
-     * @test
-     */
-    public function get(): void
+    public function testAll(): void
     {
-        try {
-            $this->model->get(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
-
-        try {
-            $notebook = $this->model->get($this->id);
-            $this->assertEquals($this->id, $notebook->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->factory('notebook', [
+            'GET /notebooks' => true
+        ])->all()));
     }
 
-    /**
-     * @test
-     */
-    public function getAll(): void
+    public function testCopy(): void
     {
-        try {
-            $notebooks = $this->model->getAll();
-            $this->assertGreaterThan(0, count($notebooks));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-
-        // get with content
+        $this->assertEquals(TPM_TEST_ID, $this->factory('notebook', [
+            'PUT /notebooks/' . TPM_NOTEBOOK_ID . '/copy' =>  function () {
+                return '{"STATUS":"OK","id": ' . TPM_TEST_ID . '}';
+            }
+        ])->copy(TPM_NOTEBOOK_ID, TPM_PROJECT_ID_2));
     }
 
-    /**
-     * @test
-     */
-    public function getByProject(): void
+    public function testMove(): void
     {
-        try {
-            $this->model->getByProject(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param project_id', $e->getMessage());
-        }
-
-        try {
-            $notebooks = $this->model->getByProject($this->projectId);
-            $this->assertGreaterThan(0, count($notebooks));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-        // get with content
+        $this->assertTrue($this->factory('notebook', [
+            'PUT /notebooks/' . TPM_NOTEBOOK_ID . '/move' => true
+        ])->move(TPM_NOTEBOOK_ID, TPM_PROJECT_ID_2));
     }
 
-    /**
-     * @test
-     */
-    public function lock(): void
+    public function testDelete(): void
     {
-        try {
-            $this->model->lock(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
-
-        try {
-            $this->assertTrue($this->model->lock($this->id));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function unlook(): void
-    {
-        try {
-            $this->model->unlock(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
-
-        try {
-            $this->assertTrue($this->model->unlock($this->id));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertTrue($this->factory('notebook', [
+            'DELETE /notebooks/' . TPM_NOTEBOOK_ID => true
+        ])->delete(TPM_NOTEBOOK_ID));
     }
 
     public function provider()

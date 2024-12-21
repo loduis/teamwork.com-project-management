@@ -15,7 +15,7 @@ final class ListTest extends TestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Required field name');
         $this->factory('task.list')->save([
-            'project_id' => TPM_PROJECT_ID,
+            'project_id' => TPM_PROJECT_ID_1,
         ]);
     }
 
@@ -25,16 +25,16 @@ final class ListTest extends TestCase
     public function insertReal(): void
     {
         $this->assertEquals(TPM_TEST_ID, $this->factory('task.list', [
-            'POST /projects/'. TPM_PROJECT_ID . '/tasklists' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+            'POST /projects/'. TPM_PROJECT_ID_1 . '/tasklists' => fn($data) => $this->assertMatchesJsonSnapshot($data)
         ])->create([
-            'project_id' => TPM_PROJECT_ID,
+            'project_id' => TPM_PROJECT_ID_1,
             'name' => 'Test'
         ]));
 
         $this->assertEquals(TPM_TEST_ID, $this->factory('task.list', [
-            'POST /projects/'. TPM_PROJECT_ID . '/tasklists' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+            'POST /projects/'. TPM_PROJECT_ID_1 . '/tasklists' => fn($data) => $this->assertMatchesJsonSnapshot($data)
         ])->create([
-            'project_id' => TPM_PROJECT_ID,
+            'project_id' => TPM_PROJECT_ID_1,
             'apply_defaults_to_existing_tasks' => true,
             'name' => 'Test'
         ]));
@@ -89,8 +89,8 @@ final class ListTest extends TestCase
     {
         $this->assertGreaterThan(0,
             count($this->factory('task.list', [
-                'GET /projects/' . TPM_PROJECT_ID . '/tasklists' => true
-            ])->getByProject(TPM_PROJECT_ID))
+                'GET /projects/' . TPM_PROJECT_ID_1 . '/tasklists' => true
+            ])->getByProject(TPM_PROJECT_ID_1))
         );
     }
 
@@ -113,8 +113,8 @@ final class ListTest extends TestCase
     public function reorder(): void
     {
         $this->assertTrue($this->factory('task.list', [
-            'PUT /projects/'. TPM_PROJECT_ID . '/tasklists/reorder' => fn($data) => $this->assertMatchesJsonSnapshot($data)
-        ])->reorder(TPM_PROJECT_ID, 1, 2, 2));
+            'PUT /projects/'. TPM_PROJECT_ID_1 . '/tasklists/reorder' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->reorder(TPM_PROJECT_ID_1, 1, 2, 2));
     }
 
     /**

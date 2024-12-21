@@ -44,7 +44,7 @@ final class FileTest extends TestCase
                 $this->assertMatchesJsonSnapshot($data);
             }
         ])->add([
-            'project_id' => TPM_PROJECT_ID,
+            'project_id' => TPM_PROJECT_ID_1,
             'files' => [
                 __DIR__ . '/uploads/person.png',
                 __DIR__ . '/uploads/teamworkpm.jpg'
@@ -130,8 +130,8 @@ final class FileTest extends TestCase
     public function getByProject(): void
     {
         $this->assertCount(1, $this->factory('file', [
-            'GET /projects/' . TPM_PROJECT_ID . '/files' => true
-        ])->getByProject(TPM_PROJECT_ID));
+            'GET /projects/' . TPM_PROJECT_ID_1 . '/files' => true
+        ])->getByProject(TPM_PROJECT_ID_1));
     }
 
     /**
@@ -152,7 +152,7 @@ final class FileTest extends TestCase
     {
         $this->assertTrue($this->factory('file', [
             'PUT /files/' . TPM_FILE_ID . '/move' => true
-        ])->move(TPM_FILE_ID, TPM_PROJECT_ID));
+        ])->move(TPM_FILE_ID, TPM_PROJECT_ID_1));
     }
 
     /**
@@ -162,7 +162,7 @@ final class FileTest extends TestCase
     {
         $this->assertTrue($this->factory('file', [
             'PUT /files/' . TPM_FILE_ID . '/copy' => true
-        ])->copy(TPM_FILE_ID, TPM_PROJECT_ID));
+        ])->copy(TPM_FILE_ID, TPM_PROJECT_ID_1));
     }
 
     /**

@@ -6,7 +6,6 @@ use TeamWorkPm\Exception;
 
 final class TaskTest extends TestCase
 {
-
     /**
      * @dataProvider provider
      * @test
@@ -23,9 +22,9 @@ final class TaskTest extends TestCase
 
 
         $this->assertEquals(TPM_TEST_ID, $this->factory('task', [
-            'POST /projects/' . TPM_PROJECT_ID . '/tasks' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+            'POST /projects/' . TPM_PROJECT_ID_1 . '/tasks' => fn($data) => $this->assertMatchesJsonSnapshot($data)
         ])->create([
-            'project_id' => TPM_PROJECT_ID,
+            'project_id' => TPM_PROJECT_ID_1,
             'content' => 'Test'
         ]));
 
@@ -115,8 +114,8 @@ final class TaskTest extends TestCase
     {
         $this->assertGreaterThan(0,
             count($this->factory('task', [
-                'GET /projects/' . TPM_PROJECT_ID . '/tasks' => true
-            ])->getByProject(TPM_PROJECT_ID))
+                'GET /projects/' . TPM_PROJECT_ID_1 . '/tasks' => true
+            ])->getByProject(TPM_PROJECT_ID_1))
         );
     }
 

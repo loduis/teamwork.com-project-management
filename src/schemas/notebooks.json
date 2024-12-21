@@ -1,0 +1,42 @@
+{
+    "name": {
+        "type": "string",
+        "required": true
+    },
+    "content": {
+        "type": "string",
+        "required": true
+    },
+    "description": {
+        "type": "string"
+    },
+    "category_id": {
+        "type": "integer",
+        "transform": "dash"
+    },
+    "locked": {
+        "type": "boolean"
+    },
+    "notebook_type": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "notify": {
+        "type": "string"
+    },
+    "notify_current_user": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "secure_content": {
+        "type": "boolean",
+        "transform": "camel"
+    },
+    "grant_access_to": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "private": {
+        "type": "integer"
+    }
+}

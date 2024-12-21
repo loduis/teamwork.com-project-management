@@ -54,8 +54,8 @@ final class ProjectTest extends TestCase
         $this->assertEquals(
             "Colombia",
             $this->factory('project', [
-                'GET /projects/' . TPM_PROJECT_ID => true
-            ])->get(TPM_PROJECT_ID)->name
+                'GET /projects/' . TPM_PROJECT_ID_1 => true
+            ])->get(TPM_PROJECT_ID_1)->name
         );
     }
 
@@ -115,8 +115,8 @@ final class ProjectTest extends TestCase
     {
         $this->assertArrayHasKey('users',
             $this->factory('project.rate', [
-                'GET /projects/' . TPM_PROJECT_ID . '/rates' => true
-            ])->get(TPM_PROJECT_ID)
+                'GET /projects/' . TPM_PROJECT_ID_1 . '/rates' => true
+            ])->get(TPM_PROJECT_ID_1)
         );
     }
 
@@ -127,8 +127,8 @@ final class ProjectTest extends TestCase
     {
         $this->assertEquals(1,
             $this->factory('project', [
-                'GET /projects/' . TPM_PROJECT_ID . '/stats' => true
-            ])->getStats(TPM_PROJECT_ID)->tasks->active
+                'GET /projects/' . TPM_PROJECT_ID_1 . '/stats' => true
+            ])->getStats(TPM_PROJECT_ID_1)->tasks->active
         );
     }
 
@@ -140,8 +140,8 @@ final class ProjectTest extends TestCase
         // TODO this method fail on live when users params is set
         $this->assertTrue(
             $this->factory('project.rate', [
-                'POST /projects/'. TPM_PROJECT_ID .'/rates'  => fn($data) => $this->assertMatchesJsonSnapshot($data)
-            ])->set(TPM_PROJECT_ID, [
+                'POST /projects/'. TPM_PROJECT_ID_1 .'/rates'  => fn($data) => $this->assertMatchesJsonSnapshot($data)
+            ])->set(TPM_PROJECT_ID_1, [
                 'project_default' => 1,
                 'users' => [
                     TPM_USER_ID => 5
@@ -157,8 +157,8 @@ final class ProjectTest extends TestCase
     public function starProject(): void
     {
         $this->assertTrue($this->factory('project', [
-            'PUT /projects/' . TPM_PROJECT_ID . '/star' => true
-        ])->star(TPM_PROJECT_ID));
+            'PUT /projects/' . TPM_PROJECT_ID_1 . '/star' => true
+        ])->star(TPM_PROJECT_ID_1));
     }
 
     /**
@@ -167,8 +167,8 @@ final class ProjectTest extends TestCase
     public function unStarProject(): void
     {
         $this->assertTrue($this->factory('project', [
-            'PUT /projects/' . TPM_PROJECT_ID . '/unstar' => true
-        ])->unStar(TPM_PROJECT_ID));
+            'PUT /projects/' . TPM_PROJECT_ID_1 . '/unstar' => true
+        ])->unStar(TPM_PROJECT_ID_1));
     }
 
     /**
@@ -190,8 +190,8 @@ final class ProjectTest extends TestCase
     public function delete()
     {
         $this->assertTrue($this->factory('project', [
-            'DELETE /projects/' . TPM_PROJECT_ID => true
-        ])->delete(TPM_PROJECT_ID));
+            'DELETE /projects/' . TPM_PROJECT_ID_1 => true
+        ])->delete(TPM_PROJECT_ID_1));
     }
 
     public function projectProvider(): array

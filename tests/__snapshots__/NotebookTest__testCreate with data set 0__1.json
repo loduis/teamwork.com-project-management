@@ -1,0 +1,10 @@
+{
+    "notebook": {
+        "name": "Test notebook",
+        "content": "<b>Nada<\/b>, <i>nada<\/i>, nada",
+        "description": "Bla, Bla, Bla",
+        "category-id": 0,
+        "notify": "",
+        "private": 0
+    }
+}

@@ -82,7 +82,7 @@ final class CompanyTest extends TestCase
     {
 
         $this->assertGreaterThan(0, count(
-                $this->factory('company')->getByProject(TPM_PROJECT_ID)
+                $this->factory('company')->getByProject(TPM_PROJECT_ID_1)
             )
         );
     }
