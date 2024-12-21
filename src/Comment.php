@@ -74,7 +74,7 @@ class Comment extends Model
 
         if (!$params->offsetExists('objectType') && $this->resource !== null) {
             $type =  substr($this->resource, 0, -1);
-            $params['objectType'] = str_repeat('version', '', $type);
+            $params['objectType'] = str_replace('version', '', $type);
         }
 
         return $this->fetch("$this->action", $params->toArray());
