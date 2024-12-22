@@ -5,8 +5,8 @@ namespace TeamWorkPm\Tests;
 use Closure;
 use CURLFile;
 use TeamWorkPm\Factory;
-use TeamWorkPm\Request\JSON as Request;
-use TeamWorkPm\Response\JSON as Response;
+use TeamWorkPm\Rest\Request\JSON as Request;
+use TeamWorkPm\Rest\Response\JSON as Response;
 use TeamWorkPm\Rest\Client as HttpClient;
 use Spatie\Snapshots\MatchesSnapshots;
 

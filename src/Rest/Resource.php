@@ -6,7 +6,7 @@ namespace TeamWorkPm\Rest;
 
 use BadMethodCallException;
 use TeamWorkPm\Exception;
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Response\Model as Response;
 
 /**
  * @method void init()
@@ -76,8 +76,19 @@ abstract class Resource
         if (is_string($this->fields)) {
             $fields = str_replace('.', DIRECTORY_SEPARATOR, $this->fields);
             $content = file_get_contents(
+                implode(
+                    DIRECTORY_SEPARATOR,
+                    [
+                        __DIR__,
+                        'Resource',
+                        'schemas',
+                        $fields . '.json'
+                    ]
+                ),
+                /*
                 __DIR__ . DIRECTORY_SEPARATOR . '..' .
                 DIRECTORY_SEPARATOR . 'schemas' . DIRECTORY_SEPARATOR . $fields . '.json'
+                */
             );
 
             $this->fields = json_decode($content, true);

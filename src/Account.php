@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Response\Model as Response;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/account/get-account-json

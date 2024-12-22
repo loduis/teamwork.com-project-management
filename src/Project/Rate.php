@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace TeamWorkPm\Project;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Response\Model as Response;
 use function TeamWorkPm\array_reduce;
 
 use TeamWorkPm\Rest\Resource;

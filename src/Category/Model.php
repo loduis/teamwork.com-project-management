@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace TeamWorkPm\Category;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\ProjectTrait;
 use TeamWorkPm\Rest\Resource\BaseTrait as ResourceTrait;
 

@@ -4,15 +4,16 @@ namespace TeamWorkPm\Tests\Request;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Tests\TestCase;
-use TeamWorkPm\Request\JSON as Request;
+use TeamWorkPm\Rest\Request\JSON as Request;
 
+const SCHEMA_PATH = __DIR__ . '/../../src/Rest/Resource/schemas/';
 
 class JsonTest extends TestCase
 {
 
     public function testProjectSchema()
     {
-        $fields = json_decode(file_get_contents(__DIR__ . '/../../src/schemas/projects.json'), true);
+        $fields = json_decode(file_get_contents(SCHEMA_PATH . 'projects.json'), true);
         $request = new Request();
         $request->setParent('project');
         $request->setFields($fields);
@@ -46,7 +47,7 @@ class JsonTest extends TestCase
 
     public function testPeopleSchema()
     {
-        $fields = json_decode(file_get_contents(__DIR__ . '/../../src/schemas/people.json'), true);
+        $fields = json_decode(file_get_contents(SCHEMA_PATH . 'people.json'), true);
         $request = new Request();
         $request->setParent('person');
         $request->setFields($fields);
@@ -99,7 +100,7 @@ class JsonTest extends TestCase
 
     public function testTaskListSchema()
     {
-        $fields = json_decode(file_get_contents(__DIR__ . '/../../src/schemas/tasklists.json'), true);
+        $fields = json_decode(file_get_contents(SCHEMA_PATH . 'tasklists.json'), true);
         $request = new Request();
 
         $request->setParent('todo-list');
@@ -117,7 +118,7 @@ class JsonTest extends TestCase
 
     public function testProjectRate()
     {
-        $fields = json_decode(file_get_contents(__DIR__ . '/../../src/schemas/projects/rates.json'), true);
+        $fields = json_decode(file_get_contents(SCHEMA_PATH . 'projects/rates.json'), true);
         $request = new Request();
         $request->setParent('rates');
         $request->setFields($fields);
@@ -146,7 +147,7 @@ class JsonTest extends TestCase
 
     public function testCustomFields()
     {
-        $fields = json_decode(file_get_contents(__DIR__ . '/../../src/schemas/projects/custom_fields.json'), true);
+        $fields = json_decode(file_get_contents(SCHEMA_PATH . 'projects/custom_fields.json'), true);
         $request = new Request();
         $request->setParent('customfield');
         $request->setFields($fields);
@@ -182,7 +183,7 @@ class JsonTest extends TestCase
 
     public function testProjectFiles()
     {
-        $fields = json_decode(file_get_contents(__DIR__ . '/../../src/schemas/projects/files.json'), true);
+        $fields = json_decode(file_get_contents(SCHEMA_PATH . 'projects/files.json'), true);
         $request = new Request();
         $request->setParent('file');
         $request->setFields($fields);

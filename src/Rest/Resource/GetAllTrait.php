@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm\Rest\Resource;
 
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Response\Model as Response;
 
 trait GetAllTrait
 {

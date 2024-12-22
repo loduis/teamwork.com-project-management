@@ -6,7 +6,7 @@ namespace TeamWorkPm\Task;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Resource;
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Response\Model as Response;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/files/get-tasks-id-files-json

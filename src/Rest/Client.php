@@ -7,8 +7,8 @@ namespace TeamWorkPm\Rest;
 use CURLFile;
 use CurlHandle;
 use Exception;
-use TeamWorkPm\Request\Model as Request;
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Request\Model as Request;
+use TeamWorkPm\Rest\Response\Model as Response;
 
 class Client
 {
@@ -51,8 +51,8 @@ class Client
         $this->key = $key;
         $this->url = $url;
         $format = strtoupper(self::$FORMAT);
-        $request = '\TeamWorkPm\Request\\' . $format;
-        $response = '\TeamWorkPm\\Response\\' . $format;
+        $request =  '\\' . __NAMESPACE__ . '\Request\\' . $format;
+        $response = '\\' . __NAMESPACE__ . '\Response\\' . $format;
         /** @psalm-suppress PropertyTypeCoercion */
         $this->request = new $request();
         /** @psalm-suppress PropertyTypeCoercion */

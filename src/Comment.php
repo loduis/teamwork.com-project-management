@@ -7,7 +7,7 @@ namespace TeamWorkPm;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 use TeamWorkPm\Rest\Resource\Model;
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Response\Model as Response;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/comments

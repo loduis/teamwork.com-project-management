@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace TeamWorkPm\Response;
+namespace TeamWorkPm\Rest\Response;
 
 use SimpleXMLElement;
 use TeamWorkPm\Exception;

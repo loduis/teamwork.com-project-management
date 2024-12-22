@@ -6,7 +6,7 @@ namespace TeamWorkPm\Project;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Resource;
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\GetByProjectTrait;
 
 /**

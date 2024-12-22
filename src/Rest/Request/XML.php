@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace TeamWorkPm\Request;
+namespace TeamWorkPm\Rest\Request;
 
 use DOMDocument;
 

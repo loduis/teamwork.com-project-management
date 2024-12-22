@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace TeamWorkPm;
 
 use TeamWorkPm\Rest\Resource\Model;
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\GetAllTrait;
 
 /**

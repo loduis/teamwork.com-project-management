@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace TeamWorkPm\Project\Custom;
 
 use TeamWorkPm\Custom\Field as Base;
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Response\Model as Response;
 
 class Field extends Base
 {
