@@ -1,7 +1,7 @@
 <?php
 
 use TeamWorkPm\Factory;
-use TeamWorkPm\Response\Model;
+use TeamWorkPm\Rest\Response\Model;
 
 function rand_string($string, $length = 10)
 {

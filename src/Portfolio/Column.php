@@ -6,6 +6,7 @@ namespace TeamWorkPm\Portfolio;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Resource\Model;
+use TeamWorkPm\Rest\Response\Model as Response;
 
 class Column extends Model
 {
@@ -71,7 +72,7 @@ class Column extends Model
      *
      * @param int $boardId
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
     public function getAllForBoard($boardId)

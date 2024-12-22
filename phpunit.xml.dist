@@ -32,7 +32,9 @@
             <file>tests/Comment/FileTest.php</file>
             <file>tests/Comment/TaskTest.php</file>
             <file>tests/Comment/NotebookTest.php</file>
+            <file>tests/Comment/MilestoneTest.php</file>
             <file>tests/MilestoneTest.php</file>
+            <file>tests/LinkTest.php</file>
             <!--
             <directory>tests</directory>
             -->

@@ -23,7 +23,7 @@ trait BaseTrait
      * @param int $id
      * @param object|array|null $params
      *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      * @throws Exception
      */
     public function get(int $id, object|array|null $params = null)

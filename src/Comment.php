@@ -111,7 +111,8 @@ class Comment extends Model
             'fileversions',
             'tasks',
             'notebooks',
-            'links'
+            'links',
+            'milestones'
         ])) {
             throw new Exception('Required resource_name');
         }

@@ -4,7 +4,7 @@
 use Psy\Shell;
 use Psy\Configuration;
 use Symfony\Component\VarDumper\Caster\Caster;
-use TeamWorkPm\Response\JSON;
+use TeamWorkPm\Rest\Response\JSON;
 
 require __DIR__ . '/bootstrap.php';
 

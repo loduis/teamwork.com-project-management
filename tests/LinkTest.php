@@ -2,118 +2,59 @@
 
 namespace TeamWorkPm\Tests;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
-
 final class LinkTest extends TestCase
 {
-    private $model;
-    private $id;
-    private $projectId;
-
-    protected function setUp(): void
+    /**
+     * @dataProvider provider
+     */
+    public function testCreate(array $data): void
     {
-        parent::setUp();
-        $this->model = Factory::build('link');
-        $this->projectId = get_first_project_id();
-        $this->id = get_first_link_id();
+        $data['project_id'] = TPM_PROJECT_ID_1;
+        $this->assertEquals(TPM_TEST_ID, $this->factory('link', [
+            'POST /projects/' . TPM_PROJECT_ID_1 . '/links' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->create($data));
+    }
+
+    public function testGet(): void
+    {
+        $this->assertEquals('http://developer.teamworkpm.net', $this->factory('link', [
+            'GET /links/' . TPM_LINK_ID => true
+        ])->get(TPM_LINK_ID)->code);
+    }
+
+    public function testGetByProject(): void
+    {
+        $this->assertGreaterThan(0, count($this->factory('link', [
+            'GET /projects/' . TPM_PROJECT_ID_1 . '/links' => true
+        ])->getByProject(TPM_PROJECT_ID_1)));
     }
 
     /**
      * @dataProvider provider
-     * @test
      */
-    public function insert($data): void
+    public function testUpdate(array $data): void
     {
-        try {
-            $this->model->save($data);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Required field project_id', $e->getMessage());
-        }
-
-        try {
-            $data['project_id'] = $this->projectId;
-            // no required
-            $data['category_id'] = get_first_link_category_id($this->projectId);
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $data['id'] = TPM_LINK_ID;
+        $data['name'] = 'Updated Name';
+        $this->assertTrue($this->factory('link', [
+            'PUT /links/' . TPM_LINK_ID => true
+        ])->update($data));
     }
 
-    /**
-     * @depends insert
-     * @dataProvider provider
-     * @test
-     */
-    public function update($data): void
+    public function testAll(): void
     {
-        try {
-            $data['id'] = $this->id;
-            $data['category_id'] = 0;
-            $this->assertTrue($this->model->save($data));
-            $link = $this->model->get($this->id);
-            $this->assertEquals((int)$link->categoryId, 0);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->factory('link', [
+            'GET /links' => true
+        ])->all()));
     }
 
-    /**
-     * @depends insert
-     * @test
-     */
-    public function get(): void
+    public function testDelete(): void
     {
-        try {
-            $times = $this->model->get(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
-
-        try {
-            $link = $this->model->get($this->id);
-            $this->assertEquals($this->id, $link->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertTrue($this->factory('link', [
+            'DELETE /links/' . TPM_LINK_ID => true
+        ])->delete(TPM_LINK_ID));
     }
 
-    /**
-     * @test
-     */
-    public function getAll(): void
-    {
-        try {
-            $links = $this->model->getAll();
-            $this->assertGreaterThan(0, count($links));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function getByProject(): void
-    {
-        try {
-            $this->model->getByProject(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param project_id', $e->getMessage());
-        }
-
-        try {
-            $links = $this->model->getByProject($this->projectId);
-            $this->assertGreaterThan(0, count($links));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
 
     public function provider()
     {
@@ -126,8 +67,7 @@ final class LinkTest extends TestCase
                     'height' => 300,
                     'width' => 300,
                     'private' => false,
-                    'notify' => null,
-                    'open_in_new_window' => true,
+                    'notify' => null
                 ],
             ],
         ];

@@ -1,0 +1,40 @@
+{
+    "code": {
+        "type": "string",
+        "required": true
+    },
+    "notify": {
+        "type": "string"
+    },
+    "notify_current_user": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "description": {
+        "type": "string"
+    },
+    "category_id": {
+        "type": "integer",
+        "transform": "dash"
+    },
+    "width": {
+        "type": "string"
+    },
+    "height": {
+        "type": "string"
+    },
+    "name": {
+        "type": "string"
+    },
+    "tag_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "grant_access_to": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "private": {
+        "type": "boolean"
+    }
+}
