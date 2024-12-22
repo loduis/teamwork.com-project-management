@@ -1,6 +1,8 @@
 <?php
 
-namespace TeamWorkPm\Rest;
+declare(strict_types = 1);
+
+namespace TeamWorkPm\Rest\Resource;
 
 trait CopyAndMoveTrait
 {

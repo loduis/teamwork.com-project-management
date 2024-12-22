@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Response\Model as Response;
 
 /**

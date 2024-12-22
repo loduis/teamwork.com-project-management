@@ -7,7 +7,7 @@ namespace TeamWorkPm\Project;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Resource;
 use TeamWorkPm\Response\Model as Response;
-use TeamWorkPm\Rest\GetByProjectTrait;
+use TeamWorkPm\Rest\Resource\GetByProjectTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/files/post-projects-id-files-json

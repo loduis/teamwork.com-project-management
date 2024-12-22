@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm;
 
 use TeamWorkPm\Response\Model as Response;
-use TeamWorkPm\Rest\CopyAndMoveTrait;
+use TeamWorkPm\Rest\Resource\CopyAndMoveTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/files/get-files-id-json

@@ -4,8 +4,9 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Response\Model as Response;
-use TeamWorkPm\Rest\ProjectTrait;
+use TeamWorkPm\Rest\Resource\ProjectTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/task-lists/post-projects-id-tasklists-json

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm\Portfolio;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Model;
+use TeamWorkPm\Rest\Resource\Model;
 
 class Card extends Model
 {

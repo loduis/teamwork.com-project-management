@@ -4,9 +4,10 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Response\Model as Response;
-use TeamWorkPm\Rest\CompleteTrait;
-use TeamWorkPm\Rest\GetByProjectTrait;
+use TeamWorkPm\Rest\Resource\CompleteTrait;
+use TeamWorkPm\Rest\Resource\GetByProjectTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/tasks/get-tasks-json

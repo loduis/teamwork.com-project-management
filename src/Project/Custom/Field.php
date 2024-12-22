@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm\Project\Custom;
 
 use TeamWorkPm\Custom\Field as Base;

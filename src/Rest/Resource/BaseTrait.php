@@ -1,10 +1,12 @@
 <?php
 
-namespace TeamWorkPm\Rest;
+declare(strict_types = 1);
+
+namespace TeamWorkPm\Rest\Resource;
 
 use TeamWorkPm\Response\Model as Response;
 
-trait ResourceTrait
+trait BaseTrait
 {
     /**
      *

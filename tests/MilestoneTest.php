@@ -83,7 +83,7 @@ final class MilestoneTest extends TestCase
                 [
                     'title' => 'Test milestone',
                     'description' => 'Bla, Bla, Bla',
-                    'deadline' => date('Ymd', strtotime('+10 day')),
+                    'deadline' => '20241231',
                     'responsible_party_ids' => TPM_USER_ID,
                     'notify' => false,
                     'reminder' => false,

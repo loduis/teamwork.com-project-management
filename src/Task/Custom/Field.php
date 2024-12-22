@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm\Task\Custom;
 
 use TeamWorkPm\Response\Model as Response;

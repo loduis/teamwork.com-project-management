@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
+use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Response\Model as Response;
 
 /**

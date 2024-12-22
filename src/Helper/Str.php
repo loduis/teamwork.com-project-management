@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm\Helper;
 
 // from https://github.com/laravel/framework/blob/master/src/Illuminate/Support/Str.php
@@ -25,7 +27,7 @@ final class Str
      */
     public static function studly($value)
     {
-        $value = ucwords(str_replace(['-', '_'], ' ', $value));
+        $value = ucwords(str_replace(['-', '_'], ' ', (string) $value));
 
         return str_replace(' ', '', $value);
     }

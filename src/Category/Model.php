@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm\Category;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Response\Model as Response;
-use TeamWorkPm\Rest\ProjectTrait;
-use TeamWorkPm\Rest\ResourceTrait;
+use TeamWorkPm\Rest\Resource\ProjectTrait;
+use TeamWorkPm\Rest\Resource\BaseTrait as ResourceTrait;
 
 abstract class Model extends \TeamWorkPm\Rest\Resource
 {

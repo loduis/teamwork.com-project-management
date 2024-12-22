@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm\Custom;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Model;
-use TeamWorkPm\Response\Model as Response;
+use TeamWorkPm\Rest\Resource\Model;
 
 class Field extends Model
 {

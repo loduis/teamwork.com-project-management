@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace TeamWorkPm;
 
 use TeamWorkPm\Response\Model as Response;
-use TeamWorkPm\Rest\GetAllTrait;
-use TeamWorkPm\Rest\GetByProjectTrait;
+use TeamWorkPm\Rest\Resource\GetAllTrait;
+use TeamWorkPm\Rest\Resource\GetByProjectTrait;
 
 class Activity extends Rest\Resource
 {

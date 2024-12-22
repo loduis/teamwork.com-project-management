@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TeamWorkPm\Category;
 
-use TeamWorkPm\Model;
+use TeamWorkPm\Rest\Resource\Model;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/project-categories
