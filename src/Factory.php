@@ -18,6 +18,7 @@ use TeamWorkPm\Rest\Client as HttpClient;
  * @method static Comment\Milestone commentMilestone()
  * @method static Comment\Notebook commentNotebook()
  * @method static Comment\Task commentTask()
+ * @method static Comment\Link commentLink()
  * @method static Me\Status meStatus()
  * @method static Message\Reply messageReply()
  * @method static People\Status peopleStatus()
