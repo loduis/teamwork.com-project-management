@@ -1,0 +1,12 @@
+{
+    "status": {
+        "type": "string"
+    },
+    "notify": {
+        "type": "boolean"
+    },
+    "notify_ids": {
+        "type": "array<object>",
+        "transform": "camel"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "status": {
+        "type": "string"
+    },
+    "notify": {
+        "type": "string"
+    }
+}

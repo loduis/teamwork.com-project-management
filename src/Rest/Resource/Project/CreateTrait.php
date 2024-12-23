@@ -2,13 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace TeamWorkPm\Rest\Resource;
+namespace TeamWorkPm\Rest\Resource\Project;
 
-trait ProjectTrait
+trait CreateTrait
 {
-
-    use GetByProjectTrait;
-
     /**
      * Create a Resource on a Project
      *

@@ -8,5 +8,5 @@ use TeamWorkPm\Rest\Resource;
 
 abstract class Model extends Resource
 {
-    use BaseTrait;
+    use ActionTrait;
 }

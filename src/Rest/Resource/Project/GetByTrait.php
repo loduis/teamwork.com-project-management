@@ -2,11 +2,11 @@
 
 declare(strict_types = 1);
 
-namespace TeamWorkPm\Rest\Resource;
+namespace TeamWorkPm\Rest\Resource\Project;
 
 use TeamWorkPm\Rest\Response\Model as Response;
 
-trait GetByProjectTrait
+trait GetByTrait
 {
     /**
      * Get all Resource on a given Project

@@ -6,7 +6,7 @@ namespace TeamWorkPm;
 
 use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Rest\Response\Model as Response;
-use TeamWorkPm\Rest\Resource\ProjectTrait;
+use TeamWorkPm\Rest\Resource\Project\ActionTrait as ProjectTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/task-lists/post-projects-id-tasklists-json

@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace TeamWorkPm;
 
 use TeamWorkPm\Rest\Resource\Model;
-use TeamWorkPm\Rest\Resource\GetByProjectTrait;
+use TeamWorkPm\Rest\Resource\Project\GetByTrait as GetByProjectTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/companies/get-companies-json

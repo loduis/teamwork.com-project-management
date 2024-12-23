@@ -6,126 +6,107 @@ namespace TeamWorkPm\People;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Resource;
+use TeamworkPm\Rest\Resource\SaveTrait;
+use TeamWorkPm\Rest\Response\Model as Response;
 
 class Status extends Resource
 {
-    protected function init()
+    use SaveTrait;
+
+    protected ?string $parent = 'userStatus';
+
+    protected ?string $action = 'status';
+
+    protected string|array $fields = "people.status";
+
+    /**
+     *
+     * @param object|array $params Optional query parameters
+     * @return Response
+     * @throws Exception
+     */
+    public function all(object|array $params = []): Response
     {
-        $this->parent = 'userstatus';
-        $this->action = 'status';
-        $this->fields = [
-            'status' => true,
-            'notify' => false,
-        ];
+        return $this->fetch("statuses", $params);
     }
 
     /**
      * Retrieve a Persons Status
      *
-     * GET /people/#{person_id}/status
-     * Returns the latest status post for a user
-     *
-     * @param $person_id
-     *
-     * @return \TeamWorkPm\Response\Model
+     * @param int $personId
+     * @return Response
      * @throws Exception
      */
-    public function get($person_id)
+    public function get(int $personId)
     {
-        $person_id = (int)$person_id;
-        return $this->fetch("people/$person_id/$this->action");
+        return $this->fetch($this->resolvePath($personId));
     }
 
     /**
-     * Retrieve Everybodys Status
-     * GET /people/status
-     * All of the latest status posts are returned for all users in the parent company.
+     * Create a User Status
      *
-     * @return \TeamWorkPm\Response\Model
-     * @throws Exception
-     */
-    public function getAll()
-    {
-        return $this->fetch("people/$this->action");
-    }
-
-    /**
-     * Create Status
-     * POST /people/#{person_id}/status
-     * This call will create a status entry. The Id of the new status is returned in header "id".
-     *
-     * @param array $data
-     *
+     * @param array|object $data
      * @return int
      * @throws Exception
      */
-    public function create(array $data)
+    public function create(array|object $data): int
     {
-        $person_id = empty($data['person_id']) ? 0 : (int)$data['person_id'];
-        if ($person_id <= 0) {
-            throw new Exception('Required field person_id');
-        }
-        unset($data['person_id']);
+        $data = arr_obj($data);
 
-        return $this->post("people/$person_id/$this->action", $data);
+        $personId = $data->pull('person_id');
+
+        $this->validates([
+            'person_id' => $personId
+        ]);
+        $path = $this->resolvePath($personId);
+
+        return $this->post($path, $data);
     }
 
     /**
-     *   Update Status
-     *   PUT /people/status/#{status_id}.xml
-     *   PUT /people/#{person_id}/status/#{status_id}.xml
-     *   Modifies a status post.
+     * Update User Status | Update my Status
      *
-     * @param array $data
+     * @param array|object $data
      *
      * @return bool
      * @throws Exception
      */
-    public function update(array $data)
+    public function update(array|object $data): bool
     {
-        $id = (int)empty($data['id']) ? 0 : $data['id'];
-        if ($id <= 0) {
-            throw new Exception('Required field id');
-        }
-        $person_id = empty($data['person_id']) ? 0 : (int)$data['person_id'];
-        unset($data['id'], $data['person_id']);
-        return $this->put('people/' . ($person_id ? $person_id . '/' : '') . "$this->action/$id", $data);
+        $data = arr_obj($data);
+        $id = (int) $data->pull('id');
+
+        $this->validates([
+            'id' => $id
+        ]);
+
+        $personId = $data->pull('person_id');
+
+        $path = $this->resolvePath($personId);
+
+        return $this->put("$path/$id", $data);
     }
 
     /**
-     * Delete Status
-     *
-     * DELETE /people/status/#{status_id}
-     * DELETE /people/#{person_id}/status/#{status_id}
-     *
-     * This call will delete a particular status message.
-     * Returns HTTP status code 200 on success.
+     * Delete a Persons Status
      *
      * @param int $id
-     * @param int $person_id optional
+     * @param ?int $personId
      *
      * @return bool
      * @throws Exception
      */
-    public function delete($id, $person_id = null)
+    public function delete(int $id, ?int $personId = null)
     {
-        $id = (int)$id;
-        if ($id <= 0) {
-            throw new Exception('Invalid param id');
-        }
-        return $this->del('people/' . ($person_id ? $person_id . '/' : '') . "$this->action/$id");
+        $path = $this->resolvePath($personId);
+
+        return $this->del("$path/$id");
     }
 
-    /**
-     * @param array $data
-     *
-     * @return bool|int
-     * @throws Exception
-     */
-    final public function save(array $data)
+    protected function resolvePath(?int $personId): string
     {
-        return array_key_exists('id', $data)
-            ? $this->update($data)
-            : $this->insert($data);
+        return 'people' .
+            ($personId !== null ? "/$personId" : '') . '/' .
+            $this->action;
     }
 }

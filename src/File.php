@@ -6,13 +6,14 @@ namespace TeamWorkPm;
 
 use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\CopyAndMoveTrait;
+use TeamWorkPm\Rest\Resource\DestroyTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/files/get-files-id-json
  */
 class File extends Rest\Resource
 {
-    use CopyAndMoveTrait;
+    use CopyAndMoveTrait, DestroyTrait;
 
     protected ?string $parent = 'file';
 
@@ -22,8 +23,6 @@ class File extends Rest\Resource
 
     /**
      * Get all files in projects
-     *
-     * @param int $id
      *
      * @return Response
      * @throws Exception
@@ -159,18 +158,5 @@ class File extends Rest\Resource
     public function getSharedLink(int $id): string
     {
         return $this->fetch("$this->action/$id/sharedlink")->url;
-    }
-
-    /**
-     * Delete a File from a Project
-     *
-     * @param int $id
-     *
-     * @return bool
-     * @throws Exception
-     */
-    public function delete(int $id): bool
-    {
-        return $this->del("$this->action/$id");
     }
 }

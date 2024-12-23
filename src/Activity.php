@@ -6,7 +6,7 @@ namespace TeamWorkPm;
 
 use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\GetAllTrait;
-use TeamWorkPm\Rest\Resource\GetByProjectTrait;
+use TeamWorkPm\Rest\Resource\Project\GetByTrait as GetByProjectTrait;
 
 class Activity extends Rest\Resource
 {
