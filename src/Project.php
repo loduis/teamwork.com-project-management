@@ -4,14 +4,17 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
-use TeamWorkPm\Rest\Resource\Model;
+use TeamWorkPm\Rest\Resource\Company\GetByTrait;
+use TeamWorkPm\Rest\Resource\Model as Resource;
 use TeamWorkPm\Rest\Response\Model as Response;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/projects/get-projects-json
  */
-class Project extends Model
+class Project extends Resource
 {
+    use GetByTrait;
+
     protected ?string $parent = 'project';
 
     protected ?string $action = 'projects';
@@ -120,6 +123,17 @@ class Project extends Model
     }
 
     /**
+     * Retrieve all Time Entries for a Project
+     *
+     * @param integer $id
+     * @return Response
+     */
+    public function getTimes(int $id): Response
+    {
+        return Factory::time()->getByProject($id);
+    }
+
+    /**
      * Get Project Stats
      *
      * @return Response
@@ -131,17 +145,29 @@ class Project extends Model
     }
 
     /**
-     * Retrieve Projects assigned to a specific Company
+     * Time Totals on a Project
      *
      * @param int $id
-     * @param object|array $params
-     *
+     * @param array|object $params
      * @return Response
      * @throws Exception
      */
-    public function getByCompany(int $id, object|array $params = []): Response
+    public function getTotalTime(int $id, array|object $params = []): Response
     {
-        return $this->fetch("companies/$id/$this->action", $params);
+        return $this->fetch("$this->action/$id/time/total", $params);
+    }
+
+    /**
+     * Time Totals on a Project | Time Totals across Projects
+     *
+     * @param int $id
+     * @param array|object $params
+     * @return Response
+     * @throws Exception
+     */
+    public function getTotalTimes(): Response
+    {
+        return $this->fetch("$this->action/time/total");
     }
 
     /**

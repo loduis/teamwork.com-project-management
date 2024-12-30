@@ -68,6 +68,13 @@ final class TaskTest extends TestCase
         ]));
     }
 
+    public function testAddEstimateTime(): void
+    {
+        $this->assertTrue($this->factory('task', [
+            'PUT /tasks/' . TPM_TASK_ID . '/estimatedtime' => true
+        ])->addEstimateTime(TPM_TASK_ID, 1000));
+    }
+
     /**
      * @test
      */
@@ -182,6 +189,13 @@ final class TaskTest extends TestCase
                 'GET /tasks/' . TPM_TASK_ID . '/subtasks' => true
             ])->getSubTasks(TPM_TASK_ID)
         );
+    }
+
+    public function testGetTotalTime(): void
+    {
+        $this->assertEquals(1000, $this->factory('task', [
+            'GET /tasks/' . TPM_TASK_ID .'/time/total' => true
+        ])->getTotalTime(TPM_TASK_ID)->timeTotals->totalMinsSum);
     }
 
     /**

@@ -99,6 +99,23 @@ class JSON extends Model
                             $key = key($source);
                             $match = $wrapper == $key;
                             $source = $match ? $source->$wrapper : current($source);
+                            // projects/967489/time/total
+                            if (
+                                $source
+                                && preg_match('!projects/(\d+)/time/total!', $headers['X-Action'])
+                            ) {
+                                $source = current($source);
+                            }
+                            // tasklists/2952529/time/total
+                            if ($source && preg_match('!tasklists/(\d+)/time/total!', $headers['X-Action'])) {
+                               $source = current($source);
+                               $source = $source->tasklist;
+                            }
+                            // tasks/43119773/time/total
+                            if ($source && preg_match('!tasks/(\d+)/time/total!', $headers['X-Action'])) {
+                                $source = current($source);
+                                $source = $source->tasklist->task;
+                            }
                             if ($key === 'project') {
                                 foreach(['files'] as $key) {
                                     if (isset($source->$key)) {

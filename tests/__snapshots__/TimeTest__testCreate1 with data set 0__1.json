@@ -1,0 +1,10 @@
+{
+    "time-entry": {
+        "date": "20241223",
+        "hours": 5,
+        "minutes": 30,
+        "description": "Test Time",
+        "time": "08:30",
+        "isbillable": true
+    }
+}

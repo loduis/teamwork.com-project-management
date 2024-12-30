@@ -132,6 +132,25 @@ final class ProjectTest extends TestCase
         );
     }
 
+    public function testGetTotalTime(): void
+    {
+        $this->assertEquals(1600,
+            $this->factory('project', [
+                'GET /projects/' . TPM_PROJECT_ID_1 . '/time/total' => true
+            ])->getTotalTime(TPM_PROJECT_ID_1)->timeTotals->totalMinsSum
+        );
+    }
+
+    public function testGetTotalTimes(): void
+    {
+        $this->assertEquals(26.67,
+            $this->factory('project', [
+                'GET /projects/time/total' => true
+            ])->getTotalTimes()[0]->totalHours
+        );
+    }
+
+
     /**
      * @test
      */
@@ -149,7 +168,6 @@ final class ProjectTest extends TestCase
             ])
         );
     }
-
 
     /**
      * @test

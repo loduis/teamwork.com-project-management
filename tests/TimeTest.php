@@ -2,153 +2,84 @@
 
 namespace TeamWorkPm\Tests;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
-
 final class TimeTest extends TestCase
 {
-    private $model;
-    private $taskId;
-    private $projectId;
-    private $id;
-
-    protected function setUp(): void
+    /**
+     * @dataProvider provider
+     */
+    public function testCreate1(array $data): void
     {
-        parent::setUp();
-        $this->model = Factory::build('time');
-        $this->projectId = get_first_project_id();
-        $task_list_id = get_first_task_list_id($this->projectId);
-        $this->taskId = get_first_task_id($task_list_id);
-        $this->id = get_first_time_id($this->taskId);
+        $data['project_id'] = TPM_PROJECT_ID_1;
+        $this->assertEquals(TPM_TEST_ID, $this->factory('time', [
+            sprintf('POST /projects/%s/time_entries', TPM_PROJECT_ID_1) => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->create($data));
     }
 
     /**
      * @dataProvider provider
-     * @test
      */
-    public function insertInProject($data): void
+    public function testCreate2(array $data): void
     {
-        try {
-            $this->model->save($data);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Required field project_id or task_id', $e->getMessage());
-        }
-
-        try {
-            $data['project_id'] = $this->projectId;
-            $data['person_id'] = get_first_person_id($this->projectId);
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $data['task_id'] = TPM_TASK_ID;
+        $this->assertEquals(TPM_TEST_ID, $this->factory('time', [
+            sprintf('POST /tasks/%s/time_entries', TPM_TASK_ID) => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->create($data));
     }
 
-    /**
-     * @dataProvider provider
-     * @test
-     */
-    public function insertInTask($data): void
+    public function testAll(): void
     {
-        try {
-            $data['task_id'] = $this->taskId;
-            $data['person_id'] = get_first_person_id($this->projectId);
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->factory('time', [
+            'GET /time_entries' => true
+        ])->all()));
     }
 
-    /**
-     * @dataProvider provider
-     * @test
-     */
-    public function update($data): void
+    public function testGet(): void
     {
-        try {
-            $data['id'] = $this->id;
-            // up 24
-            $data['hours'] = 50;
-            $this->assertTrue($this->model->save($data));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertEquals(1, $this->factory('time', [
+            'GET /time_entries/' . TPM_TIME_ID_1 => true
+        ])->get(TPM_TIME_ID_1)->hours);
     }
 
-    /**
-     * @test
-     */
-    public function getAll(): void
+    public function testGetByProject(): void
     {
-        try {
-            $times = $this->model->getAll();
-            $this->assertGreaterThan(0, count($times));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->factory('time', [
+            'GET /projects/' . TPM_PROJECT_ID_1 . '/time_entries' => true
+        ])->getByProject(TPM_PROJECT_ID_1)));
     }
 
-    /**
-     * @test
-     */
-    public function getByProject(): void
+    public function testGetByTask(): void
     {
-        try {
-            $times = $this->model->getByProject(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param project_id', $e->getMessage());
-        }
-
-        try {
-            $times = $this->model->getByProject($this->projectId);
-            $this->assertGreaterThan(0, count($times));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->factory('time', [
+            'GET /tasks/' . TPM_TASK_ID . '/time_entries' => true
+        ])->getByTask(TPM_TASK_ID)));
     }
 
-    /**
-     * @test
-     */
-    public function getByTask(): void
+    public function testGetTotal(): void
     {
-        try {
-            $times = $this->model->getByTask(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param task_id', $e->getMessage());
-        }
-
-        try {
-            $times = $this->model->getByTask($this->taskId);
-            $this->assertGreaterThan(0, count($times));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertEquals(1060, $this->factory('time', [
+            'GET /time_entries/total' => true
+        ])->getTotal()->totalMinsSum);
     }
 
-    /**
-     * @dataProvider provider
-     * @test
-     */
-    public function get($data): void
+    public function testGetEstimated(): void
     {
-        try {
-            $times = $this->model->get(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
+        $this->assertEquals(15, $this->factory('time', [
+            'GET /projects/estimatedtime/total' => true
+        ])->getEstimated()[0]->totalEstimatedMins);
+    }
 
-        try {
-            $time = $this->model->get($this->id);
-            $this->assertEquals($this->id, $time->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+    public function testUpdate(): void
+    {
+        $this->assertTrue($this->factory('time', [
+            'PUT /time_entries/' . TPM_TIME_ID_1 => true
+        ])->update(['id'  => TPM_TIME_ID_1, 'description' => 'Test Time Updated']));
+    }
+
+    public function testDelete(): void
+    {
+        $this->assertTrue($this->factory('time', [
+            'DELETE /time_entries/' . TPM_TIME_ID_1 => true
+        ])->delete(TPM_TIME_ID_1));
     }
 
     public function provider()
@@ -158,11 +89,11 @@ final class TimeTest extends TestCase
                 [
                     'description' => 'Test Time',
                     'person_id' => null, // this is a required field
-                    'date' => date('Ymd'),
+                    'date' => 20241223,
                     'hours' => 5,
                     'minutes' => 30,
                     'time' => '08:30',
-                    'isbillable' => true,
+                    'is_billable' => true,
                 ],
             ],
         ];

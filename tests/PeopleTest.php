@@ -217,23 +217,14 @@ final class PeopleTest extends TestCase
     }
 
     /**
+     * @depends insert
      * @test
      */
-    public function getMe(): void
+    public function getLoggedTime(): void
     {
-        $me = $this->factory('people')->getMe();
-
-        $this->assertEquals('test@gmail.com', $me->userName);
-    }
-
-    /**
-     * @test
-     */
-    public function getStats(): void
-    {
-        $stats = $this->factory('people')->getStats();
-
-        $this->assertTrue(isset($stats->tasks));
+        $this->assertEquals(1733011200000, $this->factory('people', [
+            'GET /people/' . TPM_USER_ID . '/loggedtime' => true
+        ])->getLoggedTime(TPM_USER_ID)->startepoch);
     }
 
     /**

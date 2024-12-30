@@ -36,6 +36,7 @@
             <file>tests/Comment/MilestoneTest.php</file>
             <file>tests/MilestoneTest.php</file>
             <file>tests/LinkTest.php</file>
+            <file>tests/MeTest.php</file>
             <!--
             <directory>tests</directory>
             -->

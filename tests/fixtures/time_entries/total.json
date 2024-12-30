@@ -1,0 +1,15 @@
+{
+    "STATUS": "OK",
+    "time-totals": {
+        "total-mins-sum": "1060",
+        "billed-hours-sum": "0.00",
+        "billable-mins-sum": "0",
+        "non-billed-mins-sum": "0",
+        "billable-hours-sum": "0.00",
+        "billed-mins-sum": "0",
+        "non-billable-hours-sum": "17.67",
+        "total-hours-sum": "17.67",
+        "non-billable-mins-sum": "1060",
+        "non-billed-hours-sum": "0.00"
+    }
+}

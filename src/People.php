@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Rest\Resource\Company\GetByTrait;
 use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\GetAllTrait;
@@ -14,7 +15,7 @@ use TeamWorkPm\Rest\Resource\GetAllTrait;
  */
 class People extends Model
 {
-    use GetAllTrait;
+    use GetAllTrait, GetByTrait;
 
     protected ?string $parent = 'person';
 
@@ -34,27 +35,6 @@ class People extends Model
     public function getApiKeys(): Response
     {
         return $this->fetch("$this->action/APIKeys");
-    }
-
-    /**
-     * Current User Summary Stats
-     *
-     * @return Response
-     */
-    public function getStats(): Response
-    {
-        return $this->fetch('stats');
-    }
-
-    /**
-     * Get Current User Details
-     *
-     * @return Response
-     * @throws Exception
-     */
-    public function getMe(): Response
-    {
-        return $this->fetch('me');
     }
 
     /**
@@ -152,19 +132,6 @@ class People extends Model
     }
 
     /**
-     * Get People (within a Company)
-     *
-     * @param int $id
-     *
-     * @return Response
-     * @throws Exception
-     */
-    public function getByCompany(int $id)
-    {
-        return $this->fetch("companies/$id/$this->action");
-    }
-
-    /**
      * Creates a new User Account
      *
      * @param array|object $data
@@ -222,5 +189,31 @@ class People extends Model
         }
 
         return $save;
+    }
+
+    /**
+     * Get Logged Time by Person
+     *
+     * @param int $id
+     * @param array|object $params
+     * @return Response
+     * @throws Exception
+     */
+    public function getLoggedTime(int $id, array|object $params = []): Response
+    {
+        return $this->fetch("$this->action/$id/loggedtime", $params);
+    }
+
+    /**
+     * Get all Running Timers for a specific Person
+     *
+     * @param int $id
+     * @param array|object $params
+     * @return Response
+     * @throws Exception
+     */
+    public function getTimers(int $id, array|object $params = []): Response
+    {
+        return $this->fetch("$this->action/$id/timers", $params);
     }
 }

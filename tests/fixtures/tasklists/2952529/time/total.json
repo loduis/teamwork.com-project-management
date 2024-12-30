@@ -1,0 +1,43 @@
+{
+    "STATUS": "OK",
+    "projects": [
+        {
+            "id": "967489",
+            "tasklist": {
+                "time-estimates": {
+                    "active-hours-estimated": "0.00",
+                    "total-mins-estimated": "0",
+                    "totalWithTimeLoggedEstimatedDecimal": "0.25",
+                    "active-mins-estimated": "0",
+                    "filtered-estimated-mins-sum": "15",
+                    "total-hours-estimated": "0.00",
+                    "completed-mins-estimated": "0",
+                    "totalWithTimeLoggedEstimatedMins": "15",
+                    "filtered-estimated-hours-sum": "0.25",
+                    "completed-hours-estimated": "0.00"
+                },
+                "id": "2952529",
+                "time-totals": {
+                    "total-mins-sum": "0",
+                    "billable-mins-sum": "0",
+                    "billable-hours-sum": "0.00",
+                    "billed-mins-sum": "0",
+                    "filtered-estimated-mins-sum": "15",
+                    "non-billable-mins-sum": "0",
+                    "non-billed-hours-sum": "0.00",
+                    "billed-hours-sum": "0.00",
+                    "non-billed-mins-sum": "0",
+                    "non-billable-hours-sum": "0.00",
+                    "total-hours-sum": "0.00",
+                    "filtered-estimated-hours-sum": "0.25"
+                },
+                "name": "My List"
+            },
+            "name": "Colombia",
+            "company": {
+                "id": "1370007",
+                "name": "Php's Company"
+            }
+        }
+    ]
+}

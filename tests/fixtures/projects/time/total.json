@@ -1,0 +1,24 @@
+{
+    "STATUS": "OK",
+    "projects": [
+        {
+            "totalBilledTime": "0",
+            "totalNonBillableHours": "26.67",
+            "company": {
+                "id": "1370007",
+                "name": "Php's Company"
+            },
+            "name": "Colombia",
+            "totalHours": "26.67",
+            "totalBillableHours": "0.00",
+            "totalNonBillableMins": "1600",
+            "totalNonBilledMins": "0",
+            "totalBillableMins": "0",
+            "totalBilledHours": "0.00",
+            "id": "967489",
+            "totalNonBilledHours": "0.00",
+            "totalMins": "1600",
+            "totalBilledMins": "0"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "STATUS": "OK",
+    "projects": [
+        {
+            "totalEstimatedHours": "0.25",
+            "id": "967489",
+            "totalEstimatedMins": "15",
+            "name": "Colombia",
+            "company": {
+                "id": "1370007",
+                "name": "Php's Company"
+            }
+        },
+        {
+            "totalEstimatedHours": "0.00",
+            "id": "967518",
+            "totalEstimatedMins": "0",
+            "name": "test project",
+            "company": {
+                "id": "1370007",
+                "name": "Php's Company"
+            }
+        }
+    ]
+}

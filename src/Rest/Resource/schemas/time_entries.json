@@ -1,0 +1,32 @@
+{
+    "date": {
+        "type": "string",
+        "required": true,
+        "length": 6
+    },
+    "hours": {
+        "type": "integer",
+        "length": 3
+    },
+    "minutes": {
+        "type": "integer",
+        "length": 2
+    },
+    "description": {
+        "type": "string"
+    },
+    "person_id": {
+        "type": "integer",
+        "transform": "dash"
+    },
+    "time": {
+        "type": "string"
+    },
+    "is_billable": {
+        "type": "boolean",
+        "transform": "isbillable"
+    },
+    "tags": {
+        "type": "string"
+    }
+}

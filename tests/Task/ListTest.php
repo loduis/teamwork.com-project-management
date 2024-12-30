@@ -107,6 +107,13 @@ final class ListTest extends TestCase
         );
     }
 
+    public function testGetTotalTime(): void
+   {
+        $this->assertEquals(15, $this->factory('task.list', [
+            'GET /tasklists/' . TPM_TASK_LIST_ID .'/time/total' => true
+        ])->getTotalTime(TPM_TASK_LIST_ID)->timeTotals->filteredEstimatedMinsSum);
+    }
+
     /**
      * @test
      */

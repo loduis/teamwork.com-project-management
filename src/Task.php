@@ -85,6 +85,63 @@ class Task extends Model
     }
 
     /**
+     * Create a Time-Entry (for a Task)
+     *
+     * @param integer $id
+     * @param array|object $data
+     * @return integer
+     */
+    public function addTime(int $id, array|object $data): int
+    {
+        $data = arr_obj($data);
+        $data['task_id'] = $id;
+
+        return Factory::time()->create($data);
+    }
+
+    /**
+     * Total Time on a Task
+     *
+     * @param int $id
+     * @param array|object $params
+     * @return Response
+     * @throws Exception
+     */
+    public function getTotalTime(int $id, array|object $params = []): Response
+    {
+        return $this->fetch("$this->action/$id/time/total", $params);
+    }
+
+    /**
+     * Retrieve all Task times
+     *
+     * @param int $id
+     * @return Response
+     * @throws Exception
+     */
+    public function getTimes(int $id): Response
+    {
+        return Factory::time()->getByTask($id);
+    }
+
+    /**
+     * Add a Time estimate to a Task
+     *
+     * @param int $id
+     * @param int $minutes
+     * @return bool
+     * @throws Exception
+     */
+    public function addEstimateTime(int $id, int $minutes): bool
+    {
+        return $this
+        ->notUseFields()
+        ->put("$this->action/$id/estimatedtime", [
+            'taskEstimatedMinutes' => $minutes
+        ]);
+    }
+
+    /**
      * Get Sub Tasks of a Task
      *
      * @param int $id
@@ -129,6 +186,10 @@ class Task extends Model
 
         if (!($projectId || $taskListId)) {
             throw new Exception('Required field task_list_id or project_id');
+        }
+
+        if ($projectId && $taskListId) {
+            throw new Exception('Only one field task_list_id or project_id');
         }
 
         $root = $projectId ? 'projects' : 'tasklists';

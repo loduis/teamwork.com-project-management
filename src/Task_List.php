@@ -33,6 +33,19 @@ class Task_List extends Model
     }
 
     /**
+     * Total Time on a Tasklist
+     *
+     * @param int $id
+     * @param array|object $params
+     * @return Response
+     * @throws Exception
+     */
+    public function getTotalTime(int $id, array|object $params = []): Response
+    {
+        return $this->fetch("$this->action/$id/time/total", $params);
+    }
+
+    /**
      * Reorder Lists
      *
      * @param int $projectId
