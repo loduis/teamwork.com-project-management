@@ -18,6 +18,7 @@
             <file>tests/Request/JsonTest.php</file>
             <file>tests/FileTest.php</file>
             <file>tests/TaskTest.php</file>
+            <file>tests/Task/ListTest.php</file>
             <file>tests/ProjectTest.php</file>
             <file>tests/PeopleTest.php</file>
             <file>tests/CompanyTest.php</file>
@@ -29,17 +30,17 @@
             <file>tests/Category/NotebookTest.php</file>
             <file>tests/Custom/FieldTest.php</file>
             <file>tests/CommentTest.php</file>
-            <file>tests/Comment/FileTest.php</file>
             <file>tests/Comment/LinkTest.php</file>
+            <file>tests/Comment/FileTest.php</file>
             <file>tests/Comment/TaskTest.php</file>
             <file>tests/Comment/NotebookTest.php</file>
             <file>tests/Comment/MilestoneTest.php</file>
             <file>tests/MilestoneTest.php</file>
             <file>tests/LinkTest.php</file>
             <file>tests/MeTest.php</file>
-            <!--
-            <directory>tests</directory>
-            -->
+            <file>tests/TimeTest.php</file>
+            <file>tests/TagTest.php</file>
+            <file>tests/RoleTest.php</file>
         </testsuite>
     </testsuites>
 

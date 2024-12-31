@@ -1,0 +1,13 @@
+{
+    "users": {
+        "type": "string|array<integer>",
+        "required": true
+    },
+    "name": {
+        "type": "string",
+        "required": true
+    },
+    "description": {
+        "type": "string"
+    }
+}

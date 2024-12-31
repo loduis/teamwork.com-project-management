@@ -1,0 +1,7 @@
+{
+    "role": {
+        "users": "391604",
+        "name": "Test Role",
+        "description": "Test role for testing unit tests"
+    }
+}

@@ -4,90 +4,33 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
-use TeamWorkPm\Rest\Resource\Model;
+use TeamWorkPm\Exception;
+use TeamWorkPm\Rest\Response\Model as Response;
+use TeamWorkPm\Rest\Resource\DestroyTrait;
+use TeamWorkPm\Rest\Resource\GetTrait;
+use TeamWorkPm\Rest\Resource\Project\ActionTrait as ProjectTrait;
+use TeamWorkPm\Rest\Resource\SaveTrait;
+use TeamWorkPm\Rest\Resource\UpdateTrait;
+use TeamWorkPm\Rest\Resource;
 
-class Role extends Model
+class Role extends Resource
 {
-    protected function init()
-    {
-        $this->fields = [
-            'name' => true,
-            'description' => false,
-            'users' => [
-                'type' => 'string',
-            ],
-        ];
-        $this->action = 'roles';
-    }
+    protected ?string $action = 'roles';
+
+    protected ?string $parent = 'role';
+
+    protected string|array $fields = 'roles';
+
+    use GetTrait, ProjectTrait, UpdateTrait, SaveTrait, DestroyTrait;
 
     /**
-     * Retrieve a user role.
+     * Alias to getByProjectId
      *
-     * @param int $id
-     *
-     * @return \TeamWorkPm\Response\Model
+     * @param integer $projectId
      * @throws Exception
      */
-    public function get($id, $params = null)
+    public function all(int $projectId): Response
     {
-        $id = (int)$id;
-        if ($id <= 0) {
-            throw new Exception('Invalid param id');
-        }
-        return $this->fetch("$this->action/$id", $params);
-    }
-
-    /**
-     * Get all Roles (within a Project)
-     * GET /projects/#{project_id}/roles
-     * Retrieves all the roles in a given project
-     *
-     * @param int $id
-     *
-     * @return \TeamWorkPm\Response\Model
-     */
-    public function getByProject($id)
-    {
-        $id = (int)$id;
-        return $this->fetch("projects/$id/$this->action");
-    }
-
-    /**
-     * Create a role
-     * POST /projects/#{project_id}/roles.xml
-     * This will create a new role.
-     *
-     * @param array $data
-     *
-     * @return int
-     * @throws Exception
-     */
-    public function create(array $data)
-    {
-        $project_id = empty($data['project_id']) ? 0 : (int)$data['project_id'];
-        if ($project_id <= 0) {
-            throw new Exception('Required field project_id');
-        }
-        return $this->post("projects/$project_id/$this->action", $data);
-    }
-
-    /**
-     * Update Role
-     * PUT /roles/#{role_id}
-     * Modifies an existing role.
-     *
-     * @param array $data
-     *
-     * @return bool
-     * @throws Exception
-     */
-    public function update(array $data)
-    {
-        $id = empty($data['id']) ? 0 : (int)$data['id'];
-        if ($id <= 0) {
-            throw new Exception('Required field id');
-        }
-        unset($data['id']);
-        return $this->put("$this->action/$id", $data);
+        return $this->getByProject($projectId);
     }
 }

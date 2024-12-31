@@ -9,8 +9,8 @@ use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\DestroyTrait;
 use TeamWorkPm\Rest\Resource\GetTrait;
 use TeamWorkPm\Rest\Resource\Project\ActionTrait as ProjectTrait;
-use TeamworkPm\Rest\Resource\SaveTrait;
-use TeamworkPm\Rest\Resource\UpdateTrait;
+use TeamWorkPm\Rest\Resource\SaveTrait;
+use TeamWorkPm\Rest\Resource\UpdateTrait;
 
 abstract class Model extends \TeamWorkPm\Rest\Resource
 {

@@ -2,98 +2,63 @@
 
 namespace TeamWorkPm\Tests;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
-
 final class RoleTest extends TestCase
 {
-    private $model;
-    private static $id;
-
-    protected function setUp(): void
+    /**
+     * @dataProvider provider
+     */
+    public function testCreate(array $data): void
     {
-        parent::setUp();
-        $this->model = Factory::build('role');
+        $data['project_id'] = TPM_PROJECT_ID_1;
+        $this->assertEquals(TPM_TEST_ID, $this->factory('role', [
+            'POST /projects/' . TPM_PROJECT_ID_1 . '/roles' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->create($data));
+    }
+
+    public function testGet(): void
+    {
+        $this->assertEquals('Test 3', $this->factory('role', [
+            'GET /roles/' . TPM_ROLE_ID => true
+        ])->get(TPM_ROLE_ID)->name);
+    }
+
+    public function testAll(): void
+    {
+        $this->assertGreaterThan(0,
+            count($this->factory('role', [
+                'GET /projects/' . TPM_PROJECT_ID_2 . '/roles' => true
+            ])->all(TPM_PROJECT_ID_2))
+        );
     }
 
     /**
      * @dataProvider provider
-     * @test
      */
-    public function insert($data): void
+    public function testUpdate(array $data): void
     {
-        // =========== insert now ========= //
-        try {
-            self::$id = $this->model->insert($data);
-            $this->assertGreaterThan(0, self::$id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $data['id'] = TPM_ROLE_ID;
+        $data['name'] = 'Updated Role';
+        $data['description'] = 'Updated description for testing unit tests';
+        $this->assertEquals(TPM_TEST_ID, $this->factory('role', [
+            'PUT /roles/' . TPM_ROLE_ID => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->update($data));
     }
 
-    /**
-     * @depends insert
-     * @dataProvider provider
-     * @test
-     */
-    public function update($data): void
+    public function testDelete(): void
     {
-        try {
-            $data['id'] = null;
-            $this->assertTrue($this->model->update($data));
-        } catch (Exception $e) {
-            $this->assertEquals('Required field id', $e->getMessage());
-        }
-
-        try {
-            // and add to this project
-            $data['id'] = self::$id;
-            $this->assertTrue($this->model->update($data));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @depends insert
-     * @test
-     */
-    public function get(): void
-    {
-        try {
-            $this->model->get(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
-
-        try {
-            $tag = $this->model->get(self::$id);
-            $this->assertEquals(self::$id, $tag->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-        // get roles in project
-        try {
-            $project_id = get_first_project_id();
-            $roles = $this->model->getByProject($project_id);
-
-            $this->assertGreaterThan(0, count($roles));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertEquals(TPM_TEST_ID, $this->factory('role', [
+            'DELETE /roles/' . TPM_ROLE_ID => true
+        ])->delete(TPM_ROLE_ID));
     }
 
     public function provider()
     {
-        $project_id = get_first_project_id('active');
         return [
             [
                 [
                     'name' => 'Test Role',
                     'description' => 'Test role for testing unit tests',
-                    'project_id' => $project_id,
-                    'users' => get_first_person_id($project_id),
+                    'users' => TPM_USER_ID,
                 ],
             ],
         ];

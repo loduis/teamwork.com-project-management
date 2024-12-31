@@ -86,6 +86,9 @@ class JSON extends Model
                             $this->data = $data;
                             return $this;
                         }
+                        if (!empty($source->id)) {
+                            $source->id = (int) $source->id;
+                        }
                         return $source->id ?? true;
                     case 'DELETE':
                         return true;
