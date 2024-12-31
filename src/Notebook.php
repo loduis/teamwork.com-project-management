@@ -7,13 +7,14 @@ namespace TeamWorkPm;
 use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Rest\Resource\CopyAndMoveTrait;
 use TeamWorkPm\Rest\Resource\Project\ActionTrait as ProjectTrait;
+use TeamWorkPm\Rest\Resource\TagTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/notebooks/get-notebooks-json
  */
 class Notebook extends Model
 {
-    use ProjectTrait, CopyAndMoveTrait;
+    use ProjectTrait, CopyAndMoveTrait, TagTrait;
 
     protected ?string $parent = 'notebook';
 

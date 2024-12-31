@@ -6,6 +6,7 @@ namespace TeamWorkPm;
 
 use TeamWorkPm\Rest\Resource\Company\GetByTrait;
 use TeamWorkPm\Rest\Resource\Model as Resource;
+use TeamWorkPm\Rest\Resource\TagTrait;
 use TeamWorkPm\Rest\Response\Model as Response;
 
 /**
@@ -13,7 +14,7 @@ use TeamWorkPm\Rest\Response\Model as Response;
  */
 class Project extends Resource
 {
-    use GetByTrait;
+    use GetByTrait, TagTrait;
 
     protected ?string $parent = 'project';
 

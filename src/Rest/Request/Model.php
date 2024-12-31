@@ -332,17 +332,7 @@ abstract class Model
 
     private function isArrayOfIntegers($array): bool
     {
-        if (!is_array($array)) {
-            return false;
-        }
-
-        foreach ($array as $value) {
-            if (!is_scalar($value) || !ctype_digit((string)$value)) {
-                return false;
-            }
-        }
-
-        return true;
+        return is_array_of_int($array);
     }
 
     private function isArrayOfStrings($array): bool

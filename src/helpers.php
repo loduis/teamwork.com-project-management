@@ -58,12 +58,32 @@ namespace {
     {
         return is_array($value) || is_object($value);
     }
+
+    if (!function_exists('str_camel')) {
+        function str_camel(string $value): string
+        {
+            return lcfirst(str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $value))));
+        }
+    }
+
+    function is_array_of_int($array): bool
+    {
+        if (!is_array($array)) {
+            return false;
+        }
+
+        foreach ($array as $value) {
+            if (!is_scalar($value) || !ctype_digit((string)$value)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
 
 
 namespace TeamWorkPm {
-
-    use Closure;
 
     if (!function_exists(__NAMESPACE__ . '\array_reduce')) {
         function array_reduce(object|iterable $array, callable $callback, mixed $initial = null): mixed

@@ -70,6 +70,11 @@ class JSON extends Model
                                 $count != 1 || !isset($keys['id'])
                             )
                         ) {
+                            if (
+                                preg_match('!/(\d+)/tags!', $headers['X-Action']) && !$source->tags
+                            ) {
+                                return true;
+                            }
                             /**
                              * @var \stdClass
                              */

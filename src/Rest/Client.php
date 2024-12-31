@@ -104,6 +104,7 @@ class Client
                 break;
             }
         }
+        // print_r($headers);
         // echo $request, PHP_EOL;
         // echo $data, PHP_EOL, PHP_EOL;
         $body = substr($data, $header_size);

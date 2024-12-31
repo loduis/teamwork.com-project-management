@@ -34,3 +34,5 @@ const TPM_LINK_ID = 130645;
 const TPM_TIME_ID_1 = 17249630;
 
 const TPM_TIME_ID_2 = 17249675;
+
+const TPM_TAG_ID = 256052;

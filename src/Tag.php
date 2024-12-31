@@ -1,106 +1,108 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace TeamWorkPm;
 
-use TeamWorkPm\Rest\Resource\Model;
+use TeamWorkPm\Rest\Resource\Model as Resource;
+use TeamWorkPm\Rest\Response\Model as Response;
 
-class Tag extends Model
+class Tag extends Resource
 {
-    protected function init()
-    {
-        $this->fields = [
-            'name' => true,
-            'color' => false,
-        ];
-        $this->action = 'tags';
-    }
+    protected ?string $parent = 'tag';
+
+    protected ?string $action = 'tags';
+
+    protected string|array $fields = 'tags';
+
+    protected const RESOURCES = [
+        'projects',
+        'tasks',
+        'milestones',
+        'messages',
+        'timelogs',
+        'files',
+        'users',
+        'companies',
+        'notebooks',
+        'links'
+    ];
 
     /**
-     * Retrieve a single tag
-     *
-     * @param int $id
-     * @param null $params
-     *
-     * @return \TeamWorkPm\Response\Model
-     * @throws Exception
-     */
-    public function get($id, $params = null)
-    {
-        $id = (int)$id;
-        if ($id <= 0) {
-            throw new Exception('Invalid param id');
-        }
-        return $this->fetch("$this->action/$id", $params);
-    }
-
-    /**
-     * Get all Tags
-     * GET /tags
-     *
-     * @return \TeamWorkPm\Response\Model
-     */
-    public function getAllTags()
-    {
-        return $this->fetch("$this->action");
-    }
-
-    /**
-     * Get all Tags for a given resource.
-     *
-     * GET /{resource}/{id}/tags
+     * List All Tags for a Resource
      *
      * @param string $resource
      * @param int $id
-     *
-     * @return \TeamWorkPm\Response\Model
+     * @return Response
      */
-    public function getAllTagsForResource($resource = '', $id = null)
+    public function allFor(string $resource, int $id): Response
     {
+        $resource = $this->getResourceName($resource);
+
         return $this->fetch("$resource/$id/$this->action");
     }
 
     /**
-     * Create a tag
-     * POST /tags.xml
-     * This will create a new tag.
+     * Remove Tags on a Resource
      *
-     * @param array $data
-     *
-     * @return int
+     * @param string $resource
+     * @param integer $id
+     * @return bool
      */
-    public function create(array $data)
+
+    public function removeTo(string $resource, int $id, int|string|array $data): bool
     {
-        return $this->post("$this->action", $data);
+        return $this->updateTo($resource, $id, $data, [
+            'removeProvidedTags' => true
+        ]);
     }
 
     /**
-     * Update Tag
-     * PUT /tags/#{tag_id}
-     * Modifies an existing tag.
+     * Add Tags on a Resource
      *
-     * @param array $data
-     *
+     * @param string $resource
+     * @param integer $id
      * @return bool
-     * @throws Exception
      */
-    public function update(array $data, $resource = '', $resource_id = 0)
+    public function addTo(string $resource, int $id, int|string|array $data): bool
     {
-        $id = empty($data['id']) ? 0 : (int)$data['id'];
-        if ($id <= 0) {
-            throw new Exception('Required field id');
-        }
-        unset($data['id']);
-        $action = "$this->action/$id";
-        if (!empty($resource) && !empty($resource_id)) {
-            $action = "$resource/$resource_id/$this->action";
-        }
-        return $this->put($action, $data);
+        return $this->updateTo($resource, $id, $data);
     }
 
-    public function addTagToResource($resource = '', $id = null)
+    private function updateTo(string $resource, int $id, int|string|array $data, iterable $opts = []): bool
     {
-        return $this->put("$resource/$id/$this->action");
+        $resource = $this->getResourceName($resource);
+        if (is_array($data)) {
+            if (is_array_of_int($data)) {
+                $data = ['tagIds' => implode(',', $data)];
+            } else {
+                $data = ['tags' => ['content' => implode('', $data)]];
+            }
+        } else        if (is_int($data)) {
+            $data = ['tagIds' => $data];
+        } else  {
+            $data = ['tags' => ['content' => $data]];
+        }
+
+        foreach ($opts as $key => $value) {
+            $data[$key] = $value;
+        }
+
+        return $this
+            ->notUseFields()
+            ->put("$resource/$id/$this->action", $data);
+    }
+
+    private function getResourceName(string $resource): string
+    {
+        $resource = match ($resource) {
+            'people' => 'users',
+            'time_entries' => 'timelogs',
+            default => $resource,
+        };
+        if (!in_array($resource, static::RESOURCES, true)) {
+            throw new Exception('Invalid resource type: ' . $resource);
+        }
+        return $resource;
     }
 }

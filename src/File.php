@@ -7,13 +7,14 @@ namespace TeamWorkPm;
 use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\CopyAndMoveTrait;
 use TeamWorkPm\Rest\Resource\DestroyTrait;
+use TeamWorkPm\Rest\Resource\TagTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/files/get-files-id-json
  */
 class File extends Rest\Resource
 {
-    use CopyAndMoveTrait, DestroyTrait;
+    use CopyAndMoveTrait, DestroyTrait, TagTrait;
 
     protected ?string $parent = 'file';
 

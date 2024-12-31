@@ -7,6 +7,7 @@ namespace TeamWorkPm;
 use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\Project\GetByTrait as GetByProjectTrait;
+use TeamWorkPm\Rest\Resource\TagTrait;
 use TeamWorkPm\Rest\Resource\Task\GetByTrait as GetByTaskTrait;
 
 /**
@@ -14,7 +15,7 @@ use TeamWorkPm\Rest\Resource\Task\GetByTrait as GetByTaskTrait;
  */
 class Time extends Model
 {
-    use GetByProjectTrait, GetByTaskTrait;
+    use GetByProjectTrait, GetByTaskTrait, TagTrait;
 
     protected ?string $parent = 'time-entry';
 

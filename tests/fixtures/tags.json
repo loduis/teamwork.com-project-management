@@ -1,0 +1,29 @@
+{
+    "STATUS": "OK",
+    "tags": [
+        {
+            "dateUpdated": "2023-11-29T11:56:05Z",
+            "color": "#EEC202",
+            "projectId": "0",
+            "id": "256052",
+            "dateCreated": "2023-11-29T11:56:05Z",
+            "name": "Draft"
+        },
+        {
+            "dateUpdated": "2023-11-29T11:56:05Z",
+            "color": "#63D16F",
+            "projectId": "0",
+            "id": "256053",
+            "dateCreated": "2023-11-29T11:56:05Z",
+            "name": "Published"
+        },
+        {
+            "dateUpdated": "2023-11-29T11:56:05Z",
+            "color": "#E8384F",
+            "projectId": "0",
+            "id": "256051",
+            "dateCreated": "2023-11-29T11:56:05Z",
+            "name": "Review"
+        }
+    ]
+}

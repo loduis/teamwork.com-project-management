@@ -1,0 +1,9 @@
+{
+    "name": {
+        "required": true,
+        "type": "string"
+    },
+    "color": {
+        "type": "string"
+    }
+}

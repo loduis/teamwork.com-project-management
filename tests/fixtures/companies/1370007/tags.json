@@ -1,0 +1,17 @@
+{
+    "STATUS": "OK",
+    "tags": [
+        {
+            "color": "#2f8de4",
+            "projectId": "0",
+            "id": "393232",
+            "name": "Hola"
+        },
+        {
+            "color": "#2f8de4",
+            "projectId": "0",
+            "id": "393233",
+            "name": "Hola2"
+        }
+    ]
+}

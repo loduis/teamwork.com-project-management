@@ -8,6 +8,7 @@ use TeamWorkPm\Rest\Resource\Company\GetByTrait;
 use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\GetAllTrait;
+use TeamWorkPm\Rest\Resource\TagTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/people/get-people-json
@@ -15,7 +16,7 @@ use TeamWorkPm\Rest\Resource\GetAllTrait;
  */
 class People extends Model
 {
-    use GetAllTrait, GetByTrait;
+    use GetAllTrait, GetByTrait, TagTrait;
 
     protected ?string $parent = 'person';
 

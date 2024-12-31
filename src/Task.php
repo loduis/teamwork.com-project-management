@@ -8,13 +8,14 @@ use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\CompleteTrait;
 use TeamWorkPm\Rest\Resource\Project\GetByTrait as GetByProjectTrait;
+use TeamWorkPm\Rest\Resource\TagTrait;
 
 /**
  * @see https://apidocs.teamwork.com/docs/teamwork/v1/tasks/get-tasks-json
  */
 class Task extends Model
 {
-    use CompleteTrait, GetByProjectTrait;
+    use CompleteTrait, GetByProjectTrait, TagTrait;
 
     protected ?string $parent = 'todo-item';
 
