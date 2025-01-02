@@ -6,7 +6,6 @@ Dotenv\Dotenv::createImmutable(__DIR__)->load();
 
 Tpm::auth($_ENV['API_COMPANY'], $_ENV['API_KEY'], $_ENV['API_FORMAT']);
 
-
 const TPM_COMPANY_ID = 1370007;
 
 CONST TPM_PROJECT_ID_1 = 967489;
@@ -38,3 +37,7 @@ const TPM_TIME_ID_2 = 17249675;
 const TPM_TAG_ID = 256052;
 
 CONST TPM_ROLE_ID = 10248;
+
+const TPM_MESSAGE_ID = 1258288;
+
+const TPM_MESSAGE_CATEGORY_ID = 698387;

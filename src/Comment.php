@@ -6,6 +6,7 @@ namespace TeamWorkPm;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
+use TeamWorkPm\Rest\Resource\MarkAsReadTrait;
 use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Rest\Response\Model as Response;
 
@@ -21,6 +22,8 @@ class Comment extends Model
     protected ?string $action = 'comments';
 
     protected string|array $fields = 'resource_comments';
+
+    use MarkAsReadTrait;
 
     /**
      * Create a comment related to a task/message/notebook etc.
@@ -51,17 +54,6 @@ class Comment extends Model
             "$resource/$resourceId/$this->action",
             $data
         );
-    }
-
-    /**
-     * Mark a Comment as Read
-     *
-     * @param integer $id
-     * @return boolean
-     */
-    public function markAsRead(int $id): bool
-    {
-        return $this->put("$this->action/$id/markread");
     }
 
     /**

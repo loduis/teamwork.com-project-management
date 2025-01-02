@@ -1,0 +1,33 @@
+{
+    "title": {
+        "type": "string",
+        "required": true
+    },
+    "body": {
+        "type": "string",
+        "required": true
+    },
+    "category_id": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "notify": {
+        "type": "string|array<integer>",
+        "validate": [
+            "ALL"
+        ]
+    },
+    "private": {
+        "type": "string"
+    },
+    "attachments": {
+        "type": "string"
+    },
+    "pending_file_attachments": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "tags": {
+        "type": "string"
+    }
+}

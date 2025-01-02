@@ -4,8 +4,12 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm\Rest\Resource\Project;
 
+use TeamWorkPm\Rest\Resource\UploadTrait;
+
 trait CreateTrait
 {
+    use UploadTrait;
+
     /**
      * Create a Resource on a Project
      *
@@ -21,6 +25,8 @@ trait CreateTrait
         $this->validates([
             'project_id' => $projectId
         ], true);
+
+        $this->uploadFiles($data);
 
         return $this->post("projects/$projectId/$this->action", $data);
     }

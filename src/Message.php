@@ -4,125 +4,92 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm;
 
+use TeamWorkPm\Rest\Resource\ArchiveTrait;
+use TeamWorkPm\Rest\Resource\MarkAsReadTrait;
 use TeamWorkPm\Rest\Resource\Model;
+use TeamWorkPm\Rest\Response\Model as Response;
+use TeamWorkPm\Rest\Resource\Project\CreateTrait;
 
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/messages/get-posts-json
+ */
 class Message extends Model
 {
-    protected function init()
-    {
-        $this->fields = [
-            'title' => true,
-            'category_id' => [
-                'required' => true,
-                'type' => 'integer'
-            ],
-            'notify' => [
-                'type' => 'array',
-                'element' => 'person',
-            ],
-            'private' => [
-                'type' => 'boolean'
-            ],
-            'body' => true,
-            'attachments' => false,
-            'pending_file_attachments' => false,
-        ];
-        $this->parent = 'post';
-        $this->action = 'posts';
-    }
+    protected ?string $parent = 'post';
+
+    protected ?string $action = 'posts';
+
+    protected string|array $fields = 'messages';
+
+    use CreateTrait, MarkAsReadTrait;
 
     /**
-     * Retrieve Multiple Messages
+     * Get all Resource on a given Project
      *
-     * GET /projects/#{project_id}/posts.xml
-     * For the project ID supplied, will return the 25 most recent messages
-     *
-     * Get archived messages
-     *
-     * GET /projects/#{project_id}/posts/archive.xml
-     *
-     * Rather than the full message, this returns a summary record for each message in the specified project.
-     *
-     * @param $project_id
-     * @param bool $archive
-     *
-     * @return \TeamWorkPm\Response\Model
+     * @param int $id
+     * @param boolean $archived
+     * @return Response
      * @throws Exception
      */
-    public function getByProject($project_id, $archive = false)
+    public function getByProject(int $id, bool $archived = false): Response
     {
-        $project_id = (int)$project_id;
-        if ($project_id <= 0) {
-            throw new Exception('Invalid param project_id');
-        }
-        $action = "projects/$project_id/$this->action";
-        if ($archive) {
+        $action = "projects/$id/$this->action";
+        if ($archived) {
             $action .= '/archive';
         }
         return $this->fetch($action);
     }
 
     /**
-     * Retrieve Messages by Category
+     * Retrieve Messages by Category | Get Archived Messages by Category
      *
-     * GET /projects/#{project_id}/cat/#{category_id}/posts.xml
-     *
-     * As before, will return you the most recent 25 messages, this time limited by project and category.
-     *
-     * Get archived messages by category
-     *
-     * GET /projects/#{project_id}/cat/#{category_id}/posts/archive.xml
-     *
-     * As above, but returns only the posts in the given category
-     *
-     * @param int $project_id
-     * @param int $category_id
-     * @param bool $archive
-     *
-     * @return \TeamWorkPm\Response\Model
-     * @throws Exception
+     * @param integer $projectId
+     * @param integer $categoryId
+     * @param boolean $archived
+     * @return Response
      */
-    public function getByProjectAndCategory($project_id, $category_id, $archive = false)
+    public function getByProjectAndCategory(int $projectId, int $categoryId, bool $archived = false): Response
     {
-        $project_id = (int)$project_id;
-        if ($project_id <= 0) {
-            throw new Exception('Invalid param project_id');
-        }
-        $category_id = (int)$category_id;
-        if ($category_id <= 0) {
-            throw new Exception('Invalid param category_id');
-        }
-        $action = "projects/$project_id/cat/$category_id/$this->action";
-        if ($archive) {
+        $action = "projects/$projectId/cat/$categoryId/$this->action";
+        if ($archived) {
             $action .= '/archive';
         }
         return $this->fetch($action);
     }
 
-    /**
-     * Create a message
+        /**
+     * Mark a Resource as archive
      *
-     * POST /projects/#{project_id}/posts.xml
-     *
-     * This will create a new message.
-     * Also, you have the option of sending a notification to a list of people you specify.
-     *
-     * @param array $data
-     *
-     * @return int
+     * @param int $id
+     * @return bool
      * @throws Exception
      */
-    public function create(array $data)
+    public function archive(int $id): bool
     {
-        $project_id = empty($data['project_id']) ? 0 : (int)$data['project_id'];
-        if ($project_id <= 0) {
-            throw new Exception('Required field project_id');
-        }
-        if (!empty($data['files'])) {
-            $file = Factory::build('file');
-            $data['pending_file_attachments'] = $file->upload($data['files']);
-            unset($data['files']);
-        }
-        return $this->post("projects/$project_id/$this->action", $data);
+        return $this->put("messages/$id/archive");
+    }
+
+    /**
+     * Mark a Resource as unarchive
+     *
+     * @param int $id
+     * @return bool
+     * @throws Exception
+     */
+    public function unArchive(int $id): bool
+    {
+        return $this->put("messages/$id/unarchive");
+    }
+
+    /**
+     * Mark a Resource as Read
+     *
+     * @param integer $id
+     * @return boolean
+     */
+    public function markAsRead(int $id): bool
+    {
+        return $this->put("messages/$id/markread");
     }
 }
+

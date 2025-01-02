@@ -2,159 +2,101 @@
 
 namespace TeamWorkPm\Tests;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
-
 final class MessageTest extends TestCase
 {
-    private $model;
-    private $id;
-    private $projectId;
 
-    protected function setUp(): void
+    /**
+     * @dataProvider provider
+     */
+    public function testCreate(array $data): void
     {
-        parent::setUp();
-        $this->model = Factory::build('message');
-        $this->projectId = get_first_project_id();
-        $this->id = get_first_message_id($this->projectId);
+        $data['project_id'] = TPM_PROJECT_ID_1;
+        $this->assertEquals(TPM_TEST_ID, $this->factory('message', [
+            'POST /projects/' . TPM_PROJECT_ID_1 . '/posts' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->create($data));
+    }
+
+    public function testAll(): void
+    {
+        $this->assertGreaterThan(0, count($this->factory('message', [
+            'GET /posts' => true
+        ])->all()));
+    }
+
+    public function testGet(): void
+    {
+        $this->assertEquals('b', $this->factory('message', [
+            'GET /posts/' . TPM_MESSAGE_ID => true
+        ])->get(TPM_MESSAGE_ID)->title);
     }
 
     /**
      * @dataProvider provider
-     * @test
      */
-    public function insert($data): void
+    public function testUpdate(array $data): void
     {
-        try {
-            $this->model->save($data);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Required field project_id', $e->getMessage());
-        }
+        $data['title'] = 'Test message updated';
+        $data['id'] = TPM_MESSAGE_ID;
 
-        try {
-            $data['project_id'] = $this->projectId;
-            // upload file to the server
-            $data['files'] = [
-                __DIR__ . '/uploads/teamworkpm.jpg',
-                __DIR__ . '/uploads/person.png',
-            ];
-            $id = $this->model->save($data);
-            $this->assertGreaterThan(0, $id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertTrue($this->factory('message', [
+            'PUT /posts/' . TPM_MESSAGE_ID => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->update($data));
     }
 
-    /**
-     * @depends insert
-     * @dataProvider provider
-     * @test
-     */
-    public function update($data): void
+    public function testGetByProject(): void
     {
-        try {
-            $data['id'] = $this->id;
-            $data['category_id'] = get_first_message_category_id($this->projectId);
-            $this->assertTrue($this->model->save($data));
-        } catch (Exception $e) {
-            $this->assertEquals('Not method supported', $e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->factory('message', [
+            'GET /projects/' . TPM_PROJECT_ID_1 . '/posts' => true
+        ])->getByProject(TPM_PROJECT_ID_1)));
     }
 
-    /**
-     * @depends insert
-     * @test
-     */
-    public function get(): void
+    public function testArchive(): void
     {
-        try {
-            $this->model->get(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param id', $e->getMessage());
-        }
-
-        try {
-            $message = $this->model->get($this->id);
-            $this->assertEquals($this->id, $message->id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertTrue($this->factory('message', [
+            'PUT /messages/' . TPM_MESSAGE_ID . '/archive' => true
+        ])->archive(TPM_MESSAGE_ID));
     }
 
-    /**
-     * @depends insert
-     * @test
-     */
-    public function getByProject(): void
+    public function testGetByProjectArchived(): void
     {
-        try {
-            $this->model->getByProject(0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param project_id', $e->getMessage());
-        }
-
-        try {
-            $messages = $this->model->getByProject($this->projectId);
-            //print_r($messages);
-            $this->assertGreaterThan(0, count($messages));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-
-        // get archive
-        try {
-            $messages = $this->model->getByProject($this->projectId, true);
-            $this->assertCount(0, $messages);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertGreaterThan(0, count($this->factory('message', [
+            'GET /projects/' . TPM_PROJECT_ID_1 . '/posts/archive' => true
+        ])->getByProject(TPM_PROJECT_ID_1, true)));
     }
 
-    /**
-     * @depends insert
-     * @test
-     */
-    public function getByProjectAndCategory(): void
+    public function testUnArchive(): void
     {
-        try {
-            $this->model->getByProjectAndCategory(0, 0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param project_id', $e->getMessage());
-        }
+        $this->assertTrue($this->factory('message', [
+            'PUT /messages/' . TPM_MESSAGE_ID . '/unarchive' => true
+        ])->unArchive(TPM_MESSAGE_ID));
+    }
 
-        try {
-            $this->model->getByProjectAndCategory(1, 0);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid param category_id', $e->getMessage());
-        }
+    public function testGetByProjectAndCategory(): void
+    {
+        $this->assertGreaterThan(0, count($this->factory('message', [
+            'GET /projects/' . TPM_PROJECT_ID_1 . '/cat/' . TPM_MESSAGE_CATEGORY_ID . '/posts' => true
+        ])->getByProjectAndCategory(TPM_PROJECT_ID_1, TPM_MESSAGE_CATEGORY_ID)));
+    }
 
-        try {
-            $category_id = get_first_message_category_id($this->projectId);
-            $messages = $this->model->getByProjectAndCategory(
-                $this->projectId,
-                $category_id
-            );
-            $this->assertGreaterThan(0, count($messages));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+    public function testGetByProjectAndCategoryArchived(): void
+    {
+        $this->assertGreaterThan(0, count($this->factory('message', [
+            'GET /projects/' . TPM_PROJECT_ID_1 . '/cat/' . TPM_MESSAGE_CATEGORY_ID . '/posts/archive' => true
+        ])->getByProjectAndCategory(TPM_PROJECT_ID_1, TPM_MESSAGE_CATEGORY_ID, true)));
+    }
 
-        // get archive
-        try {
-            $messages = $this->model->getByProjectAndCategory(
-                $this->projectId,
-                $category_id,
-                true
-            );
-            $this->assertCount(0, $messages);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+    public function testMarkAsRead(): void
+    {
+        $this->assertTrue($this->factory('message', [
+            'PUT /messages/' . TPM_MESSAGE_ID . '/markread' => true
+        ])->markAsRead(TPM_MESSAGE_ID));
+    }
+
+    public function testDelete(): void
+    {
+        $this->assertTrue($this->factory('message', [
+            'DELETE /posts/' . TPM_MESSAGE_ID => true
+        ])->delete(TPM_MESSAGE_ID));
     }
 
     public function provider()
@@ -164,7 +106,7 @@ final class MessageTest extends TestCase
                 [
                     'title' => 'Test message',
                     'body' => '<b>Nada</b>, <i>nada</i>, nada',
-                    'notify' => false,
+                    // 'notify' => false,
                     'private' => false,
                     'category_id' => 0,
                     'attachments' => null,
