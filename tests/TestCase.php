@@ -64,7 +64,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     $path .= '?' . $request;
                 }
                 $isFile = $method === 'POST' && is_array($parameters) && isset($parameters['file']) && $parameters['file'] instanceof CURLFile;
-                $params =  $isFile ? $parameters : json_decode($request);
+                $params =  $isFile ? $parameters : json_decode($request ?? '');
                 $getRequest = function () use ($params, $parent, $isFile) {
                     if ($isFile) {
                         return $params;

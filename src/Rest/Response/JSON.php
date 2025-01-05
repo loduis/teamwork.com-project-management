@@ -19,216 +19,149 @@ class JSON extends Model
         /**
          * @var mixed
          */
-        $source = json_decode($data);
+        $source = json_decode($data, true);
         $errors = $this->getJsonErrors();
         $this->originalString = $this->string = $data;
-        if ($errors === null) {
-            if (!(
-                $headers['Status'] === 201
-                || $headers['Status'] === 200
-                || $headers['Status'] === 204
-                || $headers['Status'] === 409
-                || $headers['Status'] === 422
-                || $headers['Status'] === 400
-                || $headers['Status'] === 404
-            )) {
-                throw new Exception([
-                    'Message' => $errors,
-                    'Response' => $data,
-                    'Headers' => $headers,
-                ]);
-            }
-            if (in_array($headers['Status'], [201, 200, 204])) {
-                switch ($headers['Method']) {
-                    case 'POST':
-                        if (!empty($headers['id']) && $headers['Status'] === 201) {
-                            return (int)$headers['id'];
-                        }
 
-                        if (!empty($source->fileId)) {
-                            return (int)$source->fileId;
-                        }
-                        if (!empty($source->pendingFile->ref)) {
-                            return $source->pendingFile->ref;
-                        }
-                        /**
-                         * @var  string
-                         */
-                        $wrapper = $headers['X-Parent'];
-                        if (isset($source->$wrapper)) {
-                            /**
-                             * @var mixed
-                             */
-                            $source = $source->$wrapper;
-                        }
-                        // no break
-                    case 'PUT':
-                        unset($source->STATUS);
-                        $keys = get_object_vars($source);
-                        if ($headers['X-Not-Use-Files'] &&
-                            ($count = count($keys)) && (
-                                $count != 1 || !isset($keys['id'])
-                            )
-                        ) {
-                            if (
-                                preg_match('!/(\d+)/tags!', $headers['X-Action']) && !$source->tags
-                            ) {
-                                return true;
-                            }
-                            /**
-                             * @var \stdClass
-                             */
-                            $data = static::camelizeObject($source);
-                            if (!empty($data->id)) {
-                                $data->id = (int)$data->id;
-                            }
-                            /** @psalm-suppress InvalidPropertyAssignmentValue  */
-                            $this->data = $data;
-                            return $this;
-                        }
-                        if (!empty($source->id)) {
-                            $source->id = (int) $source->id;
-                        }
-                        return $source->id ?? true;
-                    case 'DELETE':
-                        return true;
+        [
+            'Status' => $status,
+            'X-Action' => $action,
+            'X-Parent' => $wrapper,
+            'Method' => $method
+        ] = $headers;
 
-                    default:
-                        /**
-                         * @var object
-                         */
-                        if (!empty($source->STATUS)) {
-                            unset($source->STATUS);
-                        }
-                        $wrapper = $headers['X-Parent'];
-                        $action = $headers['X-Action'];
-                        $count = count(get_object_vars($source));
-                        if ($count == 1) {
-                            $key = key($source);
-                            $match = $wrapper == $key;
-                            $source = $match ? $source->$wrapper : current($source);
-                            // projects/967489/time/total
-                            if (
-                                $source
-                                && preg_match('!projects/(\d+)/time/total!', $headers['X-Action'])
-                            ) {
-                                $source = current($source);
-                            }
-                            if (
-                                $source &&
-                                preg_match('!messageReplies/(\d+)!', $action)
-                            ) {
-                                $source = current($source);
-                            }
-                            // tasklists/2952529/time/total
-                            if ($source && preg_match('!tasklists/(\d+)/time/total!', $headers['X-Action'])) {
-                               $source = current($source);
-                               $source = $source->tasklist;
-                            }
-                            // tasks/43119773/time/total
-                            if ($source && preg_match('!tasks/(\d+)/time/total!', $headers['X-Action'])) {
-                                $source = current($source);
-                                $source = $source->tasklist->task;
-                            }
-                            if ($key === 'project') {
-                                foreach(['files'] as $key) {
-                                    if (isset($source->$key)) {
-                                        $source = $source->$key;
-                                        break;
-                                    }
-                                }
-                            } elseif ($key === 'projects' && $action === 'files') {
-                                $data = [];
-                                foreach($source as $project) {
-                                    foreach ($project->files as $file) {
-                                        $data[] = $file;
-                                    }
-                                }
-                                $source = $data;
-                            }
-                        } elseif (
-                            isset($source->card)
-                            && preg_match('!portfolio/cards/(\d+)!', $action)
-                        ) {
-                            $source = $source->card;
-                        }
-
-                        /*
-                        if (isset($source->project->files)) {
-                            $source = $source->project->files;
-                        } elseif (!empty($source->project->notebooks)) {
-                            $source = $source->project->notebooks;
-                        } elseif (!empty($source->project->links)) {
-                            $source = $source->project->links;
-                        } elseif (
-                            !empty($source->messageReplies)
-                            && preg_match('!messageReplies/(\d+)!', $headers['X-Action'])
-                        ) {
-                            $source = current($source->messageReplies);
-                        } elseif (
-                            !empty($source->people)
-                            && preg_match('!projects/(\d+)/people/(\d+)!', $headers['X-Action'])
-                        ) {
-                            $source = current($source->people);
-                        } elseif (
-                            !empty($source->project)
-                            && preg_match('!projects/(\d+)/notebooks!', $headers['X-Action'])
-                        ) {
-                            $source = [];
-                        } elseif (
-                            isset($source->cards)
-                            && preg_match('!portfolio/columns/(\d+)/cards!', $headers['X-Action'])
-                        ) {
-                            $source = $source->cards;
-                        } elseif (isset($source->$parent)) {
-                            $source = $source->$parent;
-                        } else {
-                            echo $parent;
-                        }
-                        if ($headers['X-Action'] === 'links' || $headers['X-Action'] === 'notebooks') {
-                            $_source = [];
-                            $wrapper = $headers['X-Action'];
-                            foreach ($source as $project) {
-                                foreach ($project->$wrapper as $object) {
-                                    $_source[] = $object;
-                                }
-                            }
-                            $source = $_source;
-                        } elseif (str_contains($headers['X-Action'], 'time_entries') && $source !== null) {
-                            $source = [];
-                        }
-                        */
-
-                        $this->headers = $headers;
-                        $this->string = json_encode($source);
-                        if (is_arr_obj($source)) {
-                            /**
-                             * @var \stdClass
-                             */
-                            $data = static::camelizeObject($source);
-                            if (!empty($data->id)) {
-                                $data->id = (int)$data->id;
-                            }
-                            /** @psalm-suppress InvalidPropertyAssignmentValue  */
-                            $this->data = $data;
-                        }
-
-                        return $this;
-                }
-            } elseif (!empty($source->MESSAGE)) {
-                $errors = $source->MESSAGE;
-            }  elseif (!empty($source->error)) {
-                $errors = $source->error;
-            } else {
-                $errors = null;
-            }
+        if (!in_array($status, [200, 201, 204])) {
+            $errors = $source['MESSAGE'] ?? $source['error'] ?? $errors ?? "Unknown error ($status) status";
+        }
+        if ($errors !== null) {
+            throw new Exception([
+                'Message' => $errors,
+                'Response' => $data,
+                'Headers' => $headers,
+            ]);
         }
 
-        throw new Exception([
-            'Message' => $errors,
-            'Response' => $data,
-            'Headers' => $headers,
-        ]);
+        switch ($method) {
+            case 'POST':
+                if (!empty($headers['id']) && $status === 201) {
+                    return (int) $headers['id'];
+                }
+
+                if (!empty($source['fileId'])) {
+                    return (int) $source['fileId'];
+                }
+
+                if (!empty($source['pendingFile']['ref'])) {
+                    return $source['pendingFile']['ref'];
+                }
+
+                if (isset($source[$wrapper])) {
+                    /**
+                     * @var mixed
+                     */
+                    $source = $source[$wrapper];
+                }
+                // no break
+            case 'PUT':
+                unset($source['STATUS']);
+                $keys = array_keys($source);
+                if ($headers['X-Not-Use-Files'] &&
+                    ($count = count($keys)) && (
+                        $count != 1 || !in_array('id', $keys)
+                    )
+                ) {
+                    if (
+                        preg_match('!/(\d+)/tags!', $action) && !empty($source['tags'])
+                    ) {
+                        return true;
+                    }
+                    /**
+                     * @var \stdClass
+                     */
+                    $data = static::camelizeObject($source);
+                    if (!empty($data->id)) {
+                        $data->id = (int) $data->id;
+                    }
+                    /** @psalm-suppress InvalidPropertyAssignmentValue  */
+                    $this->data = $data;
+                    return $this;
+                }
+                $id = $source['id'] ?? null;
+                if ($id !== null) {
+                    $id = (int) $id;
+                }
+                return $id ?? true;
+            case 'DELETE':
+                return true;
+
+            default:
+                /**
+                 * @var array
+                 */
+                if (!empty($source['STATUS'])) {
+                    unset($source['STATUS']);
+                }
+
+                $count = count($source);
+                if ($count == 1) {
+                    $key = key($source);
+                    $match = $wrapper == $key;
+                    $source = $match ? $source[$wrapper] : current($source);
+                    if ($source) {
+                        if (preg_match('!projects/(\d+)/time/total!', $action)) {
+                            $source = current($source);
+                        } elseif (
+                            preg_match('!messageReplies/(\d+)!', $action)
+                        ) {
+                            $source = current($source);
+                        } elseif (preg_match('!tasklists/(\d+)/time/total!', $action)) {
+                            $source = current($source);
+                            $source = $source['tasklist'];
+                        } elseif (preg_match('!tasks/(\d+)/time/total!', $action)) {
+                            $source = current($source);
+                            $source = $source['tasklist']['task'];
+                        }
+                    }
+
+                    if ($key === 'project') {
+                        foreach(['files'] as $key) {
+                            if (isset($source[$key])) {
+                                $source = $source[$key];
+                                break;
+                            }
+                        }
+                    } elseif ($key === 'projects' && $action === 'files') {
+                        $data = [];
+                        foreach($source as $project) {
+                            foreach ($project['files'] as $file) {
+                                $data[] = $file;
+                            }
+                        }
+                        $source = $data;
+                    }
+                } elseif (
+                    isset($source['card'])
+                    && preg_match('!portfolio/cards/(\d+)!', $action)
+                ) {
+                    $source = $source['card'];
+                }
+
+                $this->headers = $headers;
+                $this->string = json_encode($source);
+                if (is_arr_obj($source)) {
+                    /**
+                     * @var \stdClass
+                     */
+                    $data = static::camelizeObject($source);
+                    if (!empty($data->id)) {
+                        $data->id = (int)$data->id;
+                    }
+                    /** @psalm-suppress InvalidPropertyAssignmentValue  */
+                    $this->data = $data;
+                }
+
+                return $this;
+        }
     }
 
     /**
@@ -274,7 +207,7 @@ class JSON extends Model
          * @var mixed $value
          */
         foreach ($source as $key => $value) {
-            if (ctype_upper($key)) {
+            if (ctype_upper((string) $key)) {
                 $key = strtolower($key);
             }
             $key = Str::camel($key);
