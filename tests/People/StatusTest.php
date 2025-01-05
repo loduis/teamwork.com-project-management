@@ -2,106 +2,68 @@
 
 namespace TeamWorkPm\Tests\People;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
 final class StatusTest extends TestCase
 {
-    private $model;
-    private static $id;
-    private static $userId = null;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->model = Factory::build('people/status');
-        if (!self::$userId) {
-            $people = Factory::build('people');
-            foreach ($people->getAll() as $p) {
-                if (!$p->siteOwner) {
-                    self::$userId = (int)$p->id;
-                    break;
-                }
-            }
-        }
-    }
-
     /**
      * @dataProvider provider
-     * @test
      */
-    public function insert($data): void
+    public function testCreate(array $data): void
     {
-        try {
-            $this->model->save($data);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Required field person_id', $e->getMessage());
-        }
-
-        try {
-            $data['person_id'] = self::$userId;
-            self::$id = $this->model->insert($data);
-            $this->assertGreaterThan(0, self::$id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $data['person_id'] = TPM_USER_ID;
+        $this->assertEquals(TPM_TEST_ID, $this->factory('people.status', [
+            'POST /people/' . TPM_USER_ID . '/status' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->create($data));
     }
 
-    /**
-     * @depends insert
-     * @test
-     */
-    public function get(): void
+    public function testAll(): void
     {
-        try {
-            $status = $this->model->get(self::$userId);
-            $this->assertEquals($status->id, self::$id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertNotEmpty($this->factory('people.status', [
+            'GET /statuses' => true
+        ])->all());
     }
 
-    /**
-     * @depends insert
-     * @test
-     */
-    public function getAll(): void
+    public function testGet(): void
     {
-        try {
-            $status = $this->model->getAll();
-            $this->assertGreaterThan(0, count($status));
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertEquals(
+            'test2',
+            $this->factory('people.status', [
+                'GET /people/' . TPM_USER_ID . '/status' => true
+            ])->get(TPM_USER_ID)->status
+        );
     }
 
-    /**
-     * @depends insert
-     * @dataProvider provider
-     * @test
-     */
-    public function update($data): void
+    public function testUpdate(): void
     {
-        try {
-            $data['id'] = null;
-            $this->model->save($data);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Required field id', $e->getMessage());
-        }
+        $this->assertTrue($this->factory('people.status', [
+            'PUT /people/' . TPM_USER_ID . '/status/' . TPM_ME_STATUS_ID => true
+        ])->save([
+            'person_id' => TPM_USER_ID,
+            'id' => TPM_ME_STATUS_ID,
+            'status' => 'test3',
+            'notify' => false,
+        ]));
 
-        try {
-            $data['id'] = self::$id;
-            $data['person_id'] = self::$userId;
-            $data['status'] = rand_string($data['status']);
-            $this->assertTrue($this->model->update($data));
-            $status = $this->model->get(self::$userId);
-            $this->assertEquals($data['status'], $status->status);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertTrue($this->factory('people.status', [
+            'PUT /people/status/' . TPM_ME_STATUS_ID => true
+        ])->save([
+            'id' => TPM_ME_STATUS_ID,
+            'status' => 'test3',
+            'notify' => false,
+        ]));
+
+    }
+
+    public function testDelete(): void
+    {
+        $this->assertTrue($this->factory('people.status', [
+            'DELETE /people/' . TPM_USER_ID . '/status/' . TPM_ME_STATUS_ID => true
+        ])->delete(TPM_ME_STATUS_ID, TPM_USER_ID));
+
+        $this->assertTrue($this->factory('people.status', [
+            'DELETE /people/status/' . TPM_ME_STATUS_ID => true
+        ])->delete(TPM_ME_STATUS_ID));
     }
 
     public function provider()

@@ -1,0 +1,39 @@
+{
+    "STATUS": "OK",
+    "column": {
+      "name": "Testing 1",
+      "id": "1",
+      "color": "#99DF72"
+    },
+    "cards": [
+      {
+        "company": {
+          "name": "Marketing Ltd.",
+          "id": "37309"
+        },
+        "starred": false,
+        "name": "Holly Project",
+        "columnId": "1",
+        "boardId": "1",
+        "displayOrder": "1000",
+        "description": "hello",
+        "archived": false,
+        "deletedDate": "",
+        "dateUpdated": "2018-05-04T10:32:48Z",
+        "projectId": "1",
+        "status": "ACTIVE",
+        "category": {
+          "name": "",
+          "id": "",
+          "color": ""
+        },
+        "canEdit": true,
+        "tags": [],
+        "startDate": "",
+        "id": "1",
+        "dateCreated": "2018-04-18T10:54:53Z",
+        "deleted": false,
+        "endDate": ""
+      }
+    ]
+}

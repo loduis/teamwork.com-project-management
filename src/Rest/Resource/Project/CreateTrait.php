@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm\Rest\Resource\Project;
 
+use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Resource\UploadTrait;
 
 trait CreateTrait

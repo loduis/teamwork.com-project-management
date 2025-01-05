@@ -1,0 +1,6 @@
+{
+    "projectId": {
+        "type": "integer",
+        "required": true
+    }
+}

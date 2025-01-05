@@ -1,0 +1,241 @@
+{
+    "projects": [
+        {
+            "id": 1179824,
+            "name": "b",
+            "description": "",
+            "type": "projects-template",
+            "status": "active",
+            "subStatus": "current",
+            "company": {
+                "id": 1370007,
+                "type": "companies"
+            },
+            "tags": [],
+            "startAt": null,
+            "endAt": null,
+            "category": null,
+            "ownedBy": 0,
+            "update": null,
+            "timeBudget": null,
+            "financialBudget": null,
+            "createdBy": 391604,
+            "createdAt": "2025-01-04T12:31:41Z",
+            "updatedAt": "2025-01-04T12:31:41Z",
+            "updatedBy": 391604,
+            "defaultPrivacy": "open",
+            "activePages": {
+                "billing": true,
+                "forms": true,
+                "comments": true,
+                "files": true,
+                "links": true,
+                "messages": true,
+                "milestones": true,
+                "notebooks": true,
+                "riskRegister": false,
+                "tasks": true,
+                "list": true,
+                "board": true,
+                "gantt": true,
+                "table": true,
+                "time": true,
+                "finance": true,
+                "proofs": true,
+                "tickets": true
+            },
+            "directFileUploadsEnabled": true,
+            "harvestTimersEnabled": false,
+            "integrations": {
+                "oneDriveBusiness": {
+                    "account": "",
+                    "enabled": false,
+                    "folder": "root",
+                    "folderName": "root"
+                },
+                "sharepoint": {
+                    "account": "",
+                    "enabled": false,
+                    "folder": "root",
+                    "folderName": "root"
+                },
+                "xero": {
+                    "baseCurrency": "",
+                    "connected": false,
+                    "countryCode": "",
+                    "enabled": false,
+                    "organisation": ""
+                },
+                "googleDrive": {
+                    "access": "",
+                    "enabled": false,
+                    "folder": "",
+                    "folderName": ""
+                }
+            },
+            "minMaxAvailableDates": {
+                "deadlinesFound": false,
+                "suggestedStartDate": "20250104",
+                "suggestedEndDate": "20250105"
+            },
+            "isOnBoardingProject": false,
+            "isSampleProject": false,
+            "logo": "",
+            "logoIcon": null,
+            "logoColor": null,
+            "notifyEveryone": false,
+            "allowNotifyAnyone": true,
+            "notifyCommentIncludeCreator": true,
+            "notifyTaskAssignee": true,
+            "overviewStartPage": "default",
+            "privacyEnabled": false,
+            "projectOwner": {
+                "id": 0,
+                "type": "users"
+            },
+            "replyByEmailEnabled": true,
+            "showAnnouncement": false,
+            "announcement": "",
+            "skipWeekends": false,
+            "startPage": "list",
+            "tasksStartPage": "list",
+            "customfieldValues": [],
+            "isBillable": true,
+            "customFieldValueIds": null,
+            "customFieldValues": [],
+            "companyId": 1370007,
+            "tagIds": null,
+            "startDate": null,
+            "endDate": null,
+            "categoryId": null,
+            "ownerId": 0,
+            "updateId": null,
+            "timeBudgetId": null,
+            "financialBudgetId": null,
+            "projectOwnerId": 0
+        },
+        {
+            "id": 1179823,
+            "name": "cbdrx",
+            "description": "",
+            "type": "projects-template",
+            "status": "active",
+            "subStatus": "current",
+            "company": {
+                "id": 1370007,
+                "type": "companies"
+            },
+            "tags": [],
+            "startAt": null,
+            "endAt": null,
+            "category": null,
+            "ownedBy": 0,
+            "update": null,
+            "timeBudget": null,
+            "financialBudget": null,
+            "createdBy": 391604,
+            "createdAt": "2025-01-04T12:16:15Z",
+            "updatedAt": "2025-01-04T12:46:51Z",
+            "updatedBy": 391604,
+            "defaultPrivacy": "open",
+            "activePages": {
+                "billing": true,
+                "forms": true,
+                "comments": true,
+                "files": true,
+                "links": true,
+                "messages": true,
+                "milestones": true,
+                "notebooks": true,
+                "riskRegister": false,
+                "tasks": true,
+                "list": true,
+                "board": true,
+                "gantt": true,
+                "table": true,
+                "time": true,
+                "finance": true,
+                "proofs": true,
+                "tickets": true
+            },
+            "directFileUploadsEnabled": true,
+            "harvestTimersEnabled": false,
+            "integrations": {
+                "oneDriveBusiness": {
+                    "account": "",
+                    "enabled": false,
+                    "folder": "root",
+                    "folderName": "root"
+                },
+                "sharepoint": {
+                    "account": "",
+                    "enabled": false,
+                    "folder": "root",
+                    "folderName": "root"
+                },
+                "xero": {
+                    "baseCurrency": "",
+                    "connected": false,
+                    "countryCode": "",
+                    "enabled": false,
+                    "organisation": ""
+                },
+                "googleDrive": {
+                    "access": "",
+                    "enabled": false,
+                    "folder": "",
+                    "folderName": ""
+                }
+            },
+            "minMaxAvailableDates": {
+                "deadlinesFound": false,
+                "suggestedStartDate": "20250104",
+                "suggestedEndDate": "20250105"
+            },
+            "isOnBoardingProject": false,
+            "isSampleProject": false,
+            "logo": "",
+            "logoIcon": null,
+            "logoColor": null,
+            "notifyEveryone": false,
+            "allowNotifyAnyone": true,
+            "notifyCommentIncludeCreator": true,
+            "notifyTaskAssignee": true,
+            "overviewStartPage": "default",
+            "privacyEnabled": false,
+            "projectOwner": {
+                "id": 0,
+                "type": "users"
+            },
+            "replyByEmailEnabled": true,
+            "showAnnouncement": false,
+            "announcement": "",
+            "skipWeekends": false,
+            "startPage": "list",
+            "tasksStartPage": "list",
+            "customfieldValues": [],
+            "isBillable": true,
+            "customFieldValueIds": null,
+            "customFieldValues": [],
+            "companyId": 1370007,
+            "tagIds": null,
+            "startDate": null,
+            "endDate": null,
+            "categoryId": null,
+            "ownerId": 0,
+            "updateId": null,
+            "timeBudgetId": null,
+            "financialBudgetId": null,
+            "projectOwnerId": 0
+        }
+    ],
+    "meta": {
+        "page": {
+            "pageOffset": 0,
+            "pageSize": 50,
+            "count": 2,
+            "hasMore": false
+        }
+    },
+    "included": {}
+}

@@ -1,0 +1,62 @@
+{
+    "STATUS": "OK",
+    "column": {
+      "color": "#3498DB",
+      "id": "1",
+      "name": "Analysis"
+    },
+    "card": {
+      "canEdit": true,
+      "startDate": "",
+      "boardId": "1",
+      "starred": false,
+      "displayOrder": "1000",
+      "deleted": false,
+      "columnId": "1",
+      "name": "Project Board",
+      "endDate": "",
+      "company": {
+        "id": "1",
+        "name": "MCG Company"
+      },
+      "dateUpdated": "2019-01-30T10:32:28Z",
+      "status": "ACTIVE",
+      "owner": {
+        "lastName": "Bracken",
+        "firstName": "Holly",
+        "id": "1",
+        "fullName": "Holly Bracken",
+        "avatarUrl": ""
+      },
+      "deletedDate": "",
+      "description": "",
+      "projectId": "1",
+      "category": {
+        "color": "",
+        "id": "",
+        "name": ""
+      },
+      "progress": {},
+      "update": {
+        "deletedDate": "",
+        "projectId": "322852",
+        "color": "#8BC34A",
+        "text": "Way better",
+        "id": "1",
+        "health": "3",
+        "deleted": false,
+        "user": {
+          "lastName": "Testers",
+          "firstName": "Google",
+          "id": "1",
+          "fullName": "Google Testers",
+          "avatarUrl": ""
+        },
+        "dateCreated": "2019-01-03T08:53:01Z"
+      },
+      "id": "1239",
+      "archived": false,
+      "dateCreated": "2018-12-12T10:04:47Z",
+      "tags": []
+    }
+  }

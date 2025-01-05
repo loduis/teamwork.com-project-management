@@ -4,78 +4,55 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm\Message;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Rest\Resource\Model;
+use TeamWorkPm\Rest\Resource;
+use TeamWorkPm\Rest\Resource\DestroyTrait;
+use TeamWorkPm\Rest\Resource\GetTrait;
+use TeamWorkPm\Rest\Response\Model as Response;
+use TeamWorkPm\Rest\Resource\MarkAsReadTrait;
+use TeamWorkPm\Rest\Resource\SaveTrait;
+use TeamWorkPm\Rest\Resource\UpdateTrait;
 
-class Reply extends Model
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/message-replies/get-message-replies-id-json
+ */
+class Reply extends Resource
 {
-    public function init()
-    {
-        $this->fields = [
-            'body' => true,
-            'notify' => [
-                'type' => 'array',
-                'element' => 'person',
-            ],
-        ];
-        $this->parent = 'messagereply';
-        $this->action = 'messageReplies';
-    }
+    use MarkAsReadTrait, UpdateTrait, SaveTrait, DestroyTrait, GetTrait;
+
+    protected ?string $parent = 'messagereply';
+
+    protected ?string $action = 'messageReplies';
+
+    protected string|array $fields = "messages.replies";
 
     /**
      * Retrieve Replies to a Message
      *
-     * GET /messages/#{id}/replies.xml
-     *
-     * Uses the given messsage ID to retrieve a all replies to a message specified in the url.
-     * By default 20 records are returned at a time. You can pass "page" and "pageSize" to change this:
-     * eg. GET /messages/54/replies.xml?page=2&pageSize=50.
-     *
-     * The following headers are returned:
-     * "X-Records" - The total number of replies
-     * "X-Pages" - The total number of pages
-     * "X-Page" - The page you requested
-     *
-     * @param <type> $id
-     * @param array $params
-     *
-     * @return \TeamWorkPm\Response\Model
+     * @param int $id
+     * @param array|object $params
+     * @return Response
      * @throws Exception
      */
-    public function getByMessage($message_id, array $params = [])
+    public function getByMessage(int $id, array|object $params = []): Response
     {
-        $message_id = (int)$message_id;
-        if ($message_id <= 0) {
-            throw new Exception('Invalid param message_id');
-        }
-        $validate = ['page', 'pagesize'];
-        foreach ($params as $name => $value) {
-            if (!in_array(strtolower($name), $validate)) {
-                unset($params[$name]);
-            }
-        }
-        return $this->fetch("messages/$message_id/replies", $params);
+        return $this->fetch("messages/$id/replies", $params);
     }
 
     /**
      * Create a Message Reply
      *
-     * POST /messages/#{message_id}/messageReplies.xml
-     *
-     * This will create a new message.
-     * Also, you have the option of sending a notification to a list of people you select.people.
-     *
-     * @param array $data
-     *
+     * @param array|object $data
      * @return int
-     * @throws Exception
      */
-    public function create(array $data)
+    public function create(array|object $data): int
     {
-        $message_id = empty($data['message_id']) ? 0 : (int)$data['message_id'];
-        if ($message_id <= 0) {
-            throw new Exception('Required field message_id');
-        }
-        return $this->post("messages/$message_id/messageReplies", $data);
+        $data = arr_obj($data);
+        $messageId = $data->pull('message_id');
+
+        $this->validates([
+            'message_id' => $messageId
+        ], true);
+
+        return $this->post("messages/$messageId/$this->action", $data);
     }
 }

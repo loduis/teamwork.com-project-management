@@ -1,0 +1,38 @@
+{
+    "STATUS": "OK",
+    "messageReplies": [
+        {
+            "messageId": "1258288",
+            "isOriginal": "0",
+            "author_id": "391604",
+            "replyNo": "1",
+            "author-avatar-url": "https:\/\/s3.amazonaws.com\/TWFiles\/1046798\/userAvatar\/twia_64eabaf88e756b704ccd0bda0b0e7523.png",
+            "last-changed-on": "2025-01-04T15:21:51Z",
+            "author-lastname": "Api",
+            "author-firstname": "Php",
+            "isRead": "1",
+            "display-body": "test",
+            "author-company": "Php's Company",
+            "author-id": "391604",
+            "attachments-count": "0",
+            "attachments": [],
+            "content-type": "TEXT",
+            "id": "4430116",
+            "_author_id": {
+                "deprecated": true
+            },
+            "raw-body": "test",
+            "posted-on": "2025-01-04T15:21:51Z",
+            "html-body": "<p>test<\/p>\n",
+            "user-display-posted-time": "10:21",
+            "post-status": "active",
+            "datetime": "2025-01-04T15:21:51Z",
+            "user-display-posted-date": "Sat, 04 Jan 2025",
+            "numNotified": "0",
+            "message-status": "active",
+            "attachments_count": "0",
+            "emailed-from": "",
+            "body": "test"
+        }
+    ]
+}

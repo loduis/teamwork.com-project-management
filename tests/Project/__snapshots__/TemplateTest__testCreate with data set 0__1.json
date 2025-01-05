@@ -1,0 +1,7 @@
+{
+    "project": {
+        "name": "Test Project",
+        "description": "Description of Test Project",
+        "use-tasks": true
+    }
+}

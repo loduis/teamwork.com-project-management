@@ -122,7 +122,7 @@ class People extends Resource
     {
         $this->validates(compact('projectId', 'personId'));
 
-        return $this->fetch("/projects/$projectId/people/$personId");
+        return $this->fetch("projects/$projectId/people/$personId");
     }
 
     /**
@@ -175,6 +175,6 @@ class People extends Resource
     {
         $this->validates(compact('projectId', 'personId'));
 
-        return $this->del("/projects/$projectId/people/$personId");
+        return $this->del("projects/$projectId/people/$personId");
     }
 }

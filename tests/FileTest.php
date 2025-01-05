@@ -6,7 +6,6 @@ use TeamWorkPm\Exception;
 
 final class FileTest extends TestCase
 {
-
     /**
      * @test
      */
@@ -160,8 +159,10 @@ final class FileTest extends TestCase
      */
     public function copy(): void
     {
-        $this->assertTrue($this->factory('file', [
-            'PUT /files/' . TPM_FILE_ID . '/copy' => true
+        $this->assertEquals(TPM_TEST_ID, $this->factory('file', [
+            'PUT /files/' . TPM_FILE_ID . '/copy' =>   function () {
+                return '{"STATUS":"OK","id": ' . TPM_TEST_ID . '}';
+            }
         ])->copy(TPM_FILE_ID, TPM_PROJECT_ID_1));
     }
 

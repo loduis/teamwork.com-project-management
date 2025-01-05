@@ -5,98 +5,54 @@ declare(strict_types = 1);
 namespace TeamWorkPm\Portfolio;
 
 use TeamWorkPm\Exception;
-use TeamWorkPm\Rest\Resource\Model;
+use TeamWorkPm\Rest\Resource;
+use TeamWorkPm\Rest\Resource\DestroyTrait;
+use TeamWorkPm\Rest\Resource\GetTrait;
+use TeamWorkPm\Rest\Resource\SaveTrait;
+use TeamWorkPm\Rest\Resource\UpdateTrait;
 use TeamWorkPm\Rest\Response\Model as Response;
 
-class Column extends Model
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/portfolio-boards/get-portfolio-boards-board-id-columns-json
+ */
+class Column extends Resource
 {
-    public function init()
-    {
-        $this->parent = 'column';
-        $this->action = 'portfolio/columns';
+    use GetTrait, UpdateTrait, SaveTrait, DestroyTrait;
 
-        $this->fields = [
-            'name' => [
-                'type' => 'string'
-            ],
+    protected ?string $parent = 'column';
 
-            'displayOrder' => [
-                'type' => 'string'
-            ],
+    protected ?string $action = 'portfolio/columns';
 
-            'sortOrder' => [
-                'type' => 'string'
-            ],
-
-            'deletedDate' => [
-                'type' => 'string'
-            ],
-
-            'dateUpdated' => [
-                'type' => 'string'
-            ],
-
-            'hasTriggers' => [
-                'type' => 'boolean'
-            ],
-
-            'sort' => [
-                'type' => 'string'
-            ],
-
-            'canEdit' => [
-                'type' => 'boolean'
-            ],
-
-            'id' => [
-                'type' => 'string'
-            ],
-
-            'dateCreated' => [
-                'type' => 'string'
-            ],
-
-            'color' => [
-                'type' => 'string'
-            ],
-
-            'deleted' => [
-                'type' => 'boolean'
-            ],
-        ];
-    }
+    protected string|array $fields = "portfolio.columns";
 
     /**
-     * Get all the Columns for a Portfolio Board
-     * GET /portfolio/boards/{boardId}/columns
+     * Columns inside a Portfolio Board
      *
-     * @param int $boardId
-     *
+     * @param int $id
+     * @param array|object $params
      * @return Response
      * @throws Exception
      */
-    public function getAllForBoard($boardId)
+    public function getByBoard(int $id): Response
     {
-        $boardId = (int)$boardId;
-        if ($boardId <= 0) {
-            throw new Exception('Invalid param boardId');
-        }
-
-        return $this->fetch("portfolio/boards/$boardId/columns");
+        return $this->fetch("portfolio/boards/$id/columns");
     }
 
     /**
-     * @param array $data
+     * Add a column to the given Board
      *
+     * @param array|object $data
      * @return int
+     * @throws Exception
      */
-    public function create(array $data)
+    public function create(array|object $data): int
     {
-        $boardId = empty($data['board_id']) ? 0 : (int)$data['board_id'];
-        if ($boardId <= 0) {
-            throw new Exception('Required field board_id');
-        }
-        unset($data['board_id']);
+        $data = arr_obj($data);
+
+        $boardId = $data->pull('board_id');
+        $this->validates([
+            'board_id' => $boardId
+        ], true);
 
         return $this->post("portfolio/boards/$boardId/columns", $data);
     }

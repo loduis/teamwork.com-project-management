@@ -1,0 +1,50 @@
+{
+    "parent_team_id": {
+        "type": "integer",
+        "transform": "camel"
+    },
+    "name": {
+        "type": "string"
+    },
+    "description": {
+        "type": "string"
+    },
+    "logo_pending_file_ref": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "logo_icon": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "logo_color": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "handle": {
+        "type": "string"
+    },
+    "company_id": {
+        "type": "integer",
+        "transform": "camel"
+    },
+    "project_id": {
+        "type": "integer",
+        "transform": "camel"
+    },
+    "user_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "default_project_ids": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "is_private": {
+        "type": "boolean",
+        "transform": "camel"
+    },
+    "get": {
+        "type": "string"
+    }
+}

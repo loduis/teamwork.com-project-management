@@ -7,7 +7,7 @@ namespace TeamWorkPm\Me;
 use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Resource;
 use TeamWorkPm\Rest\Resource\DestroyTrait;
-use TeamworkPm\Rest\Resource\StoreTrait;
+use TeamWorkPm\Rest\Resource\StoreTrait;
 use TeamWorkPm\Rest\Response\Model as Response;
 
 class Status extends Resource

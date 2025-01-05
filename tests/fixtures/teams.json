@@ -1,0 +1,53 @@
+{
+    "STATUS": "OK",
+    "teams": [
+        {
+            "id": 1,
+            "name": "Development",
+            "members": [
+                {
+                    "id": 101,
+                    "name": "Alice",
+                    "role": "Frontend Developer"
+                },
+                {
+                    "id": 102,
+                    "name": "Bob",
+                    "role": "Backend Developer"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Marketing",
+            "members": [
+                {
+                    "id": 201,
+                    "name": "Charlie",
+                    "role": "SEO Specialist"
+                },
+                {
+                    "id": 202,
+                    "name": "Dana",
+                    "role": "Content Writer"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Design",
+            "members": [
+                {
+                    "id": 301,
+                    "name": "Eve",
+                    "role": "Graphic Designer"
+                },
+                {
+                    "id": 302,
+                    "name": "Frank",
+                    "role": "UI/UX Designer"
+                }
+            ]
+        }
+    ]
+}

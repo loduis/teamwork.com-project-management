@@ -1,0 +1,11 @@
+{
+    "body": {
+        "type": "string"
+    },
+    "notify": {
+        "type": "string|array<integer>",
+        "validate": [
+            "ALL"
+        ]
+    }
+}

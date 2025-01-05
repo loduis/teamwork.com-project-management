@@ -1,0 +1,58 @@
+{
+    "columns": [
+      {
+        "name": "Column 1",
+        "displayOrder": "1",
+        "sortOrder": "ASC",
+        "deletedDate": "",
+        "dateUpdated": "2018-03-14T11:45:05Z",
+        "settings": {
+          "company": false,
+          "category": false,
+          "starred": false,
+          "tags": false,
+          "name": true,
+          "description": false,
+          "dates": false
+        },
+        "hasTriggers": false,
+        "sort": "manual",
+        "canEdit": true,
+        "id": "1",
+        "dateCreated": "2018-02-26T15:38:00Z",
+        "color": "#8E44AD",
+        "deleted": false
+      },
+      {
+        "name": "Column 2",
+        "displayOrder": "2000",
+        "sortOrder": "ASC",
+        "deletedDate": "",
+        "dateUpdated": "2018-03-07T14:51:14Z",
+        "settings": {
+          "company": true,
+          "category": true,
+          "starred": true,
+          "tags": true,
+          "name": true,
+          "description": true,
+          "dates": true
+        },
+        "hasTriggers": false,
+        "sort": "manual",
+        "canEdit": true,
+        "id": "1",
+        "dateCreated": "2018-02-26T15:38:03Z",
+        "color": "#0AD2F5",
+        "deleted": false
+      }
+    ],
+    "board": {
+      "name": "Board 1",
+      "description": "1165165814514651651651651",
+      "id": "1",
+      "color": "BDC3C7",
+      "deleted": false
+    },
+    "STATUS": "OK"
+  }

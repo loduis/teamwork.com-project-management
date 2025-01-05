@@ -1,0 +1,29 @@
+{
+    "STATUS": "OK",
+    "column": {
+      "name": "manner",
+      "displayOrder": "1000",
+      "sortOrder": "ASC",
+      "deletedDate": "2020-05-25T12:50:09Z",
+      "dateUpdated": "2020-05-25T12:50:09Z",
+      "settings": {
+        "company": true,
+        "update": true,
+        "category": true,
+        "starred": true,
+        "tags": true,
+        "name": true,
+        "description": true,
+        "progress": true,
+        "dates": true,
+        "owner": true
+      },
+      "hasTriggers": false,
+      "sort": "manual",
+      "canEdit": true,
+      "id": "1234",
+      "dateCreated": "2020-05-25T12:50:07Z",
+      "color": "#8c98e6",
+      "deleted": true
+    }
+  }

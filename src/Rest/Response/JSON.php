@@ -114,6 +114,12 @@ class JSON extends Model
                             ) {
                                 $source = current($source);
                             }
+                            if (
+                                $source &&
+                                preg_match('!messageReplies/(\d+)!', $action)
+                            ) {
+                                $source = current($source);
+                            }
                             // tasklists/2952529/time/total
                             if ($source && preg_match('!tasklists/(\d+)/time/total!', $headers['X-Action'])) {
                                $source = current($source);
@@ -140,7 +146,13 @@ class JSON extends Model
                                 }
                                 $source = $data;
                             }
+                        } elseif (
+                            isset($source->card)
+                            && preg_match('!portfolio/cards/(\d+)!', $action)
+                        ) {
+                            $source = $source->card;
                         }
+
                         /*
                         if (isset($source->project->files)) {
                             $source = $source->project->files;

@@ -1,0 +1,14 @@
+{
+    "STATUS": "OK",
+    "team": {
+        "id": 10248,
+        "name": "Draft",
+        "members": [
+            {
+                "id": 391604,
+                "name": "Php Api",
+                "role": "Developer"
+            }
+        ]
+    }
+}

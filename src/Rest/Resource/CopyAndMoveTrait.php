@@ -11,9 +11,9 @@ trait CopyAndMoveTrait
      *
      * @param integer $id
      * @param integer $projectId
-     * @return boolean
+     * @return int
      */
-    public function copy(int $id, int $projectId): bool
+    public function copy(int $id, int $projectId): int
     {
         return $this
             ->notUseFields()

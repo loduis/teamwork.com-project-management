@@ -1,0 +1,8 @@
+{
+    "color": {
+        "type": "string"
+    },
+    "name": {
+        "type": "string"
+    }
+}

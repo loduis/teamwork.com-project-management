@@ -1,0 +1,6 @@
+{
+    "messagereply": {
+        "body": "Reply message",
+        "notify": "ALL"
+    }
+}

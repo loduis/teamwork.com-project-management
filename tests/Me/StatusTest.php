@@ -2,71 +2,45 @@
 
 namespace TeamWorkPm\Tests\Me;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
 
 final class StatusTest extends TestCase
 {
-    private $model;
-    private static $id;
-
-    protected function setUp(): void
+    /**
+     * @dataProvider provider
+     */
+    public function testCreate(array $data): void
     {
-        parent::setUp();
-        $this->model = Factory::build('me/status');
+        $this->assertEquals(TPM_TEST_ID, $this->factory('me.status', [
+            'POST /me/status' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->create($data));
+    }
+
+    public function testGet(): void
+    {
+        $this->assertEquals('test2', $this->factory('me.status', [
+            'GET /me/status' => true
+        ])->get()->status);
     }
 
     /**
      * @dataProvider provider
-     * @test
      */
-    public function insert($data): void
+    public function testUpdate(array $data): void
     {
-        try {
-            self::$id = $this->model->save($data);
-            $this->assertGreaterThan(0, self::$id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $data['status'] = 'Test me status updated';
+        $data['id'] = TPM_ME_STATUS_ID;
+
+        $this->assertTrue($this->factory('me.status', [
+            'PUT /me/status/' . TPM_ME_STATUS_ID => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->update($data));
     }
 
-    /**
-     * @test
-     */
-    public function get(): void
+    public function testDelete(): void
     {
-        try {
-            $status = $this->model->get();
-            $this->assertEquals($status->id, self::$id);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @dataProvider provider
-     * @test
-     */
-    public function update($data): void
-    {
-        try {
-            $data['id'] = null;
-            $this->model->save($data);
-            $this->fail('An expected exception has not been raised.');
-        } catch (Exception $e) {
-            $this->assertEquals('Required field id', $e->getMessage());
-        }
-
-        try {
-            $data['id'] = self::$id;
-            $data['status'] = rand_string($data['status']);
-            $this->assertTrue($this->model->save($data));
-            $status = $this->model->get();
-            $this->assertEquals($data['status'], $status->status);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        $this->assertTrue($this->factory('me.status', [
+            'DELETE /me/status/' . TPM_ME_STATUS_ID => true
+        ])->delete(TPM_ME_STATUS_ID));
     }
 
     public function provider()

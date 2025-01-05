@@ -1,0 +1,74 @@
+{
+    "name": {
+        "type": "string"
+    },
+    "description": {
+        "type": "string"
+    },
+    "use_tasks": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_milestones": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_messages": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_files": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_time": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_notebook": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_riskregister": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_links": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_billing": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "use_comments": {
+        "type": "boolean",
+        "transform": "dash"
+    },
+    "category_id": {
+        "type": "integer",
+        "transform": "dash"
+    },
+    "tags": {
+        "type": "string"
+    },
+    "template_date_target_default": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "people": {
+        "type": "string"
+    },
+    "project_owner_id": {
+        "type": "string",
+        "transform": "camel"
+    },
+    "company_id": {
+        "type": "integer",
+        "transform": "camel"
+    },
+    "grant_access_to": {
+        "type": "string",
+        "transform": "dash"
+    }
+}

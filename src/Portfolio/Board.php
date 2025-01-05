@@ -4,56 +4,23 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm\Portfolio;
 
-use TeamWorkPm\Exception;
+use TeamWorkPm\Factory;
+use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\Model;
 
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/portfolio-boards/get-portfolio-boards-json
+ */
 class Board extends Model
 {
-    public function init()
-    {
-        $this->parent = 'board';
-        $this->action = 'portfolio/boards';
+    protected ?string $parent = 'board';
 
-        $this->fields = [
-            'canEdit' => [
-                'type' => 'boolean'
-            ],
-            'name' => [
-                'type' => 'string'
-            ],
-            'displayOrder' => [
-                'type' => 'string'
-            ],
-            'description' => [
-                'type' => 'string'
-            ],
-            'deletedDate' => [
-                'type' => 'string'
-            ],
-            'id' => [
-                'type' => 'string'
-            ],
-            'dateCreated' => [
-                'type' => 'string'
-            ],
-            'color' => [
-                'type' => 'string'
-            ],
-            'deleted' => [
-                'type' => 'boolean'
-            ],
-        ];
-    }
+    protected ?string $action = 'portfolio/boards';
 
-    /**
-     * Get all the Portfolio Boards
-     * GET /portfolio/boards
-     *
-     * @return \TeamWorkPm\Response\Model
-     * @throws Exception
-     */
-    public function all()
+    protected string|array $fields = "portfolio.boards";
+
+    public function getColumns(int $id): Response
     {
-        return $this->fetch("$this->action");
+        return Factory::portfolioColumn()->getByBoard($id);
     }
 }

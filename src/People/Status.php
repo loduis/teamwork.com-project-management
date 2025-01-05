@@ -6,7 +6,7 @@ namespace TeamWorkPm\People;
 
 use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Resource;
-use TeamworkPm\Rest\Resource\SaveTrait;
+use TeamWorkPm\Rest\Resource\SaveTrait;
 use TeamWorkPm\Rest\Response\Model as Response;
 
 class Status extends Resource

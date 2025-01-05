@@ -2,17 +2,23 @@
 
 namespace TeamWorkPm\Tests\Project;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Factory;
 use TeamWorkPm\Tests\TestCase;
-/*
-{"pendingFile":{"ref":"tf_3d9cfae3-65f7-4ff8-8bf5-ca0512de600a"}}
-tf_f68d44d9-7865-44d6-9e8e-23538f82e173
-*/
+
 final class FileTest extends TestCase
 {
-    public function testAll()
+    public function testAll(): void
     {
-        // $this->factory('project.file')->all(TPM_PROJECT_ID_1);
+        $this->assertGreaterThan(0, count($this->factory('project.file', [
+            'GET /projects/' . TPM_PROJECT_ID_1 . '/files' => true
+        ])->all(TPM_PROJECT_ID_1)));
+    }
+
+    public function testAdd(): void
+    {
+        $this->assertGreaterThan(0, $this->factory('project.file', [
+            'POST /projects/' . TPM_PROJECT_ID_1 . '/files' => fn($data) => $this->assertMatchesJsonSnapshot($data)
+        ])->add(TPM_PROJECT_ID_1, [
+            'pending_file_ref' => 'tf_3d9cfae3-65f7-4ff8-8bf5-ca0512de600a'
+        ]));
     }
 }

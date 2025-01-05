@@ -4,110 +4,72 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm\Portfolio;
 
-use TeamWorkPm\Exception;
-use TeamWorkPm\Rest\Resource\Model;
+use TeamWorkPm\Rest\Resource;
+use TeamWorkPm\Rest\Response\Model as Response;
+use TeamWorkPm\Rest\Resource\DestroyTrait;
+use TeamWorkPm\Rest\Resource\GetTrait;
 
-class Card extends Model
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/portfolio-boards/get-portfolio-boards-json
+ */
+class Card extends Resource
 {
-    public function init()
+    use DestroyTrait, GetTrait;
+
+    protected ?string $parent = 'card';
+
+    protected ?string $action = 'portfolio/cards';
+
+    protected string|array $fields = "portfolio.cards";
+
+    /**
+     * Undocumented function
+     *
+     * @param integer $columnId
+     * @param integer $projectId
+     * @return integer
+     */
+    public function create(int $columnId, int $projectId): int
     {
-        $this->parent = 'card';
-        $this->action = 'portfolio/cards';
+        $this->validates([
+            'column_id' => $columnId,
+            'project_id' => $projectId
+        ], true);
 
-        $this->fields = [
-            'projectId' => [
-                'type' => 'string'
-            ],
-
-            // These are only used by the update method
-            'cardId' => [
-                'type' => 'string',
-                'sibling' => true,
-            ],
-
-            'columnId' => [
-                'type' => 'string',
-                'sibling' => true,
-            ],
-
-            'oldColumnId' => [
-                'type' => 'string',
-                'sibling' => true,
-            ],
-
-            'positionAfterId' => [
-                'type' => 'integer',
-                'sibling' => true,
-            ],
-        ];
+        return $this->post(
+            "portfolio/columns/$columnId/cards", compact('projectId')
+        );
     }
 
     /**
-     * Get all the Columns for a Portfolio Column
-     * GET /portfolio/columns/{columnId}/cards
+     * Get Cards inside a Portfolio Column
      *
-     * @param int $columnId
-     *
-     * @return \TeamWorkPm\Response\Model
-     * @throws Exception
+     * @param integer $id
+     * @return Response
      */
-    public function getAllForColumn($columnId)
+    public function getByColumn(int $id): Response
     {
-        $columnId = (int)$columnId;
-        if ($columnId <= 0) {
-            throw new Exception('Invalid param columnId');
-        }
-
-        return $this->fetch("portfolio/columns/$columnId/cards");
+        return $this->fetch("portfolio/columns/$id/cards");
     }
 
     /**
-     * Adds a project to the given board
+     * Undocumented function
      *
-     * @param array $data
-     *
-     * @return int
+     * @param integer $id
+     * @param integer $oldColumnId
+     * @param integer $columnId
+     * @param integer $positionAfterId
+     * @return boolean
      */
-    public function create(array $data)
+    public function move(int $id, int $oldColumnId, int $columnId, int $positionAfterId): bool
     {
-        $columnId = empty($data['columnId']) ? 0 : (int)$data['columnId'];
-        if ($columnId <= 0) {
-            throw new Exception('Required field columnId');
-        }
-        unset($data['columnId']);
-
-        if (empty($data['projectId'])) {
-            throw new Exception('Required field projectId');
-        }
-
-        return $this->post("portfolio/columns/$columnId/cards", $data);
-    }
-
-    /**
-     * Moves the given card from one board to another
-     *
-     * @param array $data
-     *
-     * @return bool
-     * @throws Exception
-     */
-    public function update(array $data)
-    {
-        $cardId = empty($data['id']) ? 0 : (int)$data['id'];
-        if ($cardId <= 0) {
-            throw new Exception('Required field id');
-        }
-        $data['cardId'] = $data['id'];
-        unset($data['id']);
-
-        if (empty($data['columnId'])) {
-            throw new Exception('Required field columnId');
-        }
-
-        if (empty($data['oldColumnId'])) {
-            throw new Exception('Required field oldColumnId');
-        }
-
-        return $this->put("$this->action/$cardId/move", $data);
+        return $this
+            ->notUseFields()
+            ->put("$this->action/$id/move", compact(
+                'oldColumnId',
+                'columnId',
+                'positionAfterId'
+            )
+        );
     }
 }
