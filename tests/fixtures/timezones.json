@@ -1,0 +1,2630 @@
+{
+    "STATUS": "OK",
+    "timezones": [
+        {
+            "offsetMinutes": "-660",
+            "id": "364",
+            "offsetHours": "-11",
+            "javaRefCode": "Pacific\/Niue",
+            "name": "Alofi"
+        },
+        {
+            "offsetMinutes": "-660",
+            "id": "10",
+            "offsetHours": "-11",
+            "javaRefCode": "Pacific\/Pago_Pago",
+            "name": "Midway Island"
+        },
+        {
+            "offsetMinutes": "-660",
+            "id": "11",
+            "offsetHours": "-11",
+            "javaRefCode": "Pacific\/Pago_Pago",
+            "name": "Samoa"
+        },
+        {
+            "offsetMinutes": "-600",
+            "id": "170",
+            "offsetHours": "-10",
+            "javaRefCode": "America\/Adak",
+            "name": "Adak"
+        },
+        {
+            "offsetMinutes": "-600",
+            "id": "369",
+            "offsetHours": "-10",
+            "javaRefCode": "Pacific\/Rarotonga",
+            "name": "Avarua"
+        },
+        {
+            "offsetMinutes": "-600",
+            "id": "370",
+            "offsetHours": "-10",
+            "javaRefCode": "Pacific\/Tahiti",
+            "name": "Faaa"
+        },
+        {
+            "offsetMinutes": "-600",
+            "id": "1",
+            "offsetHours": "-10",
+            "javaRefCode": "Pacific\/Honolulu",
+            "name": "Hawaii"
+        },
+        {
+            "offsetMinutes": "-570",
+            "id": "362",
+            "offsetHours": "-9.5",
+            "javaRefCode": "Pacific\/Marquesas",
+            "name": "Taiohae"
+        },
+        {
+            "offsetMinutes": "-540",
+            "id": "2",
+            "offsetHours": "-9",
+            "javaRefCode": "America\/Anchorage",
+            "name": "Alaska"
+        },
+        {
+            "offsetMinutes": "-540",
+            "id": "355",
+            "offsetHours": "-9",
+            "javaRefCode": "Pacific\/Gambier",
+            "name": "Gambier"
+        },
+        {
+            "offsetMinutes": "-540",
+            "id": "224",
+            "offsetHours": "-9",
+            "javaRefCode": "America\/Juneau",
+            "name": "Juneau"
+        },
+        {
+            "offsetMinutes": "-540",
+            "id": "233",
+            "offsetHours": "-9",
+            "javaRefCode": "America\/Metlakatla",
+            "name": "Metlakatla"
+        },
+        {
+            "offsetMinutes": "-540",
+            "id": "238",
+            "offsetHours": "-9",
+            "javaRefCode": "America\/Nome",
+            "name": "Nome"
+        },
+        {
+            "offsetMinutes": "-540",
+            "id": "256",
+            "offsetHours": "-9",
+            "javaRefCode": "America\/Sitka",
+            "name": "Sitka"
+        },
+        {
+            "offsetMinutes": "-540",
+            "id": "262",
+            "offsetHours": "-9",
+            "javaRefCode": "America\/Yakutat",
+            "name": "Yakutat"
+        },
+        {
+            "offsetMinutes": "-480",
+            "id": "367",
+            "offsetHours": "-8",
+            "javaRefCode": "Pacific\/Pitcairn",
+            "name": "Adamstown"
+        },
+        {
+            "offsetMinutes": "-480",
+            "id": "3",
+            "offsetHours": "-8",
+            "javaRefCode": "America\/Los_Angeles",
+            "name": "Pacific Time (US & Canada)"
+        },
+        {
+            "offsetMinutes": "-480",
+            "id": "12",
+            "offsetHours": "-8",
+            "javaRefCode": "America\/Tijuana",
+            "name": "Tijuana"
+        },
+        {
+            "offsetMinutes": "-480",
+            "id": "261",
+            "offsetHours": "-8",
+            "javaRefCode": "America\/Vancouver",
+            "name": "Vancouver"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "4",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Phoenix",
+            "name": "Arizona"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "190",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Boise",
+            "name": "Boise"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "191",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Cambridge_Bay",
+            "name": "Cambridge Bay"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "195",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Ciudad_Juarez",
+            "name": "Ciudad Ju\u00e1rez"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "199",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Dawson",
+            "name": "Dawson"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "201",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Denver",
+            "name": "Denver"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "205",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Fort_Nelson",
+            "name": "Fort Nelson"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "200",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Dawson_Creek",
+            "name": "Fort St. John"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "213",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Hermosillo",
+            "name": "Hermosillo"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "221",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Inuvik",
+            "name": "Inuvik"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "14",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Mazatlan",
+            "name": "Mazatlan"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "5",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Edmonton",
+            "name": "Mountain Time (US & Canada)"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "263",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Yellowknife",
+            "name": "Yellowknife"
+        },
+        {
+            "offsetMinutes": "-420",
+            "id": "156",
+            "offsetHours": "-7",
+            "javaRefCode": "America\/Whitehorse",
+            "name": "Yukon"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "188",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Belize",
+            "name": "Belize City"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "239",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/North_Dakota\/Beulah",
+            "name": "Beulah"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "15",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Guatemala",
+            "name": "Central America"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "6",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Winnipeg",
+            "name": "Central Time (US & Canada)"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "13",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Chihuahua",
+            "name": "Chihuahua"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "16",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Chicago",
+            "name": "Guadalajara"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "149",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Guatemala",
+            "name": "Guatemala"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "8",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Indiana\/Knox",
+            "name": "Indiana (East)"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "228",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Managua",
+            "name": "Managua"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "241",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/North_Dakota\/New_Salem",
+            "name": "Mandan"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "243",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Ojinaga",
+            "name": "Manuel Ojinaga"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "231",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Menominee",
+            "name": "Menominee"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "17",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Mexico_City",
+            "name": "Mexico City"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "185",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Bahia_Banderas",
+            "name": "Mezcales"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "18",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Monterrey",
+            "name": "Monterrey"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "232",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Merida",
+            "name": "M\u00e9rida"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "240",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/North_Dakota\/Center",
+            "name": "North Dakota Center"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "354",
+            "offsetHours": "-6",
+            "javaRefCode": "Pacific\/Galapagos",
+            "name": "Puerto Ayora"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "249",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Rainy_River",
+            "name": "Rainy River"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "250",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Rankin_Inlet",
+            "name": "Rankin Inlet"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "252",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Resolute",
+            "name": "Resolute"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "230",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Matamoros",
+            "name": "Reynosa"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "196",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Costa_Rica",
+            "name": "San Jos\u00e9"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "204",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/El_Salvador",
+            "name": "San Salvador"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "19",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Regina",
+            "name": "Saskatchewan"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "257",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Swift_Current",
+            "name": "Swift Current"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "258",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Tegucigalpa",
+            "name": "Tegucigalpa"
+        },
+        {
+            "offsetMinutes": "-360",
+            "id": "217",
+            "offsetHours": "-6",
+            "javaRefCode": "America\/Indiana\/Tell_City",
+            "name": "Tell City"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "20",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Bogota",
+            "name": "Bogota"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "145",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Rio_Branco",
+            "name": "Brazil (Acre)"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "193",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Cancun",
+            "name": "Canc\u00fan"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "209",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Grand_Turk",
+            "name": "Cockburn Town"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "202",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Detroit",
+            "name": "Detroit"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "350",
+            "offsetHours": "-5",
+            "javaRefCode": "Pacific\/Easter",
+            "name": "Easter"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "7",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Toronto",
+            "name": "Eastern Time (US & Canada)"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "203",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Eirunepe",
+            "name": "Eirunep\u00e9"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "30",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Panama",
+            "name": "Georgetown"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "210",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Guayaquil",
+            "name": "Guayaquil"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "212",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Havana",
+            "name": "Havana"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "214",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Indiana\/Indianapolis",
+            "name": "Indianapolis"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "222",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Iqaluit",
+            "name": "Iqaluit"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "219",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Indiana\/Vincennes",
+            "name": "Jasper"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "223",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Jamaica",
+            "name": "Kingston"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "21",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Lima",
+            "name": "Lima"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "225",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Kentucky\/Louisville",
+            "name": "Louisville"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "215",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Indiana\/Marengo",
+            "name": "Marengo"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "226",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Kentucky\/Monticello",
+            "name": "Monticello"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "236",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/New_York",
+            "name": "New York City"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "237",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Nipigon",
+            "name": "Nipigon"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "244",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Pangnirtung",
+            "name": "Pangnirtung"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "216",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Indiana\/Petersburg",
+            "name": "Petersburg"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "246",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Port-au-Prince",
+            "name": "Port-au-Prince"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "22",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Lima",
+            "name": "Quito"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "260",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Thunder_Bay",
+            "name": "Thunder Bay"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "218",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Indiana\/Vevay",
+            "name": "Vevay"
+        },
+        {
+            "offsetMinutes": "-300",
+            "id": "220",
+            "offsetHours": "-5",
+            "javaRefCode": "America\/Indiana\/Winamac",
+            "name": "Winamac"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "157",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Puerto_Rico",
+            "name": "Atlantic Standard Time (Puerto Rico)"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "23",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Halifax",
+            "name": "Atlantic Time (Canada)"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "189",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Boa_Vista",
+            "name": "Boa Vista"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "147",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Manaus",
+            "name": "Brazil (West)"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "186",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Barbados",
+            "name": "Bridgetown"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "192",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Campo_Grande",
+            "name": "Campo Grande"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "24",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Caracas",
+            "name": "Caracas"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "197",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Cuiaba",
+            "name": "Cuiab\u00e1"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "229",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Martinique",
+            "name": "Fort-de-France"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "207",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Glace_Bay",
+            "name": "Glace Bay"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "211",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Guyana",
+            "name": "Guyana"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "208",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Goose_Bay",
+            "name": "Happy Valley-Goose Bay"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "25",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/La_Paz",
+            "name": "La Paz"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "32",
+            "offsetHours": "-4",
+            "javaRefCode": "Atlantic\/Bermuda",
+            "name": "Mid-Atlantic"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "235",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Moncton",
+            "name": "Moncton"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "247",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Porto_Velho",
+            "name": "Porto Velho"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "254",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Santo_Domingo",
+            "name": "Santo Domingo"
+        },
+        {
+            "offsetMinutes": "-240",
+            "id": "259",
+            "offsetHours": "-4",
+            "javaRefCode": "America\/Thule",
+            "name": "Thule"
+        },
+        {
+            "offsetMinutes": "-210",
+            "id": "27",
+            "offsetHours": "-3.5",
+            "javaRefCode": "America\/St_Johns",
+            "name": "Newfoundland"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "183",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Asuncion",
+            "name": "Asunci\u00f3n"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "187",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Belem",
+            "name": "Bel\u00e9m"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "28",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Sao_Paulo",
+            "name": "Brasilia"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "148",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Sao_Paulo",
+            "name": "Brazil (East)"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "29",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/Buenos_Aires",
+            "name": "Buenos Aires"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "172",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/Catamarca",
+            "name": "Catamarca"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "194",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Cayenne",
+            "name": "Cayenne"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "173",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/Cordoba",
+            "name": "C\u00f3rdoba"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "206",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Fortaleza",
+            "name": "Fortaleza"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "31",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/Buenos_Aires",
+            "name": "Greenland"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "175",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/La_Rioja",
+            "name": "La Rioja"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "227",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Maceio",
+            "name": "Macei\u00f3"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "151",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Montevideo",
+            "name": "Montevideo"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "171",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Araguaina",
+            "name": "Palmas"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "268",
+            "offsetHours": "-3",
+            "javaRefCode": "Antarctica\/Palmer",
+            "name": "Palmer"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "245",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Paramaribo",
+            "name": "Paramaribo"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "248",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Punta_Arenas",
+            "name": "Punta Arenas"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "251",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Recife",
+            "name": "Recife"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "269",
+            "offsetHours": "-3",
+            "javaRefCode": "Antarctica\/Rothera",
+            "name": "Rothera"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "177",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/Rio_Gallegos",
+            "name": "R\u00edo Gallegos"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "234",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Miquelon",
+            "name": "Saint-Pierre"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "178",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/Salta",
+            "name": "Salta"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "184",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Bahia",
+            "name": "Salvador"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "179",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/San_Juan",
+            "name": "San Juan"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "180",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/San_Luis",
+            "name": "San Luis"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "181",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/Tucuman",
+            "name": "San Miguel de Tucum\u00e1n"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "176",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/Mendoza",
+            "name": "San Rafael"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "174",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/Jujuy",
+            "name": "San Salvador de Jujuy"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "253",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Santarem",
+            "name": "Santar\u00e9m"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "26",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Santiago",
+            "name": "Santiago"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "317",
+            "offsetHours": "-3",
+            "javaRefCode": "Atlantic\/Stanley",
+            "name": "Stanley"
+        },
+        {
+            "offsetMinutes": "-180",
+            "id": "182",
+            "offsetHours": "-3",
+            "javaRefCode": "America\/Argentina\/Ushuaia",
+            "name": "Ushuaia"
+        },
+        {
+            "offsetMinutes": "-120",
+            "id": "146",
+            "offsetHours": "-2",
+            "javaRefCode": "America\/Noronha",
+            "name": "Brazil (DeNoronha)"
+        },
+        {
+            "offsetMinutes": "-120",
+            "id": "316",
+            "offsetHours": "-2",
+            "javaRefCode": "Atlantic\/South_Georgia",
+            "name": "Grytviken"
+        },
+        {
+            "offsetMinutes": "-120",
+            "id": "242",
+            "offsetHours": "-2",
+            "javaRefCode": "America\/Nuuk",
+            "name": "Nuuk"
+        },
+        {
+            "offsetMinutes": "-120",
+            "id": "255",
+            "offsetHours": "-2",
+            "javaRefCode": "America\/Scoresbysund",
+            "name": "Scoresbysund"
+        },
+        {
+            "offsetMinutes": "-60",
+            "id": "33",
+            "offsetHours": "-1",
+            "javaRefCode": "Atlantic\/Azores",
+            "name": "Azores"
+        },
+        {
+            "offsetMinutes": "-60",
+            "id": "34",
+            "offsetHours": "-1",
+            "javaRefCode": "Atlantic\/Cape_Verde",
+            "name": "Cape Verde Is."
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "158",
+            "offsetHours": "0",
+            "javaRefCode": "Africa\/Abidjan",
+            "name": "Abidjan"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "160",
+            "offsetHours": "0",
+            "javaRefCode": "Africa\/Bissau",
+            "name": "Bissau"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "144",
+            "offsetHours": "0",
+            "javaRefCode": "Europe\/Dublin",
+            "name": "Cork"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "198",
+            "offsetHours": "0",
+            "javaRefCode": "America\/Danmarkshavn",
+            "name": "Danmarkshavn"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "36",
+            "offsetHours": "0",
+            "javaRefCode": "Europe\/Dublin",
+            "name": "Dublin"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "37",
+            "offsetHours": "0",
+            "javaRefCode": "Europe\/London",
+            "name": "Edinburgh"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "315",
+            "offsetHours": "0",
+            "javaRefCode": "Atlantic\/Madeira",
+            "name": "Funchal"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "322",
+            "offsetHours": "0",
+            "javaRefCode": "Etc\/GMT",
+            "name": "GMT"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "143",
+            "offsetHours": "0",
+            "javaRefCode": "Atlantic\/Reykjavik",
+            "name": "Iceland"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "313",
+            "offsetHours": "0",
+            "javaRefCode": "Atlantic\/Canary",
+            "name": "Las Palmas de Gran Canaria"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "38",
+            "offsetHours": "0",
+            "javaRefCode": "Europe\/Lisbon",
+            "name": "Lisbon"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "39",
+            "offsetHours": "0",
+            "javaRefCode": "Europe\/London",
+            "name": "London"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "40",
+            "offsetHours": "0",
+            "javaRefCode": "Africa\/Monrovia",
+            "name": "Monrovia"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "167",
+            "offsetHours": "0",
+            "javaRefCode": "Africa\/Sao_Tome",
+            "name": "S\u00e3o Tom\u00e9"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "375",
+            "offsetHours": "0",
+            "javaRefCode": "Antarctica\/Troll",
+            "name": "Troll"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "314",
+            "offsetHours": "0",
+            "javaRefCode": "Atlantic\/Faroe",
+            "name": "T\u00f3rshavn"
+        },
+        {
+            "offsetMinutes": "0",
+            "id": "374",
+            "offsetHours": "0",
+            "javaRefCode": "UTC",
+            "name": "UTC"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "159",
+            "offsetHours": "1",
+            "javaRefCode": "Africa\/Algiers",
+            "name": "Algiers"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "41",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Brussels",
+            "name": "Amsterdam"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "42",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Belgrade",
+            "name": "Belgrade"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "43",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Berlin",
+            "name": "Berlin"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "44",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Berlin",
+            "name": "Bern"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "45",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Prague",
+            "name": "Bratislava"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "46",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Brussels",
+            "name": "Brussels"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "47",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Budapest",
+            "name": "Budapest"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "35",
+            "offsetHours": "1",
+            "javaRefCode": "Africa\/Casablanca",
+            "name": "Casablanca"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "48",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Berlin",
+            "name": "Copenhagen"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "325",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Gibraltar",
+            "name": "Gibraltar"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "162",
+            "offsetHours": "1",
+            "javaRefCode": "Africa\/El_Aaiun",
+            "name": "Laayoune"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "49",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Belgrade",
+            "name": "Ljubljana"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "328",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Luxembourg",
+            "name": "Luxembourg"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "50",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Madrid",
+            "name": "Madrid"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "161",
+            "offsetHours": "1",
+            "javaRefCode": "Africa\/Ceuta",
+            "name": "Melilla"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "330",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Monaco",
+            "name": "Monaco"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "166",
+            "offsetHours": "1",
+            "javaRefCode": "Africa\/Ndjamena",
+            "name": "N'Djamena"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "150",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Oslo",
+            "name": "Oslo"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "51",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Paris",
+            "name": "Paris"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "52",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Prague",
+            "name": "Prague"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "53",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Rome",
+            "name": "Rome"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "329",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Malta",
+            "name": "San Pawl il-Ba\u0127ar"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "54",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Belgrade",
+            "name": "Sarajevo"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "55",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Belgrade",
+            "name": "Skopje"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "56",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Berlin",
+            "name": "Stockholm"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "334",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Tirane",
+            "name": "Tirana"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "169",
+            "offsetHours": "1",
+            "javaRefCode": "Africa\/Tunis",
+            "name": "Tunis"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "57",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Vienna",
+            "name": "Vienna"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "58",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Warsaw",
+            "name": "Warsaw"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "59",
+            "offsetHours": "1",
+            "javaRefCode": "Africa\/Lagos",
+            "name": "West Africa Time"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "60",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Belgrade",
+            "name": "Zagreb"
+        },
+        {
+            "offsetMinutes": "60",
+            "id": "155",
+            "offsetHours": "1",
+            "javaRefCode": "Europe\/Zurich",
+            "name": "Zurich"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "61",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Athens",
+            "name": "Athens"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "153",
+            "offsetHours": "2",
+            "javaRefCode": "Asia\/Beirut",
+            "name": "Beirut"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "62",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Bucharest",
+            "name": "Bucharest"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "63",
+            "offsetHours": "2",
+            "javaRefCode": "Africa\/Cairo",
+            "name": "Cairo"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "324",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Chisinau",
+            "name": "Chisinau"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "287",
+            "offsetHours": "2",
+            "javaRefCode": "Asia\/Hebron",
+            "name": "East Jerusalem"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "285",
+            "offsetHours": "2",
+            "javaRefCode": "Asia\/Famagusta",
+            "name": "Famagusta"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "286",
+            "offsetHours": "2",
+            "javaRefCode": "Asia\/Gaza",
+            "name": "Gaza"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "64",
+            "offsetHours": "2",
+            "javaRefCode": "Africa\/Maputo",
+            "name": "Harare"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "65",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Helsinki",
+            "name": "Helsinki"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "67",
+            "offsetHours": "2",
+            "javaRefCode": "Asia\/Jerusalem",
+            "name": "Jerusalem"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "163",
+            "offsetHours": "2",
+            "javaRefCode": "Africa\/Johannesburg",
+            "name": "Johannesburg"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "164",
+            "offsetHours": "2",
+            "javaRefCode": "Africa\/Juba",
+            "name": "Juba"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "154",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Kaliningrad",
+            "name": "Kaliningrad"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "326",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Kyiv",
+            "name": "Kharkiv"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "165",
+            "offsetHours": "2",
+            "javaRefCode": "Africa\/Khartoum",
+            "name": "Khartoum"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "68",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Kiev",
+            "name": "Kyiv"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "296",
+            "offsetHours": "2",
+            "javaRefCode": "Asia\/Nicosia",
+            "name": "Nicosia"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "70",
+            "offsetHours": "2",
+            "javaRefCode": "Africa\/Harare",
+            "name": "Pretoria"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "71",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Riga",
+            "name": "Riga"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "72",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Sofia",
+            "name": "Sofia"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "73",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Tallinn",
+            "name": "Tallinn"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "168",
+            "offsetHours": "2",
+            "javaRefCode": "Africa\/Tripoli",
+            "name": "Tripoli"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "336",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Uzhgorod",
+            "name": "Uzhgorod"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "74",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Vilnius",
+            "name": "Vilnius"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "152",
+            "offsetHours": "2",
+            "javaRefCode": "Africa\/Windhoek",
+            "name": "Windhoek"
+        },
+        {
+            "offsetMinutes": "120",
+            "id": "337",
+            "offsetHours": "2",
+            "javaRefCode": "Europe\/Zaporozhye",
+            "name": "Zaporozhye"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "282",
+            "offsetHours": "3",
+            "javaRefCode": "Asia\/Damascus",
+            "name": "Aleppo"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "271",
+            "offsetHours": "3",
+            "javaRefCode": "Asia\/Amman",
+            "name": "Amman"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "75",
+            "offsetHours": "3",
+            "javaRefCode": "Asia\/Baghdad",
+            "name": "Baghdad"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "302",
+            "offsetHours": "3",
+            "javaRefCode": "Asia\/Qatar",
+            "name": "Doha"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "66",
+            "offsetHours": "3",
+            "javaRefCode": "Europe\/Istanbul",
+            "name": "Istanbul"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "327",
+            "offsetHours": "3",
+            "javaRefCode": "Europe\/Kirov",
+            "name": "Kirov"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "76",
+            "offsetHours": "3",
+            "javaRefCode": "Asia\/Kuwait",
+            "name": "Kuwait"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "69",
+            "offsetHours": "3",
+            "javaRefCode": "Europe\/Minsk",
+            "name": "Minsk"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "77",
+            "offsetHours": "3",
+            "javaRefCode": "Europe\/Moscow",
+            "name": "Moscow"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "78",
+            "offsetHours": "3",
+            "javaRefCode": "Africa\/Nairobi",
+            "name": "Nairobi"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "79",
+            "offsetHours": "3",
+            "javaRefCode": "Asia\/Riyadh",
+            "name": "Riyadh"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "333",
+            "offsetHours": "3",
+            "javaRefCode": "Europe\/Simferopol",
+            "name": "Sevastopol"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "80",
+            "offsetHours": "3",
+            "javaRefCode": "Europe\/Moscow",
+            "name": "St. Petersburg"
+        },
+        {
+            "offsetMinutes": "180",
+            "id": "81",
+            "offsetHours": "3",
+            "javaRefCode": "Europe\/Volgograd",
+            "name": "Volgograd"
+        },
+        {
+            "offsetMinutes": "210",
+            "id": "82",
+            "offsetHours": "3.5",
+            "javaRefCode": "Asia\/Tehran",
+            "name": "Tehran"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "83",
+            "offsetHours": "4",
+            "javaRefCode": "Asia\/Dubai",
+            "name": "Abu Dhabi"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "323",
+            "offsetHours": "4",
+            "javaRefCode": "Europe\/Astrakhan",
+            "name": "Astrakhan"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "84",
+            "offsetHours": "4",
+            "javaRefCode": "Asia\/Baku",
+            "name": "Baku"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "85",
+            "offsetHours": "4",
+            "javaRefCode": "Asia\/Dubai",
+            "name": "Muscat"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "344",
+            "offsetHours": "4",
+            "javaRefCode": "Indian\/Mauritius",
+            "name": "Port Louis"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "345",
+            "offsetHours": "4",
+            "javaRefCode": "Indian\/Reunion",
+            "name": "Saint-Denis"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "331",
+            "offsetHours": "4",
+            "javaRefCode": "Europe\/Samara",
+            "name": "Samara"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "332",
+            "offsetHours": "4",
+            "javaRefCode": "Europe\/Saratov",
+            "name": "Saratov"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "86",
+            "offsetHours": "4",
+            "javaRefCode": "Asia\/Tbilisi",
+            "name": "Tbilisi"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "335",
+            "offsetHours": "4",
+            "javaRefCode": "Europe\/Ulyanovsk",
+            "name": "Ulyanovsk"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "342",
+            "offsetHours": "4",
+            "javaRefCode": "Indian\/Mahe",
+            "name": "Victoria"
+        },
+        {
+            "offsetMinutes": "240",
+            "id": "87",
+            "offsetHours": "4",
+            "javaRefCode": "Asia\/Yerevan",
+            "name": "Yerevan"
+        },
+        {
+            "offsetMinutes": "270",
+            "id": "88",
+            "offsetHours": "4.5",
+            "javaRefCode": "Asia\/Kabul",
+            "name": "Kabul"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "274",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Aqtobe",
+            "name": "Aktobe"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "98",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Almaty",
+            "name": "Almaty"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "275",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Ashgabat",
+            "name": "Ashgabat"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "99",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Almaty",
+            "name": "Astana"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "276",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Atyrau",
+            "name": "Atyrau"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "284",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Dushanbe",
+            "name": "Dushanbe"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "89",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Karachi",
+            "name": "Ekaterinburg"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "90",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Karachi",
+            "name": "Islamabad"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "91",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Karachi",
+            "name": "Karachi"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "303",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Qostanay",
+            "name": "Kostanay"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "304",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Qyzylorda",
+            "name": "Kyzylorda"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "343",
+            "offsetHours": "5",
+            "javaRefCode": "Indian\/Maldives",
+            "name": "Male"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "267",
+            "offsetHours": "5",
+            "javaRefCode": "Antarctica\/Mawson",
+            "name": "Mawson"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "299",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Oral",
+            "name": "Oral"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "341",
+            "offsetHours": "5",
+            "javaRefCode": "Indian\/Kerguelen",
+            "name": "Port-aux-Fran\u00e7ais"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "306",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Samarkand",
+            "name": "Samarkand"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "273",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Aqtau",
+            "name": "Shevchenko"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "92",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Tashkent",
+            "name": "Tashkent"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "270",
+            "offsetHours": "5",
+            "javaRefCode": "Antarctica\/Vostok",
+            "name": "Vostok"
+        },
+        {
+            "offsetMinutes": "300",
+            "id": "312",
+            "offsetHours": "5",
+            "javaRefCode": "Asia\/Yekaterinburg",
+            "name": "Yekaterinburg"
+        },
+        {
+            "offsetMinutes": "330",
+            "id": "93",
+            "offsetHours": "5.5",
+            "javaRefCode": "Asia\/Kolkata",
+            "name": "Chennai"
+        },
+        {
+            "offsetMinutes": "330",
+            "id": "142",
+            "offsetHours": "5.5",
+            "javaRefCode": "Asia\/Kolkata",
+            "name": "Chennai, Kolkata, Mumbai, New Delhi"
+        },
+        {
+            "offsetMinutes": "330",
+            "id": "94",
+            "offsetHours": "5.5",
+            "javaRefCode": "Asia\/Kolkata",
+            "name": "Kolkata"
+        },
+        {
+            "offsetMinutes": "330",
+            "id": "95",
+            "offsetHours": "5.5",
+            "javaRefCode": "Asia\/Kolkata",
+            "name": "Mumbai"
+        },
+        {
+            "offsetMinutes": "330",
+            "id": "96",
+            "offsetHours": "5.5",
+            "javaRefCode": "Asia\/Kolkata",
+            "name": "New Delhi"
+        },
+        {
+            "offsetMinutes": "330",
+            "id": "102",
+            "offsetHours": "5.5",
+            "javaRefCode": "Asia\/Colombo",
+            "name": "Sri Jayawardenepura"
+        },
+        {
+            "offsetMinutes": "345",
+            "id": "97",
+            "offsetHours": "5.75",
+            "javaRefCode": "Asia\/Kathmandu",
+            "name": "Kathmandu"
+        },
+        {
+            "offsetMinutes": "360",
+            "id": "278",
+            "offsetHours": "6",
+            "javaRefCode": "Asia\/Bishkek",
+            "name": "Bishkek"
+        },
+        {
+            "offsetMinutes": "360",
+            "id": "338",
+            "offsetHours": "6",
+            "javaRefCode": "Indian\/Chagos",
+            "name": "Chagos"
+        },
+        {
+            "offsetMinutes": "360",
+            "id": "100",
+            "offsetHours": "6",
+            "javaRefCode": "Asia\/Dhaka",
+            "name": "Dhaka"
+        },
+        {
+            "offsetMinutes": "360",
+            "id": "298",
+            "offsetHours": "6",
+            "javaRefCode": "Asia\/Omsk",
+            "name": "Omsk"
+        },
+        {
+            "offsetMinutes": "360",
+            "id": "308",
+            "offsetHours": "6",
+            "javaRefCode": "Asia\/Thimphu",
+            "name": "Thimphu"
+        },
+        {
+            "offsetMinutes": "360",
+            "id": "116",
+            "offsetHours": "6",
+            "javaRefCode": "Asia\/Urumqi",
+            "name": "Ulaan Bataar"
+        },
+        {
+            "offsetMinutes": "360",
+            "id": "117",
+            "offsetHours": "6",
+            "javaRefCode": "Asia\/Urumqi",
+            "name": "Urumqi"
+        },
+        {
+            "offsetMinutes": "390",
+            "id": "103",
+            "offsetHours": "6.5",
+            "javaRefCode": "Asia\/Yangon",
+            "name": "Rangoon"
+        },
+        {
+            "offsetMinutes": "390",
+            "id": "340",
+            "offsetHours": "6.5",
+            "javaRefCode": "Indian\/Cocos",
+            "name": "West Island"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "104",
+            "offsetHours": "7",
+            "javaRefCode": "Asia\/Bangkok",
+            "name": "Bangkok"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "277",
+            "offsetHours": "7",
+            "javaRefCode": "Asia\/Barnaul",
+            "name": "Barnaul"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "265",
+            "offsetHours": "7",
+            "javaRefCode": "Antarctica\/Davis",
+            "name": "Davis"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "339",
+            "offsetHours": "7",
+            "javaRefCode": "Indian\/Christmas",
+            "name": "Flying Fish Cove"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "105",
+            "offsetHours": "7",
+            "javaRefCode": "Asia\/Jakarta",
+            "name": "Hanoi"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "288",
+            "offsetHours": "7",
+            "javaRefCode": "Asia\/Ho_Chi_Minh",
+            "name": "Ho Chi Minh City"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "106",
+            "offsetHours": "7",
+            "javaRefCode": "Asia\/Jakarta",
+            "name": "Jakarta"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "297",
+            "offsetHours": "7",
+            "javaRefCode": "Asia\/Novokuznetsk",
+            "name": "Kemerovo"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "107",
+            "offsetHours": "7",
+            "javaRefCode": "Asia\/Krasnoyarsk",
+            "name": "Krasnoyarsk"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "101",
+            "offsetHours": "7",
+            "javaRefCode": "Asia\/Novosibirsk",
+            "name": "Novosibirsk"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "300",
+            "offsetHours": "7",
+            "javaRefCode": "Asia\/Pontianak",
+            "name": "Pontianak"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "309",
+            "offsetHours": "7",
+            "javaRefCode": "Asia\/Tomsk",
+            "name": "Tomsk"
+        },
+        {
+            "offsetMinutes": "420",
+            "id": "289",
+            "offsetHours": "7",
+            "javaRefCode": "Asia\/Hovd",
+            "name": "Ulaangom"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "279",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Brunei",
+            "name": "Bandar Seri Begawan"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "281",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Choibalsan",
+            "name": "Baruun-Urt"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "108",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Shanghai",
+            "name": "Beijing"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "264",
+            "offsetHours": "8",
+            "javaRefCode": "Antarctica\/Casey",
+            "name": "Casey"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "109",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Shanghai",
+            "name": "Chongqing"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "110",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Hong_Kong",
+            "name": "Hong Kong"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "111",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Irkutsk",
+            "name": "Irkutsk"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "292",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Kuching",
+            "name": "Kota Kinabalu"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "112",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Singapore",
+            "name": "Kuala Lumpur"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "293",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Macau",
+            "name": "Macau"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "294",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Makassar",
+            "name": "Makassar"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "376",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Manila",
+            "name": "Manila"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "113",
+            "offsetHours": "8",
+            "javaRefCode": "Australia\/Perth",
+            "name": "Perth"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "295",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Manila",
+            "name": "Quezon City"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "114",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Singapore",
+            "name": "Singapore"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "115",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Taipei",
+            "name": "Taipei"
+        },
+        {
+            "offsetMinutes": "480",
+            "id": "310",
+            "offsetHours": "8",
+            "javaRefCode": "Asia\/Ulaanbaatar",
+            "name": "Ulan Bator"
+        },
+        {
+            "offsetMinutes": "525",
+            "id": "319",
+            "offsetHours": "8.75",
+            "javaRefCode": "Australia\/Eucla",
+            "name": "Eucla"
+        },
+        {
+            "offsetMinutes": "540",
+            "id": "280",
+            "offsetHours": "9",
+            "javaRefCode": "Asia\/Chita",
+            "name": "Chita"
+        },
+        {
+            "offsetMinutes": "540",
+            "id": "283",
+            "offsetHours": "9",
+            "javaRefCode": "Asia\/Dili",
+            "name": "Dili"
+        },
+        {
+            "offsetMinutes": "540",
+            "id": "290",
+            "offsetHours": "9",
+            "javaRefCode": "Asia\/Jayapura",
+            "name": "Jayapura"
+        },
+        {
+            "offsetMinutes": "540",
+            "id": "291",
+            "offsetHours": "9",
+            "javaRefCode": "Asia\/Khandyga",
+            "name": "Khandyga"
+        },
+        {
+            "offsetMinutes": "540",
+            "id": "366",
+            "offsetHours": "9",
+            "javaRefCode": "Pacific\/Palau",
+            "name": "Koror"
+        },
+        {
+            "offsetMinutes": "540",
+            "id": "118",
+            "offsetHours": "9",
+            "javaRefCode": "Asia\/Seoul",
+            "name": "Osaka"
+        },
+        {
+            "offsetMinutes": "540",
+            "id": "301",
+            "offsetHours": "9",
+            "javaRefCode": "Asia\/Pyongyang",
+            "name": "Pyongyang"
+        },
+        {
+            "offsetMinutes": "540",
+            "id": "119",
+            "offsetHours": "9",
+            "javaRefCode": "Asia\/Seoul",
+            "name": "Sapporo"
+        },
+        {
+            "offsetMinutes": "540",
+            "id": "120",
+            "offsetHours": "9",
+            "javaRefCode": "Asia\/Seoul",
+            "name": "Seoul"
+        },
+        {
+            "offsetMinutes": "540",
+            "id": "121",
+            "offsetHours": "9",
+            "javaRefCode": "Asia\/Tokyo",
+            "name": "Tokyo"
+        },
+        {
+            "offsetMinutes": "540",
+            "id": "122",
+            "offsetHours": "9",
+            "javaRefCode": "Asia\/Yakutsk",
+            "name": "Yakutsk"
+        },
+        {
+            "offsetMinutes": "570",
+            "id": "124",
+            "offsetHours": "9.5",
+            "javaRefCode": "Australia\/Darwin",
+            "name": "Darwin"
+        },
+        {
+            "offsetMinutes": "600",
+            "id": "125",
+            "offsetHours": "10",
+            "javaRefCode": "Australia\/Brisbane",
+            "name": "Brisbane"
+        },
+        {
+            "offsetMinutes": "600",
+            "id": "127",
+            "offsetHours": "10",
+            "javaRefCode": "Pacific\/Guam",
+            "name": "Guam"
+        },
+        {
+            "offsetMinutes": "600",
+            "id": "320",
+            "offsetHours": "10",
+            "javaRefCode": "Australia\/Lindeman",
+            "name": "Lindeman"
+        },
+        {
+            "offsetMinutes": "600",
+            "id": "130",
+            "offsetHours": "10",
+            "javaRefCode": "Pacific\/Port_Moresby",
+            "name": "Port Moresby"
+        },
+        {
+            "offsetMinutes": "600",
+            "id": "311",
+            "offsetHours": "10",
+            "javaRefCode": "Asia\/Ust-Nera",
+            "name": "Ust-Nera"
+        },
+        {
+            "offsetMinutes": "600",
+            "id": "132",
+            "offsetHours": "10",
+            "javaRefCode": "Asia\/Vladivostok",
+            "name": "Vladivostok"
+        },
+        {
+            "offsetMinutes": "600",
+            "id": "349",
+            "offsetHours": "10",
+            "javaRefCode": "Pacific\/Chuuk",
+            "name": "Weno"
+        },
+        {
+            "offsetMinutes": "630",
+            "id": "123",
+            "offsetHours": "10.5",
+            "javaRefCode": "Australia\/Adelaide",
+            "name": "Adelaide"
+        },
+        {
+            "offsetMinutes": "630",
+            "id": "318",
+            "offsetHours": "10.5",
+            "javaRefCode": "Australia\/Broken_Hill",
+            "name": "Broken Hill"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "347",
+            "offsetHours": "11",
+            "javaRefCode": "Pacific\/Bougainville",
+            "name": "Arawa"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "126",
+            "offsetHours": "11",
+            "javaRefCode": "Australia\/Sydney",
+            "name": "Canberra"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "128",
+            "offsetHours": "11",
+            "javaRefCode": "Australia\/Hobart",
+            "name": "Hobart"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "356",
+            "offsetHours": "11",
+            "javaRefCode": "Pacific\/Guadalcanal",
+            "name": "Honiara"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "368",
+            "offsetHours": "11",
+            "javaRefCode": "Pacific\/Pohnpei",
+            "name": "Kolonia"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "321",
+            "offsetHours": "11",
+            "javaRefCode": "Australia\/Lord_Howe",
+            "name": "Lord Howe"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "266",
+            "offsetHours": "11",
+            "javaRefCode": "Antarctica\/Macquarie",
+            "name": "Macquarie"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "133",
+            "offsetHours": "11",
+            "javaRefCode": "Asia\/Magadan",
+            "name": "Magadan"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "129",
+            "offsetHours": "11",
+            "javaRefCode": "Australia\/Melbourne",
+            "name": "Melbourne"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "134",
+            "offsetHours": "11",
+            "javaRefCode": "Pacific\/Noumea",
+            "name": "New Caledonia"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "351",
+            "offsetHours": "11",
+            "javaRefCode": "Pacific\/Efate",
+            "name": "Port-Vila"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "135",
+            "offsetHours": "11",
+            "javaRefCode": "Asia\/Magadan",
+            "name": "Solomon Is."
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "307",
+            "offsetHours": "11",
+            "javaRefCode": "Asia\/Srednekolymsk",
+            "name": "Srednekolymsk"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "131",
+            "offsetHours": "11",
+            "javaRefCode": "Australia\/Sydney",
+            "name": "Sydney"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "359",
+            "offsetHours": "11",
+            "javaRefCode": "Pacific\/Kosrae",
+            "name": "Tofol"
+        },
+        {
+            "offsetMinutes": "660",
+            "id": "305",
+            "offsetHours": "11",
+            "javaRefCode": "Asia\/Sakhalin",
+            "name": "Yuzhno-Sakhalinsk"
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "272",
+            "offsetHours": "12",
+            "javaRefCode": "Asia\/Anadyr",
+            "name": "Anadyr"
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "360",
+            "offsetHours": "12",
+            "javaRefCode": "Pacific\/Kwajalein",
+            "name": "Ebaye"
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "137",
+            "offsetHours": "12",
+            "javaRefCode": "Pacific\/Fiji",
+            "name": "Fiji"
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "353",
+            "offsetHours": "12",
+            "javaRefCode": "Pacific\/Funafuti",
+            "name": "Funafuti"
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "138",
+            "offsetHours": "12",
+            "javaRefCode": "Asia\/Kamchatka",
+            "name": "Kamchatka"
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "361",
+            "offsetHours": "12",
+            "javaRefCode": "Pacific\/Majuro",
+            "name": "Majuro"
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "139",
+            "offsetHours": "12",
+            "javaRefCode": "Asia\/Kamchatka",
+            "name": "Marshall Is."
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "373",
+            "offsetHours": "12",
+            "javaRefCode": "Pacific\/Wallis",
+            "name": "Mata-Utu"
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "365",
+            "offsetHours": "12",
+            "javaRefCode": "Pacific\/Norfolk",
+            "name": "Norfolk Island"
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "371",
+            "offsetHours": "12",
+            "javaRefCode": "Pacific\/Tarawa",
+            "name": "Tarawa"
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "372",
+            "offsetHours": "12",
+            "javaRefCode": "Pacific\/Wake",
+            "name": "Wake"
+        },
+        {
+            "offsetMinutes": "720",
+            "id": "363",
+            "offsetHours": "12",
+            "javaRefCode": "Pacific\/Nauru",
+            "name": "Yaren"
+        },
+        {
+            "offsetMinutes": "780",
+            "id": "346",
+            "offsetHours": "13",
+            "javaRefCode": "Pacific\/Apia",
+            "name": "Apia"
+        },
+        {
+            "offsetMinutes": "780",
+            "id": "352",
+            "offsetHours": "13",
+            "javaRefCode": "Pacific\/Fakaofo",
+            "name": "Atafu Village"
+        },
+        {
+            "offsetMinutes": "780",
+            "id": "136",
+            "offsetHours": "13",
+            "javaRefCode": "Pacific\/Auckland",
+            "name": "Auckland"
+        },
+        {
+            "offsetMinutes": "780",
+            "id": "357",
+            "offsetHours": "13",
+            "javaRefCode": "Pacific\/Kanton",
+            "name": "Kanton"
+        },
+        {
+            "offsetMinutes": "780",
+            "id": "141",
+            "offsetHours": "13",
+            "javaRefCode": "Pacific\/Tongatapu",
+            "name": "Nuku'alofa"
+        },
+        {
+            "offsetMinutes": "780",
+            "id": "140",
+            "offsetHours": "13",
+            "javaRefCode": "Pacific\/Auckland",
+            "name": "Wellington"
+        },
+        {
+            "offsetMinutes": "825",
+            "id": "348",
+            "offsetHours": "13.75",
+            "javaRefCode": "Pacific\/Chatham",
+            "name": "Waitangi"
+        },
+        {
+            "offsetMinutes": "840",
+            "id": "358",
+            "offsetHours": "14",
+            "javaRefCode": "Pacific\/Kiritimati",
+            "name": "Kiritimati"
+        }
+    ]
+}
