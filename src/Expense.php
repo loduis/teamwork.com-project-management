@@ -7,6 +7,9 @@ namespace TeamWorkPm;
 use TeamWorkPm\Rest\Resource\Model;
 use TeamWorkPm\Rest\Resource\Project\GetByTrait;
 
+/**
+ * @see https://apidocs.teamwork.com/docs/teamwork/v1/expenses/get-expenses-json
+ */
 class Expense extends Model
 {
     use GetByTrait;

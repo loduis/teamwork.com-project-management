@@ -31,6 +31,12 @@ class JSON extends Model
         ] = $headers;
 
         if (!in_array($status, [200, 201, 204])) {
+            if ($status === 500 && isset($source['content'])) {
+                $source = $source['content'];
+                if (isset($source['errors']) && is_array($source['errors'])) {
+                    $source['error'] = implode(PHP_EOL, $source['errors']);
+                }
+            }
             $errors = $source['MESSAGE'] ?? $source['error'] ?? $errors ?? "Unknown error ($status) status";
         }
         if ($errors !== null) {

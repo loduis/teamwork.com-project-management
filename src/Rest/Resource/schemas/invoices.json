@@ -1,0 +1,26 @@
+{
+    "description": {
+        "type": "string"
+    },
+    "fixed_cost": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "number": {
+        "type": "string",
+        "required": true
+    },
+    "po_number": {
+        "type": "string",
+        "transform": "dash"
+    },
+    "display_date": {
+        "type": "string",
+        "transform": "dash",
+        "required": true
+    },
+    "currency_code": {
+        "type": "string",
+        "transform": "dash"
+    }
+}
