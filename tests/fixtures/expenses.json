@@ -1,0 +1,21 @@
+{
+    "expenses": [
+        {
+            "project-name": "Colombia",
+            "company-name": "Php's Company",
+            "created-by-user-id": "391604",
+            "invoice-id": "",
+            "company-id": "1370007",
+            "updated-date": "2025-01-11T14:28:44Z",
+            "name": "test",
+            "date": "20250101",
+            "project-id": "967489",
+            "created-by-user-firstname": "Php",
+            "cost": "100.00",
+            "description": "",
+            "id": "2757",
+            "created-by-user-lastname": "Api"
+        }
+    ],
+    "STATUS": "OK"
+}

@@ -1,0 +1,9 @@
+{
+    "expense": {
+        "name": "Test expense",
+        "project-id": "967489",
+        "description": "Bla, Bla, Bla",
+        "date": "20250101",
+        "cost": 100
+    }
+}

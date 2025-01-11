@@ -1,0 +1,22 @@
+{
+    "name": {
+        "type": "string",
+        "required": true
+    },
+    "project_id": {
+        "type": "string",
+        "transform": "dash",
+        "required": true
+    },
+    "description": {
+        "type": "string"
+    },
+    "date": {
+        "type": "string",
+        "required": true
+    },
+    "cost": {
+        "type": "float",
+        "required": true
+    }
+}
