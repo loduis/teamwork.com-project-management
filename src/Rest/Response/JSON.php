@@ -81,6 +81,11 @@ class JSON extends Model
                     ) {
                         return true;
                     }
+                    if (
+                        preg_match('!/(\d+)/restore!', $action) && !empty($source['restoredItems'])
+                    ) {
+                        return true;
+                    }
                     /**
                      * @var \stdClass
                      */
