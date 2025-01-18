@@ -4,11 +4,13 @@ declare(strict_types = 1);
 
 namespace TeamWorkPm\Message;
 
+use TeamWorkPm\Exception;
 use TeamWorkPm\Rest\Resource;
 use TeamWorkPm\Rest\Resource\DestroyTrait;
 use TeamWorkPm\Rest\Resource\GetTrait;
 use TeamWorkPm\Rest\Response\Model as Response;
 use TeamWorkPm\Rest\Resource\MarkAsReadTrait;
+use TeamWorkPm\Rest\Resource\ReactTrait;
 use TeamWorkPm\Rest\Resource\SaveTrait;
 use TeamWorkPm\Rest\Resource\UpdateTrait;
 
@@ -17,7 +19,7 @@ use TeamWorkPm\Rest\Resource\UpdateTrait;
  */
 class Reply extends Resource
 {
-    use MarkAsReadTrait, UpdateTrait, SaveTrait, DestroyTrait, GetTrait;
+    use MarkAsReadTrait, UpdateTrait, SaveTrait, DestroyTrait, GetTrait, ReactTrait;
 
     protected ?string $parent = 'messagereply';
 

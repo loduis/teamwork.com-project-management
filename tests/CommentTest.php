@@ -41,8 +41,15 @@ final class CommentTest extends TestCase
     public function testReact(): void
     {
         $this->assertTrue($this->factory('comment', [
-            'PUT /comments/' . TPM_TEST_ID . '/react' => true
+            'PUT /comments/' . TPM_COMMENT_ID . '/react' => true
         ])->react(TPM_TEST_ID));
+    }
+
+    public function testUnReact(): void
+    {
+        $this->assertTrue($this->factory('comment', [
+            'PUT /comments/' . TPM_COMMENT_ID . '/unreact' => true
+        ])->unReact(TPM_TEST_ID));
     }
 
     /**

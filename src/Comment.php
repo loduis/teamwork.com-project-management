@@ -8,6 +8,7 @@ use TeamWorkPm\Exception;
 use TeamWorkPm\Factory;
 use TeamWorkPm\Rest\Resource\MarkAsReadTrait;
 use TeamWorkPm\Rest\Resource\Model;
+use TeamWorkPm\Rest\Resource\ReactTrait;
 use TeamWorkPm\Rest\Response\Model as Response;
 
 /**
@@ -23,7 +24,7 @@ class Comment extends Model
 
     protected string|array $fields = 'resource_comments';
 
-    use MarkAsReadTrait;
+    use MarkAsReadTrait, ReactTrait;
 
     /**
      * Create a comment related to a task/message/notebook etc.
@@ -95,18 +96,6 @@ class Comment extends Model
             "$resource/$resourceId/$this->action",
             $params
         );
-    }
-
-    /**
-     * React to a Comment
-     *
-     * @param integer $id
-     * @return boolean
-     */
-    public function react(int $id): bool
-    {
-        return $this->notUseFields()
-            ->put("$this->action/$id/react");
     }
 
     protected function validateResource(?string $resource): void

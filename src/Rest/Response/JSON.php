@@ -86,6 +86,11 @@ class JSON extends Model
                     ) {
                         return true;
                     }
+                    if (
+                        preg_match('!/(\d+)/(react|unreact)!', $action) && !empty($source['reactions'])
+                    ) {
+                        $source = $source['reactions'];
+                    }
                     /**
                      * @var \stdClass
                      */

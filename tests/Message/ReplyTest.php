@@ -35,6 +35,21 @@ final class ReplyTest extends TestCase
         );
     }
 
+    public function testReact(): void
+    {
+        $this->assertTrue($this->factory('message.reply', [
+            'PUT /messageReplies/' . TPM_MESSAGE_REPLY_ID . '/react' => true
+        ])->react(TPM_TEST_ID));
+    }
+
+    public function testUnReact(): void
+    {
+        $this->assertTrue($this->factory('message.reply', [
+            'PUT /messageReplies/' . TPM_MESSAGE_REPLY_ID . '/unreact' => true
+        ])->unReact(TPM_TEST_ID));
+    }
+
+
     /**
      * @dataProvider provider
      */
