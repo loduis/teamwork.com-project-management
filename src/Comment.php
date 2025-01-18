@@ -97,6 +97,18 @@ class Comment extends Model
         );
     }
 
+    /**
+     * React to a Comment
+     *
+     * @param integer $id
+     * @return boolean
+     */
+    public function react(int $id): bool
+    {
+        return $this->notUseFields()
+            ->put("$this->action/$id/react");
+    }
+
     protected function validateResource(?string $resource): void
     {
         if ($resource === null || !in_array($resource, [

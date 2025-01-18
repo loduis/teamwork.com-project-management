@@ -38,6 +38,13 @@ final class CommentTest extends TestCase
         ])->markAsRead(TPM_TEST_ID));
     }
 
+    public function testReact(): void
+    {
+        $this->assertTrue($this->factory('comment', [
+            'PUT /comments/' . TPM_TEST_ID . '/react' => true
+        ])->react(TPM_TEST_ID));
+    }
+
     /**
      * @test
      */
